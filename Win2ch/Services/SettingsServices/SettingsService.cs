@@ -33,7 +33,7 @@ namespace Win2ch.Services.SettingsServices
         {
             get
             {
-                var theme = ApplicationTheme.Dark;
+                var theme = App.Current.RequestedTheme;
                 var value = _helper.Read<string>(nameof(AppTheme), theme.ToString());
                 return Enum.TryParse<ApplicationTheme>(value, out theme) ? theme : ApplicationTheme.Dark;
             }
