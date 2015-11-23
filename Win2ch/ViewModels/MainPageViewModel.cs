@@ -1,32 +1,30 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Win2ch.Models;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Data;
 
 namespace Win2ch.ViewModels
 {
     public class MainPageViewModel : Mvvm.ViewModelBase
     {
+
         public MainPageViewModel()
         {
-            if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-                Value = "Designtime value";
+            Categories = new ObservableCollection<Category>();
+
+            LoadBoards();
         }
 
-        string _Value = string.Empty;
-        public string Value { get { return _Value; } set { Set(ref _Value, value); } }
+        public ObservableCollection<Category> Categories
+        { get; set; }
 
-        public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        private async void LoadBoards()
         {
-            if (state.ContainsKey(nameof(Value)))
-                Value = state[nameof(Value)]?.ToString();
-            state.Clear();
-        }
-
-        public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
-        {
-            if (suspending)
-                state[nameof(Value)] = Value;
-            await Task.Yield();
+            var categories = await new BoardsProvider().GetCategories();
+            foreach (var cat in categories)
+                Categories.Add(cat);
         }
 
     }
