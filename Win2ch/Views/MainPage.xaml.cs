@@ -1,7 +1,10 @@
 using System;
+using Win2ch.Models;
 using Win2ch.ViewModels;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Win2ch.Views
 {
@@ -16,15 +19,9 @@ namespace Win2ch.Views
         // strongly-typed view models enable x:bind
         public MainPageViewModel ViewModel => this.DataContext as MainPageViewModel;
 
-        private async void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var dialog = new MessageDialog("...");
-            await dialog.ShowAsync();
-        }
-
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            //ViewModel.BoardClick(e.ClickedItem;
+            ViewModel.NavigateToBoard(e.ClickedItem as Board);
         }
     }
 }

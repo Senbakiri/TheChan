@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Win2ch.Models;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Data;
+using System;
+using Win2ch.Views;
 
 namespace Win2ch.ViewModels
 {
@@ -27,6 +29,10 @@ namespace Win2ch.ViewModels
                 Categories.Add(cat);
         }
 
+        public void NavigateToBoard(Board board)
+        {
+            NavigationService.Navigate(typeof(BoardPage), board);
+        }
     }
 }
 

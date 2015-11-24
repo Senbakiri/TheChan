@@ -14,10 +14,13 @@
 
         <!--  RequestedTheme=Dark  -->
 
-        <ResourceDictionary x:Key="Default">
+        <ResourceDictionary x:Key="Dark">
 
             <SolidColorBrush x:Key="ExtendedSplashBackground" Color="{StaticResource ContrastColor}" />
             <SolidColorBrush x:Key="ExtendedSplashForeground" Color="{StaticResource CustomColor}" />
+
+            <Color x:Key="SystemAltHighColor">#191919</Color>
+            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{StaticResource SystemAltHighColor}"/>
 
             <SolidColorBrush x:Key="ModalBackground" Opacity=".5" Color="{StaticResource CustomColor}" />
 
@@ -50,6 +53,9 @@
             <SolidColorBrush x:Key="ExtendedSplashBackground" Color="{StaticResource ContrastColor}" />
             <SolidColorBrush x:Key="ExtendedSplashForeground" Color="{StaticResource CustomColor}" />
 
+            <Color x:Key="SystemAltHighColor">#EEE</Color>
+            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{StaticResource SystemAltHighColor}"/>
+            
             <SolidColorBrush x:Key="ModalBackground" Opacity=".5" Color="{StaticResource CustomColor}" />
 
             <Style TargetType="controls:HamburgerMenu">
