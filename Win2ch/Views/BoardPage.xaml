@@ -11,6 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Win2ch.ViewModels"
     xmlns:m="using:Win2ch.Models"
+    xmlns:c="using:Win2ch.Controls"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -18,13 +19,14 @@
     </Page.DataContext>
 
     <Page.Resources>
-        <DataTemplate x:Key="PostTemplate" x:DataType="m:Post">
-            <Grid>
-                <TextBlock Text="{Binding Comment}"/>
-            </Grid>
-        </DataTemplate>
         <DataTemplate x:Key="ThreadTemplate" x:DataType="m:Thread">
-            <ItemsControl ItemsSource="{x:Bind Posts}" ItemTemplate="{StaticResource PostTemplate}"/>
+            <ItemsControl ItemsSource="{x:Bind Posts}" Margin="5">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <c:PostControl Margin="0 0 0 5"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </DataTemplate>
     </Page.Resources>
 
@@ -34,7 +36,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        
+
         <controls:PageHeader Frame="{x:Bind Frame}">
             <controls:PageHeader.Content>
                 <TextBlock Text="{Binding Board.Name}" TextTrimming="CharacterEllipsis"/>

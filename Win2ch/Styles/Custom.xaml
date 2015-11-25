@@ -22,6 +22,8 @@
             <Color x:Key="SystemAltHighColor">#191919</Color>
             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{StaticResource SystemAltHighColor}"/>
 
+            <SolidColorBrush x:Key="PostBackgroundBrush" Color="#323232"/>
+            
             <SolidColorBrush x:Key="ModalBackground" Opacity=".5" Color="{StaticResource CustomColor}" />
 
             <Style TargetType="controls:HamburgerMenu">
@@ -53,9 +55,11 @@
             <SolidColorBrush x:Key="ExtendedSplashBackground" Color="{StaticResource ContrastColor}" />
             <SolidColorBrush x:Key="ExtendedSplashForeground" Color="{StaticResource CustomColor}" />
 
-            <Color x:Key="SystemAltHighColor">#EEE</Color>
+            <Color x:Key="SystemAltHighColor">White</Color>
             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{StaticResource SystemAltHighColor}"/>
-            
+
+            <SolidColorBrush x:Key="PostBackgroundBrush" Color="#EEE"/>
+                             
             <SolidColorBrush x:Key="ModalBackground" Opacity=".5" Color="{StaticResource CustomColor}" />
 
             <Style TargetType="controls:HamburgerMenu">

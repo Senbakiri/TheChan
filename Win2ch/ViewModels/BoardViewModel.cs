@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Win2ch.Models;
+using Windows.System.Profile;
 
 namespace Win2ch.ViewModels
 {
@@ -32,8 +33,14 @@ namespace Win2ch.ViewModels
 
             var threads = await Board.GetThreads(0);
             Threads.Clear();
+
+            var isMobile = AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobsdaile";
             foreach (var thread in threads)
+            {
                 Threads.Add(thread);
+                if (isMobile && thread.Posts.Count > 0)
+                    thread.Posts.RemoveRange(1, thread.Posts.Count - 1);
+            }
         }
     }
 }
