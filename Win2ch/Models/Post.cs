@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 
 namespace Win2ch.Models
 {
@@ -19,6 +14,7 @@ namespace Win2ch.Models
             }
         }
         public string Name { get; set; }
+        public string Subject { get; set; }
         public string Num { get; set; }
         public string Date { get; set; }
     }

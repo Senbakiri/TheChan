@@ -1,4 +1,3 @@
-using System;
 using Windows.UI.Xaml;
 using System.Threading.Tasks;
 using Win2ch.Services.SettingsServices;
@@ -9,9 +8,9 @@ namespace Win2ch
     /// Documentation on APIs used in this page:
     /// https://github.com/Windows-XAML/Template10/wiki
 
-    sealed partial class App : Template10.Common.BootStrapper
+    sealed partial class App
     {
-        ISettingsService _settings;
+        readonly ISettingsService _settings;
 
         public App()
         {
@@ -19,7 +18,7 @@ namespace Win2ch
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             InitializeComponent();
-            SplashFactory = (e) => new Views.Splash(e);
+            SplashFactory = e => new Views.Splash(e);
 
             #region App settings
 

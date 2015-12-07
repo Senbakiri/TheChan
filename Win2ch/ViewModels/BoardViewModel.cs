@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using Win2ch.Models;
 using Windows.System.Profile;
+using Template10.Services.NavigationService;
+using Win2ch.Views;
 
 namespace Win2ch.ViewModels
 {
@@ -24,7 +21,7 @@ namespace Win2ch.ViewModels
         }
 
         public ObservableCollection<Thread> Threads
-        { get; private set; } = new ObservableCollection<Thread>();
+        { get; } = new ObservableCollection<Thread>();
 
         private async void LoadThreads()
         {
@@ -41,6 +38,11 @@ namespace Win2ch.ViewModels
                 if (isMobile && thread.Posts.Count > 0)
                     thread.Posts.RemoveRange(1, thread.Posts.Count - 1);
             }
+        }
+
+        public void NavigateToThread(Thread thread)
+        {
+            NavigationService.Navigate(typeof (ThreadPage), thread);
         }
     }
 }

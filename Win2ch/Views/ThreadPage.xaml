@@ -1,0 +1,48 @@
+﻿<Page
+    x:Class="Win2ch.Views.ThreadPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Win2ch"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Win2ch.ViewModels"
+    xmlns:controls="using:Template10.Controls"
+    xmlns:c="using:Win2ch.Controls"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:ThreadViewModel/>
+    </Page.DataContext>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <controls:PageHeader Frame="{x:Bind Frame}">
+            <controls:PageHeader.Content>
+                <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Title, Converter={StaticResource ToUpper}}"
+                           Style="{StaticResource PageHeaderTitle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                           Tapped="Header_OnTapped"/>
+            </controls:PageHeader.Content>
+            <controls:PageHeader.PrimaryCommands>
+                <AppBarButton Icon="Refresh" Label="Обновить" Command="{Binding RefreshCommand}"/>
+            </controls:PageHeader.PrimaryCommands>
+        </controls:PageHeader>
+
+        <ListView Grid.Row="1" ItemsSource="{Binding Posts}" x:Name="Posts" SelectionMode="None" HorizontalContentAlignment="Stretch">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <c:PostControl Margin="5 0 5 5" HorizontalAlignment="Stretch"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

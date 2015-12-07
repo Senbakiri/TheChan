@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using Newtonsoft.Json;
@@ -12,10 +11,8 @@ namespace Win2ch.Models
     {
         public async Task<List<Category>> GetCategories()
         {
-
             var client = new HttpClient();
-            var response = await client.GetAsync(new Uri(Urls.BoardsList));
-            var json = await response.Content.ReadAsStringAsync();
+            var json = await client.GetStringAsync(new Uri(Urls.BoardsList));
 
             return await Task.Factory.StartNew(() =>
                 JsonConvert.DeserializeObject<Dictionary<string, List<Board>>>(json)

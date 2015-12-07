@@ -106,6 +106,8 @@
     <Compile Include="Controls\PostControl.xaml.cs">
       <DependentUpon>PostControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters.cs" />
+    <Compile Include="HtmlToRichTextBlockConverter.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\BoardsProvider.cs" />
     <Compile Include="Models\Category.cs" />
@@ -119,6 +121,7 @@
     <Compile Include="Services\SettingsServices\SettingsService.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="ViewModels\ThreadViewModel.cs" />
     <Compile Include="Views\BoardPage.xaml.cs">
       <DependentUpon>BoardPage.xaml</DependentUpon>
     </Compile>
@@ -130,6 +133,9 @@
     </Compile>
     <Compile Include="Views\Splash.xaml.cs">
       <DependentUpon>Splash.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ThreadPage.xaml.cs">
+      <DependentUpon>ThreadPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +183,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Splash.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ThreadPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

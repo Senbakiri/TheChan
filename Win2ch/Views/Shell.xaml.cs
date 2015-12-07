@@ -5,15 +5,14 @@ using Template10.Services.NavigationService;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml.Controls;
 
 namespace Win2ch.Views
 {
     // DOCS: https://github.com/Windows-XAML/Template10/wiki/Docs-%7C-SplitView
-    public sealed partial class Shell : Page, INotifyPropertyChanged
+    public sealed partial class Shell : INotifyPropertyChanged
     {
         public static Shell Instance { get; set; }
-        public static HamburgerMenu HamburgerMenu { get { return Instance.MyHamburgerMenu; } }
+        public static HamburgerMenu HamburgerMenu => Instance.MyHamburgerMenu;
 
         public Shell(NavigationService navigationService)
         {
@@ -23,7 +22,7 @@ namespace Win2ch.Views
             SetColors();
         }
 
-        public bool IsBusy { get; set; } = false;
+        public bool IsBusy { get; set; }
         public string BusyText { get; set; } = "Please wait...";
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -33,9 +32,11 @@ namespace Win2ch.Views
             var fg = Colors.White;
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = titleBar.ButtonBackgroundColor = bg;
+            titleBar.InactiveBackgroundColor = bg;
 
-            // BUG: Doesn't work in Windows 10 Version 1511
+            // BUG: Doesn't work in Windows 10 Version 1511. Looks like it was fixed
             titleBar.ForegroundColor = titleBar.ButtonForegroundColor = fg;
+            titleBar.InactiveForegroundColor = Colors.Black;
         }
 
         public static void SetBusy(bool busy, string text = null)

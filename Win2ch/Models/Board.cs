@@ -3,7 +3,6 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 
@@ -29,9 +28,13 @@ namespace Win2ch.Models
             JToken results = (JToken) await Task.Factory.StartNew(() =>
                 JsonConvert.DeserializeObject(data));
 
-            // I don't think that this is a good solution
+            // TODO: I don't think that this is a good solution
             return await Task.Factory.StartNew(() =>
-                JsonConvert.DeserializeObject<List<Thread>>(results["threads"].ToString()));
+                JsonConvert.DeserializeObject<List<Thread>>(results["threads"].ToString()).Select(t =>
+                {
+                    t.Board = this;
+                    return t;
+                }).ToList());
         }
     }
 }

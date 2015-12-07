@@ -6,15 +6,15 @@ using Windows.UI.Xaml.Controls;
 namespace Win2ch.Views
 {
     // DOCS: https://github.com/Windows-XAML/Template10/wiki/Docs-%7C-SplashScreen
-    public sealed partial class Splash : UserControl
+    public sealed partial class Splash
     {
         public Splash(SplashScreen splashScreen)
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             Action resize = () =>
             {
-                if (splashScreen.ImageLocation.Top == 0)
+                if ((int) splashScreen.ImageLocation.Top == 0)
                 {
                     MyImage.Visibility = Visibility.Collapsed;
                     return;

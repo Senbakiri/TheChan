@@ -1,10 +1,5 @@
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using Win2ch.Models;
-using Windows.UI.Xaml.Navigation;
-using Windows.UI.Xaml.Data;
-using System;
 using Win2ch.Views;
 
 namespace Win2ch.ViewModels
