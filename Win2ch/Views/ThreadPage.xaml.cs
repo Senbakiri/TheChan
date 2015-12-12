@@ -35,5 +35,11 @@ namespace Win2ch.Views
             if (Posts.Items != null && Posts.Items.Count > 0)
                 Posts.ScrollIntoView(Posts.Items[0]);
         }
+
+        private void ScrollDown_OnClicked(object sender, RoutedEventArgs e)
+        {
+            if (Posts.Items != null && Posts.Items.Count > 0)
+                Posts.ScrollIntoView(Posts.Items[Posts.Items.Count - 1]);
+        }
     }
 }

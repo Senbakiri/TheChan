@@ -27,11 +27,21 @@ namespace Win2ch
 
             var html = e.NewValue.ToString();
 
-            rich.Blocks.Clear();
+            Paragraph p;
 
-            var p = new Paragraph();
+            if (rich.Blocks.Count == 0 || !(rich.Blocks[0] is Paragraph))
+            {
+                p = new Paragraph();
+                rich.Blocks.Clear();
+                rich.Blocks.Add(p);
+            }
+            else
+            {
+                p = (Paragraph) rich.Blocks[0];;
+                p.Inlines.Clear();
+            }
+
             p.Inlines.Add(new Run { Text = HtmlUtilities.ConvertToText(html) });
-            rich.Blocks.Add(p);
         }
     }
 }

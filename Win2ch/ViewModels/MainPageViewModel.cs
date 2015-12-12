@@ -10,14 +10,12 @@ namespace Win2ch.ViewModels
         public MainPageViewModel()
         {
             Categories = new ObservableCollection<Category>();
-
-            LoadBoards();
         }
 
         public ObservableCollection<Category> Categories
         { get; set; }
 
-        private async void LoadBoards()
+        public async void LoadBoards()
         {
             var categories = await new BoardsProvider().GetCategories();
             foreach (var cat in categories)

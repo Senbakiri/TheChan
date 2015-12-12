@@ -17,5 +17,7 @@
         /// </summary>
         public const string ThreadPosts =
             "https://2ch.hk/makaba/mobile.fcgi?task=get_thread&board={0}&thread={1}&post={2}";
+
+        public const string Posting = "https://2ch.hk/makaba/posting.fcgi";
     }
 }

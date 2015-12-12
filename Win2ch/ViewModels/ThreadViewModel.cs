@@ -31,11 +31,39 @@ namespace Win2ch.ViewModels
             }
         }
 
+        private string _FastReplyText;
+        public string FastReplyText
+        {
+            get { return _FastReplyText; }
+            set
+            {
+                _FastReplyText = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         public ICommand RefreshCommand { get; }
+        public ICommand FastReplyCommand { get; }
 
         public ThreadViewModel()
         {
             RefreshCommand = new DelegateCommand(Refresh);
+            FastReplyCommand = new DelegateCommand(Reply);
+        }
+
+
+        private void Reply()
+        {
+            Thread.Reply(new ReplyInfo
+            {
+                Comment = FastReplyText
+            });
+        }
+
+        private bool CanReply()
+        {
+            return FastReplyText?.Length > 0 && FastReplyText?.Length <= 15000;
         }
 
         public async void Refresh()

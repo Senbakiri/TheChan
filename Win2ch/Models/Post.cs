@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Windows.Data.Html;
 
 namespace Win2ch.Models
 {
@@ -17,5 +18,6 @@ namespace Win2ch.Models
         public string Subject { get; set; }
         public string Num { get; set; }
         public string Date { get; set; }
+        public string Text => HtmlUtilities.ConvertToText(Comment);
     }
 }

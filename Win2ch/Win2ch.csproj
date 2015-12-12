@@ -103,15 +103,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PostControl.xaml.cs">
-      <DependentUpon>PostControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Converters.cs" />
     <Compile Include="HtmlToRichTextBlockConverter.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\BoardsProvider.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\ReplyInfo.cs" />
     <Compile Include="Models\Thread.cs" />
     <Compile Include="Models\Urls.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
@@ -161,10 +159,6 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\PostControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Styles\Custom.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -192,12 +186,16 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Controls\" />
     <Folder Include="Strings\" />
     <Folder Include="Themes\" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
       <Name>BehaviorsXamlSDKManaged</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

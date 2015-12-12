@@ -1,3 +1,4 @@
+using Windows.UI.Xaml;
 using Win2ch.Models;
 using Win2ch.ViewModels;
 using Windows.UI.Xaml.Controls;
@@ -19,6 +20,11 @@ namespace Win2ch.Views
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             ViewModel.NavigateToBoard(e.ClickedItem as Board);
+        }
+
+        private void MainPage_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            ViewModel.LoadBoards();
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using Windows.System.Profile;
 using Template10.Common;
 using Template10.Controls;
 using Template10.Services.NavigationService;
@@ -37,6 +38,12 @@ namespace Win2ch.Views
             // BUG: Doesn't work in Windows 10 Version 1511. Looks like it was fixed
             titleBar.ForegroundColor = titleBar.ButtonForegroundColor = fg;
             titleBar.InactiveForegroundColor = Colors.Black;
+
+            if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
+            {
+                var statusBar = StatusBar.GetForCurrentView();
+                statusBar.ForegroundColor = Colors.White;
+            }
         }
 
         public static void SetBusy(bool busy, string text = null)
