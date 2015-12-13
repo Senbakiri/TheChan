@@ -1,7 +1,6 @@
 ﻿using Windows.UI.Xaml;
 using Win2ch.Models;
 using Win2ch.ViewModels;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 

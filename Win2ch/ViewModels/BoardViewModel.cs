@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Win2ch.Models;
 using Windows.System.Profile;
-using Template10.Services.NavigationService;
 using Win2ch.Views;
 
 namespace Win2ch.ViewModels
