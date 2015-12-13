@@ -64,6 +64,6 @@ namespace Win2ch.Controls
         }
 
         public string SelectedText { get; }
-        public Post Post { get; }
+        public Post Post { get; } 
     }
 }
