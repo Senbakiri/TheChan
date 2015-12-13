@@ -25,7 +25,7 @@ namespace Win2ch.Models
             return await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<List<Post>>(json));
         }
 
-        public async void Reply(ReplyInfo info)
+        public async void Reply(NewPostInfo info)
         {
             if (!Num.HasValue || Board == null)
                 // TODO: Replace with separate exception

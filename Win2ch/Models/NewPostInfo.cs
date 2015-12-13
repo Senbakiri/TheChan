@@ -1,6 +1,6 @@
 ﻿namespace Win2ch.Models
 {
-    public class ReplyInfo
+    public class NewPostInfo
     {
         public string Comment { get; set; }
     }

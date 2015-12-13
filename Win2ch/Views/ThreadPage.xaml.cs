@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Win2ch.Controls;
 using Win2ch.ViewModels;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
@@ -40,6 +41,26 @@ namespace Win2ch.Views
         {
             if (Posts.Items != null && Posts.Items.Count > 0)
                 Posts.ScrollIntoView(Posts.Items[Posts.Items.Count - 1]);
+        }
+
+        private void PostNum_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void PostControl_OnReply(object sender, PostReplyEventArgs e)
+        {
+            string textToAdd;
+
+            if (e.SelectedText.Length > 0)
+            {
+                var pre = FastReplyTextBox.SelectionStart > 0 ? "\n" : "";
+                textToAdd = $"{pre}>>{e.Post.Num}\n> {e.SelectedText}\n";
+            }
+            else
+                textToAdd = $">>{e.Post.Num}";
+
+            FastReplyTextBox.Text += textToAdd;
         }
     }
 }

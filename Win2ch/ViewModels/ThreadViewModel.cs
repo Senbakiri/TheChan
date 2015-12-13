@@ -49,19 +49,19 @@ namespace Win2ch.ViewModels
         public ThreadViewModel()
         {
             RefreshCommand = new DelegateCommand(Refresh);
-            FastReplyCommand = new DelegateCommand(Reply);
+            FastReplyCommand = new DelegateCommand(SendPost);
         }
 
 
-        private void Reply()
+        private void SendPost()
         {
-            Thread.Reply(new ReplyInfo
+            Thread.Reply(new NewPostInfo
             {
                 Comment = FastReplyText
             });
         }
 
-        private bool CanReply()
+        private bool CanSendPost()
         {
             return FastReplyText?.Length > 0 && FastReplyText?.Length <= 15000;
         }
