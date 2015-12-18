@@ -31,11 +31,7 @@ namespace Win2ch.Views
             if (Posts.Items != null && Posts.Items.Count > 0)
                 Posts.ScrollIntoView(Posts.Items[Posts.Items.Count - 1]);
         }
-
-        private void PostNum_OnTapped(object sender, TappedRoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         private void PostControl_OnReply(object sender, PostReplyEventArgs e)
         {
@@ -50,6 +46,12 @@ namespace Win2ch.Views
                 textToAdd = $">>{e.Post.Num}";
 
             FastReplyTextBox.Text += textToAdd;
+        }
+
+        private void FastReply_OnClick(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FastReplyCommand.Execute(null);
+            FastReplyTextBox.Text = "";
         }
     }
 }

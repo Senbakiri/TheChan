@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Networking;
 using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 using Newtonsoft.Json;
+using Win2ch.Models.Exceptions;
 
 namespace Win2ch.Models
 {
@@ -17,13 +20,17 @@ namespace Win2ch.Models
         public async Task<List<Post>> GetPostsFrom(int n)
         {
             var url = new Uri(string.Format(Urls.ThreadPosts, Board.Id, Posts.First().Num, n));
-            var client = new HttpClient();
-            string json = await client.GetStringAsync(url);
+            var httpFilter = new HttpBaseProtocolFilter();
+            httpFilter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
+            var client = new HttpClient(httpFilter);
+            client.DefaultRequestHeaders.Host = new HostName("2ch.hk");
+            var response = await client.GetAsync(url);
+            string json = await response.Content.ReadAsStringAsync();
 
             return await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<List<Post>>(json));
         }
 
-        public async void Reply(NewPostInfo info)
+        public async Task Reply(NewPostInfo info)
         {
             if (!Num.HasValue || Board == null)
                 // TODO: Replace with separate exception
@@ -31,15 +38,6 @@ namespace Win2ch.Models
 
             using (var client = new HttpClient())
             {
-                var data = new Dictionary<string, string>
-                {
-                    ["json"] = "1",
-                    ["task"] = "post",
-                    ["captcha_type"] = "2chcaptcha",
-                    ["board"] = Board.Id,
-                    ["thread"] = Num.ToString(),
-                    ["comment"] = info.Comment,
-                };
 
 
                 var content = new HttpMultipartFormDataContent
@@ -52,6 +50,7 @@ namespace Win2ch.Models
                 };
                 var response = await client.PostAsync(new Uri(Urls.Posting), content);
                 var responseString = await response.Content.ReadAsStringAsync();
+                responseString.CheckForApiError();
             }
         }
     }

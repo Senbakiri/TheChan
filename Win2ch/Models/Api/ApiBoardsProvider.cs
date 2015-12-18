@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 using Newtonsoft.Json;
 
-namespace Win2ch.Models
+namespace Win2ch.Models.Api
 {
-    class BoardsProvider
+    class ApiBoardsProvider
     {
         public async Task<List<Category>> GetCategories()
         {
-            var client = new HttpClient();
+            var httpFilter = new HttpBaseProtocolFilter();
+            httpFilter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
+            var client = new HttpClient(httpFilter);
             var json = await client.GetStringAsync(new Uri(Urls.BoardsList));
 
             return await Task.Factory.StartNew(() =>

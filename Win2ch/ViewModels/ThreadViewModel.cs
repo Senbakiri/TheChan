@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Navigation;
 using Template10.Mvvm;
 using Win2ch.Models;
+using Win2ch.Models.Exceptions;
 using ViewModelBase = Win2ch.Mvvm.ViewModelBase;
 
 namespace Win2ch.ViewModels
@@ -38,6 +43,29 @@ namespace Win2ch.ViewModels
             }
         }
 
+        private bool _IsWorking;
+
+        public bool IsWorking
+        {
+            get { return _IsWorking; }
+            set
+            {
+                _IsWorking = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string _JobStatus;
+
+        public string JobStatus
+        {
+            get { return _JobStatus; }
+            set
+            {
+                _JobStatus = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public ICommand RefreshCommand { get; }
         public ICommand FastReplyCommand { get; }
@@ -49,12 +77,23 @@ namespace Win2ch.ViewModels
         }
 
 
-        private void SendPost()
+        private async void SendPost()
         {
-            Thread.Reply(new NewPostInfo
+            var postInfo = new NewPostInfo
             {
                 Comment = FastReplyText
-            });
+            };
+
+            try
+            {
+                await Thread.Reply(postInfo);
+                Refresh();
+            }
+            catch (ApiException e)
+            {
+                await new MessageDialog(e.Message, "Ошибка").ShowAsync();
+            }
+
         }
 
         private bool CanSendPost()
@@ -64,12 +103,27 @@ namespace Win2ch.ViewModels
 
         public async void Refresh()
         {
+            IsWorking = true;
+
+            JobStatus = "Получение новых постов";
             var newPosts = await Thread.GetPostsFrom(Thread.Posts.Count + 1);
-            Thread.Posts.AddRange(newPosts);
-            foreach (var newPost in newPosts)
+
+            if (newPosts.Count > 0)
             {
-                Posts.Add(newPost);
+
+                JobStatus = "Обработка";
+                Thread.Posts.AddRange(newPosts);
+                foreach (var newPost in newPosts)
+                    Posts.Add(newPost);
+                JobStatus = $"Получено новых постов: {newPosts.Count}";
             }
+            else
+            {
+                JobStatus = "Нет новых постов";
+            }
+
+            await Task.Delay(2000);
+            IsWorking = false;
         }
 
         public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -94,7 +148,6 @@ namespace Win2ch.ViewModels
                 Board = thread.Board,
                 Posts = posts
             };
-
 
             foreach (var post in posts)
             {

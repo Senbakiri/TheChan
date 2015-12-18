@@ -5,7 +5,8 @@
     xmlns:local="using:Win2ch.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    x:Name="This">
 
     <Grid>
         <Grid>
@@ -50,7 +51,8 @@
                        Grid.Row="3"
                        Margin="0 5"
                        Text="{Binding Text}"
-                       IsTextSelectionEnabled="True"/>
+                       IsTextSelectionEnabled="{x:Bind IsSimple, Converter={StaticResource InverseBool}}"
+                       TextWrapping="Wrap"/>
 
             <TextBlock Grid.Row="4"
                        Opacity="0.7"

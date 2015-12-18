@@ -12,16 +12,17 @@ namespace Win2ch.Controls
     /// </summary>
     public sealed partial class PostControl : Page
     {
-        public Post Post
-        {
-            get { return (Post) GetValue(PostProperty); }
-            set { SetValue(PostProperty, value); }
-        }
+
 
         public static DependencyProperty PostProperty = DependencyProperty.Register(
             "Post",
             typeof(Post), typeof(PostControl),
             PropertyMetadata.Create(() => new Post(), PostPropertyChanged));
+
+        public static DependencyProperty IsSimpleProperty = DependencyProperty.Register(
+            "IsSimple",
+            typeof(bool), typeof(PostControl),
+            PropertyMetadata.Create(false));
 
         private static void PostPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
@@ -34,6 +35,18 @@ namespace Win2ch.Controls
         public PostControl()
         {
             this.InitializeComponent();
+        }
+
+        public Post Post
+        {
+            get { return (Post)GetValue(PostProperty); }
+            set { SetValue(PostProperty, value); }
+        }
+
+        public bool IsSimple
+        {
+            get { return (bool) GetValue(IsSimpleProperty); }
+            set { SetValue(IsSimpleProperty, value); }
         }
 
         private void PostNum_OnTapped(object sender, TappedRoutedEventArgs e)

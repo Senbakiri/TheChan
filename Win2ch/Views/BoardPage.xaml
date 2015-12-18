@@ -12,8 +12,8 @@
     xmlns:vm="using:Win2ch.ViewModels"
     xmlns:m="using:Win2ch.Models"
     xmlns:win2Ch="using:Win2ch"
-    mc:Ignorable="d"
-    x:Name="This">
+    xmlns:c="using:Win2ch.Controls"
+    mc:Ignorable="d">
 
     <Page.DataContext>
         <vm:BoardViewModel/>
@@ -21,48 +21,11 @@
 
     <Page.Resources>
         <DataTemplate x:Key="ThreadTemplate" x:DataType="m:Thread">
-            <Border Background="{ThemeResource ThreadBackgroundBrush}" Margin="0 10 0 0" Padding="10 0 10 10" Tapped="Thread_OnTapped">
+            <Border Background="{ThemeResource ThreadBackgroundBrush}" Margin="0 10 0 0" Tapped="Thread_OnTapped">
                 <ItemsControl ItemsSource="{x:Bind Posts}">
                     <ItemsControl.ItemTemplate>
-
                         <DataTemplate x:DataType="m:Post">
-
-
-                            <Grid Padding="5" Background="Transparent">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-
-                                <TextBlock Text="{x:Bind Subject}" Visibility="{Binding Subject, Converter={StaticResource StrToVis}}"
-                                    FontWeight="Bold" TextWrapping="Wrap" Foreground="{StaticResource CustomColorBrush}"
-                                    x:Phase="2"/>
-
-                                <Grid Margin="0 5" Grid.Row="1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Bind Name}" FontWeight="Bold" x:Phase="3"/>
-                                    <TextBlock
-                                        Text="{x:Bind Num}" Margin="5 0 0 0" FontWeight="Bold"
-                                        Foreground="{StaticResource CustomColorBrush}"
-                                        HorizontalAlignment="Right"
-                                        Grid.Column="2"
-                                        x:Phase="3"/>
-                                </Grid>
-
-                                <RichTextBlock Grid.Row="3"  TextWrapping="Wrap"
-                                    win2Ch:HtmlToRichTextBlockConverter.Html="{x:Bind Comment}"
-                                    IsTextSelectionEnabled="False"
-                                    x:Phase="1"/>
-
-                                <TextBlock Grid.Row="4" Opacity="0.7" Text="{x:Bind Date}" Margin="0 5 0 0" FontSize="13" x:Phase="4"/>
-                            </Grid>
+                            <c:PostControl Post="{x:Bind}" IsSimple="True"  Margin="10"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

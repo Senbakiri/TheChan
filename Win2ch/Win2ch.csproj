@@ -17,10 +17,11 @@
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>Win2ch_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>Win2ch_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>A8CEDA4423A06CE1CED155B854C516214138FC61</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -96,6 +97,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Win2ch_StoreKey.pfx" />
     <None Include="Win2ch_TemporaryKey.pfx" />
     <None Include="project.json" />
   </ItemGroup>
@@ -108,9 +110,11 @@
     </Compile>
     <Compile Include="Converters.cs" />
     <Compile Include="HtmlToRichTextBlockConverter.cs" />
+    <Compile Include="Models\Api\ApiPostResult.cs" />
     <Compile Include="Models\Board.cs" />
-    <Compile Include="Models\BoardsProvider.cs" />
+    <Compile Include="Models\Api\ApiBoardsProvider.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Exceptions\ApiException.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\NewPostInfo.cs" />
     <Compile Include="Models\Thread.cs" />
@@ -189,6 +193,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Help.htm" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>

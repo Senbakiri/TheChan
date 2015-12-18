@@ -19,12 +19,7 @@ namespace Win2ch.Views
         }
 
         public BoardViewModel ViewModel => (BoardViewModel) DataContext;
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            ViewModel.Board = (Board)e.Parameter;
-        }
-
+        
         private void Thread_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             ViewModel.NavigateToThread((Thread)((FrameworkElement)sender).DataContext);

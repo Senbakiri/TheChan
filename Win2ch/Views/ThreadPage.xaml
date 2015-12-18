@@ -9,6 +9,8 @@
     xmlns:controls="using:Template10.Controls"
     xmlns:models="using:Win2ch.Models"
     xmlns:c="using:Win2ch.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:Template10.Behaviors"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -29,10 +31,34 @@
                            Tapped="Header_OnTapped"/>
             </controls:PageHeader.Content>
             <controls:PageHeader.PrimaryCommands >
-                <AppBarButton Icon="Refresh" Label="Обновить" Command="{Binding RefreshCommand}"/>
+                <AppBarButton Icon="Refresh" Command="{Binding RefreshCommand}"/>
             </controls:PageHeader.PrimaryCommands>
+            <interactivity:Interaction.Behaviors>
+                <behaviors:EllipsisBehavior Visibility="Collapsed" />
+            </interactivity:Interaction.Behaviors>
         </controls:PageHeader>
 
+        <Grid Grid.Row="1"
+              Visibility="{Binding IsWorking, Converter={StaticResource BoolToVis}}"
+              Background="{StaticResource CustomColorBrush}"
+              Canvas.ZIndex="2"
+              Height="50"
+              VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <ProgressRing Foreground="White"
+                          IsActive="True"
+                          VerticalAlignment="Center"
+                          Margin="10 0"/>
+            <TextBlock Grid.Column="1"
+                       Text="{Binding JobStatus}"
+                       Foreground="White"
+                       VerticalAlignment="Center"/>
+        </Grid>
+        
         <ListView Grid.Row="1" ItemsSource="{Binding Posts}" x:Name="Posts" SelectionMode="None" HorizontalContentAlignment="Stretch"
                   Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0 0 0 -2">
             <ListView.ItemsPanel>
@@ -99,7 +125,7 @@
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"
                         Width="40"
-                        Command="{x:Bind ViewModel.FastReplyCommand}">
+                        Click="FastReply_OnClick">
                     <SymbolIcon Symbol="Send"/>
                 </Button>
             </Grid>

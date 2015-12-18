@@ -1,7 +1,9 @@
+using Windows.System;
 using Windows.UI.Xaml;
 using Win2ch.Models;
 using Win2ch.ViewModels;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 namespace Win2ch.Views
@@ -25,6 +27,15 @@ namespace Win2ch.Views
         private void MainPage_OnLoaded(object sender, RoutedEventArgs e)
         {
             ViewModel.LoadBoards();
+        }
+
+        private void FastNavigation_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key != VirtualKey.Enter)
+                return;
+
+            e.Handled = true;
+            ViewModel.NavigateToBoard(new Board { Id =  FastNavigation.Text.ToLowerInvariant() });
         }
     }
 }
