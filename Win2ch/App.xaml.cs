@@ -23,7 +23,8 @@ namespace Win2ch
             #region App settings
 
             _settings = SettingsService.Instance;
-            RequestedTheme = _settings.AppTheme;
+            if (_settings.AppTheme != Theme.System)
+                RequestedTheme = (ApplicationTheme) _settings.AppTheme;
             CacheMaxDuration = _settings.CacheMaxDuration;
             ShowShellBackButton = _settings.UseShellBackButton;
 

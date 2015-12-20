@@ -15,8 +15,7 @@ namespace Win2ch.Views
             InitializeComponent();
             NavigationCacheMode = NavigationCacheMode.Disabled;
         }
-
-        // strongly-typed view models enable x:bind
+        
         public MainPageViewModel ViewModel => DataContext as MainPageViewModel;
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)

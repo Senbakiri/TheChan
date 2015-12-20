@@ -1,8 +1,22 @@
 using System;
 using Windows.UI.Xaml;
+using Win2ch.Attributes;
 
 namespace Win2ch.Services.SettingsServices
 {
+
+    public enum Theme
+    {
+        [Display("Светлая")]
+        Light,
+
+        [Display("Темная")]
+        Dark,
+
+        [Display("Из настроек системы")]
+        System,
+    }
+
     // DOCS: https://github.com/Windows-XAML/Template10/wiki/Docs-%7C-SettingsService
     public partial class SettingsService : ISettingsService
     {
@@ -29,13 +43,13 @@ namespace Win2ch.Services.SettingsServices
             }
         }
 
-        public ApplicationTheme AppTheme
+        public Theme AppTheme
         {
             get
             {
-                var theme = ApplicationTheme.Dark;
+                var theme = Theme.System;
                 var value = _helper.Read(nameof(AppTheme), theme.ToString());
-                return Enum.TryParse(value, out theme) ? theme : ApplicationTheme.Dark;
+                return Enum.TryParse(value, out theme) ? theme : Theme.System;
             }
             set
             {

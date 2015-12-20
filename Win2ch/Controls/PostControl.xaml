@@ -28,6 +28,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{Binding Name}"
                            FontWeight="Bold"/>
@@ -36,27 +37,41 @@
                     Text="{Binding Num, Converter={StaticResource PostN}}"
                     FontWeight="Bold"
                     Foreground="{StaticResource CustomColorBrush}"
-                    HorizontalAlignment="Right"
                     Margin="5 0 0 0"
                     Grid.Column="1"
                     Tapped="PostNum_OnTapped"/>
+                
+                <TextBlock Grid.Column="2"
+                           Foreground="{StaticResource CustomColorBrush}"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Right"/>
             </Grid>
 
-            <!--<RichTextBlock Grid.Row="3"  TextWrapping="Wrap"
-                            local:HtmlToRichTextBlockConverter.Html="{x:Bind Comment}"
-                            IsTextSelectionEnabled="False"
-                            x:Phase="3"/>-->
+            <GridView Grid.Row="2" 
+                      ItemsSource="{Binding Images}"
+                      Margin="0 5"
+                      Padding="0"
+                      SelectionMode="None"
+                      IsItemClickEnabled="True"
+                      ItemClick="ImagesGridView_OnItemClick">
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding ThumbnailUrl}" Height="100" Stretch="Uniform"/>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
 
             <TextBlock x:Name="PostText"
                        Grid.Row="3"
-                       Margin="0 5"
                        Text="{Binding Text}"
                        IsTextSelectionEnabled="{x:Bind IsSimple, Converter={StaticResource InverseBool}}"
-                       TextWrapping="Wrap"/>
+                       TextWrapping="Wrap"
+                       Visibility="{Binding Text, Converter={StaticResource StrToVis}}"/>
 
             <TextBlock Grid.Row="4"
                        Opacity="0.7"
                        Text="{Binding Date}"
+                       Margin="0 5 0 0"
                        FontSize="13"/>
         </Grid>
     </Grid>

@@ -32,12 +32,18 @@ namespace Win2ch.Views
             var bg = (Color)BootStrapper.Current.Resources["CustomColor"];
             var fg = Colors.White;
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.BackgroundColor = titleBar.ButtonBackgroundColor = bg;
-            titleBar.InactiveBackgroundColor = bg;
+            titleBar.BackgroundColor =
+                titleBar.ButtonBackgroundColor =
+                titleBar.ButtonInactiveBackgroundColor =
+                titleBar.InactiveBackgroundColor = bg;
+            
+            titleBar.ForegroundColor =
+                titleBar.ButtonForegroundColor =
+                titleBar.ButtonHoverForegroundColor = fg;
 
-            // BUG: Doesn't work in Windows 10 Version 1511. Looks like it was fixed
-            titleBar.ForegroundColor = titleBar.ButtonForegroundColor = fg;
             titleBar.InactiveForegroundColor = Colors.Black;
+
+            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0xFF, 0xFF, 0x99, 0x55);
 
             if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
             {

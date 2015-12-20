@@ -15,9 +15,13 @@ namespace Win2ch.Services.SettingsServices
             });
         }
 
-        public void ApplyAppTheme(ApplicationTheme value)
+        public void ApplyAppTheme(Theme value)
         {
-            Views.Shell.HamburgerMenu.RefreshStyles(value);
+            var theme = value != Theme.System
+                ? (ApplicationTheme) value
+                : Application.Current.RequestedTheme;
+
+            Views.Shell.HamburgerMenu.RefreshStyles(theme);
         }
 
         private void ApplyCacheMaxDuration(TimeSpan value)

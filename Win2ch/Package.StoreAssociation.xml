@@ -361,6 +361,8 @@
     <MainPackageIdentityName>1900ACEDENEDSoftware.Win2ch</MainPackageIdentityName>
     <ReservedNames>
       <ReservedName>Win2ch</ReservedName>
+      <ReservedName>Win2ch Beta</ReservedName>
+      <ReservedName>Win2ch Alpha</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames />

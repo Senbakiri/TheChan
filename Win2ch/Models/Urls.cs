@@ -22,5 +22,7 @@
 
         public const string ThreadPostsFromBoardNum =
             "https://2ch.hk/makaba/mobile.fcgi?task=get_thread&board={0}&thread={1}&num={2}";
+
+        public const string BoardUrl = "https://2ch.hk/{0}/{1}";
     }
 }

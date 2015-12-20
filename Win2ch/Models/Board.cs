@@ -40,6 +40,7 @@ namespace Win2ch.Models
                 JsonConvert.DeserializeObject<List<Thread>>(results["threads"].ToString()).Select(t =>
                 {
                     t.Board = this;
+                    t.Posts = Thread.FillDeps(t.Posts, this).ToList();
                     return t;
                 }).ToList());
         }

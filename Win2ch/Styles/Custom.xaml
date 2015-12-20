@@ -16,6 +16,10 @@
     <Color x:Key="ContrastColor">White</Color>
     <SolidColorBrush x:Key="ContrastColorBrush" Color="{StaticResource ContrastColor}" />
 
+    <Style TargetType="AppBarButton">
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+    
     <ResourceDictionary.ThemeDictionaries>
 
         <!--  RequestedTheme=Dark  -->
@@ -64,7 +68,7 @@
             <Color x:Key="SystemAltHighColor">White</Color>
             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource SystemAltHighColor}"/>
 
-            <SolidColorBrush x:Key="ThreadBackgroundBrush" Color="Black"/>
+            <SolidColorBrush x:Key="ThreadBackgroundBrush" Color="#EDEDED"/>
                              
             <SolidColorBrush x:Key="ModalBackground" Opacity=".5" Color="{ThemeResource CustomColor}" />
 

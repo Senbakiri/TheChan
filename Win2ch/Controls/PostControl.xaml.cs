@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using System.Collections.Generic;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Win2ch.Models;
@@ -30,7 +31,12 @@ namespace Win2ch.Controls
         }
 
         public delegate void PostReplyEventHandler(object sender, PostReplyEventArgs e);
+
         public event PostReplyEventHandler Reply = delegate { };
+
+        public delegate void ImageClickEventHandler(object sender, ImageClickEventArgs e);
+
+        public event ImageClickEventHandler ImageClick = delegate { };
 
         public PostControl()
         {
@@ -53,6 +59,11 @@ namespace Win2ch.Controls
         {
             Reply(this, new PostReplyEventArgs(PostText.SelectedText, Post));
         }
+
+        private void ImagesGridView_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            ImageClick(this, new ImageClickEventArgs((ImageInfo) e.ClickedItem));
+        }
     } 
     
 
@@ -66,5 +77,15 @@ namespace Win2ch.Controls
 
         public string SelectedText { get; }
         public Post Post { get; }
+    }
+
+    public class ImageClickEventArgs
+    {
+        public ImageClickEventArgs(ImageInfo imageInfo)
+        {
+            ImageInfo = imageInfo;
+        }
+
+        public ImageInfo ImageInfo { get; }
     }
 }

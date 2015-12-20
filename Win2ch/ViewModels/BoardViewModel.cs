@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Windows.Input;
 using Win2ch.Models;
 using Windows.System.Profile;
 using Windows.UI.Xaml.Navigation;
+using Template10.Mvvm;
 using Win2ch.Views;
 
 namespace Win2ch.ViewModels
@@ -16,32 +20,24 @@ namespace Win2ch.ViewModels
             set
             {
                 _Board = value;
-                LoadThreads();
                 RaisePropertyChanged();
+                if (Threads == null)
+                {
+                    Threads = new ThreadsCollection(Board);
+                    Threads.CollectionChanged += Threads_OnCollectionChanged;
+                }
+                else
+                    Threads.Board = Board;
             }
         }
 
-        public ObservableCollection<Thread> Threads
-        { get; } = new ObservableCollection<Thread>();
-
-        private async void LoadThreads()
+        private void Threads_OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (Board == null)
-                return;
-
-            var threads = await Board.GetThreads(0);
-            Threads.Clear();
-
-            var isMobile = AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile";
-            foreach (var thread in threads)
-            {
-                Threads.Add(thread);
-                if (isMobile && thread.Posts.Count > 0)
-                    thread.Posts.RemoveRange(1, thread.Posts.Count - 1);
-            }
-
             RaisePropertyChanged(() => Board);
         }
+
+        public ThreadsCollection Threads
+        { get; private set; }
 
         public void NavigateToThread(Thread thread)
         {

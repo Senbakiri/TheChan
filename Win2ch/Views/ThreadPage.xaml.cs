@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Win2ch.Controls;
@@ -43,15 +44,28 @@ namespace Win2ch.Views
                 textToAdd = $"{pre}>>{e.Post.Num}\n> {e.SelectedText}\n";
             }
             else
-                textToAdd = $">>{e.Post.Num}";
+                textToAdd = $">>{e.Post.Num}\n";
 
-            FastReplyTextBox.Text += textToAdd;
+            var selectionIndex = FastReplyTextBox.SelectionStart;
+            FastReplyTextBox.Text = FastReplyTextBox.Text.Insert(selectionIndex, textToAdd);
+            FastReplyTextBox.SelectionStart = selectionIndex + textToAdd.Length;
         }
 
         private void FastReply_OnClick(object sender, RoutedEventArgs e)
         {
             ViewModel.FastReplyCommand.Execute(null);
             FastReplyTextBox.Text = "";
+        }
+
+        private void PostControl_OnImageClick(object sender, ImageClickEventArgs e)
+        {
+            ImagesView.Visibility = Visibility.Visible;
+            ImagesView.Show(e.ImageInfo, ViewModel.Posts.SelectMany(p => p.Images));
+        }
+
+        private void ImagesView_OnClose(object sender, ImageViewCloseEventArgs e)
+        {
+            ImagesView.Visibility = Visibility.Collapsed;
         }
     }
 }

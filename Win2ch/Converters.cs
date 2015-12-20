@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Reflection;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
+using Win2ch.Attributes;
+
 
 namespace Win2ch
 {
@@ -56,6 +60,54 @@ namespace Win2ch
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class ItemIndexConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            var list = parameter as IList;
+            if (list == null)
+                return 0;
+
+            return list.IndexOf(value) + 1;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class EnumToStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (!(value is Enum))
+                return null;
+
+            var @enum = value as Enum;
+            var description = @enum.ToString();
+
+            var attrib = GetAttribute<DisplayAttribute>(@enum);
+            if (attrib != null)
+                description = attrib.Name;
+
+            return description;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter,
+            string language)
+        {
+            throw new NotImplementedException();
+        }
+
+        private T GetAttribute<T>(Enum enumValue) where T : Attribute
+        {
+            return enumValue.GetType().GetTypeInfo()
+                .GetDeclaredField(enumValue.ToString())
+                .GetCustomAttribute<T>();
         }
     }
 }

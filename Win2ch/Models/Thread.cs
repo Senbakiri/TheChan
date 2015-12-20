@@ -23,11 +23,22 @@ namespace Win2ch.Models
             var httpFilter = new HttpBaseProtocolFilter();
             httpFilter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
             var client = new HttpClient(httpFilter);
-            client.DefaultRequestHeaders.Host = new HostName("2ch.hk");
             var response = await client.GetAsync(url);
             string json = await response.Content.ReadAsStringAsync();
 
-            return await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<List<Post>>(json));
+            return await Task.Factory.StartNew(() =>
+                FillDeps(JsonConvert.DeserializeObject<List<Post>>(json), Board).ToList());
+        }
+
+        public static IEnumerable<Post> FillDeps(IEnumerable<Post> posts, Board b)
+        {
+            return posts.Select(p =>
+            {
+                p.Board = b;
+                foreach (var info in p.Images)
+                    info.Board = b;
+                return p;
+            });
         }
 
         public async Task Reply(NewPostInfo info)
@@ -46,7 +57,7 @@ namespace Win2ch.Models
                     {new HttpStringContent("post"), "task"},
                     {new HttpStringContent(Board.Id), "board"},
                     {new HttpStringContent(Num.ToString()), "thread"},
-                    {new HttpStringContent(info.Comment), "comment"}
+                    {new HttpStringContent(info.Comment ?? ""), "comment"}
                 };
                 var response = await client.PostAsync(new Uri(Urls.Posting), content);
                 var responseString = await response.Content.ReadAsStringAsync();

@@ -25,7 +25,7 @@
                 <ItemsControl ItemsSource="{x:Bind Posts}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="m:Post">
-                            <c:PostControl Post="{x:Bind}" IsSimple="True"  Margin="10"/>
+                            <c:PostControl Post="{x:Bind}" IsSimple="True"  Margin="10" ImageClick="PostControl_OnImageClick"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -40,7 +40,14 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <controls:PageHeader Frame="{x:Bind Frame}">
+        <c:ImagesViewControl x:Name="ImagesView"
+                             Grid.Row="0"
+                             Grid.RowSpan="2"
+                             Visibility="Collapsed"
+                             Canvas.ZIndex="10"
+                             Close="ImagesView_OnClose"/>
+        
+        <controls:PageHeader Grid.Row="0" Frame="{x:Bind Frame}">
             <controls:PageHeader.Content>
                 <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Board.Name, Converter={StaticResource ToUpper}}"
                            Style="{StaticResource PageHeaderTitle}"/>
