@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Windows.Input;
 using Win2ch.Models;
 using Windows.System.Profile;
@@ -31,13 +32,29 @@ namespace Win2ch.ViewModels
             }
         }
 
+        public ThreadsCollection Threads
+        { get; private set; }
+
+        public ICommand ShowImageCommand { get; }
+
+        public BoardViewModel()
+        {
+            ShowImageCommand = new DelegateCommand<ImageInfo>(ShowImage);
+        }
+
+        private void ShowImage(ImageInfo imageInfo)
+        {
+
+            NavigationService.Navigate(typeof(ImagesViewPage),
+                new Tuple<ImageInfo, List<ImageInfo>>(imageInfo,
+                    Threads.SelectMany(t => t.Posts.SelectMany(p => p.Images)).ToList()));
+        }
+
         private void Threads_OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             RaisePropertyChanged(() => Board);
         }
 
-        public ThreadsCollection Threads
-        { get; private set; }
 
         public void NavigateToThread(Thread thread)
         {

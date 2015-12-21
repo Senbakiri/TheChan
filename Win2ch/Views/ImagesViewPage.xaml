@@ -1,0 +1,34 @@
+﻿<Page
+    x:Class="Win2ch.Views.ImagesViewPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Name="This"
+    SizeChanged="OnSizeChanged">
+
+    <Grid KeyDown="OnKeyDown" Background="Black">
+
+        <FlipView x:Name="ImagesList"
+                  ItemsSource="{Binding ElementName=This, Path=ImagesSources}"
+                  VerticalContentAlignment="Stretch"
+                  HorizontalContentAlignment="Stretch"
+                  SelectionChanged="ImagesList_OnSelectionChanged"
+                  DoubleTapped="OnDoubleTapped">
+            <FlipView.ItemTemplate>
+                <DataTemplate>
+                    <ScrollViewer x:Name="ScrollViewer"
+                                  ZoomMode="Enabled"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Auto"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalAlignment="Stretch">
+                        <Image  Stretch="Uniform"
+                                Source="{Binding}"/>
+                    </ScrollViewer>
+                </DataTemplate>
+            </FlipView.ItemTemplate>
+        </FlipView>
+    </Grid>
+</Page>

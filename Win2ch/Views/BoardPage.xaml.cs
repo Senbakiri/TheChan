@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Win2ch.Models;
@@ -19,6 +20,7 @@ namespace Win2ch.Views
         public BoardPage()
         {
             InitializeComponent();
+            
         }
 
         public BoardViewModel ViewModel => (BoardViewModel) DataContext;
@@ -31,15 +33,9 @@ namespace Win2ch.Views
             ViewModel.NavigateToThread((Thread)((FrameworkElement)sender).DataContext);
         }
 
-        private void ImagesView_OnClose(object sender, ImageViewCloseEventArgs e)
-        {
-            ImagesView.Visibility = Visibility.Collapsed;
-        }
-
         private void PostControl_OnImageClick(object sender, ImageClickEventArgs e)
         {
-            ImagesView.Visibility = Visibility.Visible;
-            ImagesView.Show(e.ImageInfo, ViewModel.Threads.SelectMany(t => t.Posts.SelectMany(p => p.Images)));
+            ViewModel.ShowImageCommand.Execute(e.ImageInfo);
         }
     }
 }

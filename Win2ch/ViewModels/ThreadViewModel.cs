@@ -9,6 +9,7 @@ using Windows.UI.Xaml.Navigation;
 using Template10.Mvvm;
 using Win2ch.Models;
 using Win2ch.Models.Exceptions;
+using Win2ch.Views;
 using ViewModelBase = Win2ch.Mvvm.ViewModelBase;
 
 namespace Win2ch.ViewModels
@@ -69,11 +70,19 @@ namespace Win2ch.ViewModels
 
         public ICommand RefreshCommand { get; }
         public ICommand FastReplyCommand { get; }
+        public ICommand ShowImageCommand { get; }
 
         public ThreadViewModel()
         {
             RefreshCommand = new DelegateCommand(Refresh);
             FastReplyCommand = new DelegateCommand(SendPost);
+            ShowImageCommand = new DelegateCommand<ImageInfo>(ShowImage);
+        }
+
+        private void ShowImage(ImageInfo imageInfo)
+        {
+            NavigationService.Navigate(typeof (ImagesViewPage),
+                new Tuple<ImageInfo, List<ImageInfo>>(imageInfo, Posts.SelectMany(p => p.Images).ToList()));
         }
 
 
@@ -94,11 +103,6 @@ namespace Win2ch.ViewModels
                 await new MessageDialog(e.Message, "Ошибка").ShowAsync();
             }
 
-        }
-
-        private bool CanSendPost()
-        {
-            return FastReplyText?.Length > 0 && FastReplyText?.Length <= 15000;
         }
 
         public async void Refresh()

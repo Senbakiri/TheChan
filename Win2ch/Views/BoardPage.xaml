@@ -13,7 +13,8 @@
     xmlns:m="using:Win2ch.Models"
     xmlns:win2Ch="using:Win2ch"
     xmlns:c="using:Win2ch.Controls"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    NavigationCacheMode="Enabled">
 
     <Page.DataContext>
         <vm:BoardViewModel/>
@@ -40,13 +41,6 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <c:ImagesViewControl x:Name="ImagesView"
-                             Grid.Row="0"
-                             Grid.RowSpan="2"
-                             Visibility="Collapsed"
-                             Canvas.ZIndex="10"
-                             Close="ImagesView_OnClose"/>
-        
         <controls:PageHeader Grid.Row="0" Frame="{x:Bind Frame}">
             <controls:PageHeader.Content>
                 <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Board.Name, Converter={StaticResource ToUpper}}"

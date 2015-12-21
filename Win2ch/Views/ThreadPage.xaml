@@ -12,7 +12,7 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Template10.Behaviors"
     mc:Ignorable="d"
-    x:Name="This">
+    NavigationCacheMode="Required">
 
     <Page.DataContext>
         <vm:ThreadViewModel/>
@@ -24,14 +24,8 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
-        <c:ImagesViewControl x:Name="ImagesView"
-                             Grid.Row="0"
-                             Grid.RowSpan="3"
-                             Visibility="Collapsed"
-                             Canvas.ZIndex="10"
-                             Close="ImagesView_OnClose"/>
-        
+
+
         <controls:PageHeader Frame="{x:Bind Frame}" Grid.Row="0">
             <controls:PageHeader.Content>
                 <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Title, Converter={StaticResource ToUpper}}"

@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Win2ch.Controls;
+using Win2ch.Models;
 using Win2ch.ViewModels;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
@@ -59,13 +62,7 @@ namespace Win2ch.Views
 
         private void PostControl_OnImageClick(object sender, ImageClickEventArgs e)
         {
-            ImagesView.Visibility = Visibility.Visible;
-            ImagesView.Show(e.ImageInfo, ViewModel.Posts.SelectMany(p => p.Images));
-        }
-
-        private void ImagesView_OnClose(object sender, ImageViewCloseEventArgs e)
-        {
-            ImagesView.Visibility = Visibility.Collapsed;
+            ViewModel.ShowImageCommand.Execute(e.ImageInfo);
         }
     }
 }
