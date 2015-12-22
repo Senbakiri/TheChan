@@ -34,6 +34,12 @@ namespace Win2ch.Models
             return Task.Run(LoadThreads).AsAsyncOperation();
         }
 
+        public void Refresh()
+        {
+            _lastPage = 0;
+            Clear();
+        }
+
         private async Task<LoadMoreItemsResult> LoadThreads()
         {
             uint resultCount = 0;

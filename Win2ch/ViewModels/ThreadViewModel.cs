@@ -133,7 +133,7 @@ namespace Win2ch.ViewModels
         public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             var thread = parameter as Thread;
-            if (thread != null && mode == NavigationMode.New)
+            if (thread != Thread)
             {
                 LoadThread(thread);
             }

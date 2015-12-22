@@ -63,6 +63,10 @@ namespace Win2ch.ViewModels
 
         public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
+            // if user goes to the board from board list, load threads,
+            // because they can be restored from navigation cache
+            if (mode == NavigationMode.New)
+                Threads?.Refresh();
             Board = (Board) parameter;
         }
     }
