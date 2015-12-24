@@ -23,12 +23,13 @@ namespace Win2ch.ViewModels
         public async void LoadBoards()
         {
             var categories = await new ApiBoardsProvider().GetCategories();
-            foreach (var cat in categories)
+            foreach (var category in categories)
             {
-                if (cat.Name != "Взрослым")
-                    Categories.Add(cat);
+                // censorship
+                if (category.Name != "Взрослым")
+                    Categories.Add(category);
                 else
-                    HiddenCategories.Add(cat);
+                    HiddenCategories.Add(category);
             }
         }
 

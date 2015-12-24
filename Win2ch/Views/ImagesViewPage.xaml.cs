@@ -35,6 +35,8 @@ namespace Win2ch.Views
             ImagesList.ItemsSource = ImagesSources;
         }
 
+        private double _totalManupulationYOffset;
+
         public ObservableCollection<BitmapImage> ImagesSources  { get; }
 
         private List<ImageInfo>  _AllImages;
@@ -151,18 +153,22 @@ namespace Win2ch.Views
             {
                 var flipViewItem = ImagesList.ContainerFromIndex(i);
                 var scrollViewItem = FindFirstElementInVisualTree<ScrollViewer>(flipViewItem);
-
-                if (scrollViewItem == null) continue;
+                var imageItem = FindFirstElementInVisualTree<Image>(scrollViewItem);
+                if (scrollViewItem == null || imageItem == null) continue;
 
                 scrollViewItem.Height = e.NewSize.Height;
                 scrollViewItem.Width = e.NewSize.Width;
-                scrollViewItem.ChangeView(0, 0, 1.0f);
+                imageItem.MaxHeight = e.NewSize.Height;
+                imageItem.MaxWidth = e.NewSize.Width;
+                scrollViewItem.ChangeView(0, 0, 1.0f, true);
             }
-        }
 
-        public async void Close()
+        }
+        
+        public void Close()
         {
-            BootStrapper.Current.NavigationService.GoBack();
+            var nav = BootStrapper.Current.NavigationService;
+            nav.GoBack();
         }
 
         private void ImagesList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -170,14 +176,18 @@ namespace Win2ch.Views
             var view = sender as FlipView;
 
             if (view == null) return;
-            
+
             var flipViewItem = view.ContainerFromIndex(view.SelectedIndex);
             var scrollViewItem = FindFirstElementInVisualTree<ScrollViewer>(flipViewItem);
+            var imageItem = FindFirstElementInVisualTree<Image>(scrollViewItem);
 
-            if (scrollViewItem == null) return;
+            if (scrollViewItem == null || imageItem == null) return;
 
             scrollViewItem.Height = ActualHeight;
-            scrollViewItem.ChangeView(0, 0, 1.0f);
+            scrollViewItem.Width = ActualWidth;
+            imageItem.MaxHeight = ActualHeight;
+            imageItem.MaxWidth = ActualWidth;
+            scrollViewItem.ChangeView(0, 0, 1.0f, true);
         }
     }
 

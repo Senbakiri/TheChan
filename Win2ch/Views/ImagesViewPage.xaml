@@ -14,18 +14,16 @@
                   ItemsSource="{Binding ElementName=This, Path=ImagesSources}"
                   VerticalContentAlignment="Stretch"
                   HorizontalContentAlignment="Stretch"
-                  SelectionChanged="ImagesList_OnSelectionChanged"
-                  DoubleTapped="OnDoubleTapped">
+                  SelectionChanged="ImagesList_OnSelectionChanged">
             <FlipView.ItemTemplate>
                 <DataTemplate>
                     <ScrollViewer x:Name="ScrollViewer"
                                   ZoomMode="Enabled"
                                   HorizontalScrollBarVisibility="Auto"
-                                  VerticalScrollBarVisibility="Auto"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalAlignment="Stretch">
-                        <Image  Stretch="Uniform"
-                                Source="{Binding}"/>
+                                  VerticalScrollBarVisibility="Auto">
+                        <Image Stretch="Uniform"
+                               Source="{Binding}"
+                               DoubleTapped="OnDoubleTapped"/>
                     </ScrollViewer>
                 </DataTemplate>
             </FlipView.ItemTemplate>
