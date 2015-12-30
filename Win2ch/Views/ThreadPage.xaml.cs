@@ -54,12 +54,6 @@ namespace Win2ch.Views
             FastReplyTextBox.SelectionStart = selectionIndex + textToAdd.Length;
         }
 
-        private void FastReply_OnClick(object sender, RoutedEventArgs e)
-        {
-            ViewModel.FastReplyCommand.Execute(null);
-            FastReplyTextBox.Text = "";
-        }
-
         private void PostControl_OnImageClick(object sender, ImageClickEventArgs e)
         {
             ViewModel.ShowImageCommand.Execute(e.ImageInfo);

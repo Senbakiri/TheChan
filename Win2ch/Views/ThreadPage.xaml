@@ -113,7 +113,8 @@
                         BorderThickness="0"
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"
-                        Width="40">
+                        Width="40"
+                        Command="{Binding AdvancedPostingCommand}">
                     <SymbolIcon Symbol="More" Opacity="0.8"/>
                 </Button>
                 <TextBox x:Name="FastReplyTextBox"
@@ -131,7 +132,7 @@
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"
                         Width="40"
-                        Click="FastReply_OnClick">
+                        Command="{x:Bind ViewModel.FastReplyCommand}">
                     <SymbolIcon Symbol="Send"/>
                 </Button>
             </Grid>

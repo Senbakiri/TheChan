@@ -107,11 +107,10 @@ namespace Win2ch.Views
 
         private void OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Escape || e.Key == VirtualKey.Back)
-            {
-                e.Handled = true;
-                Close();
-            }
+            if (e.Key != VirtualKey.Escape && e.Key != VirtualKey.Back) return;
+
+            e.Handled = true;
+            Close();
         }
 
         private void OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -121,26 +120,23 @@ namespace Win2ch.Views
 
         private T FindFirstElementInVisualTree<T>(DependencyObject parentElement) where T : DependencyObject
         {
-            if (parentElement != null)
+            if (parentElement == null) return null;
+            var count = VisualTreeHelper.GetChildrenCount(parentElement);
+            if (count == 0)
+                return null;
+
+            for (int i = 0; i < count; i++)
             {
-                var count = VisualTreeHelper.GetChildrenCount(parentElement);
-                if (count == 0)
-                    return null;
+                var child = VisualTreeHelper.GetChild(parentElement, i);
 
-                for (int i = 0; i < count; i++)
+                var item = child as T;
+                if (item != null)
+                    return item;
+
+                var result = FindFirstElementInVisualTree<T>(child);
+                if (result != null)
                 {
-                    var child = VisualTreeHelper.GetChild(parentElement, i);
-
-                    if (child != null && child is T)
-                        return (T)child;
-                    else
-                    {
-                        var result = FindFirstElementInVisualTree<T>(child);
-                        if (result != null)
-                        {
-                            return result;
-                        }
-                    }
+                    return result;
                 }
             }
 

@@ -47,8 +47,12 @@
                            Style="{StaticResource PageHeaderTitle}"/>
             </controls:PageHeader.Content>
             <interactivity:Interaction.Behaviors>
-                <behaviors:EllipsisBehavior Visibility="Auto" />
+                <behaviors:EllipsisBehavior Visibility="Collapsed" />
             </interactivity:Interaction.Behaviors>
+            <controls:PageHeader.PrimaryCommands>
+                <!--AppBarButton Icon="Add"
+                              Command="{x:Bind ViewModel.NewThreadCommand}"/>-->
+            </controls:PageHeader.PrimaryCommands>
         </controls:PageHeader>
 
         <ListView SelectionMode="None" 

@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using Windows.Web;
 
 namespace Win2ch.Models
 {
@@ -15,8 +16,7 @@ namespace Win2ch.Models
             get { return _Comment; }
             set
             {
-                _Comment = WebUtility.HtmlDecode(value);
-                Text = RemoveHtml(Comment);
+                _Comment = RemoveHtml(value);
             }
         }
 
@@ -29,7 +29,6 @@ namespace Win2ch.Models
         public string Subject { get; set; }
         public string Num { get; set; }
         public string Date { get; set; }
-        public string Text { get; private set; }
         public Board Board { get; set; }
 
         [JsonProperty(PropertyName = "files")]
@@ -37,7 +36,7 @@ namespace Win2ch.Models
 
         private string RemoveHtml(string html)
         {
-            string result = html;
+            string result = WebUtility.HtmlDecode(html);
 
             result = Regex.Replace(result,
                  @"<( )*br( )*>", "\n",

@@ -63,10 +63,10 @@
 
             <TextBlock x:Name="PostText"
                        Grid.Row="3"
-                       Text="{Binding Text}"
+                       Text="{Binding Comment}"
                        IsTextSelectionEnabled="{x:Bind IsSimple, Converter={StaticResource InverseBool}}"
                        TextWrapping="Wrap"
-                       Visibility="{Binding Text, Converter={StaticResource StrToVis}}"/>
+                       Visibility="{Binding Comment, Converter={StaticResource StrToVis}}"/>
 
             <TextBlock Grid.Row="4"
                        Opacity="0.7"

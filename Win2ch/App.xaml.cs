@@ -1,7 +1,10 @@
+using System.Linq;
 using Windows.UI.Xaml;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Win2ch.Services.SettingsServices;
 using Windows.ApplicationModel.Activation;
+using Template10.Common;
 
 namespace Win2ch
 {
@@ -49,6 +52,23 @@ namespace Win2ch
             // navigate to first page
             NavigationService.Navigate(typeof(Views.MainPage));
         }
+
+        public static void ClearNavigationServices(Window window)
+        {
+            var wrapperToRemove = WindowWrapper.ActiveWrappers.FirstOrDefault(
+                wrapper => ReferenceEquals(wrapper.Window, window));
+            wrapperToRemove?.NavigationServices.Clear();
+        }
+
+        public override Task OnSuspendingAsync(object s, SuspendingEventArgs e)
+        {
+            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily.Equals("Windows.Mobile"))
+            {
+                ClearNavigationServices(Window.Current);
+            }
+            return base.OnSuspendingAsync(s, e);
+        }
+
     }
 }
 

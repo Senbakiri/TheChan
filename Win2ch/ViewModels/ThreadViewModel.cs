@@ -40,6 +40,7 @@ namespace Win2ch.ViewModels
             set
             {
                 _FastReplyText = value;
+                _PostInfo.Comment = value;
                 RaisePropertyChanged();
             }
         }
@@ -57,6 +58,7 @@ namespace Win2ch.ViewModels
         }
 
         private string _JobStatus;
+        private NewPostInfo _PostInfo = new NewPostInfo();
 
         public string JobStatus
         {
@@ -68,16 +70,30 @@ namespace Win2ch.ViewModels
             }
         }
 
+        public NewPostInfo PostInfo
+        {
+            get { return _PostInfo; }
+            set
+            {
+                _PostInfo = value;
+                FastReplyText = value.Comment;
+            }
+        }
+
         public ICommand RefreshCommand { get; }
         public ICommand FastReplyCommand { get; }
         public ICommand ShowImageCommand { get; }
+        public ICommand AdvancedPostingCommand { get; }
+
 
         public ThreadViewModel()
         {
             RefreshCommand = new DelegateCommand(Refresh);
             FastReplyCommand = new DelegateCommand(SendPost);
             ShowImageCommand = new DelegateCommand<ImageInfo>(ShowImage);
+            AdvancedPostingCommand = new DelegateCommand(AdvancedPosting);
         }
+
 
         private void ShowImage(ImageInfo imageInfo)
         {
@@ -88,21 +104,26 @@ namespace Win2ch.ViewModels
 
         private async void SendPost()
         {
-            var postInfo = new NewPostInfo
-            {
-                Comment = FastReplyText
-            };
-
             try
             {
-                await Thread.Reply(postInfo);
+                await Thread.Reply(PostInfo);
+                FastReplyText = string.Empty;
                 Refresh();
             }
             catch (ApiException e)
             {
                 await new MessageDialog(e.Message, "Ошибка").ShowAsync();
             }
+            
+        }
 
+        private void AdvancedPosting()
+        {
+            NavigationService.Navigate(typeof (PostingPage), new PostingPageNavigationInfo
+            {
+                PostInfo = PostInfo,
+                Thread = Thread
+            });
         }
 
         public async void Refresh()
@@ -137,16 +158,19 @@ namespace Win2ch.ViewModels
             {
                 LoadThread(thread);
             }
+            
+            FastReplyText = PostInfo.Comment;
         }
 
         private async void LoadThread(Thread thread)
         {
+            Posts.Clear();
+            var posts = await thread.GetPostsFrom(1);
+
             Title = thread.Name ?? "";
             if (Title.Length == 0)
                 Title = "Просмотр треда";
 
-            Posts.Clear();
-            var posts = await thread.GetPostsFrom(1);
             Thread = new Thread
             {
                 Board = thread.Board,

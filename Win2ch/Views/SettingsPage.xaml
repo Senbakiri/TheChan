@@ -78,17 +78,26 @@
                     <ScrollViewer Grid.Row="1" 
                                   VerticalScrollBarVisibility="Auto">
                         <StackPanel>
-                            <StackPanel.Resources>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="FontWeight" Value="Bold"/>
-                                    <Setter Property="Margin" Value="0 5"/>
-                                </Style>
-                            </StackPanel.Resources>
-                            <TextBlock Text="Спасибо следующим людям за пожертвования:"
-                                   Style="{StaticResource SubtitleTextBlockStyle}"/>
-                            <TextBlock>Александр Б.</TextBlock>
-                            <TextBlock>Денис Ф.</TextBlock>
+                            <TextBlock Text="Список изменений: "
+                                       Style="{StaticResource SubtitleTextBlockStyle}"/>
+                            <TextBlock Text="{Binding ReleaseNotes}"
+                                       Margin="0 5"/>
+                            <StackPanel>
+                                <StackPanel.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="Margin" Value="0 5"/>
+                                    </Style>
+                                </StackPanel.Resources>
+
+
+                                <TextBlock Text="Спасибо следующим людям за пожертвования:"
+                                       Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                <TextBlock>Александр Б.</TextBlock>
+                                <TextBlock>Денис Ф.</TextBlock>
+                            </StackPanel>
                         </StackPanel>
+                        
                     </ScrollViewer>
                 </Grid>
             </PivotItem>

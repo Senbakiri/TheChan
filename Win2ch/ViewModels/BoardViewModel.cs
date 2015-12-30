@@ -36,15 +36,25 @@ namespace Win2ch.ViewModels
         { get; private set; }
 
         public ICommand ShowImageCommand { get; }
+        public ICommand NewThreadCommand { get; }
 
         public BoardViewModel()
         {
             ShowImageCommand = new DelegateCommand<ImageInfo>(ShowImage);
+            NewThreadCommand = new DelegateCommand(NewThread);
+        }
+
+        private void NewThread()
+        {
+            NavigationService.Navigate(typeof (PostingPage), new PostingPageNavigationInfo()
+            {
+                PostInfo = new NewPostInfo(),
+                Thread = new Thread {Board = Board}
+            });
         }
 
         private void ShowImage(ImageInfo imageInfo)
         {
-
             NavigationService.Navigate(typeof(ImagesViewPage),
                 new Tuple<ImageInfo, List<ImageInfo>>(imageInfo,
                     Threads.SelectMany(t => t.Posts.SelectMany(p => p.Images)).ToList()));
