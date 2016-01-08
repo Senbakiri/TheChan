@@ -39,10 +39,10 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <ComboBox Header="Тема" ItemsSource="{x:Bind ViewModel.AvailableThemes}"
-                              SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}">
+                              SelectedItem="{Binding SelectedTheme, Mode=TwoWay}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate x:DataType="settingsServices:Theme">
-                                    <TextBlock Text="{x:Bind Path=., Converter={StaticResource EnumToString}}"/>
+                                    <TextBlock Text="{Binding Converter={StaticResource EnumToString}}"/>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
