@@ -41,7 +41,7 @@
         </controls:PageHeader>
 
         <Grid Grid.Row="1"
-              Visibility="{Binding IsWorking, Converter={StaticResource BoolToVis}}"
+              Visibility="{x:Bind ViewModel.IsWorking, Converter={StaticResource BoolToVis}, Mode=OneWay}"
               Background="{StaticResource CustomColorBrush}"
               Canvas.ZIndex="2"
               Height="50"
@@ -56,13 +56,18 @@
                           VerticalAlignment="Center"
                           Margin="10 0"/>
             <TextBlock Grid.Column="1"
-                       Text="{Binding JobStatus}"
+                       Text="{x:Bind ViewModel.JobStatus, Mode=OneWay}"
                        Foreground="White"
                        VerticalAlignment="Center"/>
         </Grid>
-        
-        <ListView Grid.Row="1" ItemsSource="{Binding Posts}" x:Name="Posts" SelectionMode="None" HorizontalContentAlignment="Stretch"
-                  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0 0 0 -2">
+
+        <ListView x:Name="Posts"
+                  Grid.Row="1"
+                  ItemsSource="{x:Bind ViewModel.Posts}"
+                  SelectionMode="None"
+                  HorizontalContentAlignment="Stretch"
+                  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                  Margin="0 0 0 -2">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel  Orientation="Vertical" VirtualizationMode="Recycling"/>
@@ -114,7 +119,7 @@
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"
                         Width="40"
-                        Command="{Binding AdvancedPostingCommand}">
+                        Command="{x:Bind ViewModel.AdvancedPostingCommand}">
                     <SymbolIcon Symbol="More" Opacity="0.8"/>
                 </Button>
                 <TextBox x:Name="FastReplyTextBox"
@@ -124,7 +129,7 @@
                          BorderThickness="0"
                          AcceptsReturn="True"
                          TextWrapping="Wrap"
-                         Text="{Binding FastReplyText, Mode=TwoWay}"
+                         Text="{x:Bind ViewModel.FastReplyText, Mode=TwoWay}"
                          MaxHeight="200"/>
                 <Button Grid.Column="2"
                         Background="Transparent"

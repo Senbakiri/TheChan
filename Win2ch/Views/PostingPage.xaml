@@ -56,7 +56,7 @@
               VerticalAlignment="Top"
               Background="{StaticResource CustomColorBrush}"
               Canvas.ZIndex="1"
-              Visibility="{Binding IsWorking, Converter={StaticResource BoolToVis}}">
+              Visibility="{x:Bind ViewModel.IsWorking, Converter={StaticResource BoolToVis}, Mode=OneWay}">
             
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -70,7 +70,7 @@
                           Margin="10"/>
             <TextBlock Grid.Column="1"
                        Foreground="White"
-                       Text="{Binding CurrentJob}"
+                       Text="{x:Bind ViewModel.CurrentJob, Mode=OneWay}"
                        VerticalAlignment="Center"/>
         </Grid>
         
@@ -185,13 +185,13 @@
                     <StackPanel>
                         <TextBox Header="Имя"
                                  Margin="0 5"
-                                 Text="{Binding Name, Mode=TwoWay}"/>
+                                 Text="{x:Bind ViewModel.Name, Mode=TwoWay}"/>
                         <TextBox Header="E-Mail"
                                  Margin="0 5"
-                                 Text="{Binding EMail, Mode=TwoWay}"/>
+                                 Text="{x:Bind ViewModel.Name, Mode=TwoWay}"/>
                         <TextBox Header="Тема"
                                  Margin="0 5"
-                                 Text="{Binding Subject, Mode=TwoWay}"/>
+                                 Text="{x:Bind ViewModel.Name, Mode=TwoWay}"/>
                         <TextBlock Style="{StaticResource TitleTextBlockStyle}"
                                    Text="Изображения"
                                    Margin="0 5"/>
@@ -199,15 +199,15 @@
                                   IsItemClickEnabled="True"
                                   ItemClick="AttachedImages_OnItemClick">
                             <GridView.ItemTemplate>
-                                <DataTemplate>
-                                    <Image Source="{Binding}"
+                                <DataTemplate x:DataType="BitmapImage">
+                                    <Image Source="{x:Bind}"
                                            Height="100"
                                            Stretch="Uniform"/>
                                 </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView>
-                        <Button Command="{Binding AttachImageCommand}"
-                                Visibility="{Binding CanAttachImages, Converter={StaticResource BoolToVis}}">
+                        <Button Command="{x:Bind ViewModel.AttachImageCommand}"
+                                Visibility="{x:Bind ViewModel.CanAttachImages, Mode=OneWay, Converter={StaticResource BoolToVis}}">
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="Add"/>
                                 <TextBlock Margin="10 0 0 0"

@@ -11,18 +11,18 @@
     <Grid KeyDown="OnKeyDown" Background="Black">
 
         <FlipView x:Name="ImagesList"
-                  ItemsSource="{Binding ElementName=This, Path=ImagesSources}"
+                  ItemsSource="{x:Bind ImagesSources}"
                   VerticalContentAlignment="Stretch"
                   HorizontalContentAlignment="Stretch"
                   SelectionChanged="ImagesList_OnSelectionChanged">
             <FlipView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="BitmapImage">
                     <ScrollViewer x:Name="ScrollViewer"
                                   ZoomMode="Enabled"
                                   HorizontalScrollBarVisibility="Auto"
                                   VerticalScrollBarVisibility="Auto">
                         <Image Stretch="Uniform"
-                               Source="{Binding}"
+                               Source="{x:Bind}"
                                DoubleTapped="OnDoubleTapped"/>
                     </ScrollViewer>
                 </DataTemplate>

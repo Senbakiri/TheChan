@@ -9,6 +9,7 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Template10.Behaviors"
     xmlns:vm="using:Win2ch.ViewModels"
+    xmlns:settingsServices="using:Win2ch.Services.SettingsServices"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -37,11 +38,11 @@
             <PivotItem Header="внешний вид">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
-                        <ComboBox Header="Тема" ItemsSource="{Binding AvailableThemes}"
-                              SelectedItem="{Binding SelectedTheme, Mode=TwoWay}">
+                        <ComboBox Header="Тема" ItemsSource="{x:Bind ViewModel.AvailableThemes}"
+                              SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}">
                             <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Converter={StaticResource EnumToString}}"/>
+                                <DataTemplate x:DataType="settingsServices:Theme">
+                                    <TextBlock Text="{x:Bind Path=., Converter={StaticResource EnumToString}}"/>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
@@ -68,7 +69,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Alpha"
                                            Style="{StaticResource SubtitleTextBlockStyle}"/>
-                                <TextBlock Text="{Binding Version}"
+                                <TextBlock Text="{x:Bind ViewModel.Version}"
                                            Style="{StaticResource SubtitleTextBlockStyle}"
                                            Margin="5 0 0 0"/>
                             </StackPanel>
@@ -80,7 +81,7 @@
                         <StackPanel>
                             <TextBlock Text="Список изменений: "
                                        Style="{StaticResource SubtitleTextBlockStyle}"/>
-                            <TextBlock Text="{Binding ReleaseNotes}"
+                            <TextBlock Text="{x:Bind ViewModel.ReleaseNotes}"
                                        Margin="0 5"/>
                             <StackPanel>
                                 <StackPanel.Resources>

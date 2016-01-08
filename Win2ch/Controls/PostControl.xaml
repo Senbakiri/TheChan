@@ -5,6 +5,7 @@
     xmlns:local="using:Win2ch.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Win2ch.Models"
     mc:Ignorable="d"
     x:Name="This">
 
@@ -18,8 +19,8 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="{Binding Subject}"
-                       Visibility="{Binding Subject, Converter={StaticResource StrToVis}}"
+            <TextBlock Text="{x:Bind Post.Subject, Mode=OneWay}"
+                       Visibility="{x:Bind Post.Subject, Converter={StaticResource StrToVis}, Mode=OneWay}"
                        FontWeight="Bold"
                        TextWrapping="Wrap"
                        Foreground="{StaticResource CustomColorBrush}"/>
@@ -30,11 +31,11 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding Name}"
+                <TextBlock Text="{x:Bind Post.Name, Mode=OneWay}"
                            FontWeight="Bold"/>
 
                 <TextBlock
-                    Text="{Binding Num, Converter={StaticResource PostN}}"
+                    Text="{x:Bind Post.Num, Converter={StaticResource PostN}, Mode=OneWay}"
                     FontWeight="Bold"
                     Foreground="{StaticResource CustomColorBrush}"
                     Margin="5 0 0 0"
@@ -48,29 +49,29 @@
             </Grid>
 
             <GridView Grid.Row="2" 
-                      ItemsSource="{Binding Images}"
+                      ItemsSource="{x:Bind Post.Images, Mode=OneWay}"
                       Margin="0 5"
                       Padding="0"
                       SelectionMode="None"
                       IsItemClickEnabled="True"
                       ItemClick="ImagesGridView_OnItemClick">
                 <GridView.ItemTemplate>
-                    <DataTemplate>
-                        <Image Source="{Binding ThumbnailUrl}" Height="100" Stretch="Uniform"/>
+                    <DataTemplate x:DataType="models:ImageInfo">
+                        <Image Source="{x:Bind ThumbnailUrl}" Height="100" Stretch="Uniform"/>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
 
             <TextBlock x:Name="PostText"
                        Grid.Row="3"
-                       Text="{Binding Comment}"
+                       Text="{x:Bind Post.Comment, Mode=OneWay}"
                        IsTextSelectionEnabled="{x:Bind IsSimple, Converter={StaticResource InverseBool}}"
                        TextWrapping="Wrap"
-                       Visibility="{Binding Comment, Converter={StaticResource StrToVis}}"/>
+                       Visibility="{x:Bind Post.Comment, Converter={StaticResource StrToVis}, Mode=OneWay}"/>
 
             <TextBlock Grid.Row="4"
                        Opacity="0.7"
-                       Text="{Binding Date}"
+                       Text="{x:Bind Post.Date, Mode=OneWay}"
                        Margin="0 5 0 0"
                        FontSize="13"/>
         </Grid>
