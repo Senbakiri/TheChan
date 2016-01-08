@@ -21,14 +21,30 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SplitView.IsPaneOpen" Value="True"/>
+                        <Setter Target="SplitView.DisplayMode" Value="Inline"/>
+                        <Setter Target="MoreAppBarButton.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
         <controls:PageHeader Frame="{x:Bind Frame}">
             <controls:PageHeader.Content>
-                <TextBlock CharacterSpacing="80" FontSize="15" FontWeight="Bold">
+                <TextBlock Style="{StaticResource PageHeaderTitle}">
                     СОЗДАНИЕ ПОСТА
                 </TextBlock>
             </controls:PageHeader.Content>
             <controls:PageHeader.PrimaryCommands>
-                <AppBarButton Icon="Send" Command="{Binding SendCommand}"/>
+                <AppBarButton Icon="More" Click="More_OnClick" x:Name="MoreAppBarButton"/>
+                <AppBarButton Icon="Send" Command="{x:Bind ViewModel.SendCommand}"/>
             </controls:PageHeader.PrimaryCommands>
             <interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed"/>
@@ -41,6 +57,7 @@
               Background="{StaticResource CustomColorBrush}"
               Canvas.ZIndex="1"
               Visibility="{Binding IsWorking, Converter={StaticResource BoolToVis}}">
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
@@ -57,8 +74,12 @@
                        VerticalAlignment="Center"/>
         </Grid>
         
-        <Pivot Grid.Row="1">
-            <PivotItem Header="текст" Margin="0">
+        
+        <SplitView x:Name="SplitView"
+                   Grid.Row="1"
+                   PanePlacement="Right"
+                   DisplayMode="Overlay">
+            <SplitView.Content>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -155,13 +176,12 @@
                              FontSize="16"
                              SelectionStart="{Binding SelectionStart, Mode=TwoWay}"
                              SelectionLength="{Binding SelectionLength, Mode=TwoWay}"/>
-                    
+
                 </Grid>
-                
-            </PivotItem>
-            
-            <PivotItem Header="дополнительно">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+            </SplitView.Content>
+            <SplitView.Pane>
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              Padding="10">
                     <StackPanel>
                         <TextBox Header="Имя"
                                  Margin="0 5"
@@ -196,7 +216,8 @@
                         </Button>
                     </StackPanel>
                 </ScrollViewer>
-            </PivotItem>
-        </Pivot>
+            </SplitView.Pane>
+        </SplitView>
+        
     </Grid>
 </Page>

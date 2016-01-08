@@ -33,5 +33,10 @@ namespace Win2ch.Views
         {
             ViewModel.AttachedImages.Remove(e.ClickedItem as BitmapImage);
         }
+
+        private void More_OnClick(object sender, RoutedEventArgs e)
+        {
+            SplitView.IsPaneOpen = !SplitView.IsPaneOpen;
+        }
     }
 }
