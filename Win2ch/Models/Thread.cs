@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Storage;
@@ -36,18 +37,59 @@ namespace Win2ch.Models
             json.CheckForApiError();
 
             return await Task.Factory.StartNew(() =>
-                FillDeps(JsonConvert.DeserializeObject<List<Post>>(json), Board).ToList());
+                FillPosts(JsonConvert.DeserializeObject<List<Post>>(json), Board).ToList());
         }
 
-        public static IEnumerable<Post> FillDeps(IEnumerable<Post> posts, Board b)
+        public static IEnumerable<Post> FillPosts(List<Post> posts, Board b)
         {
-            return posts.Select(p =>
+            var result = new List<Post>();
+            var answers = new Dictionary<string, List<Post>>();
+
+            foreach (var post in posts)
             {
-                p.Board = b;
-                foreach (var info in p.Images)
+                FillAnswers(post, answers);
+
+                post.Board = b;
+                foreach (var info in post.Images)
                     info.Board = b;
-                return p;
-            });
+                result.Add(post);
+            }
+
+            CompleteAnswersProcessing(posts, answers);
+
+            return result;
+        }
+
+        private static void CompleteAnswersProcessing(IReadOnlyCollection<Post> posts,
+            Dictionary<string, List<Post>> answers)
+        {
+            foreach (var postN in answers.Keys)
+            {
+                var post = posts.FirstOrDefault(p => string.Equals(postN, p.Num));
+                if (post == null)
+                    continue;
+                post.Answers = answers[postN];
+            }
+        }
+
+        /// <summary>
+        /// Finds all links answers in given post and marks post as answer to each of answer
+        /// </summary>
+        /// <param name="post">Post where to find answers</param>
+        /// <param name="answers">Where to store</param>
+        private static void FillAnswers(Post post, Dictionary<string, List<Post>> answers)
+        {
+            var answerRegex = new Regex(@">>(\d+)");
+            var matches = answerRegex.Matches(post.Comment);
+            foreach (var match in matches.Cast<Match>())
+            {
+                if (match.Groups.Count < 2)
+                    continue;
+                var postN = match.Groups[1].Captures[0].Value;
+                if (!answers.ContainsKey(postN))
+                    answers.Add(postN, new List<Post>());
+                answers[postN].Add(post);
+            }
         }
 
         public async Task Reply(NewPostInfo info)

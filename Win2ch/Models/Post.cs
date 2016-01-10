@@ -30,6 +30,7 @@ namespace Win2ch.Models
         public string Num { get; set; }
         public string Date { get; set; }
         public Board Board { get; set; }
+        public List<Post> Answers { get; set; }
 
         [JsonProperty(PropertyName = "files")]
         public List<ImageInfo> Images { get; set; } = new List<ImageInfo>();
