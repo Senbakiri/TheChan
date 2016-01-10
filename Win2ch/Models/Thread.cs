@@ -30,7 +30,10 @@ namespace Win2ch.Models
             httpFilter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
             var client = new HttpClient(httpFilter);
             var response = await client.GetAsync(url);
+            if (!response.IsSuccessStatusCode)
+                throw new HttpException(response.StatusCode);
             var json = await response.Content.ReadAsStringAsync();
+            json.CheckForApiError();
 
             return await Task.Factory.StartNew(() =>
                 FillDeps(JsonConvert.DeserializeObject<List<Post>>(json), Board).ToList());

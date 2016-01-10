@@ -119,7 +119,7 @@
     </Compile>
     <Compile Include="Converters.cs" />
     <Compile Include="HtmlToRichTextBlockConverter.cs" />
-    <Compile Include="Models\Api\ApiPostResult.cs" />
+    <Compile Include="Models\Api\ApiResult.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Api\ApiBoardsProvider.cs" />
     <Compile Include="Models\Category.cs" />

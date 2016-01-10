@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Win2ch.Models.Api
 {
-    class ApiPostResult
+    class ApiResult
     {
         public string Error { get; set; }
         public string Reason { get; set; }

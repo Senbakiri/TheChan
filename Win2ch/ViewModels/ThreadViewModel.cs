@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Popups;
@@ -96,7 +97,7 @@ namespace Win2ch.ViewModels
 
         private void ShowImage(ImageInfo imageInfo)
         {
-            NavigationService.Navigate(typeof (ImagesViewPage),
+            NavigationService.Navigate(typeof(ImagesViewPage),
                 new Tuple<ImageInfo, List<ImageInfo>>(imageInfo, Posts.SelectMany(p => p.Images).ToList()));
         }
 
@@ -113,12 +114,12 @@ namespace Win2ch.ViewModels
             {
                 await new MessageDialog(e.Message, "Ошибка").ShowAsync();
             }
-            
+
         }
 
         private void AdvancedPosting()
         {
-            NavigationService.Navigate(typeof (PostingPage), new PostingPageNavigationInfo
+            NavigationService.Navigate(typeof(PostingPage), new PostingPageNavigationInfo
             {
                 PostInfo = PostInfo,
                 Thread = Thread
@@ -130,11 +131,30 @@ namespace Win2ch.ViewModels
             IsWorking = true;
 
             JobStatus = "Получение новых постов";
-            var newPosts = await Thread.GetPostsFrom(Thread.Posts.Count + 1);
+
+            List<Post> newPosts;
+
+            try
+            {
+                newPosts = await Thread.GetPostsFrom(Thread.Posts.Count + 1);
+            }
+            catch (ApiException e)
+            {
+                var dialog = new MessageDialog(e.Message, "Сервер вернул ошибку");
+                await dialog.ShowAsync();
+                IsWorking = false;
+                return;
+            }
+            catch (HttpException e)
+            {
+                var dialog = new MessageDialog(e.Message, "Не удалось получить посты");
+                await dialog.ShowAsync();
+                IsWorking = false;
+                return;
+            }
 
             if (newPosts.Count > 0)
             {
-
                 JobStatus = "Обработка";
                 Thread.Posts.AddRange(newPosts);
                 foreach (var newPost in newPosts)
@@ -154,31 +174,42 @@ namespace Win2ch.ViewModels
         {
             var thread = parameter as Thread;
             if (thread != Thread)
-            {
                 LoadThread(thread);
-            }
-            
+
             FastReplyText = PostInfo.Comment;
         }
 
         private async void LoadThread(Thread thread)
         {
             Posts.Clear();
-            var posts = await thread.GetPostsFrom(1);
-
-            Title = thread.Name ?? "";
-            if (Title.Length == 0)
-                Title = "Просмотр треда";
-
             Thread = new Thread
             {
                 Board = thread.Board,
-                Posts = posts
+                Posts = { thread.Posts.First() }
             };
-
-            foreach (var post in posts)
+            try
             {
-                Posts.Add(post);
+                var posts = await thread.GetPostsFrom(1);
+                Title = thread.Name ?? "";
+                if (Title.Length == 0)
+                    Title = "Просмотр треда";
+
+                Thread.Posts = posts;
+
+                foreach (var post in posts)
+                {
+                    Posts.Add(post);
+                }
+            }
+            catch (ApiException e)
+            {
+                var dialog = new MessageDialog(e.Message, "Сервер вернул ошибку");
+                await dialog.ShowAsync();
+            }
+            catch (WebException e)
+            {
+                var dialog = new MessageDialog(e.Message, "Не удалось загрузить тред");
+                await dialog.ShowAsync();
             }
         }
 

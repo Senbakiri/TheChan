@@ -26,9 +26,17 @@ namespace Win2ch.Models.Exceptions
     {
         public static void CheckForApiError(this string json)
         {
-            var parsed = JsonConvert.DeserializeObject<ApiPostResult>(json);
+            var parsed = new ApiResult();
+
+            try
+            {
+                parsed = JsonConvert.DeserializeObject<ApiResult>(json);
+            }
+            catch (JsonException)
+            { }
+
             if (parsed.Error != null)
-                throw new ApiException(parsed.Reason);
+                throw new ApiException(parsed.Reason ?? parsed.Error);
         }
     }
 }
