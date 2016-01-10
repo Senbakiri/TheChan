@@ -16,7 +16,6 @@ namespace Win2ch.ViewModels
 {
     public class ThreadViewModel : ViewModelBase
     {
-
         public ObservableCollection<Post> Posts
         { get; } = new ObservableCollection<Post>();
 

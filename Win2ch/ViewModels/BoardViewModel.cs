@@ -6,8 +6,10 @@ using System.Linq;
 using System.Windows.Input;
 using Win2ch.Models;
 using Windows.System.Profile;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Template10.Mvvm;
+using Win2ch.Models.Exceptions;
 using Win2ch.Views;
 
 namespace Win2ch.ViewModels
@@ -15,6 +17,8 @@ namespace Win2ch.ViewModels
     public class BoardViewModel : Mvvm.ViewModelBase
     {
         private Board _Board;
+        private ThreadsCollection _threads;
+
         public Board Board
         {
             get { return _Board; }
@@ -25,6 +29,7 @@ namespace Win2ch.ViewModels
                 if (Threads == null)
                 {
                     Threads = new ThreadsCollection(Board);
+                    Threads.BoardLoadError += OnBoardLoadError;
                     Threads.CollectionChanged += Threads_OnCollectionChanged;
                 }
                 else
@@ -33,7 +38,14 @@ namespace Win2ch.ViewModels
         }
 
         public ThreadsCollection Threads
-        { get; private set; }
+        {
+            get { return _threads; }
+            private set
+            {
+                _threads = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public ICommand ShowImageCommand { get; }
         public ICommand NewThreadCommand { get; }
@@ -46,10 +58,10 @@ namespace Win2ch.ViewModels
 
         private void NewThread()
         {
-            NavigationService.Navigate(typeof (PostingPage), new PostingPageNavigationInfo()
+            NavigationService.Navigate(typeof(PostingPage), new PostingPageNavigationInfo()
             {
                 PostInfo = new NewPostInfo(),
-                Thread = new Thread {Board = Board}
+                Thread = new Thread { Board = Board }
             });
         }
 
@@ -65,10 +77,9 @@ namespace Win2ch.ViewModels
             RaisePropertyChanged(() => Board);
         }
 
-
         public void NavigateToThread(Thread thread)
         {
-            NavigationService.Navigate(typeof (ThreadPage), thread);
+            NavigationService.Navigate(typeof(ThreadPage), thread);
         }
 
         public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -77,7 +88,12 @@ namespace Win2ch.ViewModels
             // because they can be restored from navigation cache
             if (mode == NavigationMode.New)
                 Threads?.Refresh();
-            Board = (Board) parameter;
+            Board = (Board)parameter;
+        }
+
+        private void OnBoardLoadError(HttpException exception)
+        {
+            NavigationService.Navigate(typeof (Views.Errors.BoardErrorPage), exception, new SuppressNavigationTransitionInfo());
         }
     }
 }

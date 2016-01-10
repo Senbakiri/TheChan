@@ -10,6 +10,9 @@ using Windows.System.Profile;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
+using Windows.Web.Http;
+using Win2ch.Models.Exceptions;
+using Win2ch.Views;
 
 namespace Win2ch.Models
 {
@@ -22,6 +25,10 @@ namespace Win2ch.Models
         private int _lastPage;
 
         private CoreDispatcher _dispatcher;
+
+        public delegate void BoardLoadErrorHandler(HttpException exception);
+
+        public event BoardLoadErrorHandler BoardLoadError = delegate { };
 
         public ThreadsCollection(Board board)
         {
@@ -48,7 +55,7 @@ namespace Win2ch.Models
             {
                 var result = await Board.GetThreads(_lastPage);
                 ++_lastPage;
-                resultCount = (uint)result.Count();
+                resultCount = (uint) result.Count;
                 await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Fill(result));
             }
             catch (COMException)
@@ -56,6 +63,11 @@ namespace Win2ch.Models
                 if (_lastPage == 0)
                     throw;
 
+                HasMoreItems = false;
+            }
+            catch (HttpException e)
+            {
+                await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => BoardLoadError(e));
                 HasMoreItems = false;
             }
 

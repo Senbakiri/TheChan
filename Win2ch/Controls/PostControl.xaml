@@ -67,7 +67,9 @@
                        Text="{x:Bind Post.Comment, Mode=OneWay}"
                        IsTextSelectionEnabled="{x:Bind IsSimple, Converter={StaticResource InverseBool}}"
                        TextWrapping="Wrap"
-                       Visibility="{x:Bind Post.Comment, Converter={StaticResource StrToVis}, Mode=OneWay}"/>
+                       Visibility="{x:Bind Post.Comment, Converter={StaticResource StrToVis}, Mode=OneWay}"
+                       MaxWidth="1200"
+                       HorizontalAlignment="Left"/>
 
             <TextBlock Grid.Row="4"
                        Opacity="0.7"

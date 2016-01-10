@@ -106,7 +106,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Exceptions\HttpException.cs" />
     <Compile Include="ViewModels\PostingViewModel.cs" />
+    <Compile Include="Views\Errors\BoardErrorPage.xaml.cs">
+      <DependentUpon>BoardErrorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ImagesViewPage.xaml.cs">
       <DependentUpon>ImagesViewPage.xaml</DependentUpon>
     </Compile>
@@ -219,6 +223,10 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\Errors\BoardErrorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ImagesViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -7,6 +7,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
+using Win2ch.Models.Exceptions;
 
 namespace Win2ch.Models
 {
@@ -27,7 +28,8 @@ namespace Win2ch.Models
             var client = new HttpClient(httpFilter);
 
             var response = await client.GetAsync(url);
-            response.EnsureSuccessStatusCode();
+            if (!response.IsSuccessStatusCode)
+                throw new HttpException(response.StatusCode);
             string data = await response.Content.ReadAsStringAsync();
 
             JToken results = (JToken) await Task.Factory.StartNew(() =>
