@@ -188,10 +188,10 @@
                                  Text="{x:Bind ViewModel.Name, Mode=TwoWay}"/>
                         <TextBox Header="E-Mail"
                                  Margin="0 5"
-                                 Text="{x:Bind ViewModel.Name, Mode=TwoWay}"/>
+                                 Text="{x:Bind ViewModel.EMail, Mode=TwoWay}"/>
                         <TextBox Header="Тема"
                                  Margin="0 5"
-                                 Text="{x:Bind ViewModel.Name, Mode=TwoWay}"/>
+                                 Text="{x:Bind ViewModel.Subject, Mode=TwoWay}"/>
                         <TextBlock Style="{StaticResource TitleTextBlockStyle}"
                                    Text="Изображения"
                                    Margin="0 5"/>

@@ -4,8 +4,9 @@
     "Microsoft.ApplicationInsights.PersistenceChannel": "1.2.3",
     "Microsoft.ApplicationInsights.WindowsApps": "1.1.1",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
-    "Newtonsoft.Json": "7.0.1",
-    "Template10": "1.0.8"
+    "Newtonsoft.Json": "8.0.2",
+    "Template10": "1.0.8",
+    "UniversalWrapPanel": "1.0.0"
   },
   "frameworks": {
     "uap10.0": {}

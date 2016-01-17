@@ -10,9 +10,13 @@
             <local:UpperCaseConverter x:Key="ToUpper"/>
             <converters:StringFormatConverter x:Key="PostN" Format="#{0}"/>
             <local:BooleanToVisibilityConverter x:Key="BoolToVis"/>
+            <local:InverseBooleanToVisibilityConverter x:Key="BoolToVisInverse"/>
             <local:InverseBooleanConverter x:Key="InverseBool"/>
             <local:ItemIndexConverter x:Key="ItemIndex"/>
             <local:EnumToStringConverter x:Key="EnumToString"/>
+            <local:ListCountConverter x:Key="CountConverter"/>
+            <local:ListToVisibilityConverter x:Key="ListToVis"/>
+            <local:NounFormConverter x:Key="NounFormConverter"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles\Custom.xaml" />
             </ResourceDictionary.MergedDictionaries>

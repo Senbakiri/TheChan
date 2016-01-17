@@ -70,7 +70,7 @@
                   Margin="0 0 0 -2">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <VirtualizingStackPanel  Orientation="Vertical" VirtualizationMode="Recycling"/>
+                    <VirtualizingStackPanel Orientation="Vertical" VirtualizationMode="Recycling"/>
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>

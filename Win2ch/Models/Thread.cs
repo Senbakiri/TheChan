@@ -19,8 +19,20 @@ namespace Win2ch.Models
 {
     public class Thread
     {
+        private List<Post> _posts = new List<Post>();
         public Board Board { get; set; }
-        public List<Post> Posts { get; set; } = new List<Post>();
+
+        public List<Post> Posts
+        {
+            get { return _posts; }
+            set
+            {
+                _posts = value;
+                for (var i = 0; i < value?.Count; i++)
+                    value[i].Position = i + 1;
+            }
+        }
+
         public string Name => Posts?.FirstOrDefault()?.Subject;
         public int? Num => Convert.ToInt32(Posts?.FirstOrDefault()?.Num);
 

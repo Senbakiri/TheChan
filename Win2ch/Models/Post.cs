@@ -9,7 +9,8 @@ namespace Win2ch.Models
     public class Post
     {
         private string _Comment;
-        private string _name;
+        private string _Name;
+        private string _EMail;
 
         public string Comment
         {
@@ -22,15 +23,28 @@ namespace Win2ch.Models
 
         public string Name
         {
-            get { return _name; }
-            set { _name = RemoveHtml(value); }
+            get { return _Name; }
+            set { _Name = RemoveHtml(value); }
         }
+
+        public int Position { get; set; }
+
+        public string EMail
+        {
+            get { return _EMail; }
+            set
+            {
+                _EMail = value.Contains("mailto:") ? value.Substring("mailto:".Length) : value;
+            }
+        }
+
+        public bool IsSage => EMail.ToLower() == "sage";
 
         public string Subject { get; set; }
         public string Num { get; set; }
         public string Date { get; set; }
         public Board Board { get; set; }
-        public List<Post> Answers { get; set; }
+        public List<Post> Answers { get; set; } = new List<Post>();
 
         [JsonProperty(PropertyName = "files")]
         public List<ImageInfo> Images { get; set; } = new List<ImageInfo>();

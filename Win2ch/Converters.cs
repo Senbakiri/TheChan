@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
@@ -63,6 +65,19 @@ namespace Win2ch
         }
     }
 
+    public class InverseBooleanToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            return value is bool && (bool)value ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class ItemIndexConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
@@ -108,6 +123,66 @@ namespace Win2ch
             return enumValue.GetType().GetTypeInfo()
                 .GetDeclaredField(enumValue.ToString())
                 .GetCustomAttribute<T>();
+        }
+    }
+
+    public class ListCountConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            return (value as IEnumerable<object>).Count().ToString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ListToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            return (value as IEnumerable<object>).Any() ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class NounFormConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (!(parameter is string))
+                return "";
+
+            var count = (value as IEnumerable<object>).Count();
+            var num = count%100;
+            var variants = ((string) parameter).Split(' ');
+
+            if (num >= 11 && num <= 19)
+                return variants[2];
+
+            var i = num%10;
+            switch (i)
+            {
+                case 1:
+                    return variants[0];
+                case 2:
+                case 3:
+                case 4:
+                    return variants[1];
+                default:
+                    return variants[2];
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
         }
     }
 }

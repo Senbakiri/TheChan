@@ -6,9 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:Win2ch.Models"
+    xmlns:converters="using:Template10.Converters"
+    xmlns:gregstoll="using:Gregstoll"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     x:Name="This">
-
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -16,6 +19,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
@@ -25,28 +29,34 @@
                        TextWrapping="Wrap"
                        Foreground="{StaticResource CustomColorBrush}"/>
 
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <TextBlock Text="{x:Bind Post.Position, Mode=OneWay}"
+                           Visibility="{x:Bind IsSimple, Converter={StaticResource BoolToVisInverse}, Mode=OneWay}"
+                           FontWeight="Bold"
+                           Foreground="{StaticResource CustomColorBrush}"
+                           Margin="0 0 5 0"/>
+                
                 <TextBlock Text="{x:Bind Post.Name, Mode=OneWay}"
-                           FontWeight="Bold"/>
+                           FontWeight="Bold"
+                           Margin="0 0 5 0"/>
 
                 <TextBlock
                     Text="{x:Bind Post.Num, Converter={StaticResource PostN}, Mode=OneWay}"
                     FontWeight="Bold"
                     Foreground="{StaticResource CustomColorBrush}"
-                    Margin="5 0 0 0"
-                    Grid.Column="1"
+                    Margin="0 0 5 0"
                     Tapped="PostNum_OnTapped"/>
-                
-                <TextBlock Grid.Column="2"
-                           Foreground="{StaticResource CustomColorBrush}"
-                           FontWeight="Bold"
-                           HorizontalAlignment="Right"/>
-            </Grid>
+
+                <TextBlock FontWeight="Bold"
+                           Text="{x:Bind Post.EMail, Mode=OneWay}">
+                    <interactivity:Interaction.Behaviors>
+                        <core:DataTriggerBehavior Binding="{x:Bind Post.IsSage, Mode=OneWay}" Value="True">
+                            <core:ChangePropertyAction PropertyName="Foreground" Value="Crimson"/>
+                            <core:ChangePropertyAction PropertyName="Text" Value="SAGE"/>
+                        </core:DataTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                </TextBlock>
+            </StackPanel>
 
             <GridView Grid.Row="2" 
                       ItemsSource="{x:Bind Post.Images, Mode=OneWay}"
@@ -71,11 +81,26 @@
                        MaxWidth="1200"
                        HorizontalAlignment="Left"/>
 
-            <TextBlock Grid.Row="4"
+            <Button Grid.Row="4"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Padding="0 3"
+                    Margin="0 5 0 0"
+                    Visibility="{x:Bind Post.Answers, Converter={StaticResource ListToVis}, Mode=OneWay}"
+                    FontSize="14">
+                <TextBlock Foreground="{StaticResource CustomColorBrush}"
+                           FontWeight="SemiBold">
+                    <Run Text="{x:Bind Post.Answers, Converter={StaticResource CountConverter}, Mode=OneWay}"/>
+                    <Run Text="{x:Bind Post.Answers, Converter={StaticResource NounFormConverter}, ConverterParameter='ОТВЕТ ОТВЕТА ОТВЕТОВ', Mode=OneWay}"/>
+                </TextBlock>
+            </Button>
+            
+            <TextBlock Grid.Row="5"
                        Opacity="0.7"
                        Text="{x:Bind Post.Date, Mode=OneWay}"
                        Margin="0 5 0 0"
                        FontSize="13"/>
+
         </Grid>
     </Grid>
 </Page>
