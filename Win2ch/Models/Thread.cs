@@ -19,19 +19,9 @@ namespace Win2ch.Models
 {
     public class Thread
     {
-        private List<Post> _posts = new List<Post>();
         public Board Board { get; set; }
 
-        public List<Post> Posts
-        {
-            get { return _posts; }
-            set
-            {
-                _posts = value;
-                for (var i = 0; i < value?.Count; i++)
-                    value[i].Position = i + 1;
-            }
-        }
+        public List<Post> Posts { get; set; } = new List<Post>();
 
         public string Name => Posts?.FirstOrDefault()?.Subject;
         public int? Num => Convert.ToInt32(Posts?.FirstOrDefault()?.Num);
@@ -49,19 +39,21 @@ namespace Win2ch.Models
             json.CheckForApiError();
 
             return await Task.Factory.StartNew(() =>
-                FillPosts(JsonConvert.DeserializeObject<List<Post>>(json), Board).ToList());
+                FillPosts(JsonConvert.DeserializeObject<List<Post>>(json), Board, n).ToList());
         }
 
-        public static IEnumerable<Post> FillPosts(List<Post> posts, Board b)
+        public static IEnumerable<Post> FillPosts(List<Post> posts, Board b, int firstPostPos = 1)
         {
             var result = new List<Post>();
             var answers = new Dictionary<string, List<Post>>();
 
-            foreach (var post in posts)
+            for (var i = 0; i < posts.Count; i++)
             {
+                var post = posts[i];
                 FillAnswers(post, answers);
 
                 post.Board = b;
+                post.Position = firstPostPos + i;
                 foreach (var info in post.Images)
                     info.Board = b;
                 result.Add(post);
@@ -80,7 +72,7 @@ namespace Win2ch.Models
                 var post = posts.FirstOrDefault(p => string.Equals(postN, p.Num));
                 if (post == null)
                     continue;
-                post.Answers = answers[postN];
+                post.Replies = answers[postN];
             }
         }
 
