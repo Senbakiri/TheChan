@@ -1,9 +1,12 @@
+using System;
 using System.Linq;
 using Windows.UI.Xaml;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Win2ch.Services.SettingsServices;
 using Windows.ApplicationModel.Activation;
+using Windows.System.Profile;
+using Windows.UI.ViewManagement;
 using Template10.Common;
 
 namespace Win2ch
@@ -37,6 +40,8 @@ namespace Win2ch
         // runs even if restored from state
         public override async Task OnInitializeAsync(IActivatedEventArgs args)
         {
+            if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
+                await StatusBar.GetForCurrentView().HideAsync();
             // setup hamburger shell
             var nav = NavigationServiceFactory(BackButton.Attach, ExistingContent.Include);
             Window.Current.Content = new Views.Shell(nav);
@@ -62,7 +67,7 @@ namespace Win2ch
 
         public override Task OnSuspendingAsync(object s, SuspendingEventArgs e)
         {
-            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily.Equals("Windows.Mobile"))
+            if (AnalyticsInfo.VersionInfo.DeviceFamily.Equals("Windows.Mobile"))
             {
                 ClearNavigationServices(Window.Current);
             }
