@@ -1,2 +1,4 @@
 # Win2ch
-The imageboard browser for Windows 10
+Браузер для 2ch.hk для всех устройств на Windows 10
+
+**Последняя версия:** 0.3.0 alpha
