@@ -106,6 +106,16 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\EnumToStringConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\InverseBooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\ItemIndexConverter.cs" />
+    <Compile Include="Converters\ListCountConverter.cs" />
+    <Compile Include="Converters\ListToVisibilityConverter.cs" />
+    <Compile Include="Converters\NounFormConverter.cs" />
+    <Compile Include="Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="Converters\UpperCaseConverter.cs" />
     <Compile Include="Models\Exceptions\HttpException.cs" />
     <Compile Include="ViewModels\PostingViewModel.cs" />
     <Compile Include="Views\Errors\BoardErrorPage.xaml.cs">
@@ -117,7 +127,6 @@
     <Compile Include="Controls\PostControl.xaml.cs">
       <DependentUpon>PostControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters.cs" />
     <Compile Include="HtmlToRichTextBlockConverter.cs" />
     <Compile Include="Models\Api\ApiResult.cs" />
     <Compile Include="Models\Board.cs" />

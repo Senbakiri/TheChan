@@ -24,7 +24,12 @@ namespace Win2ch.Models
         public List<Post> Posts { get; set; } = new List<Post>();
 
         public string Name => Posts?.FirstOrDefault()?.Subject;
-        public int? Num => Convert.ToInt32(Posts?.FirstOrDefault()?.Num);
+
+        [JsonProperty("posts_count")]
+        public int TotalPosts { get; private set; }
+
+        [JsonProperty("thread_num")]
+        public int Num { get; private set; }
 
         public async Task<List<Post>> GetPostsFrom(int n)
         {
@@ -53,6 +58,7 @@ namespace Win2ch.Models
                 FillAnswers(post, answers);
 
                 post.Board = b;
+
                 post.Position = firstPostPos + i;
                 foreach (var info in post.Images)
                     info.Board = b;
@@ -98,7 +104,7 @@ namespace Win2ch.Models
 
         public async Task Reply(NewPostInfo info)
         {
-            if (!Num.HasValue || Board == null)
+            if (Board == null)
                 // TODO: Replace with separate exception
                 throw new Exception("Invalid thread");
 
@@ -122,7 +128,7 @@ namespace Win2ch.Models
                 {new HttpStringContent("1"), "json"},
                 {new HttpStringContent("post"), "task"},
                 {new HttpStringContent(Board.Id), "board"},
-                {new HttpStringContent(Num?.ToString() ?? "0"), "thread"},
+                {new HttpStringContent(Num.ToString()), "thread"},
                 {new HttpStringContent(postInfo.EMail ?? ""), "email"},
                 {new HttpStringContent(postInfo.Name ?? ""), "name"},
                 {new HttpStringContent(postInfo.Subject ?? ""), "subject"},

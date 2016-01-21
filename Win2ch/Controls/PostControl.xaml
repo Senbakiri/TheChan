@@ -13,7 +13,10 @@
     mc:Ignorable="d"
     x:Name="This">
     <Grid>
-        <Grid>
+        <Grid Background="{x:Bind Background, Mode=OneWay}"
+              BorderThickness="{x:Bind BorderThickness, Mode=OneWay}"
+              BorderBrush="{x:Bind BorderBrush, Mode=OneWay}"
+              Padding="{x:Bind Padding}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -31,7 +34,6 @@
 
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <TextBlock Text="{x:Bind Post.Position, Mode=OneWay}"
-                           Visibility="{x:Bind IsSimple, Converter={StaticResource BoolToVisInverse}, Mode=OneWay}"
                            FontWeight="Bold"
                            Foreground="{StaticResource CustomColorBrush}"
                            Margin="0 0 5 0"/>
@@ -48,7 +50,8 @@
                     Tapped="PostNum_OnTapped"/>
 
                 <TextBlock FontWeight="Bold"
-                           Text="{x:Bind Post.EMail, Mode=OneWay}">
+                           Text="{x:Bind Post.EMail, Mode=OneWay}"
+                           Foreground="{ThemeResource DefaultTextForegroundThemeBrush}">
                     <interactivity:Interaction.Behaviors>
                         <core:DataTriggerBehavior Binding="{x:Bind Post.IsSage, Mode=OneWay}" Value="True">
                             <core:ChangePropertyAction PropertyName="Foreground" Value="Crimson"/>
@@ -81,20 +84,64 @@
                        MaxWidth="1200"
                        HorizontalAlignment="Left"/>
 
-            <Button Grid.Row="4"
+            <StackPanel
+                    Grid.Row="4"
+                    Visibility="{x:Bind Post.Replies, Converter={StaticResource ListToVis}, Mode=OneWay}"
+                    Margin="0 5 0 0">
+                <Button
                     Background="Transparent"
                     BorderThickness="0"
                     Padding="0 3"
-                    Margin="0 5 0 0"
-                    Visibility="{x:Bind Post.Answers, Converter={StaticResource ListToVis}, Mode=OneWay}"
+                    Visibility="{x:Bind IsMouseConnected, Converter={StaticResource BoolToVisInverse}}"
                     FontSize="14">
-                <TextBlock Foreground="{StaticResource CustomColorBrush}"
-                           FontWeight="SemiBold">
-                    <Run Text="{x:Bind Post.Answers, Converter={StaticResource CountConverter}, Mode=OneWay}"/>
-                    <Run Text="{x:Bind Post.Answers, Converter={StaticResource NounFormConverter}, ConverterParameter='ОТВЕТ ОТВЕТА ОТВЕТОВ', Mode=OneWay}"/>
-                </TextBlock>
-            </Button>
-            
+                    <TextBlock 
+                        Foreground="{StaticResource CustomColorBrush}"
+                        FontWeight="SemiBold">
+                        <Run Text="{x:Bind Post.Replies, Converter={StaticResource CountConverter}, Mode=OneWay}"/>
+                        <Run Text="{x:Bind Post.Replies, Converter={StaticResource NounFormConverter}, ConverterParameter='ОТВЕТ ОТВЕТА ОТВЕТОВ', Mode=OneWay}"/>
+                    </TextBlock>
+                </Button>
+                <GridView
+                    Visibility="{x:Bind IsMouseConnected, Converter={StaticResource BoolToVis}}"
+                    ItemsSource="{x:Bind Post.Replies, Mode=OneWay}"
+                    Margin="0"
+                    Padding="0"
+                    SelectionMode="None"
+                    IsItemClickEnabled="True">
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <gregstoll:UniversalWrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                    <GridView.ItemContainerStyle>
+                        <Style TargetType="GridViewItem">
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="MinHeight" Value="0"/>
+                            <Setter Property="MinWidth" Value="0"/>
+                            <Setter Property="MaxWidth" Value="NaN"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                    </GridView.ItemContainerStyle>
+                    <GridView.Header>
+                        <TextBlock Text="Ответы:"
+                                   FontSize="13"
+                                   FontWeight="SemiBold"
+                                   Padding="0 0 5 0"/>
+                    </GridView.Header>
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Post">
+                            <TextBlock
+                                Margin="0"
+                                Foreground="{StaticResource CustomColorBrush}"
+                                FontWeight="SemiBold"
+                                FontSize="13">
+                                <Run Text=">>"/><Run Text="{x:Bind Num}"/>
+                            </TextBlock>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </StackPanel>
+
             <TextBlock Grid.Row="5"
                        Opacity="0.7"
                        Text="{x:Bind Post.Date, Mode=OneWay}"

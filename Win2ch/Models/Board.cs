@@ -37,14 +37,24 @@ namespace Win2ch.Models
 
             Name = results["BoardName"].ToString();
 
-            // TODO: I don't think that this is a good solution
-            return await Task.Factory.StartNew(() =>
-                JsonConvert.DeserializeObject<List<Thread>>(results["threads"].ToString()).Select(t =>
+            var threads = await Task.Factory.StartNew(() =>
+                JsonConvert.DeserializeObject<List<Thread>>(results["threads"].ToString()));
+            SetupThreads(threads);
+            return threads;
+        }
+
+        private void SetupThreads(List<Thread> threads)
+        {
+            foreach (var thread in threads)
+            {
+                thread.Board = this;
+                thread.Posts = Thread.FillPosts(thread.Posts, this).ToList();
+                for (int i = 1; i < thread.Posts.Count; ++i)
                 {
-                    t.Board = this;
-                    t.Posts = Thread.FillPosts(t.Posts, this).ToList();
-                    return t;
-                }).ToList());
+                    var post = thread.Posts[i];
+                    post.Position = thread.TotalPosts + i + 1;
+                }
+            }
         }
     }
 }
