@@ -184,11 +184,7 @@ namespace Win2ch.ViewModels
         private async void LoadThread(Thread thread)
         {
             Posts.Clear();
-            Thread = new Thread
-            {
-                Board = thread.Board,
-                Posts = { thread.Posts.First() }
-            };
+            Thread = thread;
             try
             {
                 var posts = await thread.GetPostsFrom(1);

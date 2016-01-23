@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.System;
 using Windows.System.Profile;
 using Windows.UI.Core;
@@ -14,6 +15,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Template10.Common;
 using Template10.Services.NavigationService;
+using Template10.Services.SerializationService;
 using Win2ch.Models;
 using Win2ch.Views;
 
@@ -77,10 +79,10 @@ namespace Win2ch.Views
                 //ScrollViewer.ChangeView(0, 0, 1.0f, true);
             }
         }
-
+        
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            var data = e.Parameter as Tuple<ImageInfo, List<ImageInfo>>;
+            var data = SerializationService.Json.Deserialize<Tuple<ImageInfo, List<ImageInfo>>>(e.Parameter?.ToString());
             if (data == null)
                 throw new ArgumentException();
 

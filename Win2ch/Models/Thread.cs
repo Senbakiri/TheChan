@@ -83,7 +83,7 @@ namespace Win2ch.Models
         }
 
         /// <summary>
-        /// Finds all links answers in given post and marks post as answer to each of answer
+        /// Finds all links to post in given post and marks post as answer to each of answer
         /// </summary>
         /// <param name="post">Post where to find answers</param>
         /// <param name="answers">Where to store</param>
@@ -128,6 +128,7 @@ namespace Win2ch.Models
                 {new HttpStringContent("1"), "json"},
                 {new HttpStringContent("post"), "task"},
                 {new HttpStringContent(Board.Id), "board"},
+                {new HttpStringContent("recaptcha"), "captcha_type"},
                 {new HttpStringContent(Num.ToString()), "thread"},
                 {new HttpStringContent(postInfo.EMail ?? ""), "email"},
                 {new HttpStringContent(postInfo.Name ?? ""), "name"},

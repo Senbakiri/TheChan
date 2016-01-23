@@ -28,5 +28,26 @@ namespace Win2ch.Models
         public int ThumbnailHeight { get; set; }
 
         public Board Board { get; set; }
+
+        protected bool Equals(ImageInfo other)
+        {
+            return string.Equals(Name, other.Name) && Equals(Board, other.Board);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((ImageInfo) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((Name?.GetHashCode() ?? 0)*397) ^ (Board?.GetHashCode() ?? 0);
+            }
+        }
     }
 }

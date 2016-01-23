@@ -1,5 +1,6 @@
 ﻿using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
+using Template10.Services.SerializationService;
 using Win2ch.Models.Exceptions;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -24,7 +25,7 @@ namespace Win2ch.Views.Errors
             Shell.HamburgerMenu.NavigationService.ClearCache(true);
             Shell.HamburgerMenu.NavigationService.ClearHistory();
 
-            var exception = e.Parameter as HttpException;
+            var exception = SerializationService.Json.Deserialize<HttpException>(e.Parameter?.ToString());
             if (exception == null)
                 return;
 
