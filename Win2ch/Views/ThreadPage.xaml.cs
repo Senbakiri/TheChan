@@ -105,21 +105,31 @@ namespace Win2ch.Views
             }
 
             control.ReplyShowRequested += PostControl_OnReplyShowRequested;
-
             _replyLevel[post] = level;
-
             Replies.Children.Add(control);
 
-            Canvas.SetLeft(control, position.X);
-            Canvas.SetTop(control, GetControlBottomYPosition(position, (FrameworkElement) sender, e.PointerEventArgs));
+            // if the control could go beyond the window, move it by his size to the opposite side
+            control.Loaded += (s, _) =>
+            {
+                var x = position.X < ActualWidth/2 ? position.X : position.X - control.ActualWidth;
+                Canvas.SetLeft(control, x);
+
+                var senderFrameworkElem = (FrameworkElement) sender;
+                var ctrlTopPos = GetControlTopPosition(position, senderFrameworkElem, e.PointerEventArgs);
+                var y = ctrlTopPos + control.ActualHeight > ActualHeight
+                    ? ctrlTopPos - control.ActualHeight
+                    : ctrlTopPos + senderFrameworkElem.ActualHeight;
+
+                Canvas.SetTop(control, y);
+            };
 
             _lastReply = post;
         }
 
-        private double GetControlBottomYPosition(Point position, FrameworkElement control, PointerRoutedEventArgs eventArgs)
+        private static double GetControlTopPosition(Point position, UIElement control, PointerRoutedEventArgs eventArgs)
         {
             var pointerPositionOnControl = eventArgs.GetCurrentPoint(control).Position.Y;
-            return position.Y - pointerPositionOnControl + control.ActualHeight;
+            return position.Y - pointerPositionOnControl;
         }
 
         private void ClearReplies()
@@ -131,6 +141,13 @@ namespace Win2ch.Views
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             ClearReplies();
+        }
+
+        private void PostControl_OnRepliesListShowRequested(Post post)
+        {
+            var control = new RepliesListControl(post.Replies);
+            control.Close += s => RepliesListUnderlay.Children.Remove((UIElement) s);
+            RepliesListUnderlay.Children.Add(control);
         }
     }
 }

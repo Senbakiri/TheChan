@@ -93,8 +93,9 @@
                     Background="Transparent"
                     BorderThickness="0"
                     Padding="0 3"
-                    Visibility="{x:Bind IsMouseConnected, Converter={StaticResource BoolToVisInverse}}"
-                    FontSize="14">
+                    Visibility="{x:Bind ShowRepliesAsTree, Converter={StaticResource BoolToVisInverse}}"
+                    FontSize="14"
+                    Click="RepliesButton_OnClick">
                     <TextBlock 
                         Foreground="{StaticResource CustomColorBrush}"
                         FontWeight="SemiBold">
@@ -103,7 +104,7 @@
                     </TextBlock>
                 </Button>
                 <GridView
-                    Visibility="{x:Bind IsMouseConnected, Converter={StaticResource BoolToVis}}"
+                    Visibility="{x:Bind ShowRepliesAsTree, Converter={StaticResource BoolToVis}}"
                     ItemsSource="{x:Bind Post.Replies, Mode=OneWay}"
                     Margin="0"
                     Padding="0"
@@ -132,7 +133,8 @@
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="models:Post">
                             <TextBlock
-                                PointerEntered="ReplyNum_OnPointerEntered"
+                                PointerEntered="ReplyNum_OnPointerAction"
+                                PointerPressed="ReplyNum_OnPointerAction"
                                 Margin="0"
                                 Foreground="{StaticResource CustomColorBrush}"
                                 FontWeight="SemiBold"

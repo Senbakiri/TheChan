@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Win2ch.Models;
+using Win2ch.Services.SettingsServices;
 using Win2ch.Views;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
@@ -18,6 +19,7 @@ namespace Win2ch.Controls
     /// </summary>
     public sealed partial class PostControl : Page
     {
+
 
         public static DependencyProperty PostProperty = DependencyProperty.Register(
             "Post",
@@ -34,6 +36,8 @@ namespace Win2ch.Controls
             dependencyObject.SetValue(DataContextProperty, e.NewValue);
         }
 
+        private readonly ISettingsService _settings = SettingsService.Instance;
+
         public delegate void PostReplyEventHandler(object sender, PostReplyEventArgs e);
 
         public event PostReplyEventHandler Reply = delegate { };
@@ -44,7 +48,11 @@ namespace Win2ch.Controls
 
         public event Action<object, ReplyShowEventArgs> ReplyShowRequested = delegate { };
 
-        public bool IsMouseConnected => new MouseCapabilities().MousePresent > 0;
+        public event Action<Post> RepliesListShowRequested = delegate { };
+
+        public bool ShowRepliesAsTree =>
+            _settings.RepliesViewMode == RepliesViewMode.Tree ||
+            (_settings.RepliesViewMode == RepliesViewMode.Auto && new MouseCapabilities().MousePresent > 0);
 
         public PostControl()
         {
@@ -73,11 +81,16 @@ namespace Win2ch.Controls
             ImageClick(this, new ImageClickEventArgs((ImageInfo) e.ClickedItem));
         }
 
-        private void ReplyNum_OnPointerEntered(object sender, PointerRoutedEventArgs e)
+        private void ReplyNum_OnPointerAction(object sender, PointerRoutedEventArgs e)
         {
             var elem = (FrameworkElement) e.OriginalSource;
             var post = (Post) elem.DataContext;
             ReplyShowRequested(sender, new ReplyShowEventArgs(Post, post, e));
+        }
+
+        private void RepliesButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            RepliesListShowRequested(Post);
         }
     }
 

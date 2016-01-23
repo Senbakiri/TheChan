@@ -1,0 +1,42 @@
+﻿<Page
+    x:Class="Win2ch.Controls.RepliesListControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Win2ch.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Win2ch.Models"
+    mc:Ignorable="d">
+
+    <Grid x:Name="Grid">
+        <Grid Background="#A0000000"
+              Tapped="Underlay_OnTapped"/>
+        <ListView ItemsSource="{x:Bind Replies}"
+                  Margin="20 0"
+                  SelectionMode="None"
+                  VerticalAlignment="Center"
+                  MaxWidth="800">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <ListViewItemPresenter SelectionCheckMarkVisualEnabled="False"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:Post">
+                    <local:PostControl Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                       Post="{x:Bind}"
+                                       RepliesListShowRequested="PostControl_OnRepliesListShowRequested"
+                                       Padding="10"
+                                       Margin="0 2 0 0"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

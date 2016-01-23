@@ -22,6 +22,8 @@ namespace Win2ch.ViewModels
         public string Version { get; }
         public string ReleaseNotes { get; private set; }
         public List<Theme> AvailableThemes { get; } = Enum.GetValues(typeof (Theme)).Cast<Theme>().ToList();
+        public List<RepliesViewMode> AvailableRepliesViewModes
+        { get; } = Enum.GetValues(typeof(RepliesViewMode)).Cast<RepliesViewMode>().ToList();
 
         public Theme SelectedTheme
         {
@@ -29,6 +31,16 @@ namespace Win2ch.ViewModels
             set
             {
                 _settingsService.AppTheme = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public RepliesViewMode SelectedRepliesViewMode
+        {
+            get { return _settingsService.RepliesViewMode; }
+            set
+            {
+                _settingsService.RepliesViewMode = value;
                 RaisePropertyChanged();
             }
         }

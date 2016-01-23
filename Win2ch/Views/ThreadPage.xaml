@@ -38,13 +38,13 @@
         <Canvas x:Name="Replies"
                 Grid.RowSpan="4"
                 Canvas.ZIndex="3">
-            <Canvas.ChildrenTransitions>
-                <TransitionCollection>
-                    <PopupThemeTransition/>
-                </TransitionCollection>
-            </Canvas.ChildrenTransitions>
         </Canvas>
-        
+
+        <Grid Grid.Row="1"
+              x:Name="RepliesListUnderlay"
+              Grid.RowSpan="3"
+              Canvas.ZIndex="3">
+        </Grid>
         
         <controls:PageHeader Frame="{x:Bind Frame}" Grid.Row="0">
             <controls:PageHeader.Content>
@@ -97,7 +97,8 @@
                                        Margin="0 10"
                                        Reply="PostControl_OnReply"
                                        ImageClick="PostControl_OnImageClick"
-                                       ReplyShowRequested="PostControl_OnReplyShowRequested"/>
+                                       ReplyShowRequested="PostControl_OnReplyShowRequested"
+                                       RepliesListShowRequested="PostControl_OnRepliesListShowRequested"/>
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>

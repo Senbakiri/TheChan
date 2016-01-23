@@ -9,6 +9,7 @@ namespace Win2ch.Services.SettingsServices
     {
         bool UseShellBackButton { get; set; }
         Theme AppTheme { get; set; }
+        RepliesViewMode RepliesViewMode { get; set; }
         TimeSpan CacheMaxDuration { get; set; }
     }
 }
