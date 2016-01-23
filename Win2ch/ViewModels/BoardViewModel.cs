@@ -89,7 +89,9 @@ namespace Win2ch.ViewModels
             // because they can be restored from navigation cache
             if (mode == NavigationMode.New)
                 Threads?.Refresh();
-            Board = (Board)parameter;
+
+            if (mode == NavigationMode.New || mode == NavigationMode.Forward)
+                Board = (Board)parameter;
 
             return Task.CompletedTask;
         }

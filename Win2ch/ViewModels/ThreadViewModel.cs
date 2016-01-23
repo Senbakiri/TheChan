@@ -129,9 +129,7 @@ namespace Win2ch.ViewModels
         public async void Refresh()
         {
             IsWorking = true;
-
             JobStatus = "Получение новых постов";
-
             List<Post> newPosts;
 
             try
@@ -185,12 +183,13 @@ namespace Win2ch.ViewModels
         {
             Posts.Clear();
             Thread = thread;
+            Title = "Просмотр треда";
+
             try
             {
                 var posts = await thread.GetPostsFrom(1);
-                Title = thread.Name ?? "";
-                if (Title.Length == 0)
-                    Title = "Просмотр треда";
+                if (!string.IsNullOrEmpty(thread.Name))
+                    Title = thread.Name;
 
                 Thread.Posts = posts;
 
