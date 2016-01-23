@@ -199,7 +199,7 @@ namespace Win2ch.ViewModels
         {
             var selStart = SelectionStart;
             var selLen = SelectionLength;
-            Text = Text.Insert(selStart, text);
+            Text = Text.Replace("\r\n", "\n").Insert(selStart, text);
             SelectionStart = selStart + selLen + text.Length;
         }
 

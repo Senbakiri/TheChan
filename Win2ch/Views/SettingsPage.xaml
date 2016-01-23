@@ -82,6 +82,7 @@
                             <TextBlock Text="Список изменений: "
                                        Style="{StaticResource SubtitleTextBlockStyle}"/>
                             <TextBlock Text="{x:Bind ViewModel.ReleaseNotes, Mode=OneWay}"
+                                       TextWrapping="Wrap"
                                        Margin="0 5"/>
                             <StackPanel>
                                 <StackPanel.Resources>

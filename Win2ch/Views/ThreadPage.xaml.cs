@@ -59,7 +59,7 @@ namespace Win2ch.Views
                 textToAdd = $">>{e.Post.Num}\n";
 
             var selectionIndex = FastReplyTextBox.SelectionStart;
-            FastReplyTextBox.Text = FastReplyTextBox.Text.Insert(selectionIndex, textToAdd);
+            FastReplyTextBox.Text = FastReplyTextBox.Text.Replace("\r\n", "\n").Insert(selectionIndex, textToAdd);
             FastReplyTextBox.SelectionStart = selectionIndex + textToAdd.Length;
         }
 
