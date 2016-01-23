@@ -12,8 +12,17 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Template10.Behaviors"
     mc:Ignorable="d"
-    NavigationCacheMode="Required">
+    NavigationCacheMode="Enabled">
 
+    <Page.Resources>
+        <Style x:Key="ReplyStyle" TargetType="c:PostControl">
+            <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource ThreadBackgroundBrush}"/>
+            <Setter Property="Padding" Value="10"/>
+        </Style>
+    </Page.Resources>
+    
     <Page.DataContext>
         <vm:ThreadViewModel/>
     </Page.DataContext>
@@ -23,18 +32,26 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-
+        <Canvas x:Name="Replies"
+                Grid.RowSpan="4"
+                Canvas.ZIndex="3">
+            <Canvas.ChildrenTransitions>
+                <TransitionCollection>
+                    <PopupThemeTransition/>
+                </TransitionCollection>
+            </Canvas.ChildrenTransitions>
+        </Canvas>
+        
+        
         <controls:PageHeader Frame="{x:Bind Frame}" Grid.Row="0">
             <controls:PageHeader.Content>
                 <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Title, Converter={StaticResource ToUpper}}"
                            Style="{StaticResource PageHeaderTitle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                            Tapped="Header_OnTapped"/>
             </controls:PageHeader.Content>
-            <controls:PageHeader.PrimaryCommands >
-                <AppBarButton Icon="Refresh" Command="{Binding RefreshCommand}"/>
-            </controls:PageHeader.PrimaryCommands>
             <interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed" />
             </interactivity:Interaction.Behaviors>
@@ -79,7 +96,8 @@
                         <c:PostControl Post="{x:Bind}"
                                        Margin="0 10"
                                        Reply="PostControl_OnReply"
-                                       ImageClick="PostControl_OnImageClick"/>
+                                       ImageClick="PostControl_OnImageClick"
+                                       ReplyShowRequested="PostControl_OnReplyShowRequested"/>
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -142,5 +160,26 @@
                 </Button>
             </Grid>
         </Border>
+
+        <CommandBar Grid.Row="3">
+            <AppBarButton Icon="Refresh"
+                          Label="Обновить"
+                          Command="{x:Bind ViewModel.RefreshCommand}"
+                          Foreground="{ThemeResource AppBarItemForegroundThemeBrush}">
+                <AppBarButton.RenderTransform>
+                    <RotateTransform/>
+                </AppBarButton.RenderTransform>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation
+                            From="0"
+                            To="360"
+                            Storyboard.TargetProperty="(AppBarButton.RenderTransform)(RotateTransform.Angle)"
+                            Duration="0:0:2"
+                            RepeatBehavior="Forever"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </AppBarButton>
+        </CommandBar>
     </Grid>
 </Page>

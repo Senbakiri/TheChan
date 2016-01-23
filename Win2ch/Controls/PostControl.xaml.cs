@@ -1,8 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Windows.Devices.Input;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Win2ch.Models;
+using Win2ch.Views;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -13,7 +18,6 @@ namespace Win2ch.Controls
     /// </summary>
     public sealed partial class PostControl : Page
     {
-
 
         public static DependencyProperty PostProperty = DependencyProperty.Register(
             "Post",
@@ -37,6 +41,10 @@ namespace Win2ch.Controls
         public delegate void ImageClickEventHandler(object sender, ImageClickEventArgs e);
 
         public event ImageClickEventHandler ImageClick = delegate { };
+
+        public event Action<object, ReplyShowEventArgs> ReplyShowRequested = delegate { };
+
+        public bool IsMouseConnected => new MouseCapabilities().MousePresent > 0;
 
         public PostControl()
         {
@@ -64,8 +72,29 @@ namespace Win2ch.Controls
         {
             ImageClick(this, new ImageClickEventArgs((ImageInfo) e.ClickedItem));
         }
-    } 
-    
+
+        private void ReplyNum_OnPointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            var elem = (FrameworkElement) e.OriginalSource;
+            var post = (Post) elem.DataContext;
+            ReplyShowRequested(sender, new ReplyShowEventArgs(Post, post, e));
+        }
+    }
+
+
+    public class ReplyShowEventArgs
+    {
+        public ReplyShowEventArgs(Post parent, Post post, PointerRoutedEventArgs pointerEventArgs)
+        {
+            Parent = parent;
+            Post = post;
+            PointerEventArgs = pointerEventArgs;
+        }
+
+        public PointerRoutedEventArgs PointerEventArgs { get; }
+        public Post Parent { get; }
+        public Post Post { get; }
+    }
 
     public class PostReplyEventArgs
     {

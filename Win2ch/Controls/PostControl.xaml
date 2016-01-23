@@ -131,6 +131,7 @@
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="models:Post">
                             <TextBlock
+                                PointerEntered="ReplyNum_OnPointerEntered"
                                 Margin="0"
                                 Foreground="{StaticResource CustomColorBrush}"
                                 FontWeight="SemiBold"

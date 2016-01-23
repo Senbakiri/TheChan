@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Win2ch.Models;
@@ -33,11 +34,19 @@ namespace Win2ch.ViewModels
             }
             catch (HttpException e)
             {
-                var dialog = new MessageDialog("Код ошибки: " + (int)e.Code, "Не удалось получить список досок");
+                var dialog = new MessageDialog("Код ошибки: " + (int) e.Code, "Не удалось получить список досок");
                 dialog.Commands.Add(new UICommand("Попробовать снова", _ => LoadBoards()));
                 dialog.Commands.Add(new UICommand("Закрыть приложение", _ => Application.Current.Exit()));
                 await dialog.ShowAsync();
             }
+            catch (COMException e)
+            {
+                var dialog = new MessageDialog("Код ошибки: 0x" + e.HResult.ToString("X"), "Не удалось получить список досок");
+                dialog.Commands.Add(new UICommand("Попробовать снова", _ => LoadBoards()));
+                dialog.Commands.Add(new UICommand("Закрыть приложение", _ => Application.Current.Exit()));
+                await dialog.ShowAsync();
+            }
+
             foreach (var category in categories)
             {
                 // censorship

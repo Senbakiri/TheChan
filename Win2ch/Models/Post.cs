@@ -82,5 +82,25 @@ namespace Win2ch.Models
 
             return result.Trim();
         }
+
+        protected bool Equals(Post other)
+        {
+            return string.Equals(Num, other.Num) && Equals(Board, other.Board);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && Equals((Post) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((Num?.GetHashCode() ?? 0)*397) ^ (Board?.GetHashCode() ?? 0);
+            }
+        }
     }
 }
