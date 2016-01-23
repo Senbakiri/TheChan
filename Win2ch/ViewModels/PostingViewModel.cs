@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -251,15 +252,17 @@ namespace Win2ch.ViewModels
             }
         }
 
-        public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             var navigationInfo = parameter as PostingPageNavigationInfo;
             if (mode != NavigationMode.New || navigationInfo == null)
-                return;
+                return Task.CompletedTask;
 
             PostInfo = navigationInfo.PostInfo;
             Thread = navigationInfo.Thread;
             AttachImages(PostInfo?.Files);
+
+            return Task.CompletedTask;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Win2ch.Models;
 using Windows.System.Profile;
@@ -82,13 +83,15 @@ namespace Win2ch.ViewModels
             NavigationService.Navigate(typeof(ThreadPage), thread);
         }
 
-        public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             // if user goes to the board from board list, load threads,
             // because they can be restored from navigation cache
             if (mode == NavigationMode.New)
                 Threads?.Refresh();
             Board = (Board)parameter;
+
+            return Task.CompletedTask;
         }
 
         private void OnBoardLoadError(HttpException exception)

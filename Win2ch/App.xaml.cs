@@ -65,13 +65,14 @@ namespace Win2ch
             wrapperToRemove?.NavigationServices.Clear();
         }
 
-        public override Task OnSuspendingAsync(object s, SuspendingEventArgs e)
+        public override Task OnSuspendingAsync(object s, SuspendingEventArgs e, bool prelaunch)
         {
             if (AnalyticsInfo.VersionInfo.DeviceFamily.Equals("Windows.Mobile"))
             {
                 ClearNavigationServices(Window.Current);
             }
-            return base.OnSuspendingAsync(s, e);
+
+            return base.OnSuspendingAsync(s, e, prelaunch);
         }
 
     }

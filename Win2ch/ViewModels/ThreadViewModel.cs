@@ -170,13 +170,15 @@ namespace Win2ch.ViewModels
             IsWorking = false;
         }
 
-        public override void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             var thread = parameter as Thread;
             if (thread != Thread)
                 LoadThread(thread);
 
             FastReplyText = PostInfo.Comment;
+
+            return Task.CompletedTask;
         }
 
         private async void LoadThread(Thread thread)

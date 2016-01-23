@@ -12,6 +12,7 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     x:Name="This">
+
     <Grid>
         <Grid Background="{x:Bind Background, Mode=OneWay}"
               BorderThickness="{x:Bind BorderThickness, Mode=OneWay}"
