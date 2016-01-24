@@ -158,8 +158,11 @@ namespace Win2ch.Views {
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
-            if (e.NavigationMode != NavigationMode.Back)
-                RepliesListUnderlay.Children.Clear();
+            if (e.NavigationMode == NavigationMode.Back)
+                return;
+
+            Posts.ScrollIntoView(null);
+            RepliesListUnderlay.Children.Clear();
         }
 
         private void PostControl_OnRepliesListShowRequested(Post post) {
