@@ -55,7 +55,7 @@
 
         <controls:PageHeader Grid.Row="0" Frame="{x:Bind Frame}">
             <controls:PageHeader.Content>
-                <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Board.Name, Converter={StaticResource ToUpper}}"
+                <TextBlock Text="{Binding Board.Name, Converter={StaticResource ToUpper}}"
                            Style="{StaticResource PageHeaderTitle}"/>
             </controls:PageHeader.Content>
             <interactivity:Interaction.Behaviors>

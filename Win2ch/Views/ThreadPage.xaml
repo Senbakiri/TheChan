@@ -48,7 +48,7 @@
         
         <controls:PageHeader Frame="{x:Bind Frame}" Grid.Row="0">
             <controls:PageHeader.Content>
-                <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Title, Converter={StaticResource ToUpper}}"
+                <TextBlock Text="{Binding Title, Converter={StaticResource ToUpper}}"
                            Style="{StaticResource PageHeaderTitle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                            Tapped="Header_OnTapped"/>
             </controls:PageHeader.Content>
