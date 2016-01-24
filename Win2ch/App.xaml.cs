@@ -53,20 +53,6 @@ namespace Win2ch {
             NavigationService.Navigate(typeof(Views.MainPage));
         }
 
-        public static void ClearNavigationServices(Window window) {
-            var wrapperToRemove = WindowWrapper.ActiveWrappers.FirstOrDefault(
-                wrapper => ReferenceEquals(wrapper.Window, window));
-            wrapperToRemove?.NavigationServices.Clear();
-        }
-
-        public override Task OnSuspendingAsync(object s, SuspendingEventArgs e, bool prelaunch) {
-            if (AnalyticsInfo.VersionInfo.DeviceFamily.Equals("Windows.Mobile")) {
-                ClearNavigationServices(Window.Current);
-            }
-
-            return base.OnSuspendingAsync(s, e, prelaunch);
-        }
-
     }
 }
 
