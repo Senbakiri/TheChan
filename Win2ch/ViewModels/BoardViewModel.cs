@@ -13,36 +13,28 @@ using Template10.Mvvm;
 using Win2ch.Models.Exceptions;
 using Win2ch.Views;
 
-namespace Win2ch.ViewModels
-{
-    public class BoardViewModel : Mvvm.ViewModelBase
-    {
+namespace Win2ch.ViewModels {
+    public class BoardViewModel : Mvvm.ViewModelBase {
         private Board _Board;
         private ThreadsCollection _threads;
 
-        public Board Board
-        {
+        public Board Board {
             get { return _Board; }
-            set
-            {
+            set {
                 _Board = value;
                 RaisePropertyChanged();
-                if (Threads == null)
-                {
+                if (Threads == null) {
                     Threads = new ThreadsCollection(Board);
                     Threads.BoardLoadError += OnBoardLoadError;
                     Threads.CollectionChanged += Threads_OnCollectionChanged;
-                }
-                else
+                } else
                     Threads.Board = Board;
             }
         }
 
-        public ThreadsCollection Threads
-        {
+        public ThreadsCollection Threads {
             get { return _threads; }
-            private set
-            {
+            private set {
                 _threads = value;
                 RaisePropertyChanged();
             }
@@ -51,40 +43,33 @@ namespace Win2ch.ViewModels
         public ICommand ShowImageCommand { get; }
         public ICommand NewThreadCommand { get; }
 
-        public BoardViewModel()
-        {
+        public BoardViewModel() {
             ShowImageCommand = new DelegateCommand<ImageInfo>(ShowImage);
             NewThreadCommand = new DelegateCommand(NewThread);
         }
 
-        private void NewThread()
-        {
-            NavigationService.Navigate(typeof(PostingPage), new PostingPageNavigationInfo()
-            {
+        private void NewThread() {
+            NavigationService.Navigate(typeof(PostingPage), new PostingPageNavigationInfo() {
                 PostInfo = new NewPostInfo(),
                 Thread = new Thread { Board = Board }
             });
         }
 
-        private void ShowImage(ImageInfo imageInfo)
-        {
+        private void ShowImage(ImageInfo imageInfo) {
             NavigationService.Navigate(typeof(ImagesViewPage),
                 new Tuple<ImageInfo, List<ImageInfo>>(imageInfo,
                     Threads.SelectMany(t => t.Posts.SelectMany(p => p.Images)).ToList()));
         }
 
-        private void Threads_OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
+        private void Threads_OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             RaisePropertyChanged(() => Board);
         }
 
-        public void NavigateToThread(Thread thread)
-        {
+        public void NavigateToThread(Thread thread) {
             NavigationService.Navigate(typeof(ThreadPage), thread);
         }
 
-        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
-        {
+        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state) {
             // if user goes to the board from board list, load threads,
             // because they can be restored from navigation cache
             if (mode == NavigationMode.New)
@@ -96,9 +81,8 @@ namespace Win2ch.ViewModels
             return Task.CompletedTask;
         }
 
-        private void OnBoardLoadError(HttpException exception)
-        {
-            NavigationService.Navigate(typeof (Views.Errors.BoardErrorPage), exception, new SuppressNavigationTransitionInfo());
+        private void OnBoardLoadError(HttpException exception) {
+            NavigationService.Navigate(typeof(Views.Errors.BoardErrorPage), exception, new SuppressNavigationTransitionInfo());
         }
     }
 }

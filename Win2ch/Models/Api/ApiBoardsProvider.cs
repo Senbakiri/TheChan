@@ -7,12 +7,9 @@ using Windows.Web.Http.Filters;
 using Newtonsoft.Json;
 using Win2ch.Models.Exceptions;
 
-namespace Win2ch.Models.Api
-{
-    class ApiBoardsProvider
-    {
-        public async Task<List<Category>> GetCategories()
-        {
+namespace Win2ch.Models.Api {
+    class ApiBoardsProvider {
+        public async Task<List<Category>> GetCategories() {
             var httpFilter = new HttpBaseProtocolFilter();
             httpFilter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
             var client = new HttpClient(httpFilter);

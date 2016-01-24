@@ -1,9 +1,7 @@
 ﻿using Win2ch.Attributes;
 
-namespace Win2ch.Services.SettingsServices
-{
-    public enum RepliesViewMode
-    {
+namespace Win2ch.Services.SettingsServices {
+    public enum RepliesViewMode {
         [Display("Авто")]
         Auto,
 

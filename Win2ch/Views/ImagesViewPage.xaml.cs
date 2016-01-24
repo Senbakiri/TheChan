@@ -21,17 +21,14 @@ using Win2ch.Views;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Win2ch.Views
-{
+namespace Win2ch.Views {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ImagesViewPage : Page
-    {
+    public sealed partial class ImagesViewPage : Page {
         private int _currentIndex;
 
-        public ImagesViewPage()
-        {
+        public ImagesViewPage() {
             ImagesSources = new ObservableCollection<BitmapImage>();
             this.InitializeComponent();
             ImagesList.ItemsSource = ImagesSources;
@@ -39,32 +36,27 @@ namespace Win2ch.Views
 
         private double _totalManupulationYOffset;
 
-        public ObservableCollection<BitmapImage> ImagesSources  { get; }
+        public ObservableCollection<BitmapImage> ImagesSources { get; }
 
-        private List<ImageInfo>  _AllImages;
+        private List<ImageInfo> _AllImages;
 
-        public List<ImageInfo> AllImages
-        {
+        public List<ImageInfo> AllImages {
             get { return _AllImages; }
-            set
-            {
+            set {
                 _AllImages = value;
 
                 ImagesSources.Clear();
-                foreach (var imageInfo in AllImages)
-                {
+                foreach (var imageInfo in AllImages) {
                     ImagesSources.Add(new BitmapImage(new Uri(imageInfo.Url, UriKind.Absolute)));
                 }
             }
         }
-        
-        
 
-        private int CurrentIndex
-        {
+
+
+        private int CurrentIndex {
             get { return _currentIndex; }
-            set
-            {
+            set {
                 if (value >= ImagesSources.Count)
                     _currentIndex = 0;
                 else if (value < 0)
@@ -79,9 +71,8 @@ namespace Win2ch.Views
                 //ScrollViewer.ChangeView(0, 0, 1.0f, true);
             }
         }
-        
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e) {
             var data = SerializationService.Json.Deserialize<Tuple<ImageInfo, List<ImageInfo>>>(e.Parameter?.ToString());
             if (data == null)
                 throw new ArgumentException();
@@ -96,8 +87,7 @@ namespace Win2ch.Views
             Shell.HamburgerMenu.IsFullScreen = true;
         }
 
-        protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
+        protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e) {
             var isMobile = AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile";
             if (isMobile)
                 await StatusBar.GetForCurrentView().ShowAsync();
@@ -107,28 +97,24 @@ namespace Win2ch.Views
             base.OnNavigatingFrom(e);
         }
 
-        private void OnKeyDown(object sender, KeyRoutedEventArgs e)
-        {
+        private void OnKeyDown(object sender, KeyRoutedEventArgs e) {
             if (e.Key != VirtualKey.Escape && e.Key != VirtualKey.Back) return;
 
             e.Handled = true;
             Close();
         }
 
-        private void OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
+        private void OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e) {
             Close();
         }
 
-        private T FindFirstElementInVisualTree<T>(DependencyObject parentElement) where T : DependencyObject
-        {
+        private T FindFirstElementInVisualTree<T>(DependencyObject parentElement) where T : DependencyObject {
             if (parentElement == null) return null;
             var count = VisualTreeHelper.GetChildrenCount(parentElement);
             if (count == 0)
                 return null;
 
-            for (int i = 0; i < count; i++)
-            {
+            for (int i = 0; i < count; i++) {
                 var child = VisualTreeHelper.GetChild(parentElement, i);
 
                 var item = child as T;
@@ -136,8 +122,7 @@ namespace Win2ch.Views
                     return item;
 
                 var result = FindFirstElementInVisualTree<T>(child);
-                if (result != null)
-                {
+                if (result != null) {
                     return result;
                 }
             }
@@ -145,10 +130,8 @@ namespace Win2ch.Views
             return null;
         }
 
-        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            for (var i = 0; i < AllImages.Count; i++)
-            {
+        private void OnSizeChanged(object sender, SizeChangedEventArgs e) {
+            for (var i = 0; i < AllImages.Count; i++) {
                 var flipViewItem = ImagesList.ContainerFromIndex(i);
                 var scrollViewItem = FindFirstElementInVisualTree<ScrollViewer>(flipViewItem);
                 var imageItem = FindFirstElementInVisualTree<Image>(scrollViewItem);
@@ -162,15 +145,13 @@ namespace Win2ch.Views
             }
 
         }
-        
-        public void Close()
-        {
+
+        public void Close() {
             var nav = BootStrapper.Current.NavigationService;
             nav.GoBack();
         }
 
-        private void ImagesList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void ImagesList_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
             var view = sender as FlipView;
 
             if (view == null) return;
@@ -189,6 +170,5 @@ namespace Win2ch.Views
         }
     }
 
-    public class ImageViewCloseEventArgs
-    { }
+    public class ImageViewCloseEventArgs { }
 }

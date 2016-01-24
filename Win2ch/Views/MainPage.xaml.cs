@@ -6,35 +6,29 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
-namespace Win2ch.Views
-{
-    public sealed partial class MainPage
-    {
-        public MainPage()
-        {
+namespace Win2ch.Views {
+    public sealed partial class MainPage {
+        public MainPage() {
             InitializeComponent();
             NavigationCacheMode = NavigationCacheMode.Disabled;
         }
-        
+
         public MainPageViewModel ViewModel => DataContext as MainPageViewModel;
 
-        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e) {
             ViewModel.NavigateToBoard(e.ClickedItem as Board);
         }
 
-        private void MainPage_OnLoaded(object sender, RoutedEventArgs e)
-        {
+        private void MainPage_OnLoaded(object sender, RoutedEventArgs e) {
             ViewModel.LoadBoards();
         }
 
-        private void FastNavigation_OnKeyDown(object sender, KeyRoutedEventArgs e)
-        {
+        private void FastNavigation_OnKeyDown(object sender, KeyRoutedEventArgs e) {
             if (e.Key != VirtualKey.Enter)
                 return;
 
             e.Handled = true;
-            ViewModel.NavigateToBoard(new Board { Id =  FastNavigation.Text.ToLowerInvariant() });
+            ViewModel.NavigateToBoard(new Board { Id = FastNavigation.Text.ToLowerInvariant() });
         }
     }
 }

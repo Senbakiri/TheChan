@@ -4,36 +4,29 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Windows.Web;
 
-namespace Win2ch.Models
-{
-    public class Post
-    {
+namespace Win2ch.Models {
+    public class Post {
         private string _Comment;
         private string _Name;
         private string _EMail;
 
-        public string Comment
-        {
+        public string Comment {
             get { return _Comment; }
-            set
-            {
+            set {
                 _Comment = RemoveHtml(value);
             }
         }
 
-        public string Name
-        {
+        public string Name {
             get { return _Name; }
             set { _Name = RemoveHtml(value); }
         }
 
         public int Position { get; set; }
 
-        public string EMail
-        {
+        public string EMail {
             get { return _EMail; }
-            set
-            {
+            set {
                 _EMail = value.Contains("mailto:") ? value.Substring("mailto:".Length) : value;
             }
         }
@@ -49,8 +42,7 @@ namespace Win2ch.Models
         [JsonProperty(PropertyName = "files")]
         public List<ImageInfo> Images { get; set; } = new List<ImageInfo>();
 
-        private string RemoveHtml(string html)
-        {
+        private string RemoveHtml(string html) {
             string result = WebUtility.HtmlDecode(html);
 
             result = Regex.Replace(result,
@@ -83,23 +75,19 @@ namespace Win2ch.Models
             return result.Trim();
         }
 
-        protected bool Equals(Post other)
-        {
+        protected bool Equals(Post other) {
             return string.Equals(Num, other.Num) && Equals(Board, other.Board);
         }
 
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((Post) obj);
+            return obj.GetType() == GetType() && Equals((Post)obj);
         }
 
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return ((Num?.GetHashCode() ?? 0)*397) ^ (Board?.GetHashCode() ?? 0);
+        public override int GetHashCode() {
+            unchecked {
+                return ((Num?.GetHashCode() ?? 0) * 397) ^ (Board?.GetHashCode() ?? 0);
             }
         }
     }

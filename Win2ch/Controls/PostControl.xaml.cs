@@ -12,13 +12,11 @@ using Win2ch.Views;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Win2ch.Controls
-{
+namespace Win2ch.Controls {
     /// <summary>
     /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
-    public sealed partial class PostControl : Page
-    {
+    public sealed partial class PostControl : Page {
 
 
         public static DependencyProperty PostProperty = DependencyProperty.Register(
@@ -31,8 +29,7 @@ namespace Win2ch.Controls
             typeof(bool), typeof(PostControl),
             PropertyMetadata.Create(false));
 
-        private static void PostPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
-        {
+        private static void PostPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e) {
             dependencyObject.SetValue(DataContextProperty, e.NewValue);
         }
 
@@ -54,51 +51,42 @@ namespace Win2ch.Controls
             _settings.RepliesViewMode == RepliesViewMode.Tree ||
             (_settings.RepliesViewMode == RepliesViewMode.Auto && new MouseCapabilities().MousePresent > 0);
 
-        public PostControl()
-        {
+        public PostControl() {
             this.InitializeComponent();
         }
 
-        public Post Post
-        {
+        public Post Post {
             get { return (Post)GetValue(PostProperty); }
             set { SetValue(PostProperty, value); }
         }
 
-        public bool IsSimple
-        {
-            get { return (bool) GetValue(IsSimpleProperty); }
+        public bool IsSimple {
+            get { return (bool)GetValue(IsSimpleProperty); }
             set { SetValue(IsSimpleProperty, value); }
         }
 
-        private void PostNum_OnTapped(object sender, TappedRoutedEventArgs e)
-        {
+        private void PostNum_OnTapped(object sender, TappedRoutedEventArgs e) {
             Reply(this, new PostReplyEventArgs(PostText.SelectedText, Post));
         }
 
-        private void ImagesGridView_OnItemClick(object sender, ItemClickEventArgs e)
-        {
-            ImageClick(this, new ImageClickEventArgs((ImageInfo) e.ClickedItem));
+        private void ImagesGridView_OnItemClick(object sender, ItemClickEventArgs e) {
+            ImageClick(this, new ImageClickEventArgs((ImageInfo)e.ClickedItem));
         }
 
-        private void ReplyNum_OnPointerAction(object sender, PointerRoutedEventArgs e)
-        {
-            var elem = (FrameworkElement) e.OriginalSource;
-            var post = (Post) elem.DataContext;
+        private void ReplyNum_OnPointerAction(object sender, PointerRoutedEventArgs e) {
+            var elem = (FrameworkElement)e.OriginalSource;
+            var post = (Post)elem.DataContext;
             ReplyShowRequested(sender, new ReplyShowEventArgs(Post, post, e));
         }
 
-        private void RepliesButton_OnClick(object sender, RoutedEventArgs e)
-        {
+        private void RepliesButton_OnClick(object sender, RoutedEventArgs e) {
             RepliesListShowRequested(Post);
         }
     }
 
 
-    public class ReplyShowEventArgs
-    {
-        public ReplyShowEventArgs(Post parent, Post post, PointerRoutedEventArgs pointerEventArgs)
-        {
+    public class ReplyShowEventArgs {
+        public ReplyShowEventArgs(Post parent, Post post, PointerRoutedEventArgs pointerEventArgs) {
             Parent = parent;
             Post = post;
             PointerEventArgs = pointerEventArgs;
@@ -109,10 +97,8 @@ namespace Win2ch.Controls
         public Post Post { get; }
     }
 
-    public class PostReplyEventArgs
-    {
-        public PostReplyEventArgs(string selectedText, Post post)
-        {
+    public class PostReplyEventArgs {
+        public PostReplyEventArgs(string selectedText, Post post) {
             SelectedText = selectedText;
             Post = post;
         }
@@ -121,10 +107,8 @@ namespace Win2ch.Controls
         public Post Post { get; }
     }
 
-    public class ImageClickEventArgs
-    {
-        public ImageClickEventArgs(ImageInfo imageInfo)
-        {
+    public class ImageClickEventArgs {
+        public ImageClickEventArgs(ImageInfo imageInfo) {
             ImageInfo = imageInfo;
         }
 

@@ -16,10 +16,8 @@ using Win2ch.Models.Exceptions;
 using Win2ch.Views;
 using ViewModelBase = Win2ch.Mvvm.ViewModelBase;
 
-namespace Win2ch.ViewModels
-{
-    public class PostingViewModel : ViewModelBase
-    {
+namespace Win2ch.ViewModels {
+    public class PostingViewModel : ViewModelBase {
         public const int MaxAttachedFiles = 4;
 
         private string _Text = "";
@@ -34,13 +32,11 @@ namespace Win2ch.ViewModels
         private NewPostInfo _postInfo;
         private bool _CanAttachImages = true;
         private readonly Dictionary<BitmapImage, StorageFile>
-            _attachedStorageFiles = new Dictionary<BitmapImage, StorageFile>(); 
+            _attachedStorageFiles = new Dictionary<BitmapImage, StorageFile>();
 
-        private NewPostInfo PostInfo
-        {
+        private NewPostInfo PostInfo {
             get { return _postInfo; }
-            set
-            {
+            set {
                 _postInfo = value;
                 Text = value.Comment;
                 EMail = value.EMail;
@@ -53,114 +49,93 @@ namespace Win2ch.ViewModels
         public ICommand InsertCommand { get; }
         public ICommand AttachImageCommand { get; }
 
-        public string Text
-        {
+        public string Text {
             get { return _Text; }
-            set
-            {
+            set {
                 _Text = value ?? "";
                 PostInfo.Comment = _Text;
-               RaisePropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
-        public string Subject
-        {
+        public string Subject {
             get { return _Subject; }
-            set
-            {
+            set {
                 _Subject = value;
                 PostInfo.Subject = value;
                 RaisePropertyChanged();
             }
         }
 
-        public string Name
-        {
+        public string Name {
             get { return _Name; }
-            set
-            {
+            set {
                 _Name = value;
                 PostInfo.Name = value;
                 RaisePropertyChanged();
             }
         }
 
-        public string EMail
-        {
+        public string EMail {
             get { return _EMail; }
-            set
-            {
+            set {
                 _EMail = value;
                 PostInfo.EMail = value;
                 RaisePropertyChanged();
             }
         }
 
-        public Thread Thread
-        {
+        public Thread Thread {
             get { return _Thread; }
-            private set
-            {
+            private set {
                 _Thread = value;
                 RaisePropertyChanged();
             }
         }
 
-        public bool IsWorking
-        {
+        public bool IsWorking {
             get { return _IsWorking; }
-            set
-            {
+            set {
                 _IsWorking = value;
                 RaisePropertyChanged();
             }
         }
 
-        public string CurrentJob
-        {
+        public string CurrentJob {
             get { return _СurrentJob; }
-            set
-            {
+            set {
                 _СurrentJob = value;
                 RaisePropertyChanged();
             }
         }
 
-        public int SelectionStart
-        {
+        public int SelectionStart {
             get { return _SelectionStart; }
-            set
-            {
+            set {
                 _SelectionStart = value;
                 RaisePropertyChanged();
             }
         }
 
-        public int SelectionLength
-        {
+        public int SelectionLength {
             get { return _SelectionLength; }
-            set
-            {
+            set {
                 _SelectionLength = value;
                 RaisePropertyChanged();
             }
         }
 
-        public bool CanAttachImages
-        {
+        public bool CanAttachImages {
             get { return _CanAttachImages; }
-            private set
-            {
+            private set {
                 _CanAttachImages = value;
                 RaisePropertyChanged();
             }
         }
 
-        public ObservableCollection<BitmapImage> AttachedImages { get; } 
+        public ObservableCollection<BitmapImage> AttachedImages { get; }
 
-        public PostingViewModel()
-        {
+        public PostingViewModel() {
             AttachedImages = new ObservableCollection<BitmapImage>();
             AttachedImages.CollectionChanged += AttachedImagesOnCollectionChanged;
             SendCommand = new DelegateCommand(Send);
@@ -169,8 +144,7 @@ namespace Win2ch.ViewModels
             AttachImageCommand = new DelegateCommand(AttachImage, () => CanAttachImages);
         }
 
-        private void AttachedImagesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
+        private void AttachedImagesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             CanAttachImages = AttachedImages.Count < MaxAttachedFiles;
 
             if (e.Action == NotifyCollectionChangedAction.Remove)
@@ -178,8 +152,7 @@ namespace Win2ch.ViewModels
             PostInfo.Files = _attachedStorageFiles.Values.ToList();
         }
 
-        private async void AttachImage()
-        {
+        private async void AttachImage() {
             var picker = new FileOpenPicker();
             picker.FileTypeFilter.Add(".jpg");
             picker.FileTypeFilter.Add(".jpeg");
@@ -195,16 +168,14 @@ namespace Win2ch.ViewModels
             AttachImages(files);
         }
 
-        private void Insert(string text)
-        {
+        private void Insert(string text) {
             var selStart = SelectionStart;
             var selLen = SelectionLength;
             Text = Text.Replace("\r\n", "\n").Insert(selStart, text);
             SelectionStart = selStart + selLen + text.Length;
         }
 
-        private void Tag(string tag)
-        {
+        private void Tag(string tag) {
             var selStart = SelectionStart;
             var selLen = SelectionLength;
             var first = $"[{tag}]";
@@ -216,34 +187,26 @@ namespace Win2ch.ViewModels
             SelectionStart = selStart + selLen + first.Length + second.Length;
         }
 
-        private async void Send()
-        {
-            try
-            {
+        private async void Send() {
+            try {
                 IsWorking = true;
                 CurrentJob = "Отправка";
                 await Thread.Reply(PostInfo);
                 PostInfo.Files?.Clear();
                 Text = "";
                 NavigationService.GoBack();
-            }
-            catch (ApiException e)
-            {
+            } catch (ApiException e) {
                 await new MessageDialog(e.Message, "Ошибка").ShowAsync();
-            }
-            finally
-            {
+            } finally {
                 IsWorking = false;
             }
         }
 
-        private async void AttachImages(IEnumerable<StorageFile> images)
-        {
+        private async void AttachImages(IEnumerable<StorageFile> images) {
             if (images == null)
                 return;
 
-            foreach (var file in images)
-            {
+            foreach (var file in images) {
                 var image = new BitmapImage();
                 var stream = await file.OpenAsync(FileAccessMode.Read);
                 _attachedStorageFiles.Add(image, file);
@@ -252,8 +215,7 @@ namespace Win2ch.ViewModels
             }
         }
 
-        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
-        {
+        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state) {
             var navigationInfo = parameter as PostingPageNavigationInfo;
             if (mode != NavigationMode.New || navigationInfo == null)
                 return Task.CompletedTask;

@@ -13,40 +13,32 @@ using Template10.Mvvm;
 using Win2ch.Services.SettingsServices;
 using ViewModelBase = Win2ch.Mvvm.ViewModelBase;
 
-namespace Win2ch.ViewModels
-{
-    public class SettingsViewModel : ViewModelBase
-    {
+namespace Win2ch.ViewModels {
+    public class SettingsViewModel : ViewModelBase {
         private ISettingsService _settingsService;
 
         public string Version { get; }
         public string ReleaseNotes { get; private set; }
-        public List<Theme> AvailableThemes { get; } = Enum.GetValues(typeof (Theme)).Cast<Theme>().ToList();
-        public List<RepliesViewMode> AvailableRepliesViewModes
-        { get; } = Enum.GetValues(typeof(RepliesViewMode)).Cast<RepliesViewMode>().ToList();
+        public List<Theme> AvailableThemes { get; } = Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
+        public List<RepliesViewMode> AvailableRepliesViewModes { get; } = Enum.GetValues(typeof(RepliesViewMode)).Cast<RepliesViewMode>().ToList();
 
-        public Theme SelectedTheme
-        {
+        public Theme SelectedTheme {
             get { return _settingsService.AppTheme; }
-            set
-            {
+            set {
                 _settingsService.AppTheme = value;
                 RaisePropertyChanged();
             }
         }
 
-        public RepliesViewMode SelectedRepliesViewMode
-        {
+        public RepliesViewMode SelectedRepliesViewMode {
             get { return _settingsService.RepliesViewMode; }
-            set
-            {
+            set {
                 _settingsService.RepliesViewMode = value;
                 RaisePropertyChanged();
             }
         }
 
-        public SettingsViewModel()
-        {
+        public SettingsViewModel() {
             _settingsService = SettingsService.Instance;
 
             var id = Package.Current.Id;
@@ -54,8 +46,7 @@ namespace Win2ch.ViewModels
             LoadReleaseNotes();
         }
 
-        private async void LoadReleaseNotes()
-        {
+        private async void LoadReleaseNotes() {
             var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///ReleaseNotes.txt"));
             var stream = await file.OpenReadAsync();
             var reader = new StreamReader(stream.AsStreamForRead());

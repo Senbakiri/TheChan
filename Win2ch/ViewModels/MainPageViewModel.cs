@@ -10,45 +10,34 @@ using Win2ch.Models.Api;
 using Win2ch.Models.Exceptions;
 using Win2ch.Views;
 
-namespace Win2ch.ViewModels
-{
-    public class MainPageViewModel : Mvvm.ViewModelBase
-    {
+namespace Win2ch.ViewModels {
+    public class MainPageViewModel : Mvvm.ViewModelBase {
 
-        public MainPageViewModel()
-        {
+        public MainPageViewModel() {
             Categories = new ObservableCollection<Category>();
         }
 
-        public ObservableCollection<Category> Categories
-        { get; set; }
+        public ObservableCollection<Category> Categories { get; set; }
 
-        private List<Category> HiddenCategories { get; } = new List<Category>(); 
+        private List<Category> HiddenCategories { get; } = new List<Category>();
 
-        public async void LoadBoards()
-        {
+        public async void LoadBoards() {
             var categories = new List<Category>();
-            try
-            {
+            try {
                 categories = await new ApiBoardsProvider().GetCategories();
-            }
-            catch (HttpException e)
-            {
-                var dialog = new MessageDialog("Код ошибки: " + (int) e.Code, "Не удалось получить список досок");
+            } catch (HttpException e) {
+                var dialog = new MessageDialog("Код ошибки: " + (int)e.Code, "Не удалось получить список досок");
                 dialog.Commands.Add(new UICommand("Попробовать снова", _ => LoadBoards()));
                 dialog.Commands.Add(new UICommand("Закрыть приложение", _ => Application.Current.Exit()));
                 await dialog.ShowAsync();
-            }
-            catch (COMException e)
-            {
+            } catch (COMException e) {
                 var dialog = new MessageDialog("Код ошибки: 0x" + e.HResult.ToString("X"), "Не удалось получить список досок");
                 dialog.Commands.Add(new UICommand("Попробовать снова", _ => LoadBoards()));
                 dialog.Commands.Add(new UICommand("Закрыть приложение", _ => Application.Current.Exit()));
                 await dialog.ShowAsync();
             }
 
-            foreach (var category in categories)
-            {
+            foreach (var category in categories) {
                 // censorship
                 if (category.Name != "Взрослым")
                     Categories.Add(category);
@@ -57,8 +46,7 @@ namespace Win2ch.ViewModels
             }
         }
 
-        public void NavigateToBoard(Board board)
-        {
+        public void NavigateToBoard(Board board) {
             NavigationService.Navigate(typeof(BoardPage), board);
         }
     }

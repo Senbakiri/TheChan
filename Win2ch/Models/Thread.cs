@@ -15,10 +15,8 @@ using Win2ch.Models.Exceptions;
 using Win2ch.Services;
 using Buffer = Windows.Storage.Streams.Buffer;
 
-namespace Win2ch.Models
-{
-    public class Thread
-    {
+namespace Win2ch.Models {
+    public class Thread {
         public Board Board { get; set; }
 
         public List<Post> Posts { get; set; } = new List<Post>();
@@ -31,8 +29,7 @@ namespace Win2ch.Models
         [JsonProperty("thread_num")]
         public int Num { get; private set; }
 
-        public async Task<List<Post>> GetPostsFrom(int n)
-        {
+        public async Task<List<Post>> GetPostsFrom(int n) {
             var url = new Uri(string.Format(Urls.ThreadPosts, Board.Id, Posts.First().Num, n));
             var httpFilter = new HttpBaseProtocolFilter();
             httpFilter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
@@ -47,13 +44,11 @@ namespace Win2ch.Models
                 FillPosts(JsonConvert.DeserializeObject<List<Post>>(json), Board, n).ToList());
         }
 
-        public static IEnumerable<Post> FillPosts(List<Post> posts, Board b, int firstPostPos = 1)
-        {
+        public static IEnumerable<Post> FillPosts(List<Post> posts, Board b, int firstPostPos = 1) {
             var result = new List<Post>();
             var answers = new Dictionary<string, List<Post>>();
 
-            for (var i = 0; i < posts.Count; i++)
-            {
+            for (var i = 0; i < posts.Count; i++) {
                 var post = posts[i];
                 FillAnswers(post, answers);
 
@@ -71,10 +66,8 @@ namespace Win2ch.Models
         }
 
         private static void CompleteAnswersProcessing(IReadOnlyCollection<Post> posts,
-            Dictionary<string, List<Post>> answers)
-        {
-            foreach (var postN in answers.Keys)
-            {
+            Dictionary<string, List<Post>> answers) {
+            foreach (var postN in answers.Keys) {
                 var post = posts.FirstOrDefault(p => string.Equals(postN, p.Num));
                 if (post == null)
                     continue;
@@ -87,12 +80,10 @@ namespace Win2ch.Models
         /// </summary>
         /// <param name="post">Post where to find answers</param>
         /// <param name="answers">Where to store</param>
-        private static void FillAnswers(Post post, Dictionary<string, List<Post>> answers)
-        {
+        private static void FillAnswers(Post post, Dictionary<string, List<Post>> answers) {
             var answerRegex = new Regex(@">>(\d+)");
             var matches = answerRegex.Matches(post.Comment);
-            foreach (var match in matches.Cast<Match>())
-            {
+            foreach (var match in matches.Cast<Match>()) {
                 if (match.Groups.Count < 2)
                     continue;
                 var postN = match.Groups[1].Captures[0].Value;
@@ -102,14 +93,12 @@ namespace Win2ch.Models
             }
         }
 
-        public async Task Reply(NewPostInfo info)
-        {
+        public async Task Reply(NewPostInfo info) {
             if (Board == null)
                 // TODO: Replace with separate exception
                 throw new Exception("Invalid thread");
 
-            using (var client = new HttpClient())
-            {
+            using (var client = new HttpClient()) {
                 SetupHeaders(client);
                 var content = await SetupContent(info);
 
@@ -121,8 +110,7 @@ namespace Win2ch.Models
             }
         }
 
-        private async Task<IHttpContent> SetupContent(NewPostInfo postInfo)
-        {
+        private async Task<IHttpContent> SetupContent(NewPostInfo postInfo) {
             var content = new HttpMultipartFormDataContent
             {
                 {new HttpStringContent("1"), "json"},
@@ -140,8 +128,7 @@ namespace Win2ch.Models
                 return content;
 
             var imageIndex = 1;
-            foreach (var file in postInfo.Files.Take(4))
-            {
+            foreach (var file in postInfo.Files.Take(4)) {
 
                 var stream = await file.OpenAsync(FileAccessMode.Read);
                 var fileContent = CreateFileContent(stream,
@@ -154,15 +141,13 @@ namespace Win2ch.Models
         }
 
         private HttpStreamContent CreateFileContent(IInputStream stream,
-            HttpMediaTypeHeaderValue contentType)
-        {
+            HttpMediaTypeHeaderValue contentType) {
             var fileContent = new HttpStreamContent(stream);
             fileContent.Headers.ContentType = contentType;
             return fileContent;
         }
 
-        private void SetupHeaders(HttpClient client)
-        {
+        private void SetupHeaders(HttpClient client) {
             client.DefaultRequestHeaders.TryAppendWithoutValidation(
                 "Accept", "text/html,application/xhtml+xml,application/xml");
             client.DefaultRequestHeaders.TryAppendWithoutValidation(

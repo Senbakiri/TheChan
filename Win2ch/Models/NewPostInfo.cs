@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using Windows.Storage;
 
-namespace Win2ch.Models
-{
-    public class NewPostInfo
-    {
+namespace Win2ch.Models {
+    public class NewPostInfo {
         public string Comment { get; set; }
         public string Subject { get; set; }
         public string EMail { get; set; }

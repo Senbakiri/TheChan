@@ -9,17 +9,14 @@ using Windows.System.Profile;
 using Windows.UI.ViewManagement;
 using Template10.Common;
 
-namespace Win2ch
-{
+namespace Win2ch {
     /// Documentation on APIs used in this page:
     /// https://github.com/Windows-XAML/Template10/wiki
 
-    sealed partial class App
-    {
+    sealed partial class App {
         readonly ISettingsService _settings;
 
-        public App()
-        {
+        public App() {
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
@@ -30,7 +27,7 @@ namespace Win2ch
 
             _settings = SettingsService.Instance;
             if (_settings.AppTheme != Theme.System)
-                RequestedTheme = (ApplicationTheme) _settings.AppTheme;
+                RequestedTheme = (ApplicationTheme)_settings.AppTheme;
             CacheMaxDuration = _settings.CacheMaxDuration;
             ShowShellBackButton = _settings.UseShellBackButton;
 
@@ -38,8 +35,7 @@ namespace Win2ch
         }
 
         // runs even if restored from state
-        public override async Task OnInitializeAsync(IActivatedEventArgs args)
-        {
+        public override async Task OnInitializeAsync(IActivatedEventArgs args) {
             if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
                 await StatusBar.GetForCurrentView().HideAsync();
             // setup hamburger shell
@@ -49,8 +45,7 @@ namespace Win2ch
         }
 
         // runs only when not restored from state
-        public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
-        {
+        public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args) {
             // perform long-running load
             await Task.Delay(0);
 
@@ -58,17 +53,14 @@ namespace Win2ch
             NavigationService.Navigate(typeof(Views.MainPage));
         }
 
-        public static void ClearNavigationServices(Window window)
-        {
+        public static void ClearNavigationServices(Window window) {
             var wrapperToRemove = WindowWrapper.ActiveWrappers.FirstOrDefault(
                 wrapper => ReferenceEquals(wrapper.Window, window));
             wrapperToRemove?.NavigationServices.Clear();
         }
 
-        public override Task OnSuspendingAsync(object s, SuspendingEventArgs e, bool prelaunch)
-        {
-            if (AnalyticsInfo.VersionInfo.DeviceFamily.Equals("Windows.Mobile"))
-            {
+        public override Task OnSuspendingAsync(object s, SuspendingEventArgs e, bool prelaunch) {
+            if (AnalyticsInfo.VersionInfo.DeviceFamily.Equals("Windows.Mobile")) {
                 ClearNavigationServices(Window.Current);
             }
 

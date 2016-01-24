@@ -9,15 +9,12 @@ using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 using Win2ch.Models.Exceptions;
 
-namespace Win2ch.Models
-{
-    public class Board
-    {
+namespace Win2ch.Models {
+    public class Board {
         public string Id { get; set; }
         public string Name { get; set; }
 
-        public async Task<List<Thread>> GetThreads(int pageN)
-        {
+        public async Task<List<Thread>> GetThreads(int pageN) {
             if (pageN < 0)
                 throw new ArgumentException("PageN must be greater than zero", nameof(pageN));
 
@@ -32,8 +29,8 @@ namespace Win2ch.Models
                 throw new HttpException(response.StatusCode);
             string data = await response.Content.ReadAsStringAsync();
 
-            JToken results = (JToken) await Task.Factory.StartNew(() =>
-                JsonConvert.DeserializeObject(data));
+            JToken results = (JToken)await Task.Factory.StartNew(() =>
+               JsonConvert.DeserializeObject(data));
 
             Name = results["BoardName"].ToString();
 
@@ -43,34 +40,28 @@ namespace Win2ch.Models
             return threads;
         }
 
-        private void SetupThreads(List<Thread> threads)
-        {
-            foreach (var thread in threads)
-            {
+        private void SetupThreads(List<Thread> threads) {
+            foreach (var thread in threads) {
                 thread.Board = this;
                 thread.Posts = Thread.FillPosts(thread.Posts, this).ToList();
-                for (int i = 1; i < thread.Posts.Count; ++i)
-                {
+                for (int i = 1; i < thread.Posts.Count; ++i) {
                     var post = thread.Posts[i];
                     post.Position = thread.TotalPosts + i + 1;
                 }
             }
         }
 
-        protected bool Equals(Board other)
-        {
+        protected bool Equals(Board other) {
             return string.Equals(Id, other.Id);
         }
 
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((Board) obj);
+            return obj.GetType() == GetType() && Equals((Board)obj);
         }
 
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return Id?.GetHashCode() ?? 0;
         }
     }

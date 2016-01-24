@@ -7,33 +7,23 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Win2ch.Models.Api;
 
-namespace Win2ch.Models.Exceptions
-{
-    public class ApiException : Exception
-    {
-        public ApiException()
-        { }
+namespace Win2ch.Models.Exceptions {
+    public class ApiException : Exception {
+        public ApiException() { }
 
-        public ApiException(string message) : base(message)
-        { }
+        public ApiException(string message) : base(message) { }
 
-        public ApiException(string message, Exception inner) : base(message, inner)
-        { }
-        
+        public ApiException(string message, Exception inner) : base(message, inner) { }
+
     }
 
-    public static class ApiResultChecker
-    {
-        public static void CheckForApiError(this string json)
-        {
+    public static class ApiResultChecker {
+        public static void CheckForApiError(this string json) {
             var parsed = new ApiResult();
 
-            try
-            {
+            try {
                 parsed = JsonConvert.DeserializeObject<ApiResult>(json);
-            }
-            catch (JsonException)
-            { }
+            } catch (JsonException) { }
 
             if (parsed.Error != null)
                 throw new ApiException(parsed.Reason ?? parsed.Error);

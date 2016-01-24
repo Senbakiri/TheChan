@@ -3,24 +3,17 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Win2ch.Views
-{
+namespace Win2ch.Views {
     // DOCS: https://github.com/Windows-XAML/Template10/wiki/Docs-%7C-SplashScreen
-    public sealed partial class Splash
-    {
-        public Splash(SplashScreen splashScreen)
-        {
+    public sealed partial class Splash {
+        public Splash(SplashScreen splashScreen) {
             InitializeComponent();
 
-            Action resize = () =>
-            {
-                if ((int) splashScreen.ImageLocation.Top == 0)
-                {
+            Action resize = () => {
+                if ((int)splashScreen.ImageLocation.Top == 0) {
                     MyImage.Visibility = Visibility.Collapsed;
                     return;
-                }
-                else
-                {
+                } else {
                     MyCanvas.Background = null;
                     MyImage.Visibility = Visibility.Visible;
                 }

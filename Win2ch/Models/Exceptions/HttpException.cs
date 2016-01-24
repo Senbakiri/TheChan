@@ -6,14 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 
-namespace Win2ch.Models.Exceptions
-{
-    public class HttpException : Exception
-    {
+namespace Win2ch.Models.Exceptions {
+    public class HttpException : Exception {
         public HttpStatusCode Code { get; }
-        
-        public HttpException(HttpStatusCode code) : base(code.ToString())
-        {
+
+        public HttpException(HttpStatusCode code) : base(code.ToString()) {
             Code = code;
         }
     }
