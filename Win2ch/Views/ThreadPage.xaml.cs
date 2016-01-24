@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Windows.Devices.Geolocation;
+using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Core;
@@ -25,9 +26,24 @@ namespace Win2ch.Views {
 
         private Dictionary<Post, int> _replyLevel { get; } = new Dictionary<Post, int>();
         private Post _lastReply;
+        private readonly DispatcherTimer _closeRepliesTimer = new DispatcherTimer();
+        private PostControl _replyUnderMouse;
+        private bool _isMouseConnected = new MouseCapabilities().MousePresent > 0;
 
         public ThreadPage() {
             InitializeComponent();
+            _closeRepliesTimer.Interval = TimeSpan.FromSeconds(3);
+            _closeRepliesTimer.Tick += CloseRepliesTimerOnTick;
+        }
+
+        private void StartTimer() {
+            if (_isMouseConnected)
+                _closeRepliesTimer.Start();
+        }
+
+        private void CloseRepliesTimerOnTick(object sender, object o) {
+            if (_replyUnderMouse == null)
+                ClearReplies();
         }
 
         private void Header_OnTapped(object sender, TappedRoutedEventArgs e) {
@@ -60,12 +76,9 @@ namespace Win2ch.Views {
         }
 
         private void PostControl_OnReplyShowRequested(object sender, ReplyShowEventArgs e) {
-
             var style = (Style)Resources["ReplyStyle"];
             var position = e.PointerEventArgs.GetCurrentPoint(Replies).Position;
-            var post = e.Post;
-            var parent = e.Parent;
-            var width = Replies.ActualWidth;
+            Post post = e.Post, parent = e.Parent;
 
             if (post.Equals(_lastReply))
                 return;
@@ -73,46 +86,56 @@ namespace Win2ch.Views {
             var control = new PostControl {
                 Post = post,
                 Style = style,
-                MaxWidth = width - position.X
+                MaxWidth = ActualWidth - position.X
             };
 
             var level = _replyLevel.ContainsKey(parent) ? _replyLevel[parent] + 1 : 1;
             RemoveRepliesByLevel(level);
+            _replyLevel[post] = level;
+            SetupEventsForReply(control, level);
+            Replies.Children.Add(control);
+
+            control.Loaded += (s, _) => {
+                var senderFrameworkElem = (FrameworkElement)sender;
+                HandleGoingBeyondTheWindow(control,
+                    new Point(position.X, GetControlTopPosition(position, senderFrameworkElem, e.PointerEventArgs)),
+                    senderFrameworkElem);
+            };
+
+            StartTimer();
+            _lastReply = post;
+        }
+
+        private void HandleGoingBeyondTheWindow(FrameworkElement control, Point position, FrameworkElement parent) {
+            // if the control could go beyond the window, move it by his size to the opposite side
+
+            var x = position.X < ActualWidth / 2 ? position.X : position.X - control.ActualWidth;
+            Canvas.SetLeft(control, x);
+            
+            var y = position.Y + control.ActualHeight > ActualHeight
+                ? position.Y - control.ActualHeight
+                : position.Y + parent.ActualHeight;
+
+            Canvas.SetTop(control, y);
+        }
+
+        private void SetupEventsForReply(PostControl control, int level) {
             control.Reply += PostControl_OnReply;
             control.ReplyShowRequested += PostControl_OnReplyShowRequested;
             control.ImageClick += PostControl_OnImageClick;
+            control.PointerMoved += (s, _) => StartTimer();
+            control.PointerEntered += (s, _) => _replyUnderMouse = control;
+            control.PointerExited += (s, _) => _replyUnderMouse = _replyUnderMouse == control ? null : _replyUnderMouse;
             control.PointerReleased += (s, _) => {
                 RemoveRepliesByLevel(level + 1);
                 _lastReply = null;
             };
-
-            _replyLevel[post] = level;
-            Replies.Children.Add(control);
-
-            // if the control could go beyond the window, move it by his size to the opposite side
-            control.Loaded += (s, _) => {
-                var x = position.X < width / 2 ? position.X : position.X - control.ActualWidth;
-                Canvas.SetLeft(control, x);
-
-                var senderFrameworkElem = (FrameworkElement)sender;
-                var ctrlTopPos = GetControlTopPosition(position, senderFrameworkElem, e.PointerEventArgs);
-                var y = ctrlTopPos + control.ActualHeight > ActualHeight
-                    ? ctrlTopPos - control.ActualHeight
-                    : ctrlTopPos + senderFrameworkElem.ActualHeight;
-
-                Canvas.SetTop(control, y);
-            };
-
-            _lastReply = post;
         }
 
         private void RemoveRepliesByLevel(int level) {
-            var controlsToRemove = new List<PostControl>();
-            
-            foreach (var postControl in Replies.Children.OfType<PostControl>()) {
-                if (_replyLevel[postControl.Post] >= level)
-                    controlsToRemove.Add(postControl);
-            }
+            var controlsToRemove =Replies.Children
+                .OfType<PostControl>()
+                .Where(postControl => _replyLevel[postControl.Post] >= level).ToList();
 
             foreach (var postControl in controlsToRemove) {
                 _replyLevel.Remove(postControl.Post);
@@ -134,12 +157,25 @@ namespace Win2ch.Views {
             ClearReplies();
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e) {
+            if (e.NavigationMode != NavigationMode.Back)
+                RepliesListUnderlay.Children.Clear();
+        }
+
         private void PostControl_OnRepliesListShowRequested(Post post) {
             var control = new RepliesListControl(post.Replies);
             control.Close += s => RepliesListUnderlay.Children.Remove((UIElement)s);
             control.ImageClick += PostControl_OnImageClick;
             control.Reply += PostControl_OnReply;
             RepliesListUnderlay.Children.Add(control);
+        }
+
+        private void Posts_OnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) {
+            ClearReplies();
+        }
+
+        private void Posts_OnPointerWheelChanged(object sender, PointerRoutedEventArgs e) {
+            ClearReplies();
         }
     }
 }

@@ -84,7 +84,10 @@
                   SelectionMode="None"
                   HorizontalContentAlignment="Stretch"
                   Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                  Margin="0 0 0 -2">
+                  Margin="0 0 0 -2"
+                  ManipulationMode="TranslateX"
+                  ManipulationStarted="Posts_OnManipulationStarted"
+                  PointerWheelChanged="Posts_OnPointerWheelChanged">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel Orientation="Vertical" VirtualizationMode="Recycling"/>
