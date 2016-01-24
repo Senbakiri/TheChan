@@ -122,6 +122,7 @@
     <Compile Include="Models\Exceptions\HttpException.cs" />
     <Compile Include="Services\SettingsServices\RepliesViewMode.cs" />
     <Compile Include="Services\SettingsServices\Theme.cs" />
+    <Compile Include="ViewModels\ImagesViewModel.cs" />
     <Compile Include="ViewModels\PostingViewModel.cs" />
     <Compile Include="Views\Errors\BoardErrorPage.xaml.cs">
       <DependentUpon>BoardErrorPage.xaml</DependentUpon>

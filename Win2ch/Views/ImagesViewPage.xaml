@@ -4,14 +4,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:Win2ch.ViewModels"
     mc:Ignorable="d"
     x:Name="This"
     SizeChanged="OnSizeChanged">
 
+    <Page.DataContext>
+        <viewModels:ImagesViewModel />
+    </Page.DataContext>
+    
     <Grid KeyDown="OnKeyDown" Background="Black">
-
         <FlipView x:Name="ImagesList"
-                  ItemsSource="{x:Bind ImagesSources}"
+                  ItemsSource="{x:Bind ViewModel.ImagesSources}"
+                  SelectedItem="{Binding CurrentImage, Mode=TwoWay}"
                   VerticalContentAlignment="Stretch"
                   HorizontalContentAlignment="Stretch"
                   SelectionChanged="ImagesList_OnSelectionChanged">

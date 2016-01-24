@@ -57,7 +57,7 @@ namespace Win2ch.ViewModels {
 
         private void ShowImage(ImageInfo imageInfo) {
             NavigationService.Navigate(typeof(ImagesViewPage),
-                new Tuple<ImageInfo, List<ImageInfo>>(imageInfo,
+                new ImagesViewPageNavigationParameters(imageInfo,
                     Threads.SelectMany(t => t.Posts.SelectMany(p => p.Images)).ToList()));
         }
 
