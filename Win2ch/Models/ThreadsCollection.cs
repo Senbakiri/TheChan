@@ -68,7 +68,7 @@ namespace Win2ch.Models {
             foreach (var thread in threads) {
                 if (isMobile) {
                     thread.Posts.RemoveRange(1, thread.Posts.Count - 1);
-                    thread.TotalPosts -= 3;
+                    thread.TotalPosts += 3;
                     Thread.FillPosts(thread.Posts, Board);
                 }
                 Add(thread);
