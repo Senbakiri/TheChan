@@ -77,21 +77,15 @@ namespace Win2ch.Views {
             };
 
             var level = _replyLevel.ContainsKey(parent) ? _replyLevel[parent] + 1 : 1;
-
-            var controlsToRemove = new List<PostControl>();
-
-            // remove all existing controls that on current level or lower
-            foreach (var postControl in Replies.Children.OfType<PostControl>()) {
-                if (_replyLevel[postControl.Post] >= level)
-                    controlsToRemove.Add(postControl);
-            }
-
-            foreach (var postControl in controlsToRemove) {
-                _replyLevel.Remove(postControl.Post);
-                Replies.Children.Remove(postControl);
-            }
-
+            RemoveRepliesByLevel(level);
+            control.Reply += PostControl_OnReply;
             control.ReplyShowRequested += PostControl_OnReplyShowRequested;
+            control.ImageClick += PostControl_OnImageClick;
+            control.PointerReleased += (s, _) => {
+                RemoveRepliesByLevel(level + 1);
+                _lastReply = null;
+            };
+
             _replyLevel[post] = level;
             Replies.Children.Add(control);
 
@@ -110,6 +104,20 @@ namespace Win2ch.Views {
             };
 
             _lastReply = post;
+        }
+
+        private void RemoveRepliesByLevel(int level) {
+            var controlsToRemove = new List<PostControl>();
+            
+            foreach (var postControl in Replies.Children.OfType<PostControl>()) {
+                if (_replyLevel[postControl.Post] >= level)
+                    controlsToRemove.Add(postControl);
+            }
+
+            foreach (var postControl in controlsToRemove) {
+                _replyLevel.Remove(postControl.Post);
+                Replies.Children.Remove(postControl);
+            }
         }
 
         private static double GetControlTopPosition(Point position, UIElement control, PointerRoutedEventArgs eventArgs) {
