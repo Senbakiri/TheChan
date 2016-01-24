@@ -81,6 +81,10 @@ namespace Win2ch.ViewModels {
             return Task.CompletedTask;
         }
 
+        public void Refresh() {
+            Threads?.Refresh();
+        }
+
         private void OnBoardLoadError(HttpException exception) {
             NavigationService.Navigate(typeof(Views.Errors.BoardErrorPage), exception, new SuppressNavigationTransitionInfo());
         }

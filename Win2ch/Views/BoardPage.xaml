@@ -64,6 +64,8 @@
             <controls:PageHeader.PrimaryCommands>
                 <!--AppBarButton Icon="Add"
                               Command="{x:Bind ViewModel.NewThreadCommand}"/>-->
+                <AppBarButton Icon="Refresh"
+                              Click="{x:Bind ViewModel.Refresh}"/>
             </controls:PageHeader.PrimaryCommands>
         </controls:PageHeader>
 

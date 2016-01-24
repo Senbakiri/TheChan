@@ -17,7 +17,6 @@ namespace Win2ch.Views {
     public sealed partial class BoardPage {
         public BoardPage() {
             InitializeComponent();
-
         }
 
         public BoardViewModel ViewModel => (BoardViewModel)DataContext;
