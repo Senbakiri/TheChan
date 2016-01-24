@@ -9,7 +9,7 @@ namespace Win2ch.Converters {
             if (!(parameter is string))
                 return "";
 
-            var count = (value as IEnumerable<object>).Count();
+            var count = (value as IEnumerable<object>)?.Count() ?? (int) value;
             var num = count % 100;
             var variants = ((string)parameter).Split(' ');
 

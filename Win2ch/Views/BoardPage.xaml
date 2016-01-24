@@ -35,9 +35,12 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <TextBlock Margin="10">
-                    <Run FontWeight="SemiBold">Пропущено постов:</Run>
+                <TextBlock Margin="10" FontWeight="SemiBold">
+                    <Run Text="{x:Bind TotalPosts, Converter={StaticResource NounFormConverter}, ConverterParameter='Пропущен Пропущено Пропущено'}"/>
                     <Run Text="{x:Bind TotalPosts}"/>
+                    <Run Text="{x:Bind TotalPosts, Converter={StaticResource NounFormConverter}, ConverterParameter='пост, поста, постов,'}"/>
+                    <Run Text="{x:Bind FilesCount}"/>
+                    <Run>c картинками</Run>
                 </TextBlock>
             </StackPanel>
         </DataTemplate>
