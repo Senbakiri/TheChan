@@ -38,7 +38,7 @@
                            FontWeight="Bold"
                            Foreground="{StaticResource CustomColorBrush}"
                            Margin="0 0 5 0"/>
-                
+
                 <TextBlock Text="{x:Bind Post.Name, Mode=OneWay}"
                            FontWeight="Bold"
                            Margin="0 0 5 0"/>
@@ -91,13 +91,31 @@
                     Margin="0 5 0 0">
                 <Button
                     Background="Transparent"
-                    BorderThickness="0"
                     Padding="0 3"
                     Visibility="{x:Bind ShowRepliesAsTree, Converter={StaticResource BoolToVisInverse}}"
                     FontSize="14"
                     Click="RepliesButton_OnClick">
-                    <TextBlock 
-                        Foreground="{StaticResource CustomColorBrush}"
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid x:Name="Root"
+                                  Background="{TemplateBinding Background}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup>
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Target="Root.Background" Value="{StaticResource CustomColorBrush}"/>
+                                                <Setter Target="Content.Foreground" Value="White"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <ContentPresenter x:Name="Content" Foreground="{StaticResource CustomColorBrush}"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+
+                    <TextBlock
                         FontWeight="SemiBold">
                         <Run Text="{x:Bind Post.Replies, Converter={StaticResource CountConverter}, Mode=OneWay}"/>
                         <Run Text="{x:Bind Post.Replies, Converter={StaticResource NounFormConverter}, ConverterParameter='ОТВЕТ ОТВЕТА ОТВЕТОВ', Mode=OneWay}"/>
