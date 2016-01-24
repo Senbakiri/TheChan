@@ -115,7 +115,6 @@ namespace Win2ch.Models {
                 {new HttpStringContent("1"), "json"},
                 {new HttpStringContent("post"), "task"},
                 {new HttpStringContent(Board.Id), "board"},
-                {new HttpStringContent("recaptcha"), "captcha_type"},
                 {new HttpStringContent(Num.ToString()), "thread"},
                 {new HttpStringContent(postInfo.EMail ?? ""), "email"},
                 {new HttpStringContent(postInfo.Name ?? ""), "name"},
