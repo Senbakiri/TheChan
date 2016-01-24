@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Windows.Networking;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.Web.Http;
@@ -12,8 +10,6 @@ using Windows.Web.Http.Filters;
 using Windows.Web.Http.Headers;
 using Newtonsoft.Json;
 using Win2ch.Models.Exceptions;
-using Win2ch.Services;
-using Buffer = Windows.Storage.Streams.Buffer;
 
 namespace Win2ch.Models {
     public class Thread {
@@ -24,10 +20,13 @@ namespace Win2ch.Models {
         public string Name => Posts?.FirstOrDefault()?.Subject;
 
         [JsonProperty("posts_count")]
-        public int TotalPosts { get; private set; }
+        public int TotalPosts { get; set; }
 
         [JsonProperty("thread_num")]
         public int Num { get; private set; }
+
+        [JsonProperty("files_count")]
+        public int FilesCount { get; set; }
 
         public async Task<List<Post>> GetPostsFrom(int n) {
             var url = new Uri(string.Format(Urls.ThreadPosts, Board.Id, Posts.First().Num, n));
