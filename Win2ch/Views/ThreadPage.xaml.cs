@@ -137,6 +137,8 @@ namespace Win2ch.Views {
         private void PostControl_OnRepliesListShowRequested(Post post) {
             var control = new RepliesListControl(post.Replies);
             control.Close += s => RepliesListUnderlay.Children.Remove((UIElement)s);
+            control.ImageClick += PostControl_OnImageClick;
+            control.Reply += PostControl_OnReply;
             RepliesListUnderlay.Children.Add(control);
         }
     }

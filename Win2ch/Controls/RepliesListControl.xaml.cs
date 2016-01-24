@@ -11,6 +11,9 @@ namespace Win2ch.Controls {
 
         public event Action<object> Close;
 
+        public event PostControl.ImageClickEventHandler ImageClick = delegate { };
+        public event PostControl.PostReplyEventHandler Reply = delegate { };
+
         public RepliesListControl(IEnumerable<Post> replies) {
             Replies = new ObservableCollection<Post>(replies);
             InitializeComponent();
@@ -23,7 +26,17 @@ namespace Win2ch.Controls {
         private void PostControl_OnRepliesListShowRequested(Post post) {
             var control = new RepliesListControl(post.Replies);
             control.Close += s => Grid.Children.Remove((UIElement)s);
+            control.Reply += PostControl_OnReply;
+            control.ImageClick += PostControl_OnImageClick;
             Grid.Children.Add(control);
+        }
+
+        private void PostControl_OnReply(object sender, PostReplyEventArgs e) {
+            Reply(sender, e);
+        }
+
+        private void PostControl_OnImageClick(object sender, ImageClickEventArgs e) {
+            ImageClick(sender, e);
         }
     }
 }

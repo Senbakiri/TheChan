@@ -34,7 +34,9 @@
                                        Post="{x:Bind}"
                                        RepliesListShowRequested="PostControl_OnRepliesListShowRequested"
                                        Padding="10"
-                                       Margin="0 2 0 0"/>
+                                       Margin="0 2 0 0"
+                                       Reply="PostControl_OnReply"
+                                       ImageClick="PostControl_OnImageClick"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
