@@ -76,14 +76,16 @@
                 </GridView.ItemTemplate>
             </GridView>
 
-            <TextBlock x:Name="PostText"
-                       Grid.Row="3"
-                       Text="{x:Bind Post.Comment, Mode=OneWay}"
-                       IsTextSelectionEnabled="{x:Bind IsSimple, Converter={StaticResource InverseBool}}"
-                       TextWrapping="Wrap"
-                       Visibility="{x:Bind Post.Comment, Converter={StaticResource StrToVis}, Mode=OneWay}"
-                       MaxWidth="1200"
-                       HorizontalAlignment="Left"/>
+            <ScrollViewer Grid.Row="3"
+                          VerticalScrollBarVisibility="Auto">
+                <TextBlock x:Name="PostText"
+                           Text="{x:Bind Post.Comment, Mode=OneWay}"
+                           IsTextSelectionEnabled="{x:Bind IsSimple, Converter={StaticResource InverseBool}}"
+                           TextWrapping="Wrap"
+                           Visibility="{x:Bind Post.Comment, Converter={StaticResource StrToVis}, Mode=OneWay}"
+                           MaxWidth="1200"
+                           HorizontalAlignment="Left"/>
+            </ScrollViewer>
 
             <StackPanel
                     Grid.Row="4"

@@ -20,6 +20,9 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="{ThemeResource ThreadBackgroundBrush}"/>
             <Setter Property="Padding" Value="10"/>
+            <Setter Property="MinHeight" Value="100"/>
+            <Setter Property="MinWidth" Value="200"/>
+            <Setter Property="ManipulationMode" Value="TranslateX, TranslateInertia"/>
         </Style>
     </Page.Resources>
     
@@ -37,13 +40,13 @@
 
         <Canvas x:Name="Replies"
                 Grid.RowSpan="4"
-                Canvas.ZIndex="3">
+                Canvas.ZIndex="10">
         </Canvas>
 
         <Grid Grid.Row="1"
               x:Name="RepliesListUnderlay"
               Grid.RowSpan="3"
-              Canvas.ZIndex="3">
+              Canvas.ZIndex="10">
         </Grid>
         
         <controls:PageHeader Frame="{x:Bind Frame}" Grid.Row="0">

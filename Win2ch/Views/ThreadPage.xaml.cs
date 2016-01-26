@@ -28,12 +28,27 @@ namespace Win2ch.Views {
         private Post _lastReply;
         private readonly DispatcherTimer _closeRepliesTimer = new DispatcherTimer();
         private PostControl _replyUnderMouse;
-        private bool _isMouseConnected = new MouseCapabilities().MousePresent > 0;
+        private readonly bool _isMouseConnected = new MouseCapabilities().MousePresent > 0;
 
         public ThreadPage() {
             InitializeComponent();
             _closeRepliesTimer.Interval = TimeSpan.FromSeconds(3);
             _closeRepliesTimer.Tick += CloseRepliesTimerOnTick;
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) {
+            if (e.NavigationMode != NavigationMode.Back)
+                return;
+
+            if (Replies.Children.Any()) {
+                ClearReplies();
+                e.Cancel = true;
+            }
+
+            if (RepliesListUnderlay.Children.Any()) {
+                RepliesListUnderlay.Children.Clear();
+                e.Cancel = true;
+            }
         }
 
         private void StartTimer() {
@@ -86,7 +101,6 @@ namespace Win2ch.Views {
             var control = new PostControl {
                 Post = post,
                 Style = style,
-                MaxWidth = ActualWidth - position.X
             };
 
             var level = _replyLevel.ContainsKey(parent) ? _replyLevel[parent] + 1 : 1;
@@ -109,12 +123,25 @@ namespace Win2ch.Views {
         private void HandleGoingBeyondTheWindow(FrameworkElement control, Point position, FrameworkElement parent) {
             // if the control could go beyond the window, move it by his size to the opposite side
 
-            var x = position.X < ActualWidth / 2 ? position.X : position.X - control.ActualWidth;
-            Canvas.SetLeft(control, x);
+            double x;
+            if (ActualWidth <= 480) {
+                x = 0;
+                control.Width = ActualWidth;
+            } else if (position.X < ActualWidth/2) {
+                control.MaxWidth = ActualWidth - position.X;
+                x = position.X;
+            } else {
+                control.MaxWidth = position.X;
+                x = position.X - Math.Min(control.ActualWidth, control.MaxWidth);
+            }
             
-            var y = position.Y + control.ActualHeight > ActualHeight
-                ? position.Y - control.ActualHeight
-                : position.Y + parent.ActualHeight;
+            Canvas.SetLeft(control, x);
+
+            double y;
+            if (position.Y + control.ActualHeight >= Replies.ActualHeight)
+                y = position.Y - control.ActualHeight;
+            else
+                y = position.Y + parent.ActualHeight;
 
             Canvas.SetTop(control, y);
         }
@@ -124,16 +151,48 @@ namespace Win2ch.Views {
             control.ReplyShowRequested += PostControl_OnReplyShowRequested;
             control.ImageClick += PostControl_OnImageClick;
             control.PointerMoved += (s, _) => StartTimer();
+            control.ManipulationDelta += PostOnManipulationDelta;
+            control.ManipulationCompleted += PostOnManipulationCompleted;
             control.PointerEntered += (s, _) => _replyUnderMouse = control;
             control.PointerExited += (s, _) => _replyUnderMouse = _replyUnderMouse == control ? null : _replyUnderMouse;
-            control.PointerReleased += (s, _) => {
-                RemoveRepliesByLevel(level + 1);
-                _lastReply = null;
-            };
+        }
+
+        private void PostOnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) {
+            var elem = (PostControl)sender;
+            if (Math.Abs(e.Cumulative.Translation.X) < 100) {
+
+                foreach (var control in Replies.Children.OfType<PostControl>().ToList()) {
+                    control.Margin = new Thickness(0);
+                    control.Opacity = 1;
+                }
+            }  else {
+                RemoveRepliesByLevel(_replyLevel[elem.Post]);
+            }
+
+        }
+
+        private void PostOnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e) {
+
+            var total = e.Cumulative.Translation.X;
+            var elem = (PostControl) sender;
+            var couldBeRemoved = Replies.Children
+                .OfType<PostControl>()
+                .Where(pc => _replyLevel[pc.Post] >= _replyLevel[elem.Post])
+                .ToList();
+            var count = couldBeRemoved.Count;
+
+            var i = 0.0;
+            foreach (var control in couldBeRemoved) {
+
+                control.Margin = new Thickness(total * (1 - i / count), 0, 0, 0);
+                control.Opacity = 1 - Math.Abs(total) / (200 * (1 - i / count));
+
+                i += 1;
+            }
         }
 
         private void RemoveRepliesByLevel(int level) {
-            var controlsToRemove =Replies.Children
+            var controlsToRemove = Replies.Children
                 .OfType<PostControl>()
                 .Where(postControl => _replyLevel[postControl.Post] >= level).ToList();
 
@@ -141,6 +200,8 @@ namespace Win2ch.Views {
                 _replyLevel.Remove(postControl.Post);
                 Replies.Children.Remove(postControl);
             }
+
+            _lastReply = null;
         }
 
         private static double GetControlTopPosition(Point position, UIElement control, PointerRoutedEventArgs eventArgs) {
@@ -151,6 +212,7 @@ namespace Win2ch.Views {
         private void ClearReplies() {
             _replyLevel.Clear();
             Replies.Children.Clear();
+            _lastReply = null;
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e) {
