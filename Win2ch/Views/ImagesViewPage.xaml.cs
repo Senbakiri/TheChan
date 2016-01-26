@@ -35,11 +35,7 @@ namespace Win2ch.Views {
         public ImagesViewModel ViewModel => DataContext as ImagesViewModel;
         
 
-        protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e) {
-            var isMobile = AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile";
-            if (isMobile)
-                await StatusBar.GetForCurrentView().ShowAsync();
-
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) {
             Shell.HamburgerMenu.IsFullScreen = false;
         }
 

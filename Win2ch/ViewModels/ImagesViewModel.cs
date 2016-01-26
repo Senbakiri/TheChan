@@ -46,20 +46,18 @@ namespace Win2ch.ViewModels {
             }
         }
 
-        public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state) {
+        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state) {
 
             var data = parameter as ImagesViewPageNavigationParameters;
             if (data == null)
                 throw new ArgumentException();
 
-            var isMobile = AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile";
-            if (isMobile)
-                await StatusBar.GetForCurrentView().HideAsync();
-
             AllImages = data.AllImages;
             CurrentImage = ImagesSources.FirstOrDefault(im => im.UriSource.OriginalString.Equals(data.Image.Url));
 
             Shell.HamburgerMenu.IsFullScreen = true;
+
+            return Task.CompletedTask;
         }
 
     }
