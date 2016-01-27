@@ -16,9 +16,18 @@ using ViewModelBase = Win2ch.Mvvm.ViewModelBase;
 namespace Win2ch.ViewModels {
     public class SettingsViewModel : ViewModelBase {
         private ISettingsService _settingsService;
+        private string _ReleaseNotes;
 
         public string Version { get; }
-        public string ReleaseNotes { get; private set; }
+
+        public string ReleaseNotes {
+            get { return _ReleaseNotes; }
+            private set {
+                _ReleaseNotes = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public List<Theme> AvailableThemes { get; } = Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
         public List<RepliesViewMode> AvailableRepliesViewModes { get; } = Enum.GetValues(typeof(RepliesViewMode)).Cast<RepliesViewMode>().ToList();
 
