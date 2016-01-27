@@ -5,6 +5,7 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Win2ch.Models;
 
 namespace Win2ch.Controls {
@@ -36,26 +37,28 @@ namespace Win2ch.Controls {
         private void PostControl_OnImageClick(object sender, ImageClickEventArgs e) {
             ImageClick(sender, e);
         }
-
+        
         private void Post_OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e) {
             if (RepliesListView.ItemsPanelRoot == null)
                 return;
-
+ 
+            var total = e.Cumulative.Translation.X;
             var elem =
                 RepliesListView.ItemsPanelRoot.Children.OfType<ListViewItem>()
                     .First(lvi => lvi.ContentTemplateRoot == sender);
             var index = RepliesListView.ItemsPanelRoot.Children.IndexOf(elem);
-            var total = e.Cumulative.Translation.X;
+
             double itemsCount = RepliesListView.ItemsPanelRoot.Children.Count;
 
             for (int i = 0; i < itemsCount; ++i) {
                 var distance = Math.Abs(index - i);
-                var item = (FrameworkElement) RepliesListView.ItemsPanelRoot.Children[i];
-                var m = item.Margin;
-                item.Margin = new Thickness(total * (1 - distance / itemsCount), m.Top, m.Right, m.Bottom);
-                item.Opacity = 1 - Math.Abs(total)/100/10*(distance + 1);
-                item.MinWidth = item.ActualWidth;
-                Underlay.Opacity = 1.0 - total/100/10;
+                var item = (FrameworkElement)RepliesListView.ItemsPanelRoot.Children[i];
+                var translate = item.RenderTransform as TranslateTransform;
+                if (translate == null)
+                    item.RenderTransform = translate = new TranslateTransform();
+                translate.X = total * (1 - distance / itemsCount);
+                item.Opacity = 1 - Math.Abs(total)/100/2*(distance + 1);
+                Underlay.Opacity = 1 - Math.Abs(total)/100/2;
             }
         }
 
@@ -63,16 +66,21 @@ namespace Win2ch.Controls {
             if (RepliesListView.ItemsPanelRoot == null)
                 return;
 
-            if (e.Cumulative.Translation.X < 250) {
+            if (Math.Abs(e.Cumulative.Translation.X) < 100) {
                 foreach (var child in RepliesListView.ItemsPanelRoot.Children.Cast<FrameworkElement>()) {
-                    child.Margin = new Thickness(0, child.Margin.Top, child.Margin.Right, child.Margin.Bottom);
+                    var translate = child.RenderTransform as TranslateTransform;
+                    if (translate != null)
+                        translate.X = 0;
                     child.Opacity = 1;
-                    child.MinWidth = 0;
                     Underlay.Opacity = 1;
                 }
             } else {
                 Close?.Invoke(this);
             }
+        }
+
+        private void Underlay_OnTapped(object sender, TappedRoutedEventArgs e) {
+            Close?.Invoke(this);
         }
     }
 }

@@ -10,12 +10,14 @@
 
     <Grid x:Name="Root">
         <Grid Background="#A0000000"
-              x:Name="Underlay"/>
+              x:Name="Underlay"
+              Tapped="Underlay_OnTapped"/>
         <ListView ItemsSource="{x:Bind Replies}"
                   x:Name="RepliesListView"
                   Margin="5"
                   SelectionMode="None"
-                  VerticalAlignment="Center">
+                  VerticalAlignment="Center"
+                  IsSwipeEnabled="True">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -37,10 +39,14 @@
                                        Margin="0 2 0 0"
                                        Reply="PostControl_OnReply"
                                        ImageClick="PostControl_OnImageClick"
-                                       ManipulationMode="TranslateX, TranslateInertia"
+                                       ManipulationMode="System, TranslateX"
                                        ManipulationDelta="Post_OnManipulationDelta"
                                        ManipulationCompleted="Post_OnManipulationCompleted"
-                                       MaxWidth="800"/>
+                                       MaxWidth="800">
+                        <local:PostControl.RenderTransform>
+                            <TranslateTransform/>
+                        </local:PostControl.RenderTransform>
+                    </local:PostControl>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
