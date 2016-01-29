@@ -11,11 +11,10 @@ using Win2ch.Models;
 namespace Win2ch.Controls {
     public sealed partial class RepliesListControl {
         public ObservableCollection<Post> Replies { get; }
-
         public event Action<object> Close;
-
         public event PostControl.ImageClickEventHandler ImageClick = delegate { };
         public event PostControl.PostReplyEventHandler Reply = delegate { };
+        private const int ManipulationAmountToClose = 100;
 
         public RepliesListControl(IEnumerable<Post> replies) {
             Replies = new ObservableCollection<Post>(replies);
@@ -49,6 +48,7 @@ namespace Win2ch.Controls {
             var index = RepliesListView.ItemsPanelRoot.Children.IndexOf(elem);
 
             double itemsCount = RepliesListView.ItemsPanelRoot.Children.Count;
+            
 
             for (int i = 0; i < itemsCount; ++i) {
                 var distance = Math.Abs(index - i);
@@ -57,8 +57,7 @@ namespace Win2ch.Controls {
                 if (translate == null)
                     item.RenderTransform = translate = new TranslateTransform();
                 translate.X = total * (1 - distance / itemsCount);
-                item.Opacity = 1 - Math.Abs(total)/100/2*(distance + 1);
-                Underlay.Opacity = 1 - Math.Abs(total)/100/2;
+                item.Opacity = Math.Abs(total) > ManipulationAmountToClose ? 0.5 : 1;
             }
         }
 
@@ -66,7 +65,7 @@ namespace Win2ch.Controls {
             if (RepliesListView.ItemsPanelRoot == null)
                 return;
 
-            if (Math.Abs(e.Cumulative.Translation.X) < 100) {
+            if (Math.Abs(e.Cumulative.Translation.X) < ManipulationAmountToClose) {
                 foreach (var child in RepliesListView.ItemsPanelRoot.Children.Cast<FrameworkElement>()) {
                     var translate = child.RenderTransform as TranslateTransform;
                     if (translate != null)
