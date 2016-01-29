@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Windows.Web;
@@ -9,14 +10,14 @@ namespace Win2ch.Models {
         private string _Comment;
         private string _Name;
         private string _EMail;
-
+        
         public string Comment {
             get { return _Comment; }
             set {
                 _Comment = RemoveHtml(value);
             }
         }
-
+        
         public string Name {
             get { return _Name; }
             set { _Name = RemoveHtml(value); }
@@ -34,7 +35,7 @@ namespace Win2ch.Models {
         public bool IsSage => EMail.ToLower() == "sage";
 
         public string Subject { get; set; }
-        public string Num { get; set; }
+        public long Num { get; set; }
         public string Date { get; set; }
         public Board Board { get; set; }
         public List<Post> Replies { get; set; } = new List<Post>();
@@ -64,7 +65,8 @@ namespace Win2ch.Models {
                      @"<( )*p([^>])*>", "\n",
                      RegexOptions.IgnoreCase);
             result = Regex.Replace(result,
-                     @"\\r\\n", string.Empty);
+                     @"\\r\\n", string.Empty,
+                     RegexOptions.IgnoreCase);
 
             // Remove remaining tags like <a>, links, images,
             // comments etc - anything that's enclosed inside < >
@@ -87,7 +89,7 @@ namespace Win2ch.Models {
 
         public override int GetHashCode() {
             unchecked {
-                return ((Num?.GetHashCode() ?? 0) * 397) ^ (Board?.GetHashCode() ?? 0);
+                return (Num.GetHashCode() * 397) ^ (Board?.GetHashCode() ?? 0);
             }
         }
     }
