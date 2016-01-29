@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Win2ch.Controls;
 using Win2ch.Models;
+using Win2ch.Services.SettingsServices;
 using Win2ch.ViewModels;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
@@ -260,8 +261,13 @@ namespace Win2ch.Views {
                 Posts.ScrollIntoView(Posts.Items.Last(), ScrollIntoViewAlignment.Leading);
         }
 
-        private void ImagesViewerOnOnClose(object sender, EventArgs e) {
-            
+        private void ImagesViewerOnOnClose(object sender, ImagesViewerCloseEventArgs e) {
+            if (!SettingsService.Instance.ScrollToPostWithImageAfterViewingImage)
+                return;
+
+            var post = ViewModel.Posts.FirstOrDefault(p => p.Images.Contains(e.LastImage));
+            if (post != null)
+                Posts.ScrollIntoView(post, ScrollIntoViewAlignment.Leading);
         }
     }
 }

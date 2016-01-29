@@ -24,7 +24,7 @@ namespace Win2ch.Controls {
         public ObservableCollection<BitmapImage> ImagesSources { get; }
         = new ObservableCollection<BitmapImage>();
 
-        public event EventHandler OnClose = delegate { };
+        public event EventHandler<ImagesViewerCloseEventArgs> OnClose = delegate { };
 
         private List<ImageInfo> _AllImages;
 
@@ -43,13 +43,11 @@ namespace Win2ch.Controls {
                 }
             }
         }
-
-        private BitmapImage _CurrentImage;
+        
         public BitmapImage CurrentImage {
-            get { return _CurrentImage; }
+            get { return ImagesList.SelectedItem as BitmapImage; }
             set {
-                _CurrentImage = value;
-                ImagesList.SelectedItem = _CurrentImage;
+                ImagesList.SelectedItem = value;
             }
         }
 
@@ -141,9 +139,16 @@ namespace Win2ch.Controls {
             Visibility = Visibility.Collapsed;
             Shell.HamburgerMenu.IsFullScreen = false;
             IsOpened = false;
-            OnClose(this, new EventArgs());
+            var lastImage = AllImages.FirstOrDefault(i => i.Url == CurrentImage.UriSource.OriginalString);
+            OnClose(this, new ImagesViewerCloseEventArgs(lastImage));
         }
     }
 
-    public class ImageViewCloseEventArgs { }
+    public class ImagesViewerCloseEventArgs {
+        public ImageInfo LastImage { get; }
+
+        public ImagesViewerCloseEventArgs(ImageInfo lastImage) {
+            LastImage = lastImage;
+        }
+    }
 }

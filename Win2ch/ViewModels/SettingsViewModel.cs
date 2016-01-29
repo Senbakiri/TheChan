@@ -15,6 +15,7 @@ using ViewModelBase = Win2ch.Mvvm.ViewModelBase;
 
 namespace Win2ch.ViewModels {
     public class SettingsViewModel : ViewModelBase {
+
         private ISettingsService _settingsService;
         private string _ReleaseNotes;
 
@@ -29,7 +30,19 @@ namespace Win2ch.ViewModels {
         }
 
         public List<Theme> AvailableThemes { get; } = Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
-        public List<RepliesViewMode> AvailableRepliesViewModes { get; } = Enum.GetValues(typeof(RepliesViewMode)).Cast<RepliesViewMode>().ToList();
+        public List<RepliesViewMode> AvailableRepliesViewModes
+            { get; } = Enum.GetValues(typeof(RepliesViewMode)).Cast<RepliesViewMode>().ToList();
+
+        public bool ScrollToPostWithImageAfterViewingImage {
+            get { return _settingsService.ScrollToPostWithImageAfterViewingImage; }
+            set {
+                if (value == _settingsService.ScrollToPostWithImageAfterViewingImage)
+                    return;
+
+                _settingsService.ScrollToPostWithImageAfterViewingImage = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public Theme SelectedTheme {
             get { return _settingsService.AppTheme; }

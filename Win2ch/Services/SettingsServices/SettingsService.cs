@@ -23,6 +23,17 @@ namespace Win2ch.Services.SettingsServices {
             }
         }
 
+        public bool ScrollToPostWithImageAfterViewingImage {
+            get {
+                var value = _helper.Read(nameof(ScrollToPostWithImageAfterViewingImage), false);
+                return value;
+            }
+
+            set {
+                _helper.Write(nameof(ScrollToPostWithImageAfterViewingImage), value);
+            }
+        }
+
         public Theme AppTheme {
             get {
                 var theme = Theme.System;

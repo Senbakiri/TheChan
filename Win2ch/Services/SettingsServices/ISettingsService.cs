@@ -6,6 +6,7 @@ namespace Win2ch.Services.SettingsServices {
 
     public interface ISettingsService {
         bool UseShellBackButton { get; set; }
+        bool ScrollToPostWithImageAfterViewingImage { get; set; }
         Theme AppTheme { get; set; }
         RepliesViewMode RepliesViewMode { get; set; }
         TimeSpan CacheMaxDuration { get; set; }

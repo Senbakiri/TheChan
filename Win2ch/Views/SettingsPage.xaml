@@ -21,7 +21,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        
+
         <controls:PageHeader Frame="{x:Bind Frame}" Grid.Row="0">
             <controls:PageHeader.Content>
                 <TextBlock TextTrimming="CharacterEllipsis" Text="НАСТРОЙКИ"
@@ -33,7 +33,7 @@
                 <behaviors:EllipsisBehavior Visibility="Collapsed" />
             </interactivity:Interaction.Behaviors>
         </controls:PageHeader>
-        
+
         <Pivot Grid.Row="1">
             <PivotItem Header="внешний вид">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -57,6 +57,15 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
+            
+            <PivotItem Header="поведение">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <ToggleSwitch Header="Прокрутка к посту с изображением после просмотра изображения"
+                              IsOn="{x:Bind ViewModel.ScrollToPostWithImageAfterViewingImage, Mode=TwoWay}"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
