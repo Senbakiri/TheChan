@@ -101,7 +101,7 @@ namespace Win2ch.ViewModels {
         private void AdvancedPosting() {
             NavigationService.Navigate(typeof(PostingPage), new PostingPageNavigationInfo {
                 PostInfo = PostInfo,
-                Thread = Thread
+                Thread = new Thread(Thread.Num, Thread.Board.Id)
             });
         }
 

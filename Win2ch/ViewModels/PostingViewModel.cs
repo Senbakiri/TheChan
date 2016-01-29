@@ -165,7 +165,7 @@ namespace Win2ch.ViewModels {
             if (files.Count > howManyFilesCanAttach)
                 files.RemoveRange(howManyFilesCanAttach, files.Count - howManyFilesCanAttach);
 
-            AttachImages(files);
+            await AttachImages(files);
         }
 
         private void Insert(string text) {
@@ -202,7 +202,7 @@ namespace Win2ch.ViewModels {
             }
         }
 
-        private async void AttachImages(IEnumerable<StorageFile> images) {
+        private async Task AttachImages(IEnumerable<StorageFile> images) {
             if (images == null)
                 return;
 
@@ -215,16 +215,14 @@ namespace Win2ch.ViewModels {
             }
         }
 
-        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state) {
+        public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state) {
             var navigationInfo = parameter as PostingPageNavigationInfo;
             if (mode != NavigationMode.New || navigationInfo == null)
-                return Task.CompletedTask;
+                return;
 
             PostInfo = navigationInfo.PostInfo;
             Thread = navigationInfo.Thread;
-            AttachImages(PostInfo?.Files);
-
-            return Task.CompletedTask;
+            await AttachImages(PostInfo?.Files);
         }
     }
 }

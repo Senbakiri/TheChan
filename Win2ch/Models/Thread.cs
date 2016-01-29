@@ -23,13 +23,18 @@ namespace Win2ch.Models {
         public int TotalPosts { get; set; }
 
         [JsonProperty("thread_num")]
-        public int Num { get; private set; }
+        public long Num { get; private set; }
 
         [JsonProperty("files_count")]
         public int FilesCount { get; set; }
 
+        public Thread(long num, string boardId) {
+            Num = num;
+            Board = new Board(boardId);
+        }
+
         public async Task<List<Post>> GetPostsFrom(int n) {
-            var url = new Uri(string.Format(Urls.ThreadPosts, Board.Id, Posts.First().Num, n));
+            var url = new Uri(string.Format(Urls.ThreadPosts, Board.Id, Num, n));
             var httpFilter = new HttpBaseProtocolFilter();
             httpFilter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
             var client = new HttpClient(httpFilter);

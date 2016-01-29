@@ -51,7 +51,7 @@ namespace Win2ch.ViewModels {
         private void NewThread() {
             NavigationService.Navigate(typeof(PostingPage), new PostingPageNavigationInfo() {
                 PostInfo = new NewPostInfo(),
-                Thread = new Thread { Board = Board }
+                Thread = new Thread(0, Board.Id)
             });
         }
 
