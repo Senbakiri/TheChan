@@ -1,5 +1,6 @@
 using System;
 using Windows.UI.Xaml;
+using Template10.Services.SettingsService;
 
 namespace Win2ch.Services.SettingsServices {
     // DOCS: https://github.com/Windows-XAML/Template10/wiki/Docs-%7C-SettingsService
@@ -25,12 +26,14 @@ namespace Win2ch.Services.SettingsServices {
 
         public bool ScrollToPostWithImageAfterViewingImage {
             get {
-                var value = _helper.Read(nameof(ScrollToPostWithImageAfterViewingImage), false);
+                var value =
+                    _helper.Container(SettingsStrategies.Roam)
+                        .Read(nameof(ScrollToPostWithImageAfterViewingImage), false);
                 return value;
             }
 
             set {
-                _helper.Write(nameof(ScrollToPostWithImageAfterViewingImage), value);
+                _helper.Container(SettingsStrategies.Roam).Write(nameof(ScrollToPostWithImageAfterViewingImage), value);
             }
         }
 
