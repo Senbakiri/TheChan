@@ -64,8 +64,9 @@
             <PivotItem Header="поведение">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
-                        <ToggleSwitch Header="Прокрутка к посту с изображением после просмотра изображения"
-                              IsOn="{x:Bind ViewModel.ScrollToPostWithImageAfterViewingImage, Mode=TwoWay}"/>
+                        <TextBlock Text="Прокрутка к посту с изображением после просмотра изображения"
+                                   TextWrapping="Wrap"></TextBlock>
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.ScrollToPostWithImageAfterViewingImage, Mode=TwoWay}"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
