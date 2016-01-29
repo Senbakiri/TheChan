@@ -28,7 +28,7 @@ namespace Win2ch.Views {
                 return;
 
             e.Handled = true;
-            ViewModel.NavigateToBoard(new Board { Id = FastNavigation.Text.ToLowerInvariant() });
+            ViewModel.NavigateToBoard(new Board(FastNavigation.Text.ToLowerInvariant()));
         }
     }
 }

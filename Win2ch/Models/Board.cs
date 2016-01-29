@@ -14,6 +14,11 @@ namespace Win2ch.Models {
         public string Id { get; set; }
         public string Name { get; set; }
 
+        public Board(string id, string name = "") {
+            Id = id;
+            Name = name;
+        }
+
         public async Task<List<Thread>> GetThreads(int pageN) {
             if (pageN < 0)
                 throw new ArgumentException("PageN must be greater than zero", nameof(pageN));
