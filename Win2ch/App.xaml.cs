@@ -17,9 +17,7 @@ namespace Win2ch {
         readonly ISettingsService _settings;
 
         public App() {
-            Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
-                Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
-                Microsoft.ApplicationInsights.WindowsCollectors.Session);
+            Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync();
             InitializeComponent();
             SplashFactory = e => new Views.Splash(e);
 
