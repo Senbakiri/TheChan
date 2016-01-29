@@ -50,7 +50,7 @@ namespace Win2ch.Models {
 
         public static IEnumerable<Post> FillPosts(List<Post> posts, Board b, int firstPostPos = 1) {
             var result = new List<Post>();
-            var answers = new Dictionary<string, List<Post>>();
+            var answers = new Dictionary<long, List<Post>>();
 
             for (var i = 0; i < posts.Count; i++) {
                 var post = posts[i];
@@ -70,9 +70,9 @@ namespace Win2ch.Models {
         }
 
         private static void CompleteAnswersProcessing(IReadOnlyCollection<Post> posts,
-            Dictionary<string, List<Post>> answers) {
+            Dictionary<long, List<Post>> answers) {
             foreach (var postN in answers.Keys) {
-                var post = posts.FirstOrDefault(p => string.Equals(postN, p.Num));
+                var post = posts.FirstOrDefault(p => p.Num == postN);
                 if (post == null)
                     continue;
                 post.Replies = answers[postN];
@@ -84,13 +84,13 @@ namespace Win2ch.Models {
         /// </summary>
         /// <param name="post">Post where to find answers</param>
         /// <param name="answers">Where to store</param>
-        private static void FillAnswers(Post post, Dictionary<string, List<Post>> answers) {
+        private static void FillAnswers(Post post, Dictionary<long, List<Post>> answers) {
             var answerRegex = new Regex(@">>(\d+)");
             var matches = answerRegex.Matches(post.Comment);
             foreach (var match in matches.Cast<Match>()) {
                 if (match.Groups.Count < 2)
                     continue;
-                var postN = match.Groups[1].Captures[0].Value;
+                var postN = Convert.ToInt64(match.Groups[1].Captures[0].Value);
                 if (!answers.ContainsKey(postN))
                     answers.Add(postN, new List<Post>());
                 answers[postN].Add(post);
