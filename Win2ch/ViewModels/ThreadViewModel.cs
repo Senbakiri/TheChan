@@ -66,16 +66,12 @@ namespace Win2ch.ViewModels {
                 FastReplyText = value.Comment;
             }
         }
-
-        public ICommand RefreshCommand { get; }
-        public ICommand FastReplyCommand { get; }
+        
         public ICommand ShowImageCommand { get; }
         public ICommand AdvancedPostingCommand { get; }
 
 
         public ThreadViewModel() {
-            RefreshCommand = new DelegateCommand(Refresh);
-            FastReplyCommand = new DelegateCommand(SendPost);
             ShowImageCommand = new DelegateCommand<ImageInfo>(ShowImage);
             AdvancedPostingCommand = new DelegateCommand(AdvancedPosting);
         }
@@ -87,15 +83,16 @@ namespace Win2ch.ViewModels {
         }
 
 
-        private async void SendPost() {
+        public async Task<bool> FastReply() {
             try {
                 await Thread.Reply(PostInfo);
                 FastReplyText = string.Empty;
-                Refresh();
+                return await Refresh();
             } catch (ApiException e) {
                 await new MessageDialog(e.Message, "Ошибка").ShowAsync();
             }
 
+            return false;
         }
 
         private void AdvancedPosting() {
@@ -105,7 +102,7 @@ namespace Win2ch.ViewModels {
             });
         }
 
-        public async void Refresh() {
+        public async Task<bool> Refresh() {
             IsWorking = true;
             JobStatus = "Получение новых постов";
             List<Post> newPosts;
@@ -116,12 +113,12 @@ namespace Win2ch.ViewModels {
                 var dialog = new MessageDialog(e.Message, "Сервер вернул ошибку");
                 await dialog.ShowAsync();
                 IsWorking = false;
-                return;
+                return false;
             } catch (HttpException e) {
                 var dialog = new MessageDialog(e.Message, "Не удалось получить посты");
                 await dialog.ShowAsync();
                 IsWorking = false;
-                return;
+                return false;
             }
 
             if (newPosts.Count > 0) {
@@ -136,6 +133,7 @@ namespace Win2ch.ViewModels {
 
             await Task.Delay(2000);
             IsWorking = false;
+            return newPosts.Count > 0;
         }
 
         public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state) {

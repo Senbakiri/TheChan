@@ -162,7 +162,7 @@
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"
                         Width="40"
-                        Command="{x:Bind ViewModel.FastReplyCommand}">
+                        Click="{x:Bind FastReply}">
                     <SymbolIcon Symbol="Send"/>
                 </Button>
             </Grid>
@@ -171,22 +171,8 @@
         <CommandBar Grid.Row="3">
             <AppBarButton Icon="Refresh"
                           Label="Обновить"
-                          Command="{x:Bind ViewModel.RefreshCommand}"
-                          Foreground="{ThemeResource AppBarItemForegroundThemeBrush}">
-                <AppBarButton.RenderTransform>
-                    <RotateTransform/>
-                </AppBarButton.RenderTransform>
-                <BeginStoryboard>
-                    <Storyboard>
-                        <DoubleAnimation
-                            From="0"
-                            To="360"
-                            Storyboard.TargetProperty="(AppBarButton.RenderTransform)(RotateTransform.Angle)"
-                            Duration="0:0:2"
-                            RepeatBehavior="Forever"/>
-                    </Storyboard>
-                </BeginStoryboard>
-            </AppBarButton>
+                          Click="{x:Bind Refresh}"
+                          Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
         </CommandBar>
     </Grid>
 </Page>

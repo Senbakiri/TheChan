@@ -242,5 +242,17 @@ namespace Win2ch.Views {
         private void Posts_OnPointerWheelChanged(object sender, PointerRoutedEventArgs e) {
             ClearReplies();
         }
+
+        private async void FastReply() {
+            var isSuccess = await ViewModel.FastReply();
+            if (isSuccess)
+                Posts.ScrollIntoView(Posts.Items.Last(), ScrollIntoViewAlignment.Leading);
+        }
+
+        public async void Refresh() {
+            var hasNewPosts = await ViewModel.Refresh();
+            if (hasNewPosts)
+                Posts.ScrollIntoView(Posts.Items.Last(), ScrollIntoViewAlignment.Leading);
+        }
     }
 }
