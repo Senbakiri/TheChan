@@ -40,11 +40,7 @@ namespace Win2ch.Views {
             titleBar.InactiveForegroundColor = Colors.Black;
 
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0xFF, 0xFF, 0x99, 0x55);
-
-            if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile") {
-                var statusBar = StatusBar.GetForCurrentView();
-                statusBar.ForegroundColor = Colors.White;
-            }
+            
         }
 
         public static void SetBusy(bool busy, string text = null) {
