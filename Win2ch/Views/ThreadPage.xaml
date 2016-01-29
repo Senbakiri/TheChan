@@ -51,8 +51,8 @@
         </Grid>
         
         <c:ImagesViewer x:Name="ImagesViewer"
-                        Grid.Row="0"
-                        Grid.RowSpan="4"
+                        Grid.Row="1"
+                        Grid.RowSpan="3"
                         Canvas.ZIndex="11"
                         OnClose="ImagesViewerOnOnClose"
                         Visibility="Collapsed"/>

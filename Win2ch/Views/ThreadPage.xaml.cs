@@ -267,7 +267,7 @@ namespace Win2ch.Views {
 
             var post = ViewModel.Posts.FirstOrDefault(p => p.Images.Contains(e.LastImage));
             if (post != null)
-                Posts.ScrollIntoView(post, ScrollIntoViewAlignment.Leading);
+                Posts.ScrollIntoView(post);
         }
     }
 }

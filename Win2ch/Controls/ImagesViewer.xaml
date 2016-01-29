@@ -9,8 +9,9 @@
     x:Name="This"
     SizeChanged="OnSizeChanged">
 
-    <Grid KeyDown="OnKeyDown"
-          Background="Black">
+    <Grid KeyDown="OnKeyDown">
+        <Grid x:Name="Underlay"
+              Background="Black"/>
         <FlipView x:Name="ImagesList"
                   ItemsSource="{x:Bind ImagesSources}"
                   VerticalContentAlignment="Stretch"
@@ -24,7 +25,9 @@
                                   VerticalScrollBarVisibility="Auto">
                         <Image Stretch="Uniform"
                                Source="{x:Bind}"
-                               DoubleTapped="OnDoubleTapped"/>
+                               ManipulationMode="System, TranslateY, TranslateInertia"
+                               ManipulationDelta="Image_OnManipulationDelta"
+                               ManipulationCompleted="UIElement_OnManipulationCompleted"/>
                     </ScrollViewer>
                 </DataTemplate>
             </FlipView.ItemTemplate>

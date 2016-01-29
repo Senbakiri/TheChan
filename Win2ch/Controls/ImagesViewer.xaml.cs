@@ -32,8 +32,7 @@ namespace Win2ch.Controls {
             get { return _AllImages; }
             set {
                 _AllImages = value;
-
-                CurrentImage = null;
+                
                 ImagesSources.Clear();
                 if (_AllImages == null)
                     return;
@@ -59,10 +58,6 @@ namespace Win2ch.Controls {
             if (e.Key != VirtualKey.Escape && e.Key != VirtualKey.Back) return;
 
             e.Handled = true;
-            Close();
-        }
-
-        private void OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e) {
             Close();
         }
 
@@ -131,16 +126,41 @@ namespace Win2ch.Controls {
             Visibility = Visibility.Visible;
             AllImages = allImages;
             CurrentImage = ImagesSources.FirstOrDefault(im => im.UriSource.OriginalString.Equals(currentImage.Url));
-
-            Shell.HamburgerMenu.IsFullScreen = true;
+            
         }
 
         public void Close() {
             Visibility = Visibility.Collapsed;
-            Shell.HamburgerMenu.IsFullScreen = false;
             IsOpened = false;
             var lastImage = AllImages.FirstOrDefault(i => i.Url == CurrentImage.UriSource.OriginalString);
             OnClose(this, new ImagesViewerCloseEventArgs(lastImage));
+        }
+
+        private void Image_OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e) {
+            var elem = (FrameworkElement) sender;
+            var scrollViewer = elem.Parent as ScrollViewer;
+            var total = e.Cumulative.Translation.Y;
+            if (scrollViewer == null || scrollViewer.ZoomFactor > 1)
+                return;
+
+            if (e.IsInertial && Math.Abs(total) > 500) {
+                e.Complete();
+                return;
+            }
+
+            var translate = elem.RenderTransform as TranslateTransform;
+            if (translate == null)
+                elem.RenderTransform = translate = new TranslateTransform();
+            translate.Y = e.Cumulative.Translation.Y;
+            elem.Opacity = Underlay.Opacity = 1 - Math.Abs(total)/300;
+        }
+
+        private void UIElement_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) {
+            var elem = (FrameworkElement)sender;
+            elem.RenderTransform = null;
+            elem.Opacity = Underlay.Opacity = 1;
+            if (Math.Abs(e.Cumulative.Translation.Y) > 150)
+                Close();
         }
     }
 
