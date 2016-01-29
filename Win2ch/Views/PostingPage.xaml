@@ -207,7 +207,8 @@
                             </GridView.ItemTemplate>
                         </GridView>
                         <Button Command="{x:Bind ViewModel.AttachImageCommand}"
-                                Visibility="{x:Bind ViewModel.CanAttachImages, Mode=OneWay, Converter={StaticResource BoolToVis}}">
+                                Visibility="{x:Bind ViewModel.CanAttachImages, Mode=OneWay, Converter={StaticResource BoolToVis}}"
+                                x:Name="AttachImagesButton">
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="Add"/>
                                 <TextBlock Margin="10 0 0 0"

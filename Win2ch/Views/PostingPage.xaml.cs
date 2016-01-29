@@ -30,6 +30,7 @@ namespace Win2ch.Views {
 
         private void More_OnClick(object sender, RoutedEventArgs e) {
             SplitView.IsPaneOpen = !SplitView.IsPaneOpen;
+            AttachImagesButton.Focus(FocusState.Programmatic);
         }
     }
 }
