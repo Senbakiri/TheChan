@@ -56,9 +56,9 @@ namespace Win2ch.ViewModels {
         }
 
         private void ShowImage(ImageInfo imageInfo) {
-            NavigationService.Navigate(typeof(ImagesViewPage),
-                new ImagesViewPageNavigationParameters(imageInfo,
-                    Threads.SelectMany(t => t.Posts.SelectMany(p => p.Images)).ToList()));
+            //NavigationService.Navigate(typeof(ImagesViewControl),
+            //    new ImagesViewPageNavigationParameters(imageInfo,
+            //        Threads.SelectMany(t => t.Posts.SelectMany(p => p.Images)).ToList()));
         }
 
         private void Threads_OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {

@@ -122,13 +122,12 @@
     <Compile Include="Models\Exceptions\HttpException.cs" />
     <Compile Include="Services\SettingsServices\RepliesViewMode.cs" />
     <Compile Include="Services\SettingsServices\Theme.cs" />
-    <Compile Include="ViewModels\ImagesViewModel.cs" />
     <Compile Include="ViewModels\PostingViewModel.cs" />
     <Compile Include="Views\Errors\BoardErrorPage.xaml.cs">
       <DependentUpon>BoardErrorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ImagesViewPage.xaml.cs">
-      <DependentUpon>ImagesViewPage.xaml</DependentUpon>
+    <Compile Include="Controls\ImagesViewer.xaml.cs">
+      <DependentUpon>ImagesViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PostControl.xaml.cs">
       <DependentUpon>PostControl.xaml</DependentUpon>
@@ -246,7 +245,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ImagesViewPage.xaml">
+    <Page Include="Controls\ImagesViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

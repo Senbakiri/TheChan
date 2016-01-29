@@ -11,6 +11,7 @@
     xmlns:c="using:Win2ch.Controls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Template10.Behaviors"
+    xmlns:views="using:Win2ch.Views"
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
 
@@ -48,6 +49,13 @@
               Grid.RowSpan="3"
               Canvas.ZIndex="10">
         </Grid>
+        
+        <c:ImagesViewer x:Name="ImagesViewer"
+                        Grid.Row="0"
+                        Grid.RowSpan="4"
+                        Canvas.ZIndex="11"
+                        OnClose="ImagesViewerOnOnClose"
+                        Visibility="Collapsed"/>
         
         <controls:PageHeader Frame="{x:Bind Frame}" Grid.Row="0">
             <controls:PageHeader.Content>

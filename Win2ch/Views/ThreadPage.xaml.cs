@@ -49,6 +49,11 @@ namespace Win2ch.Views {
                 RepliesListUnderlay.Children.Clear();
                 e.Cancel = true;
             }
+
+            if (ImagesViewer.IsOpened) {
+                ImagesViewer.Close();
+                e.Cancel = true;
+            }
         }
 
         private void StartTimer() {
@@ -87,7 +92,7 @@ namespace Win2ch.Views {
         }
 
         private void PostControl_OnImageClick(object sender, ImageClickEventArgs e) {
-            ViewModel.ShowImageCommand.Execute(e.ImageInfo);
+            ImagesViewer.Show(e.ImageInfo, ViewModel.Posts.SelectMany(p => p.Images).ToList());
         }
 
         private void PostControl_OnReplyShowRequested(object sender, ReplyShowEventArgs e) {
@@ -253,6 +258,10 @@ namespace Win2ch.Views {
             var hasNewPosts = await ViewModel.Refresh();
             if (hasNewPosts)
                 Posts.ScrollIntoView(Posts.Items.Last(), ScrollIntoViewAlignment.Leading);
+        }
+
+        private void ImagesViewerOnOnClose(object sender, EventArgs e) {
+            
         }
     }
 }

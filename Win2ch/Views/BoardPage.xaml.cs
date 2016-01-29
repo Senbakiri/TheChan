@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -28,8 +29,16 @@ namespace Win2ch.Views {
             ViewModel.NavigateToThread((Thread)((FrameworkElement)sender).DataContext);
         }
 
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) {
+            if (ImagesViewer.IsOpened) {
+                ImagesViewer.Close();
+                e.Cancel = true;
+            }
+        }
+
         private void PostControl_OnImageClick(object sender, ImageClickEventArgs e) {
-            ViewModel.ShowImageCommand.Execute(e.ImageInfo);
+            ImagesViewer.Show(e.ImageInfo,
+                ViewModel.Threads.SelectMany(t => t.Posts.SelectMany(p => p.Images)).ToList());
         }
     }
 }

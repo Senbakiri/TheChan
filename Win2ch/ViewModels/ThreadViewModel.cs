@@ -66,22 +66,11 @@ namespace Win2ch.ViewModels {
                 FastReplyText = value.Comment;
             }
         }
-        
-        public ICommand ShowImageCommand { get; }
         public ICommand AdvancedPostingCommand { get; }
 
-
         public ThreadViewModel() {
-            ShowImageCommand = new DelegateCommand<ImageInfo>(ShowImage);
             AdvancedPostingCommand = new DelegateCommand(AdvancedPosting);
         }
-
-
-        private void ShowImage(ImageInfo imageInfo) {
-            NavigationService.Navigate(typeof(ImagesViewPage),
-                new ImagesViewPageNavigationParameters(imageInfo, Posts.SelectMany(p => p.Images).ToList()));
-        }
-
 
         public async Task<bool> FastReply() {
             try {

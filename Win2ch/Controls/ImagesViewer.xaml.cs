@@ -2,38 +2,56 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.System;
-using Windows.System.Profile;
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using Template10.Common;
-using Template10.Services.NavigationService;
-using Template10.Services.SerializationService;
 using Win2ch.Models;
-using Win2ch.ViewModels;
 using Win2ch.Views;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+namespace Win2ch.Controls {
+    public sealed partial class ImagesViewer {
 
-namespace Win2ch.Views {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class ImagesViewPage : Page {
-
-        public ImagesViewPage() {
-            this.InitializeComponent();
+        public ImagesViewer() {
+            InitializeComponent();
         }
 
-        public ImagesViewModel ViewModel => DataContext as ImagesViewModel;
-        
+        public bool IsOpened { get; private set; }
+
+        public ObservableCollection<BitmapImage> ImagesSources { get; }
+        = new ObservableCollection<BitmapImage>();
+
+        public event EventHandler OnClose = delegate { };
+
+        private List<ImageInfo> _AllImages;
+
+        public List<ImageInfo> AllImages {
+            get { return _AllImages; }
+            set {
+                _AllImages = value;
+
+                CurrentImage = null;
+                ImagesSources.Clear();
+                if (_AllImages == null)
+                    return;
+
+                foreach (var imageInfo in AllImages) {
+                    ImagesSources.Add(new BitmapImage(new Uri(imageInfo.Url, UriKind.Absolute)));
+                }
+            }
+        }
+
+        private BitmapImage _CurrentImage;
+        public BitmapImage CurrentImage {
+            get { return _CurrentImage; }
+            set {
+                _CurrentImage = value;
+                ImagesList.SelectedItem = _CurrentImage;
+            }
+        }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) {
             Shell.HamburgerMenu.IsFullScreen = false;
@@ -73,10 +91,10 @@ namespace Win2ch.Views {
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e) {
-            if (ViewModel?.AllImages == null)
+            if (AllImages == null)
                 return;
 
-            for (var i = 0; i < ViewModel.AllImages.Count; i++) {
+            for (var i = 0; i < AllImages.Count; i++) {
                 var flipViewItem = ImagesList.ContainerFromIndex(i);
                 var scrollViewItem = FindFirstElementInVisualTree<ScrollViewer>(flipViewItem);
                 var imageItem = FindFirstElementInVisualTree<Image>(scrollViewItem);
@@ -91,15 +109,10 @@ namespace Win2ch.Views {
 
         }
 
-        public void Close() {
-            var nav = BootStrapper.Current.NavigationService;
-            nav.GoBack();
-        }
-
         private void ImagesList_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
             var view = sender as FlipView;
 
-            if (view == null) return;
+            if (view == null || CurrentImage == null) return;
 
             var flipViewItem = view.ContainerFromIndex(view.SelectedIndex);
             var scrollViewItem = FindFirstElementInVisualTree<ScrollViewer>(flipViewItem);
@@ -112,6 +125,23 @@ namespace Win2ch.Views {
             imageItem.MaxHeight = ActualHeight;
             imageItem.MaxWidth = ActualWidth;
             scrollViewItem.ChangeView(0, 0, 1.0f, true);
+        }
+
+
+        public void Show(ImageInfo currentImage, List<ImageInfo> allImages) {
+            IsOpened = true;
+            Visibility = Visibility.Visible;
+            AllImages = allImages;
+            CurrentImage = ImagesSources.FirstOrDefault(im => im.UriSource.OriginalString.Equals(currentImage.Url));
+
+            Shell.HamburgerMenu.IsFullScreen = true;
+        }
+
+        public void Close() {
+            Visibility = Visibility.Collapsed;
+            Shell.HamburgerMenu.IsFullScreen = false;
+            IsOpened = false;
+            OnClose(this, new EventArgs());
         }
     }
 

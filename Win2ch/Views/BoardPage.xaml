@@ -53,6 +53,12 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
+        <c:ImagesViewer x:Name="ImagesViewer"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Visibility="Collapsed"
+                        Canvas.ZIndex="10"/>
+        
         <controls:PageHeader Grid.Row="0" Frame="{x:Bind Frame}">
             <controls:PageHeader.Content>
                 <TextBlock Text="{Binding Board.Name, Converter={StaticResource ToUpper}}"

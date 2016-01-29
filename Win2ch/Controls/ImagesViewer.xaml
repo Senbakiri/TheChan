@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Win2ch.Views.ImagesViewPage"
+    x:Class="Win2ch.Controls.ImagesViewer"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,14 +9,10 @@
     x:Name="This"
     SizeChanged="OnSizeChanged">
 
-    <Page.DataContext>
-        <viewModels:ImagesViewModel />
-    </Page.DataContext>
-    
-    <Grid KeyDown="OnKeyDown" Background="Black">
+    <Grid KeyDown="OnKeyDown"
+          Background="Black">
         <FlipView x:Name="ImagesList"
-                  ItemsSource="{x:Bind ViewModel.ImagesSources}"
-                  SelectedItem="{Binding CurrentImage, Mode=TwoWay}"
+                  ItemsSource="{x:Bind ImagesSources}"
                   VerticalContentAlignment="Stretch"
                   HorizontalContentAlignment="Stretch"
                   SelectionChanged="ImagesList_OnSelectionChanged">
