@@ -19,6 +19,8 @@ namespace Win2ch.Models {
         public string Thumbnail { get; set; }
         public string ThumbnailUrl => string.Format(Urls.BoardUrl, Board.Id, Thumbnail);
 
+        public int Size { get; set; }
+
         [JsonProperty(PropertyName = "th_width")]
         public int ThumbnailWidth { get; set; }
 

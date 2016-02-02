@@ -74,7 +74,13 @@
                       ItemClick="ImagesGridView_OnItemClick">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="models:ImageInfo">
-                        <Image Source="{x:Bind ThumbnailUrl}" Height="100" Stretch="Uniform"/>
+                        <StackPanel>
+                            <Image Source="{x:Bind ThumbnailUrl}" Height="100" Stretch="Uniform"/>
+                            <TextBlock Opacity="0.7" HorizontalAlignment="Center">
+                                <Run Text="{x:Bind Size}"/>
+                                <Run Text="КБ"/>
+                            </TextBlock>
+                        </StackPanel>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
