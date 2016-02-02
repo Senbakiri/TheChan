@@ -16,7 +16,7 @@ using Win2ch.Models;
 using Win2ch.Views;
 
 namespace Win2ch.Controls {
-    public sealed partial class ImagesViewer {
+    public sealed partial class ImagesViewer : INotifyPropertyChanged {
         public ObservableCollection<BitmapImage> ImagesSources { get; }
 
         public event EventHandler<ImagesViewerCloseEventArgs> OnClose = delegate { };
@@ -24,6 +24,7 @@ namespace Win2ch.Controls {
         private List<ImageInfo> _AllImages;
         private BitmapImage _CurrentImage;
         private int _CurrentIndex;
+        private ImageInfo _CurrentImageInfo;
 
         public List<ImageInfo> AllImages {
             get { return _AllImages; }
@@ -50,6 +51,16 @@ namespace Win2ch.Controls {
             }
         }
 
+        public ImageInfo CurrentImageInfo {
+            get { return _CurrentImageInfo; }
+            set {
+                if (Equals(value, _CurrentImageInfo))
+                    return;
+                _CurrentImageInfo = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public int CurrentIndex {
             get { return _CurrentIndex; }
             set {
@@ -58,6 +69,7 @@ namespace Win2ch.Controls {
                 _CurrentIndex = value;
                 if (CurrentIndex > 0 && CurrentIndex < ImagesSources.Count) {
                     _CurrentImage = ImagesSources[CurrentIndex];
+                    CurrentImageInfo = AllImages[CurrentIndex];
                     ImagesList.SelectedIndex = value;
                 }
             }
@@ -176,6 +188,13 @@ namespace Win2ch.Controls {
             elem.Opacity = Underlay.Opacity = 1;
             if (Math.Abs(e.Cumulative.Translation.Y) > 150)
                 Close();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = null) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 
