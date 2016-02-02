@@ -71,7 +71,8 @@
                       Padding="0"
                       SelectionMode="None"
                       IsItemClickEnabled="True"
-                      ItemClick="ImagesGridView_OnItemClick">
+                      ItemClick="ImagesGridView_OnItemClick"
+                      ScrollViewer.IsVerticalRailEnabled="False">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="models:ImageInfo">
                         <StackPanel>
