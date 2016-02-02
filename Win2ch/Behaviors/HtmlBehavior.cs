@@ -59,7 +59,7 @@ namespace Win2ch.Behaviors {
             }
         }
 
-        public event Action<int> PostNumClicked = delegate { };
+        public event Action<int, int> PostNumClicked = delegate { };
 
         private void RenderHtml() {
             var block = AssociatedObject;
@@ -101,13 +101,14 @@ namespace Win2ch.Behaviors {
 
         private Func<InlineWrapper, Inline> CreatePostLinkConverter(HtmlNode node) {
             var postNum = node.GetAttributeValue("data-num", 0);
+            var threadNum = node.GetAttributeValue("data-thread", 0);
             return wrapper => {
                 var link = new Hyperlink {
                     Foreground = (SolidColorBrush)Application.Current.Resources["CustomColorBrush"],
                     UnderlineStyle = UnderlineStyle.None,
                     FontWeight = FontWeights.SemiBold,
                 };
-                link.Click += (s, e) => PostNumClicked(postNum);
+                link.Click += (s, e) => PostNumClicked(postNum, threadNum);
                 link.Inlines.Add(InlineWrapper.StandartConverter(wrapper));
                 return link;
             };

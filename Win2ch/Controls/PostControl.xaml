@@ -90,7 +90,8 @@
                            HorizontalAlignment="Left">
                     <interactivity:Interaction.Behaviors>
                         <behaviors:HtmlBehavior
-                            Html="{x:Bind Post.Comment, Mode=TwoWay}"/>
+                            Html="{x:Bind Post.Comment, Mode=TwoWay}"
+                            PostNumClicked="OnPostNumClicked"/>
                     </interactivity:Interaction.Behaviors>
                 </TextBlock>
             </ScrollViewer>
@@ -177,7 +178,6 @@
             <TextBlock Grid.Row="5"
                        Opacity="0.7"
                        Text="{x:Bind Post.Date, Mode=OneWay}"
-                       Margin="0 5 0 0"
                        FontSize="13"/>
 
         </Grid>

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
@@ -54,6 +55,19 @@ namespace Win2ch.Models {
                     post.Position = thread.TotalPosts + i + 1;
                 }
             }
+        }
+
+        public async Task<Post> GetPost(int num) {
+            var url = new Uri(string.Format(Urls.SinglePost, Id, num));
+            var httpFilter = new HttpBaseProtocolFilter();
+            httpFilter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
+            var client = new HttpClient(httpFilter);
+            var response = await client.GetAsync(url);
+            if (!response.IsSuccessStatusCode)
+                throw new HttpException(response.StatusCode);
+            var postJson = await response.Content.ReadAsStringAsync();
+            postJson.CheckForApiError();
+            return JsonConvert.DeserializeObject<List<Post>>(postJson).First();
         }
 
         protected bool Equals(Board other) {

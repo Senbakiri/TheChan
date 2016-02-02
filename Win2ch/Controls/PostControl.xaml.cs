@@ -10,12 +10,7 @@ using Win2ch.Models;
 using Win2ch.Services.SettingsServices;
 using Win2ch.Views;
 
-// Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Win2ch.Controls {
-    /// <summary>
-    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
-    /// </summary>
     public sealed partial class PostControl : Page {
 
 
@@ -43,16 +38,18 @@ namespace Win2ch.Controls {
 
         public event ImageClickEventHandler ImageClick = delegate { };
 
-        public event Action<object, ReplyShowEventArgs> ReplyShowRequested = delegate { };
+        public event EventHandler<ReplyShowEventArgs> ReplyShowRequested = delegate { };
 
         public event Action<Post> RepliesListShowRequested = delegate { };
+
+        public event EventHandler<ParentPostShowEventArgs> ParentPostShowRequested = delegate { };
 
         public bool ShowRepliesAsTree =>
             _settings.RepliesViewMode == RepliesViewMode.Tree ||
             (_settings.RepliesViewMode == RepliesViewMode.Auto && new MouseCapabilities().MousePresent > 0);
 
         public PostControl() {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         public Post Post {
@@ -82,6 +79,10 @@ namespace Win2ch.Controls {
         private void RepliesButton_OnClick(object sender, RoutedEventArgs e) {
             RepliesListShowRequested(Post);
         }
+
+        private void OnPostNumClicked(int postN, int threadNum) {
+            ParentPostShowRequested(this, new ParentPostShowEventArgs(Post, threadNum, postN));
+        }
     }
 
 
@@ -107,7 +108,19 @@ namespace Win2ch.Controls {
         public Post Post { get; }
     }
 
-    public class ImageClickEventArgs {
+    public class ParentPostShowEventArgs : EventArgs {
+        public Post Source { get; }
+        public int ThreadNum { get; }
+        public int PostNum { get; }
+
+        public ParentPostShowEventArgs(Post source, int threadNum, int postNum) {
+            Source = source;
+            ThreadNum = threadNum;
+            PostNum = postNum;
+        }
+    }
+
+    public class ImageClickEventArgs : EventArgs {
         public ImageClickEventArgs(ImageInfo imageInfo) {
             ImageInfo = imageInfo;
         }

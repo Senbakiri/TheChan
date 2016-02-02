@@ -16,7 +16,7 @@
     NavigationCacheMode="Enabled">
 
     <Page.Resources>
-        <Style x:Key="ReplyStyle" TargetType="c:PostControl">
+        <Style x:Key="PostPopupStyle" TargetType="c:PostControl">
             <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="{ThemeResource ThreadBackgroundBrush}"/>
@@ -38,14 +38,15 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
-        <Canvas x:Name="Replies"
+        
+        <Canvas Grid.Row="0"
+                x:Name="Replies"
                 Grid.RowSpan="4"
-                Canvas.ZIndex="10">
+                Canvas.ZIndex="11">
         </Canvas>
 
         <Grid Grid.Row="1"
-              x:Name="RepliesListUnderlay"
+              x:Name="PostAndRepliesListUnderlay"
               Grid.RowSpan="3"
               Canvas.ZIndex="10">
         </Grid>
@@ -53,7 +54,7 @@
         <c:ImagesViewer x:Name="ImagesViewer"
                         Grid.Row="1"
                         Grid.RowSpan="3"
-                        Canvas.ZIndex="11"
+                        Canvas.ZIndex="12"
                         OnClose="ImagesViewerOnOnClose"
                         Visibility="Collapsed"/>
         
@@ -112,7 +113,8 @@
                                        Reply="PostControl_OnReply"
                                        ImageClick="PostControl_OnImageClick"
                                        ReplyShowRequested="PostControl_OnReplyShowRequested"
-                                       RepliesListShowRequested="PostControl_OnRepliesListShowRequested"/>
+                                       RepliesListShowRequested="PostControl_OnRepliesListShowRequested"
+                                       ParentPostShowRequested="PostControl_OnParentPostShowRequested"/>
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>

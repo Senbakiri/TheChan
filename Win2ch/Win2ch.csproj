@@ -111,8 +111,8 @@
     <Compile Include="Common\HtmlConverting\HtmlConverter.cs" />
     <Compile Include="Common\HtmlConverting\InlineWrapper.cs" />
     <Compile Include="Common\HtmlConverting\Selector.cs" />
-    <Compile Include="Controls\RepliesListControl.xaml.cs">
-      <DependentUpon>RepliesListControl.xaml</DependentUpon>
+    <Compile Include="Controls\PostViewer.xaml.cs">
+      <DependentUpon>PostViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\EnumToStringConverter.cs" />
@@ -125,6 +125,8 @@
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Converters\UpperCaseConverter.cs" />
     <Compile Include="Models\Exceptions\HttpException.cs" />
+    <Compile Include="Models\Utils.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Services\SettingsServices\RepliesViewMode.cs" />
     <Compile Include="Services\SettingsServices\Theme.cs" />
     <Compile Include="ViewModels\PostingViewModel.cs" />
@@ -241,7 +243,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\RepliesListControl.xaml">
+    <Page Include="Controls\PostViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

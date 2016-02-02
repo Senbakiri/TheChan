@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Win2ch.Controls.RepliesListControl"
+    x:Class="Win2ch.Controls.PostViewer"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Win2ch.Controls"
@@ -12,7 +12,10 @@
         <Grid Background="#A0000000"
               x:Name="Underlay"
               Tapped="Underlay_OnTapped"/>
-        <ListView ItemsSource="{x:Bind Replies}"
+        <ProgressRing IsActive="{x:Bind IsLoading, Mode=OneWay}"
+                       Visibility="{x:Bind IsLoading, Converter={StaticResource BoolToVis}, Mode=OneWay}"
+                      Canvas.ZIndex="100000"/>
+        <ListView ItemsSource="{x:Bind Posts}"
                   x:Name="RepliesListView"
                   Margin="5"
                   SelectionMode="None"
@@ -42,6 +45,8 @@
                                        ManipulationMode="System, TranslateX"
                                        ManipulationDelta="Post_OnManipulationDelta"
                                        ManipulationCompleted="Post_OnManipulationCompleted"
+                                       ReplyShowRequested="PostControl_OnReplyShowRequested"
+                                       ParentPostShowRequested="PostControl_OnParentPostShowRequested"
                                        MaxWidth="800">
                         <local:PostControl.RenderTransform>
                             <TranslateTransform/>

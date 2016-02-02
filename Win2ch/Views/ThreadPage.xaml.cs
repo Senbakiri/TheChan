@@ -46,8 +46,8 @@ namespace Win2ch.Views {
                 e.Cancel = true;
             }
 
-            if (RepliesListUnderlay.Children.Any()) {
-                RepliesListUnderlay.Children.Clear();
+            if (PostAndRepliesListUnderlay.Children.Any()) {
+                PostAndRepliesListUnderlay.Children.Clear();
                 e.Cancel = true;
             }
 
@@ -97,7 +97,7 @@ namespace Win2ch.Views {
         }
 
         private void PostControl_OnReplyShowRequested(object sender, ReplyShowEventArgs e) {
-            var style = (Style)Resources["ReplyStyle"];
+            var style = (Style)Resources["PostPopupStyle"];
             var position = e.PointerEventArgs.GetCurrentPoint(Replies).Position;
             Post post = e.Post, parent = e.Parent;
 
@@ -230,15 +230,15 @@ namespace Win2ch.Views {
                 return;
 
             Posts.ScrollIntoView(null);
-            RepliesListUnderlay.Children.Clear();
+            PostAndRepliesListUnderlay.Children.Clear();
         }
 
         private void PostControl_OnRepliesListShowRequested(Post post) {
-            var control = new RepliesListControl(post.Replies);
-            control.Close += s => RepliesListUnderlay.Children.Remove((UIElement)s);
+            var control = new PostViewer(ViewModel.Thread, post.Replies);
+            control.Close += s => PostAndRepliesListUnderlay.Children.Remove((UIElement)s);
             control.ImageClick += PostControl_OnImageClick;
             control.Reply += PostControl_OnReply;
-            RepliesListUnderlay.Children.Add(control);
+            PostAndRepliesListUnderlay.Children.Add(control);
         }
 
         private void Posts_OnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) {
@@ -268,6 +268,16 @@ namespace Win2ch.Views {
             var post = ViewModel.Posts.FirstOrDefault(p => p.Images.Contains(e.LastImage));
             if (post != null)
                 Posts.ScrollIntoView(post);
+        }
+
+        private void PostControl_OnParentPostShowRequested(object sender, ParentPostShowEventArgs e) {
+            ClearReplies();
+            var control = new PostViewer(ViewModel.Thread, e.ThreadNum, e.PostNum);
+            control.Close += s => PostAndRepliesListUnderlay.Children.Remove((UIElement)s);
+            control.ImageClick += PostControl_OnImageClick;
+            control.Reply += PostControl_OnReply;
+            control.ReplyShowRequested += PostControl_OnReplyShowRequested;
+            PostAndRepliesListUnderlay.Children.Add(control);
         }
     }
 }
