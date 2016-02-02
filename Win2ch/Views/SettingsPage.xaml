@@ -15,7 +15,7 @@
     <Page.DataContext>
         <vm:SettingsViewModel/>
     </Page.DataContext>
-    
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -60,7 +60,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
-            
+
             <PivotItem Header="поведение">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
@@ -70,33 +70,41 @@
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
-            
+
             <PivotItem Header="о программе">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal"
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal"
                                 Margin="0 10"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top">
-                        <Image Source="../Assets/BigAccentLogo.png"
+                            <Image Source="../Assets/BigAccentLogo.png"
                            Stretch="Uniform"
                            Height="100"/>
-                        <StackPanel Margin="10 0">
-                            <TextBlock Text="Win2ch"
+                            <StackPanel Margin="10 0">
+                                <TextBlock Text="Win2ch"
                                    Style="{StaticResource HeaderTextBlockStyle}"/>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Alpha"
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Beta"
                                            Style="{StaticResource SubtitleTextBlockStyle}"/>
-                                <TextBlock Text="{x:Bind ViewModel.Version}"
+                                    <TextBlock Text="{x:Bind ViewModel.Version}"
                                            Style="{StaticResource SubtitleTextBlockStyle}"
                                            Margin="5 0 0 0"/>
+                                </StackPanel>
                             </StackPanel>
                         </StackPanel>
-                    </StackPanel>
 
+                        <Button Margin="0 10"
+                                        Click="{x:Bind ViewModel.Donate}"
+                                Background="Gold"
+                                Foreground="Black">
+                            Поддержать разработчика
+                        </Button>
+                    </StackPanel>
                     <ScrollViewer Grid.Row="1" 
                                   VerticalScrollBarVisibility="Auto">
                         <StackPanel>
@@ -113,14 +121,12 @@
                                     </Style>
                                 </StackPanel.Resources>
 
-
                                 <TextBlock Text="Спасибо следующим людям за пожертвования:"
                                        Style="{StaticResource SubtitleTextBlockStyle}"/>
                                 <TextBlock>Александр Б.</TextBlock>
                                 <TextBlock>Денис Ф.</TextBlock>
                             </StackPanel>
                         </StackPanel>
-                        
                     </ScrollViewer>
                 </Grid>
             </PivotItem>

@@ -6,8 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Store;
 using Windows.Storage;
 using Windows.System.Profile;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Template10.Mvvm;
 using Win2ch.Services.SettingsServices;
@@ -73,6 +75,27 @@ namespace Win2ch.ViewModels {
             var stream = await file.OpenReadAsync();
             var reader = new StreamReader(stream.AsStreamForRead());
             ReleaseNotes = reader.ReadToEnd();
+            FullFillUnfulfilledConsumables();
+        }
+
+        private async void FullFillUnfulfilledConsumables() {
+            var donations = await CurrentApp.GetUnfulfilledConsumablesAsync();
+            foreach (var donation in donations) {
+                await CurrentApp.ReportConsumableFulfillmentAsync(donation.ProductId, donation.TransactionId);
+            }
+        }
+
+        public async void Donate() {
+            var result = await CurrentApp.RequestProductPurchaseAsync("donation1");
+            switch (result.Status) {
+                case ProductPurchaseStatus.Succeeded:
+                    await new MessageDialog("Спасибо за поддержку!").ShowAsync();
+                    await CurrentApp.ReportConsumableFulfillmentAsync("donation1", result.TransactionId);
+                    break;
+                case ProductPurchaseStatus.NotFulfilled:
+                    FullFillUnfulfilledConsumables();
+                    break;
+            }
         }
     }
 }
