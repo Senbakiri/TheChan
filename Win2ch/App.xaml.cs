@@ -41,7 +41,6 @@ namespace Win2ch {
             // setup hamburger shell
             var nav = NavigationServiceFactory(BackButton.Attach, ExistingContent.Include);
             Window.Current.Content = new Views.Shell(nav);
-            NavigationService.Navigate(typeof(Views.MainPage));
         }
 
         // runs only when not restored from state
