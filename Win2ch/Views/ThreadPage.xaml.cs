@@ -58,8 +58,8 @@ namespace Win2ch.Views {
                 e.Cancel = true;
             }
 
-            if (ImagesViewer.IsOpened) {
-                ImagesViewer.Close();
+            if (ImagesViewerUnderlay.Children.Count > 0) {
+                ImagesViewerUnderlay.Children.Clear();
                 e.Cancel = true;
             }
         }
@@ -100,7 +100,11 @@ namespace Win2ch.Views {
         }
 
         private void PostControl_OnImageClick(object sender, ImageClickEventArgs e) {
-            ImagesViewer.Show(e.ImageInfo, ViewModel.Posts.SelectMany(p => p.Images).ToList());
+            var viewer = new ImagesViewer(e.ImageInfo,
+                ViewModel.Posts.SelectMany(p => p.Images).ToList());
+
+            viewer.OnClose += ImagesViewerOnOnClose;
+            ImagesViewerUnderlay.Children.Add(viewer);
         }
 
         private void PostControl_OnReplyShowRequested(object sender, ReplyShowEventArgs e) {
@@ -274,7 +278,9 @@ namespace Win2ch.Views {
 
             var post = ViewModel.Posts.FirstOrDefault(p => p.Images.Contains(e.LastImage));
             if (post != null)
-                Posts.ScrollIntoView(post);
+                Posts.ScrollIntoView(post, ScrollIntoViewAlignment.Leading);
+
+            ImagesViewerUnderlay.Children.Clear();
         }
 
         private void PostControl_OnParentPostShowRequested(object sender, ParentPostShowEventArgs e) {

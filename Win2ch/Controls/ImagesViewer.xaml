@@ -7,13 +7,13 @@
     xmlns:viewModels="using:Win2ch.ViewModels"
     mc:Ignorable="d"
     x:Name="This"
-    SizeChanged="OnSizeChanged">
+    SizeChanged="OnSizeChanged"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
     <Grid KeyDown="OnKeyDown">
         <Grid x:Name="Underlay"
               Background="Black"/>
         <FlipView x:Name="ImagesList"
-                  ItemsSource="{x:Bind ImagesSources}"
                   VerticalContentAlignment="Stretch"
                   HorizontalContentAlignment="Stretch"
                   SelectionChanged="ImagesList_OnSelectionChanged">

@@ -50,14 +50,12 @@
               Grid.RowSpan="3"
               Canvas.ZIndex="10">
         </Grid>
-        
-        <c:ImagesViewer x:Name="ImagesViewer"
-                        Grid.Row="1"
-                        Grid.RowSpan="3"
-                        Canvas.ZIndex="12"
-                        OnClose="ImagesViewerOnOnClose"
-                        Visibility="Collapsed"/>
-        
+
+        <Grid x:Name="ImagesViewerUnderlay"
+              Grid.Row="1"
+              Grid.RowSpan="3"
+              Canvas.ZIndex="12"/>
+
         <controls:PageHeader Frame="{x:Bind Frame}" Grid.Row="0">
             <controls:PageHeader.Content>
                 <TextBlock Text="{Binding Title, Converter={StaticResource ToUpper}}"

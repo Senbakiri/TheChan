@@ -30,15 +30,17 @@ namespace Win2ch.Views {
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) {
-            if (ImagesViewer.IsOpened) {
-                ImagesViewer.Close();
+            if (ImagesViewerUnderlay.Children.Count > 0) {
+                ImagesViewerUnderlay.Children.Clear();
                 e.Cancel = true;
             }
         }
 
         private void PostControl_OnImageClick(object sender, ImageClickEventArgs e) {
-            ImagesViewer.Show(e.ImageInfo,
+            var viewer = new ImagesViewer(e.ImageInfo,
                 ViewModel.Threads.SelectMany(t => t.Posts.SelectMany(p => p.Images)).ToList());
+            viewer.OnClose += (s, _) => ImagesViewerUnderlay.Children.Clear();
+            ImagesViewerUnderlay.Children.Add(viewer);
         }
     }
 }

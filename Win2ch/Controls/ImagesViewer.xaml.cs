@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -9,24 +11,19 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Win2ch.Annotations;
 using Win2ch.Models;
 using Win2ch.Views;
 
 namespace Win2ch.Controls {
     public sealed partial class ImagesViewer {
-
-        public ImagesViewer() {
-            InitializeComponent();
-        }
-
-        public bool IsOpened { get; private set; }
-
         public ObservableCollection<BitmapImage> ImagesSources { get; }
-        = new ObservableCollection<BitmapImage>();
 
         public event EventHandler<ImagesViewerCloseEventArgs> OnClose = delegate { };
 
         private List<ImageInfo> _AllImages;
+        private BitmapImage _CurrentImage;
+        private int _CurrentIndex;
 
         public List<ImageInfo> AllImages {
             get { return _AllImages; }
@@ -42,12 +39,36 @@ namespace Win2ch.Controls {
                 }
             }
         }
-        
+
         public BitmapImage CurrentImage {
-            get { return ImagesList.SelectedItem as BitmapImage; }
+            get { return _CurrentImage; }
             set {
-                ImagesList.SelectedItem = value;
+                if (Equals(value, _CurrentImage))
+                    return;
+                _CurrentImage = value;
+                CurrentIndex = ImagesSources.IndexOf(value);
             }
+        }
+
+        public int CurrentIndex {
+            get { return _CurrentIndex; }
+            set {
+                if (value == _CurrentIndex)
+                    return;
+                _CurrentIndex = value;
+                if (CurrentIndex > 0 && CurrentIndex < ImagesSources.Count) {
+                    _CurrentImage = ImagesSources[CurrentIndex];
+                    ImagesList.SelectedIndex = value;
+                }
+            }
+        }
+
+        public ImagesViewer(ImageInfo currentImage, List<ImageInfo> allImages) {
+            ImagesSources = new ObservableCollection<BitmapImage>();
+            InitializeComponent();
+            ImagesList.ItemsSource = ImagesSources;
+            AllImages = allImages;
+            CurrentImage = ImagesSources.FirstOrDefault(im => im.UriSource.OriginalString.Equals(currentImage.Url));
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) {
@@ -118,20 +139,12 @@ namespace Win2ch.Controls {
             imageItem.MaxHeight = ActualHeight;
             imageItem.MaxWidth = ActualWidth;
             scrollViewItem.ChangeView(0, 0, 1.0f, true);
-        }
 
-
-        public void Show(ImageInfo currentImage, List<ImageInfo> allImages) {
-            IsOpened = true;
-            Visibility = Visibility.Visible;
-            AllImages = allImages;
-            CurrentImage = ImagesSources.FirstOrDefault(im => im.UriSource.OriginalString.Equals(currentImage.Url));
-            
+            if (CurrentIndex != ImagesList.SelectedIndex)
+                CurrentIndex = ImagesList.SelectedIndex;
         }
 
         public void Close() {
-            Visibility = Visibility.Collapsed;
-            IsOpened = false;
             var lastImage = AllImages.FirstOrDefault(i => i.Url == CurrentImage.UriSource.OriginalString);
             OnClose(this, new ImagesViewerCloseEventArgs(lastImage));
         }
@@ -157,7 +170,9 @@ namespace Win2ch.Controls {
 
         private void UIElement_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) {
             var elem = (FrameworkElement)sender;
-            elem.RenderTransform = null;
+            var transform = elem.RenderTransform as TranslateTransform;
+            transform.X = 0;
+            transform.Y = 0;
             elem.Opacity = Underlay.Opacity = 1;
             if (Math.Abs(e.Cumulative.Translation.Y) > 150)
                 Close();

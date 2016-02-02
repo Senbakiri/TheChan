@@ -53,10 +53,9 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <c:ImagesViewer x:Name="ImagesViewer"
-                        Grid.Row="1"
-                        Visibility="Collapsed"
-                        Canvas.ZIndex="10"/>
+        <Grid x:Name="ImagesViewerUnderlay"
+              Grid.Row="1"
+              Canvas.ZIndex="10"/>
         
         <controls:PageHeader Grid.Row="0" Frame="{x:Bind Frame}">
             <controls:PageHeader.Content>
