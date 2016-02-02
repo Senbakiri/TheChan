@@ -3,7 +3,7 @@
   <Identity Name="1900ACEDENEDSoftware.Win2ch" Publisher="CN=C1D80353-77E2-45BF-8297-FA5D94488E86" Version="0.5.0.0" />
   <mp:PhoneIdentity PhoneProductId="af551280-836d-4718-a2ec-1e730d2f966e" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>Win2ch Alpha</DisplayName>
+    <DisplayName>Win2ch Beta</DisplayName>
     <PublisherDisplayName>ACEDENED Software</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>

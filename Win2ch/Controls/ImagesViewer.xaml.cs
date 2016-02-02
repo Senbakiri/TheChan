@@ -23,7 +23,7 @@ namespace Win2ch.Controls {
 
         private List<ImageInfo> _AllImages;
         private BitmapImage _CurrentImage;
-        private int _CurrentIndex;
+        private int _CurrentIndex = -1;
         private ImageInfo _CurrentImageInfo;
 
         public List<ImageInfo> AllImages {
@@ -67,7 +67,7 @@ namespace Win2ch.Controls {
                 if (value == _CurrentIndex)
                     return;
                 _CurrentIndex = value;
-                if (CurrentIndex > 0 && CurrentIndex < ImagesSources.Count) {
+                if (CurrentIndex >= 0 && CurrentIndex < ImagesSources.Count) {
                     _CurrentImage = ImagesSources[CurrentIndex];
                     CurrentImageInfo = AllImages[CurrentIndex];
                     ImagesList.SelectedIndex = value;
@@ -166,7 +166,7 @@ namespace Win2ch.Controls {
             var scrollViewer = elem.Parent as ScrollViewer;
             var total = e.Cumulative.Translation.Y;
             if (scrollViewer == null || scrollViewer.ZoomFactor > 1)
-                return;
+                e.Complete();
 
             if (e.IsInertial && Math.Abs(total) > 500) {
                 e.Complete();
@@ -183,8 +183,10 @@ namespace Win2ch.Controls {
         private void UIElement_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) {
             var elem = (FrameworkElement)sender;
             var transform = elem.RenderTransform as TranslateTransform;
-            transform.X = 0;
-            transform.Y = 0;
+            if (transform != null) {
+                transform.X = 0;
+                transform.Y = 0;
+            }
             elem.Opacity = Underlay.Opacity = 1;
             if (Math.Abs(e.Cumulative.Translation.Y) > 150)
                 Close();
