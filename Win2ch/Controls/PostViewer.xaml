@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:Win2ch.Models"
+    xmlns:itemsControlGrid="using:ItemsControlGrid"
     mc:Ignorable="d">
 
     <Grid x:Name="Root">
@@ -47,13 +48,43 @@
                                        ManipulationCompleted="Post_OnManipulationCompleted"
                                        ReplyShowRequested="PostControl_OnReplyShowRequested"
                                        ParentPostShowRequested="PostControl_OnParentPostShowRequested"
-                                       MaxWidth="800">
+                                       MaxWidth="1200">
                         <local:PostControl.RenderTransform>
                             <TranslateTransform/>
                         </local:PostControl.RenderTransform>
                     </local:PostControl>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.Footer>
+                <Grid MaxWidth="1200"
+                      Margin="0 4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="GoToPostButton"
+                            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                            HorizontalAlignment="Stretch"
+                            FontWeight="SemiBold"
+                            Padding="0 10"
+                            Margin="0 0 2 0"
+                            Visibility="{x:Bind CanGoToPost, Mode=OneWay, Converter={StaticResource BoolToVis}}"
+                            Click="{x:Bind GoToPost}">
+                        ПЕРЕЙТИ К ПОСТУ
+                    </Button>
+                    <Button x:Name="GoToThreadButton"
+                            Grid.Column="1"
+                            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                            HorizontalAlignment="Stretch"
+                            FontWeight="SemiBold"
+                            Padding="0 10"
+                            Margin="2 0 0 0"
+                            Visibility="{x:Bind CanGoToThread, Mode=OneWay, Converter={StaticResource BoolToVis}}"
+                            Click="{x:Bind GoToThread}">
+                        ПЕРЕЙТИ В ТРЕД
+                    </Button>
+                </Grid>
+            </ListView.Footer>
         </ListView>
     </Grid>
 </Page>

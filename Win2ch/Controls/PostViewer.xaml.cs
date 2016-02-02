@@ -13,10 +13,14 @@ using Windows.UI.Xaml.Media;
 using Win2ch.Annotations;
 using Win2ch.Models;
 using Win2ch.Models.Exceptions;
+using Win2ch.ViewModels;
+using Win2ch.Views;
 
 namespace Win2ch.Controls {
     public sealed partial class PostViewer : INotifyPropertyChanged {
         private bool _IsLoading;
+        private bool _CanGoToPost;
+        private bool _CanGoToThread;
 
         public bool IsLoading {
             get { return _IsLoading; }
@@ -24,6 +28,26 @@ namespace Win2ch.Controls {
                 if (value == _IsLoading)
                     return;
                 _IsLoading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool CanGoToPost {
+            get { return _CanGoToPost; }
+            set {
+                if (value == _CanGoToPost)
+                    return;
+                _CanGoToPost = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool CanGoToThread {
+            get { return _CanGoToThread; }
+            set {
+                if (value == _CanGoToThread)
+                    return;
+                _CanGoToThread = value;
                 RaisePropertyChanged();
             }
         }
@@ -36,6 +60,7 @@ namespace Win2ch.Controls {
         public event PropertyChangedEventHandler PropertyChanged;
         private const int ManipulationAmountToClose = 100;
         private Thread SourceThread { get; }
+        private int ThreadNum { get; set; }
 
         public PostViewer(Thread thread, IEnumerable<Post> posts) {
             Posts = new ObservableCollection<Post>(posts);
@@ -53,13 +78,16 @@ namespace Win2ch.Controls {
             Posts = new ObservableCollection<Post>();
             SourceThread = sourceThread;
             Post post = null;
+            ThreadNum = threadNum;
             if (threadNum == sourceThread.Num)
                 post = sourceThread.Posts.FirstOrDefault(p => p.Num == postNum);
 
             if (post == null || threadNum != sourceThread.Num)
                 TryToLoadPost(postNum);
-            else
+            else {
+                CanGoToPost = true;
                 Posts.Add(post);
+            }
         }
 
         private async void TryToLoadPost(int postNum) {
@@ -70,6 +98,7 @@ namespace Win2ch.Controls {
                 var post = await SourceThread.Board.GetPost(postNum);
                 Thread.FillPosts(new List<Post> {post}, SourceThread.Board);
                 Posts.Add(post);
+                CanGoToThread = true;
             } catch (COMException e) {
                 await Utils.ShowConnectionError(e, errorMessage);
                 Close?.Invoke(this);
@@ -82,6 +111,7 @@ namespace Win2ch.Controls {
             }
 
             IsLoading = false;
+            CanGoToPost = true;
         }
 
         private void PostControl_OnRepliesListShowRequested(Post post) {
@@ -111,7 +141,8 @@ namespace Win2ch.Controls {
             var index = RepliesListView.ItemsPanelRoot.Children.IndexOf(elem);
 
             double itemsCount = RepliesListView.ItemsPanelRoot.Children.Count;
-            
+
+            GoToPostButton.Opacity = GoToThreadButton.Opacity = 1 - Math.Abs(total)/ManipulationAmountToClose;
 
             for (int i = 0; i < itemsCount; ++i) {
                 var distance = Math.Abs(index - i);
@@ -129,6 +160,7 @@ namespace Win2ch.Controls {
                 return;
 
             if (Math.Abs(e.Cumulative.Translation.X) < ManipulationAmountToClose) {
+                GoToPostButton.Opacity = GoToThreadButton.Opacity = 1;
                 foreach (var child in RepliesListView.ItemsPanelRoot.Children.Cast<FrameworkElement>()) {
                     var translate = child.RenderTransform as TranslateTransform;
                     if (translate != null)
@@ -158,5 +190,20 @@ namespace Win2ch.Controls {
             Root.Children.Add(control);
         }
 
+        public void GoToPost() {
+            if (CanGoToPost)
+                Shell.HamburgerMenu
+                     .NavigationService.Navigate(typeof(ThreadPage),
+                         new NavigationToThreadWithScrolling(
+                             new Thread(ThreadNum, SourceThread.Board.Id),
+                             (int) Posts.First().Num));
+        }
+
+        public void GoToThread() {
+            if (CanGoToThread)
+                Shell.HamburgerMenu
+                     .NavigationService.Navigate(typeof (ThreadPage),
+                         new Thread(ThreadNum, SourceThread.Board.Id));
+        }
     }
 }

@@ -160,5 +160,19 @@ namespace Win2ch.Models {
             client.DefaultRequestHeaders.TryAppendWithoutValidation(
                 "Accept-Charset", "ISO-8859-1");
         }
+
+        public override bool Equals(object obj) {
+            return obj is Thread && Equals((Thread) obj);
+        }
+
+        protected bool Equals(Thread other) {
+            return Equals(Board, other.Board) && Num == other.Num;
+        }
+
+        public override int GetHashCode() {
+            unchecked {
+                return ((Board?.GetHashCode() ?? 0)*397) ^ Num.GetHashCode();
+            }
+        }
     }
 }

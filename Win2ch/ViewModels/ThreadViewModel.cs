@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Navigation;
 using Template10.Mvvm;
+using Win2ch.Common;
 using Win2ch.Models;
 using Win2ch.Models.Exceptions;
 using Win2ch.Views;
@@ -66,7 +67,10 @@ namespace Win2ch.ViewModels {
                 FastReplyText = value.Comment;
             }
         }
+
         public ICommand AdvancedPostingCommand { get; }
+
+        public ICanScrollToItem<Post> PostScroller { get; set; } 
 
         public ThreadViewModel() {
             AdvancedPostingCommand = new DelegateCommand(AdvancedPosting);
@@ -125,17 +129,25 @@ namespace Win2ch.ViewModels {
             return newPosts.Count > 0;
         }
 
-        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state) {
-            var thread = parameter as Thread;
-            if (thread != null && thread != Thread)
-                LoadThread(thread);
+        public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state) {
+            if (parameter is Thread) {
+                var thread = (Thread) parameter;
+                if ( !ReferenceEquals(thread, Thread))
+                    await LoadThread(thread);
+            } else if (parameter is NavigationToThreadWithScrolling) {
+                var nav = (NavigationToThreadWithScrolling) parameter;
+                if (!Equals(nav.Thread, Thread))
+                    await LoadThread(nav.Thread);
+
+                var post = Posts.FirstOrDefault(p => p.Num == nav.PostNum);
+                if (post != null)
+                    PostScroller?.ScrollToItem(post);
+            }
 
             FastReplyText = PostInfo.Comment;
-
-            return Task.CompletedTask;
         }
 
-        private async void LoadThread(Thread thread) {
+        private async Task LoadThread(Thread thread) {
             Posts.Clear();
             Thread = thread;
             Title = "Просмотр треда";
@@ -159,6 +171,16 @@ namespace Win2ch.ViewModels {
             }
         }
 
+    }
+
+    public class NavigationToThreadWithScrolling {
+        public NavigationToThreadWithScrolling(Thread thread, int postNum) {
+            Thread = thread;
+            PostNum = postNum;
+        }
+
+        public Thread Thread { get; }
+        public int PostNum { get; }
     }
 
 

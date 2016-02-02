@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Win2ch.Common;
 using Win2ch.Controls;
 using Win2ch.Models;
 using Win2ch.Services.SettingsServices;
@@ -22,8 +23,8 @@ namespace Win2ch.Views {
     /// <summary>
     /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
-    public sealed partial class ThreadPage {
-        public ThreadViewModel ViewModel => DataContext as ThreadViewModel;
+    public sealed partial class ThreadPage : ICanScrollToItem<Post> {
+        public ThreadViewModel ViewModel { get; private set; }
 
         private Dictionary<Post, int> _replyLevel { get; } = new Dictionary<Post, int>();
         private Post _lastReply;
@@ -35,6 +36,12 @@ namespace Win2ch.Views {
             InitializeComponent();
             _closeRepliesTimer.Interval = TimeSpan.FromSeconds(3);
             _closeRepliesTimer.Tick += CloseRepliesTimerOnTick;
+            DataContextChanged += OnDataContextChanged;
+        }
+
+        private void OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args) {
+            ViewModel = (ThreadViewModel) DataContext;
+            ViewModel.PostScroller = this;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) {
@@ -278,6 +285,10 @@ namespace Win2ch.Views {
             control.Reply += PostControl_OnReply;
             control.ReplyShowRequested += PostControl_OnReplyShowRequested;
             PostAndRepliesListUnderlay.Children.Add(control);
+        }
+
+        public void ScrollToItem(Post item) {
+            Posts.ScrollIntoView(item, ScrollIntoViewAlignment.Leading);
         }
     }
 }
