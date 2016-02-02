@@ -78,7 +78,8 @@ namespace Win2ch.ViewModels {
         }
 
         private void OnBoardLoadError(HttpException exception) {
-            NavigationService.Navigate(typeof(Views.Errors.BoardErrorPage), exception, new SuppressNavigationTransitionInfo());
+            NavigationService.Navigate(typeof (Views.Errors.BoardErrorPage), exception,
+                new SuppressNavigationTransitionInfo());
         }
     }
 }

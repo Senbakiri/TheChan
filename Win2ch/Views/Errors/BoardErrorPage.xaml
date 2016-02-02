@@ -37,6 +37,9 @@
             <TextBlock Style="{StaticResource HeaderTextBlockStyle}"
                        TextAlignment="Center"
                        Text="{x:Bind ErrorCode}"/>
+            <TextBlock TextAlignment="Center"
+                       Text="Проверьте подключение к интернету."
+                       Visibility="{x:Bind IsConnectionError, Converter={StaticResource BoolToVis}}"/>
             <Button Content="Вернуться домой"
                     Click="{x:Bind GoHome}"
                     Margin="0 10 0 0"

@@ -50,10 +50,9 @@ namespace Win2ch.Models {
                 ++_lastPage;
                 resultCount = (uint)result.Count;
                 await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Fill(result));
-            } catch (COMException) {
+            } catch (COMException e) {
                 if (_lastPage == 0)
-                    throw;
-
+                    await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => BoardLoadError(new HttpException(e)));
                 HasMoreItems = false;
             } catch (HttpException e) {
                 await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => BoardLoadError(e));

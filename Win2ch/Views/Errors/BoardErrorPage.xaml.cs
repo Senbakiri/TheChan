@@ -1,4 +1,6 @@
-﻿using Windows.UI.Xaml.Navigation;
+﻿using System;
+using System.Runtime.InteropServices;
+using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
 using Template10.Services.SerializationService;
 using Win2ch.Models.Exceptions;
@@ -10,8 +12,10 @@ namespace Win2ch.Views.Errors {
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class BoardErrorPage {
+
+        public bool IsConnectionError { get; private set; }
         public bool Is404 { get; private set; }
-        public int ErrorCode { get; private set; }
+        public string ErrorCode { get; private set; }
 
         public BoardErrorPage() {
             InitializeComponent();
@@ -22,11 +26,12 @@ namespace Win2ch.Views.Errors {
             Shell.HamburgerMenu.NavigationService.ClearHistory();
 
             var exception = SerializationService.Json.Deserialize<HttpException>(e.Parameter?.ToString());
-            if (exception == null)
-                return;
+            IsConnectionError = exception.IsConnectionError;
 
-            Is404 = exception.Code == HttpStatusCode.NotFound;
-            ErrorCode = (int)exception.Code;
+            Is404 = exception.Code == 404;
+            ErrorCode = exception.IsConnectionError
+                ? "0x" + exception.Code.ToString("X")
+                : exception.Code.ToString();
 
             Bindings.Update();
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
@@ -196,7 +197,11 @@ namespace Win2ch.ViewModels {
                 Text = "";
                 NavigationService.GoBack();
             } catch (ApiException e) {
-                await new MessageDialog(e.Message, "Ошибка").ShowAsync();
+                await Utils.ShowOtherError(e, "Ошибка");
+            } catch (HttpException e) {
+                await Utils.ShowHttpError(e, "Ошибка");
+            } catch (COMException e) {
+                await Utils.ShowConnectionError(e, "Ошибка");
             } finally {
                 IsWorking = false;
             }

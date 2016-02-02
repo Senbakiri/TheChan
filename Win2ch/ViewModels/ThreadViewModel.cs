@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Popups;
@@ -82,7 +83,11 @@ namespace Win2ch.ViewModels {
                 FastReplyText = string.Empty;
                 return await Refresh();
             } catch (ApiException e) {
-                await new MessageDialog(e.Message, "Ошибка").ShowAsync();
+                await Utils.ShowOtherError(e, "Ошибка");
+            } catch (HttpException e) {
+                await Utils.ShowHttpError(e, "Ошибка");
+            } catch (COMException e) {
+                await Utils.ShowConnectionError(e, "Ошибка");
             }
 
             return false;
@@ -103,13 +108,15 @@ namespace Win2ch.ViewModels {
             try {
                 newPosts = await Thread.GetPostsFrom(Thread.Posts.Count + 1);
             } catch (ApiException e) {
-                var dialog = new MessageDialog(e.Message, "Сервер вернул ошибку");
-                await dialog.ShowAsync();
+                await Utils.ShowOtherError(e, "Сервер вернул ошибку");
                 IsWorking = false;
                 return false;
             } catch (HttpException e) {
-                var dialog = new MessageDialog(e.Message, "Не удалось получить посты");
-                await dialog.ShowAsync();
+                await Utils.ShowHttpError(e, "Не удалось получить посты");
+                IsWorking = false;
+                return false;
+            } catch (COMException e) {
+                await Utils.ShowConnectionError(e, "Не удалось получить посты");
                 IsWorking = false;
                 return false;
             }
@@ -163,11 +170,12 @@ namespace Win2ch.ViewModels {
                     Posts.Add(post);
                 }
             } catch (ApiException e) {
-                var dialog = new MessageDialog(e.Message, "Сервер вернул ошибку");
-                await dialog.ShowAsync();
-            } catch (WebException e) {
-                var dialog = new MessageDialog(e.Message, "Не удалось загрузить тред");
-                await dialog.ShowAsync();
+                await Utils.ShowOtherError(e, "Сервер вернул ошибку");
+            } catch (HttpException e) {
+                await Utils.ShowHttpError(e, "Не удалось загрузить тред.");
+            }
+            catch (COMException e) {
+                await Utils.ShowConnectionError(e, "Не удалось загрузить тред");
             }
         }
 

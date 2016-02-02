@@ -19,7 +19,7 @@ namespace Win2ch.Models {
 
         public static async Task ShowHttpError(HttpException exception, string title) {
             var dialog = new MessageDialog(
-                $"Код ошибки: {(int) exception.Code} {exception.Code}.",
+                $"Код ошибки: {exception.Code} {exception.Message}.",
                 title);
             await dialog.ShowAsync();
         }
