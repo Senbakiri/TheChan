@@ -7,17 +7,11 @@ using Windows.Web;
 
 namespace Win2ch.Models {
     public class Post {
-        private string _Comment;
         private string _Name;
         private string _EMail;
         
-        public string Comment {
-            get { return _Comment; }
-            set {
-                _Comment = RemoveHtml(value);
-            }
-        }
-        
+        public string Comment { get; set; }
+
         public string Name {
             get { return _Name; }
             set { _Name = RemoveHtml(value); }

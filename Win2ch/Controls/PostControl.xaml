@@ -10,6 +10,8 @@
     xmlns:gregstoll="using:Gregstoll"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:win2Ch="using:Win2ch"
+    xmlns:behaviors="using:Win2ch.Behaviors"
     mc:Ignorable="d"
     x:Name="This">
 
@@ -64,7 +66,8 @@
 
             <GridView Grid.Row="2" 
                       ItemsSource="{x:Bind Post.Images, Mode=OneWay}"
-                      Margin="0 5"
+                      Visibility="{x:Bind Post.Images, Converter={StaticResource ListToVis}, Mode=OneWay}"
+                      Margin="0 5 0 0"
                       Padding="0"
                       SelectionMode="None"
                       IsItemClickEnabled="True"
@@ -77,14 +80,19 @@
             </GridView>
 
             <ScrollViewer Grid.Row="3"
-                          VerticalScrollBarVisibility="Auto">
+                          VerticalScrollBarVisibility="Auto"
+                          Margin="0 5 0 0">
                 <TextBlock x:Name="PostText"
-                           Text="{x:Bind Post.Comment, Mode=OneWay}"
                            IsTextSelectionEnabled="{x:Bind IsSimple, Converter={StaticResource InverseBool}}"
                            TextWrapping="Wrap"
                            Visibility="{x:Bind Post.Comment, Converter={StaticResource StrToVis}, Mode=OneWay}"
                            MaxWidth="1200"
-                           HorizontalAlignment="Left"/>
+                           HorizontalAlignment="Left">
+                    <interactivity:Interaction.Behaviors>
+                        <behaviors:HtmlBehavior
+                            Html="{x:Bind Post.Comment, Mode=TwoWay}"/>
+                    </interactivity:Interaction.Behaviors>
+                </TextBlock>
             </ScrollViewer>
 
             <StackPanel

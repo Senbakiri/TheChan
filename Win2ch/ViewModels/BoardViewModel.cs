@@ -39,12 +39,10 @@ namespace Win2ch.ViewModels {
                 RaisePropertyChanged();
             }
         }
-
-        public ICommand ShowImageCommand { get; }
+        
         public ICommand NewThreadCommand { get; }
 
         public BoardViewModel() {
-            ShowImageCommand = new DelegateCommand<ImageInfo>(ShowImage);
             NewThreadCommand = new DelegateCommand(NewThread);
         }
 
@@ -53,12 +51,6 @@ namespace Win2ch.ViewModels {
                 PostInfo = new NewPostInfo(),
                 Thread = new Thread(0, Board.Id)
             });
-        }
-
-        private void ShowImage(ImageInfo imageInfo) {
-            //NavigationService.Navigate(typeof(ImagesViewControl),
-            //    new ImagesViewPageNavigationParameters(imageInfo,
-            //        Threads.SelectMany(t => t.Posts.SelectMany(p => p.Images)).ToList()));
         }
 
         private void Threads_OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {

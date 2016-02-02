@@ -6,7 +6,9 @@ using Windows.ApplicationModel;
 using Win2ch.Services.SettingsServices;
 using Windows.ApplicationModel.Activation;
 using Windows.System.Profile;
+using Windows.UI;
 using Windows.UI.ViewManagement;
+using Windows.UI.Xaml.Media;
 using Template10.Common;
 
 namespace Win2ch {

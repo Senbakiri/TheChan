@@ -19,7 +19,7 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>Win2ch_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxBundle>Auto</AppxBundle>
+    <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>A8CEDA4423A06CE1CED155B854C516214138FC61</PackageCertificateThumbprint>
   </PropertyGroup>
@@ -106,6 +106,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Behaviors\HtmlBehavior.cs" />
+    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\HtmlConverting\HtmlConverter.cs" />
+    <Compile Include="Common\HtmlConverting\InlineWrapper.cs" />
+    <Compile Include="Common\HtmlConverting\Selector.cs" />
     <Compile Include="Controls\RepliesListControl.xaml.cs">
       <DependentUpon>RepliesListControl.xaml</DependentUpon>
     </Compile>
@@ -132,7 +137,6 @@
     <Compile Include="Controls\PostControl.xaml.cs">
       <DependentUpon>PostControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HtmlToRichTextBlockConverter.cs" />
     <Compile Include="Models\Api\ApiResult.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Api\ApiBoardsProvider.cs" />
