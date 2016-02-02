@@ -162,7 +162,7 @@
                          BorderThickness="0"
                          AcceptsReturn="True"
                          TextWrapping="Wrap"
-                         Text="{x:Bind ViewModel.FastReplyText, Mode=TwoWay}"
+                         Text="{Binding FastReplyText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          MaxHeight="200"/>
                 <Button Grid.Column="2"
                         Background="Transparent"
