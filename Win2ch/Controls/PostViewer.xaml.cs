@@ -187,6 +187,7 @@ namespace Win2ch.Controls {
             control.Close += s => Root.Children.Remove((UIElement)s);
             control.Reply += PostControl_OnReply;
             control.ImageClick += PostControl_OnImageClick;
+            control.ReplyShowRequested += PostControl_OnReplyShowRequested;
             Root.Children.Add(control);
         }
 
