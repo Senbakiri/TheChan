@@ -167,6 +167,7 @@ namespace Win2ch.Views {
             control.Reply += PostControl_OnReply;
             control.ReplyShowRequested += PostControl_OnReplyShowRequested;
             control.ImageClick += PostControl_OnImageClick;
+            control.ParentPostShowRequested += PostControl_OnParentPostShowRequested;
             control.PointerMoved += (s, _) => StartTimer();
             control.ManipulationDelta += PostOnManipulationDelta;
             control.ManipulationCompleted += PostOnManipulationCompleted;
