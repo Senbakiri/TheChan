@@ -25,6 +25,7 @@ namespace Win2ch.Controls {
         private BitmapImage _CurrentImage;
         private int _CurrentIndex = -1;
         private ImageInfo _CurrentImageInfo;
+        private bool _IsInfoPanelVisible = true;
 
         public List<ImageInfo> AllImages {
             get { return _AllImages; }
@@ -72,6 +73,14 @@ namespace Win2ch.Controls {
                     CurrentImageInfo = AllImages[CurrentIndex];
                     ImagesList.SelectedIndex = value;
                 }
+            }
+        }
+
+        public bool IsInfoPanelVisible {
+            get { return _IsInfoPanelVisible; }
+            set {
+                _IsInfoPanelVisible = value;
+                VisualStateManager.GoToState(this, value ? "Visible" : "Hidden", true);
             }
         }
 
@@ -162,6 +171,7 @@ namespace Win2ch.Controls {
         }
 
         private void Image_OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e) {
+            IsInfoPanelVisible = false;
             var elem = (FrameworkElement) sender;
             var scrollViewer = elem.Parent as ScrollViewer;
             var total = e.Cumulative.Translation.Y;
@@ -197,6 +207,10 @@ namespace Win2ch.Controls {
         [NotifyPropertyChangedInvocator]
         private void RaisePropertyChanged([CallerMemberName] string propertyName = null) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Root_OnTapped(object sender, TappedRoutedEventArgs e) {
+            IsInfoPanelVisible = true;
         }
     }
 

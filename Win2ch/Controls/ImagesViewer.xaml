@@ -10,7 +10,44 @@
     SizeChanged="OnSizeChanged"
     DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
-    <Grid KeyDown="OnKeyDown">
+
+    <Grid KeyDown="OnKeyDown"
+          Tapped="Root_OnTapped"
+          x:Name="Root">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualStateGroup.States>
+                    <VisualState x:Name="Visible">
+                        <VisualState.Storyboard>
+                            <Storyboard>
+                                <DoubleAnimation To="1"
+                                                 Duration="0:0:0.5"
+                                                 Storyboard.TargetName="ScaleTransform"
+                                                 Storyboard.TargetProperty="ScaleY">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CircleEase EasingMode="EaseInOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </VisualState.Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Hidden">
+                        <VisualState.Storyboard>
+                            <Storyboard>
+                                <DoubleAnimation To="0"
+                                                 Duration="0:0:0.5"
+                                                 Storyboard.TargetName="ScaleTransform"
+                                                 Storyboard.TargetProperty="ScaleY">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CircleEase EasingMode="EaseInOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </VisualState.Storyboard>
+                    </VisualState>
+                </VisualStateGroup.States>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid x:Name="Underlay"
               Background="Black"/>
         <FlipView x:Name="ImagesList"
@@ -32,10 +69,15 @@
                 </DataTemplate>
             </FlipView.ItemTemplate>
         </FlipView>
-        <StackPanel VerticalAlignment="Top"
+        <StackPanel x:Name="InfoPanel"
+                    VerticalAlignment="Top"
                     HorizontalAlignment="Stretch"
                     Background="#80000000"
                     Padding="10">
+            <StackPanel.RenderTransform>
+                <ScaleTransform x:Name="ScaleTransform"/>
+            </StackPanel.RenderTransform>
+
             <StackPanel.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="Foreground" Value="White"/>
@@ -50,7 +92,7 @@
                 </TextBlock>
                 <TextBlock Margin="10 0 0 0">
                     <Run Text="{x:Bind CurrentImageInfo.Size, Mode=OneWay}"/>
-                    <Run Text="КБ"></Run>
+                    <Run Text="КБ"/>
                 </TextBlock>
             </StackPanel>
         </StackPanel>
