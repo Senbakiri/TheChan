@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Win2ch.Services.SettingsServices;
 using Windows.ApplicationModel.Activation;
+using Windows.Foundation;
 using Windows.System.Profile;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -36,6 +37,7 @@ namespace Win2ch {
 
         // runs even if restored from state
         public override async Task OnInitializeAsync(IActivatedEventArgs args) {
+            ApplicationView.GetForCurrentView()?.SetPreferredMinSize(new Size(360, 720));
             if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
                 await StatusBar.GetForCurrentView().HideAsync();
             // setup hamburger shell
