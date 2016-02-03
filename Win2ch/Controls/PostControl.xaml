@@ -112,7 +112,8 @@
                     Padding="0 3"
                     Visibility="{x:Bind ShowRepliesAsTree, Converter={StaticResource BoolToVisInverse}}"
                     FontSize="14"
-                    Click="RepliesButton_OnClick">
+                    Click="RepliesButton_OnClick"
+                    HorizontalAlignment="Stretch">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Grid x:Name="Root"
@@ -122,8 +123,7 @@
                                         <VisualState x:Name="Normal"/>
                                         <VisualState x:Name="Pressed">
                                             <VisualState.Setters>
-                                                <Setter Target="Root.Background" Value="{StaticResource CustomColorBrush}"/>
-                                                <Setter Target="Content.Foreground" Value="White"/>
+                                                <Setter Target="Content.Foreground" Value="{ThemeResource SystemChromeAltLowColor}"/>
                                             </VisualState.Setters>
                                         </VisualState>
                                     </VisualStateGroup>
