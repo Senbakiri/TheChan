@@ -32,9 +32,9 @@
             <Color x:Key="SystemAltHighColor">#191919</Color>
             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource SystemAltHighColor}"/>
 
-            <SolidColorBrush x:Key="ReplyForeground" Color="#24b04c"/>
+            <SolidColorBrush x:Key="ReplyForeground" Color="#57c209"/>
             <SolidColorBrush x:Key="ThreadBackgroundBrush" Color="#323232"/>
-            <SolidColorBrush x:Key="SpoilerForeground" Color="#20FFFFFF"/>
+            <SolidColorBrush x:Key="SpoilerForeground" Color="#40FFFFFF"/>
             
             <SolidColorBrush x:Key="ModalBackground" Opacity=".5" Color="{ThemeResource CustomColor}" />
 
@@ -72,7 +72,7 @@
 
             <SolidColorBrush x:Key="ThreadBackgroundBrush" Color="#EDEDED"/>
             <SolidColorBrush x:Key="ReplyForeground" Color="#1e9440"/>
-            <SolidColorBrush x:Key="SpoilerForeground" Color="#20000000"/>
+            <SolidColorBrush x:Key="SpoilerForeground" Color="#40000000"/>
                              
             <SolidColorBrush x:Key="ModalBackground" Opacity=".5" Color="{ThemeResource CustomColor}" />
 
