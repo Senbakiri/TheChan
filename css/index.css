@@ -12,18 +12,18 @@ body {
 
 h1 {
 	font-weight: 300;
-	font-size: 48px;
+	font-size: 3em;
 	margin: 0;
 }
 
 h2 {
 	font-weight: 300;
-	font-size: 32px;
+	font-size: 2em;
 	margin: 0;
 }
 
 a {
-	padding: 20px;
+	padding: 1em;
 	text-decoration: none;
 	color: #ff6600;
 	border: 2px solid #ff6600;
@@ -37,7 +37,6 @@ a:hover {
 
 .half {
 	width: 50%;
-
 	height: 100%;
 	float: left;
 }
@@ -49,30 +48,30 @@ a:hover {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	font-size: 48px;
+	font-size: 3em;
 	font-weight: 300;
 }
 
 #name {
-	margin-top: 20px;
+	margin-top: 0.3em;
 }
 
 #short-content {
-	padding: 40px;
+	padding: 2em;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: calc(100% - 80px);
+	height: calc(100% - 2em);
 }
 
 #short-content a {
-	margin-top: 20px;
-	width: 220px;
+	margin-top: 1.4em;
+	width: 14em;
 }
 
 #intro {
-	margin: 20px 0;
+	margin: 0.5em 0;
 	text-align: center;
 }
 
@@ -88,8 +87,8 @@ a:hover {
 #info {
 	display: block;
 	clear: both;
-	min-height: calc(100% - 80px);
-	padding: 40px;
+	min-height: calc(100% - 2.5em);
+	padding: 2.5em;
 	background: #FAFAFA;
 }
 
@@ -102,7 +101,7 @@ a:hover {
 
 #image {
 	background: url('../img/logo.svg');
-	width: 200px;
-	height: 200px;
+	width: 4em;
+	height: 4em;
 	background-size: contain;
 }
