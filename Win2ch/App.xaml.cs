@@ -37,7 +37,7 @@ namespace Win2ch {
 
         // runs even if restored from state
         public override async Task OnInitializeAsync(IActivatedEventArgs args) {
-            ApplicationView.GetForCurrentView()?.SetPreferredMinSize(new Size(360, 720));
+            ApplicationView.GetForCurrentView()?.SetPreferredMinSize(new Size(360, 620));
             if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
                 await StatusBar.GetForCurrentView().HideAsync();
             // setup hamburger shell
