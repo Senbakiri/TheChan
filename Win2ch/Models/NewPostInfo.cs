@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Windows.Storage;
+using Windows.Storage.Streams;
+using Win2ch.Common;
 
 namespace Win2ch.Models {
     public class NewPostInfo {
@@ -7,6 +9,6 @@ namespace Win2ch.Models {
         public string Subject { get; set; }
         public string EMail { get; set; }
         public string Name { get; set; }
-        public List<StorageFile> Files { get; set; }
+        public List<IRandomAccessStreamReference> Files { get; set; }
     }
 }

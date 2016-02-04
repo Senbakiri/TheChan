@@ -1,8 +1,16 @@
-﻿using Windows.UI.Xaml;
+﻿using System;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Win2ch.Models;
 using Win2ch.ViewModels;
+using System.Linq;
+using System.Threading.Tasks;
+using Windows.Graphics.Imaging;
+using Windows.Storage;
+using Windows.Storage.Streams;
+using Win2ch.Common;
 
 namespace Win2ch.Views {
     public class PostingPageNavigationInfo {
@@ -31,6 +39,31 @@ namespace Win2ch.Views {
         private void More_OnClick(object sender, RoutedEventArgs e) {
             SplitView.IsPaneOpen = !SplitView.IsPaneOpen;
             AttachImagesButton.Focus(FocusState.Programmatic);
+        }
+
+        private async void TextBox_OnPaste(object sender, TextControlPasteEventArgs e) {
+            var content = Clipboard.GetContent();
+            var formats = content.AvailableFormats.ToList();
+            if (!formats.Contains(StandardDataFormats.Bitmap))
+                return;
+
+            var bitmap = await Clipboard.GetContent().GetBitmapAsync();
+            await ViewModel.AttachImage(await BitmapToPng(bitmap));
+            SplitView.IsPaneOpen = true;
+        }
+
+        private static async Task<IRandomAccessStreamReference> BitmapToPng(IRandomAccessStreamReference bitmap) {
+            var rndAccessStreamWithContentType = await bitmap.OpenReadAsync();
+            var decoder = await BitmapDecoder.CreateAsync(rndAccessStreamWithContentType);
+            var pixels = await decoder.GetPixelDataAsync();
+            var outStream = new InMemoryRandomAccessStream();
+            var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, outStream);
+            encoder.SetPixelData(decoder.BitmapPixelFormat, BitmapAlphaMode.Ignore,
+              decoder.OrientedPixelWidth, decoder.OrientedPixelHeight,
+              decoder.DpiX, decoder.DpiY,
+              pixels.DetachPixelData());
+            await encoder.FlushAsync();
+            return RandomAccessStreamReference.CreateFromStream(outStream);
         }
     }
 }

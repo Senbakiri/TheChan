@@ -133,10 +133,10 @@ namespace Win2ch.Models {
             var imageIndex = 1;
             foreach (var file in postInfo.Files.Take(4)) {
 
-                var stream = await file.OpenAsync(FileAccessMode.Read);
+                var stream = await file.OpenReadAsync();
                 var fileContent = CreateFileContent(stream,
-                    HttpMediaTypeHeaderValue.Parse(file.ContentType));
-                content.Add(fileContent, $"image{imageIndex}", file.Name);
+                    HttpMediaTypeHeaderValue.Parse(stream.ContentType));
+                content.Add(fileContent, $"image{imageIndex}", $"attachedImage{imageIndex}");
                 imageIndex++;
             }
 

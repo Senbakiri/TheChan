@@ -6,12 +6,12 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.UI.Popups;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Template10.Mvvm;
+using Win2ch.Common;
 using Win2ch.Models;
 using Win2ch.Models.Exceptions;
 using Win2ch.Views;
@@ -32,8 +32,8 @@ namespace Win2ch.ViewModels {
         private string _EMail;
         private NewPostInfo _postInfo;
         private bool _CanAttachImages = true;
-        private readonly Dictionary<BitmapImage, StorageFile>
-            _attachedStorageFiles = new Dictionary<BitmapImage, StorageFile>();
+        private readonly Dictionary<BitmapImage, IRandomAccessStreamReference>
+            _attachedStorageFiles = new Dictionary<BitmapImage, IRandomAccessStreamReference>();
 
         private NewPostInfo PostInfo {
             get { return _postInfo; }
@@ -169,6 +169,17 @@ namespace Win2ch.ViewModels {
             await AttachImages(files);
         }
 
+        public async Task AttachImage(IRandomAccessStreamReference image) {
+            if (AttachedImages.Count >= MaxAttachedFiles)
+                return;
+
+            var bitmap = new BitmapImage();
+            var stream = await image.OpenReadAsync();
+            _attachedStorageFiles.Add(bitmap, image);
+            bitmap.SetSource(stream);
+            AttachedImages.Add(bitmap);
+        }
+
         private void Insert(string text) {
             var selStart = SelectionStart;
             var selLen = SelectionLength;
@@ -207,16 +218,12 @@ namespace Win2ch.ViewModels {
             }
         }
 
-        private async Task AttachImages(IEnumerable<StorageFile> images) {
+        public async Task AttachImages(IEnumerable<IRandomAccessStreamReference> images) {
             if (images == null)
                 return;
 
-            foreach (var file in images) {
-                var image = new BitmapImage();
-                var stream = await file.OpenAsync(FileAccessMode.Read);
-                _attachedStorageFiles.Add(image, file);
-                image.SetSource(stream);
-                AttachedImages.Add(image);
+            foreach (var image in images) {
+                await AttachImage(image);
             }
         }
 

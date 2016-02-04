@@ -175,7 +175,8 @@
                              AcceptsReturn="True"
                              FontSize="16"
                              SelectionStart="{Binding SelectionStart, Mode=TwoWay}"
-                             SelectionLength="{Binding SelectionLength, Mode=TwoWay}"/>
+                             SelectionLength="{Binding SelectionLength, Mode=TwoWay}"
+                             Paste="TextBox_OnPaste"/>
 
                 </Grid>
             </SplitView.Content>
