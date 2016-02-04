@@ -11,8 +11,10 @@ using Windows.Storage;
 using Windows.System.Profile;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
+using Microsoft.ApplicationInsights;
 using Template10.Mvvm;
 using Win2ch.Services.SettingsServices;
+using Win2ch.Models;
 using ViewModelBase = Win2ch.Mvvm.ViewModelBase;
 
 namespace Win2ch.ViewModels {
@@ -20,6 +22,7 @@ namespace Win2ch.ViewModels {
 
         private ISettingsService _settingsService;
         private string _ReleaseNotes;
+        private readonly TelemetryClient _telemetryClient = new TelemetryClient();
 
         public string Version { get; }
 
@@ -68,6 +71,7 @@ namespace Win2ch.ViewModels {
             var id = Package.Current.Id;
             Version = $"v{id.Version.Major}.{id.Version.Minor}.{id.Version.Build}";
             LoadReleaseNotes();
+            FullFillUnfulfilledConsumables();
         }
 
         private async void LoadReleaseNotes() {
@@ -75,26 +79,34 @@ namespace Win2ch.ViewModels {
             var stream = await file.OpenReadAsync();
             var reader = new StreamReader(stream.AsStreamForRead());
             ReleaseNotes = reader.ReadToEnd();
-            FullFillUnfulfilledConsumables();
         }
 
         private async void FullFillUnfulfilledConsumables() {
-            var donations = await CurrentApp.GetUnfulfilledConsumablesAsync();
-            foreach (var donation in donations) {
-                await CurrentApp.ReportConsumableFulfillmentAsync(donation.ProductId, donation.TransactionId);
+            try {
+                var donations = await CurrentApp.GetUnfulfilledConsumablesAsync();
+                foreach (var donation in donations) {
+                    await CurrentApp.ReportConsumableFulfillmentAsync(donation.ProductId, donation.TransactionId);
+                }
+            } catch (Exception e) {
+                await Task.Run(() => _telemetryClient.TrackException(e));
             }
         }
 
         public async void Donate() {
-            var result = await CurrentApp.RequestProductPurchaseAsync("donation1");
-            switch (result.Status) {
-                case ProductPurchaseStatus.Succeeded:
-                    await new MessageDialog("Спасибо за поддержку!").ShowAsync();
-                    await CurrentApp.ReportConsumableFulfillmentAsync("donation1", result.TransactionId);
-                    break;
-                case ProductPurchaseStatus.NotFulfilled:
-                    FullFillUnfulfilledConsumables();
-                    break;
+            try {
+                var result = await CurrentApp.RequestProductPurchaseAsync("donation1");
+                switch (result.Status) {
+                    case ProductPurchaseStatus.Succeeded:
+                        await new MessageDialog("Спасибо за поддержку!").ShowAsync();
+                        await CurrentApp.ReportConsumableFulfillmentAsync("donation1", result.TransactionId);
+                        break;
+                    case ProductPurchaseStatus.NotFulfilled:
+                        FullFillUnfulfilledConsumables();
+                        break;
+                }
+            } catch (Exception e) {
+                await Utils.ShowOtherError(e, "Произошла ошибка при обращении к серверу покупки");
+                await Task.Run(() => _telemetryClient.TrackException(e));
             }
         }
     }
