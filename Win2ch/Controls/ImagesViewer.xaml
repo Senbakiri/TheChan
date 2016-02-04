@@ -10,6 +10,12 @@
     SizeChanged="OnSizeChanged"
     DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
+    <Page.Resources>
+        <MenuFlyout x:Key="ImageMenuFlyout">
+            <MenuFlyoutItem Text="Сохранить как..."
+                            Click="SaveImageAsMenuFlyoutItem_OnClick"/>
+        </MenuFlyout>
+    </Page.Resources>
 
     <Grid KeyDown="OnKeyDown"
           Tapped="Root_OnTapped"
@@ -64,7 +70,11 @@
                                Source="{x:Bind}"
                                ManipulationMode="System, TranslateY, TranslateInertia"
                                ManipulationDelta="Image_OnManipulationDelta"
-                               ManipulationCompleted="UIElement_OnManipulationCompleted"/>
+                               ManipulationCompleted="UIElement_OnManipulationCompleted"
+                               FlyoutBase.AttachedFlyout="{StaticResource ImageMenuFlyout}"
+                               Holding="Image_OnHolding"
+                               IsHoldingEnabled="True"
+                               RightTapped="Image_OnRightTapped"/>
                     </ScrollViewer>
                 </DataTemplate>
             </FlipView.ItemTemplate>

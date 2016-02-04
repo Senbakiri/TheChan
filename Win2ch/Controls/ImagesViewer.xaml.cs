@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using Windows.Web.Http;
 using System.Runtime.CompilerServices;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -31,7 +36,7 @@ namespace Win2ch.Controls {
             get { return _AllImages; }
             set {
                 _AllImages = value;
-                
+
                 ImagesSources.Clear();
                 if (_AllImages == null)
                     return;
@@ -172,7 +177,7 @@ namespace Win2ch.Controls {
 
         private void Image_OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e) {
             IsInfoPanelVisible = false;
-            var elem = (FrameworkElement) sender;
+            var elem = (FrameworkElement)sender;
             var scrollViewer = elem.Parent as ScrollViewer;
             var total = e.Cumulative.Translation.Y;
             if (scrollViewer == null || scrollViewer.ZoomFactor > 1)
@@ -187,7 +192,7 @@ namespace Win2ch.Controls {
             if (translate == null)
                 elem.RenderTransform = translate = new TranslateTransform();
             translate.Y = e.Cumulative.Translation.Y;
-            elem.Opacity = Underlay.Opacity = 1 - Math.Abs(total)/300;
+            elem.Opacity = Underlay.Opacity = 1 - Math.Abs(total) / 300;
         }
 
         private void UIElement_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) {
@@ -211,6 +216,37 @@ namespace Win2ch.Controls {
 
         private void Root_OnTapped(object sender, TappedRoutedEventArgs e) {
             IsInfoPanelVisible = true;
+        }
+
+        private async void SaveImageAsMenuFlyoutItem_OnClick(object sender, RoutedEventArgs e) {
+            var picker = new FileSavePicker {
+                SuggestedFileName = CurrentImageInfo.Name.Split('.')[0]
+            };
+            picker.FileTypeChoices.Add("JPEG file", new[] { ".jpg" });
+
+            try {
+                var file = await picker.PickSaveFileAsync();
+                var client = new HttpClient();
+                var resp = await client.GetAsync(new Uri(CurrentImageInfo.Url));
+                var opened = await file.OpenAsync(FileAccessMode.ReadWrite);
+                await resp.Content.WriteToStreamAsync(opened);
+                opened.Dispose();
+                await new MessageDialog("Изображение успешно сохранено.").ShowAsync();
+            } catch (Exception ex) {
+                await Utils.ShowOtherError(ex, "Не удалось сохранить изображение");
+            }
+        }
+
+        private void Image_OnHolding(object sender, HoldingRoutedEventArgs e) {
+            var senderFrameworkElem = (FrameworkElement)sender;
+            var flyout = FlyoutBase.GetAttachedFlyout(senderFrameworkElem) as MenuFlyout;
+            flyout?.ShowAt(senderFrameworkElem, e.GetPosition(senderFrameworkElem));
+        }
+
+        private void Image_OnRightTapped(object sender, RightTappedRoutedEventArgs e) {
+            var senderFrameworkElem = (FrameworkElement)sender;
+            var flyout = FlyoutBase.GetAttachedFlyout(senderFrameworkElem) as MenuFlyout;
+            flyout?.ShowAt(senderFrameworkElem, e.GetPosition(senderFrameworkElem));
         }
     }
 
