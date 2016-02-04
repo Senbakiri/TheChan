@@ -103,7 +103,7 @@ namespace Win2ch.Views {
             var viewer = new ImagesViewer(e.ImageInfo,
                 ViewModel.Posts.SelectMany(p => p.Images).ToList());
 
-            viewer.OnClose += ImagesViewerOnOnClose;
+            viewer.OnClose += ImagesViewerOnClose;
             ImagesViewerUnderlay.Children.Add(viewer);
         }
 
@@ -273,15 +273,15 @@ namespace Win2ch.Views {
                 Posts.ScrollIntoView(Posts.Items.Last(), ScrollIntoViewAlignment.Leading);
         }
 
-        private void ImagesViewerOnOnClose(object sender, ImagesViewerCloseEventArgs e) {
+        private void ImagesViewerOnClose(object sender, ImagesViewerCloseEventArgs e) {
+            ImagesViewerUnderlay.Children.Clear();
+
             if (!SettingsService.Instance.ScrollToPostWithImageAfterViewingImage)
                 return;
 
             var post = ViewModel.Posts.FirstOrDefault(p => p.Images.Contains(e.LastImage));
             if (post != null)
                 Posts.ScrollIntoView(post, ScrollIntoViewAlignment.Leading);
-
-            ImagesViewerUnderlay.Children.Clear();
         }
 
         private void PostControl_OnParentPostShowRequested(object sender, ParentPostShowEventArgs e) {
