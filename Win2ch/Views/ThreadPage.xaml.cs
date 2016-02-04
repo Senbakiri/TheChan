@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.Devices.Geolocation;
 using Windows.Devices.Input;
 using Windows.Foundation;
-using Windows.UI;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Win2ch.Common;
 using Win2ch.Controls;
@@ -26,7 +22,7 @@ namespace Win2ch.Views {
     public sealed partial class ThreadPage : ICanScrollToItem<Post> {
         public ThreadViewModel ViewModel { get; private set; }
 
-        private Dictionary<Post, int> _replyLevel { get; } = new Dictionary<Post, int>();
+        private Dictionary<Post, int> ReplyLevel { get; } = new Dictionary<Post, int>();
         private Post _lastReply;
         private readonly DispatcherTimer _closeRepliesTimer = new DispatcherTimer();
         private PostControl _replyUnderMouse;
@@ -120,10 +116,10 @@ namespace Win2ch.Views {
                 Style = style,
             };
 
-            var level = _replyLevel.ContainsKey(parent) ? _replyLevel[parent] + 1 : 1;
+            var level = ReplyLevel.ContainsKey(parent) ? ReplyLevel[parent] + 1 : 1;
             RemoveRepliesByLevel(level);
-            _replyLevel[post] = level;
-            SetupEventsForReply(control, level);
+            ReplyLevel[post] = level;
+            SetupEventsForReply(control);
             Replies.Children.Add(control);
 
             control.Loaded += (s, _) => {
@@ -163,7 +159,7 @@ namespace Win2ch.Views {
             Canvas.SetTop(control, y);
         }
 
-        private void SetupEventsForReply(PostControl control, int level) {
+        private void SetupEventsForReply(PostControl control) {
             control.Reply += PostControl_OnReply;
             control.ReplyShowRequested += PostControl_OnReplyShowRequested;
             control.ImageClick += PostControl_OnImageClick;
@@ -184,7 +180,7 @@ namespace Win2ch.Views {
                     control.Opacity = 1;
                 }
             }  else {
-                RemoveRepliesByLevel(_replyLevel[elem.Post]);
+                RemoveRepliesByLevel(ReplyLevel[elem.Post]);
             }
 
         }
@@ -195,7 +191,7 @@ namespace Win2ch.Views {
             var elem = (PostControl) sender;
             var couldBeRemoved = Replies.Children
                 .OfType<PostControl>()
-                .Where(pc => _replyLevel[pc.Post] >= _replyLevel[elem.Post])
+                .Where(pc => ReplyLevel[pc.Post] >= ReplyLevel[elem.Post])
                 .ToList();
             var count = couldBeRemoved.Count;
 
@@ -212,10 +208,10 @@ namespace Win2ch.Views {
         private void RemoveRepliesByLevel(int level) {
             var controlsToRemove = Replies.Children
                 .OfType<PostControl>()
-                .Where(postControl => _replyLevel[postControl.Post] >= level).ToList();
+                .Where(postControl => ReplyLevel[postControl.Post] >= level).ToList();
 
             foreach (var postControl in controlsToRemove) {
-                _replyLevel.Remove(postControl.Post);
+                ReplyLevel.Remove(postControl.Post);
                 Replies.Children.Remove(postControl);
             }
 
@@ -228,7 +224,7 @@ namespace Win2ch.Views {
         }
 
         private void ClearReplies() {
-            _replyLevel.Clear();
+            ReplyLevel.Clear();
             Replies.Children.Clear();
             _lastReply = null;
         }
