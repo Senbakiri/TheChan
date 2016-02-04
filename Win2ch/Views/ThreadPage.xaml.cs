@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.Devices.Input;
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -292,6 +293,18 @@ namespace Win2ch.Views {
 
         public void ScrollToItem(Post item) {
             Posts.ScrollIntoView(item, ScrollIntoViewAlignment.Leading);
+        }
+
+        private void ThreadPage_OnKeyDown(object sender, KeyRoutedEventArgs e) {
+            switch (e.Key) {
+                case VirtualKey.Home:
+                    Posts.ScrollIntoView(null);
+                    break;
+                case VirtualKey.End:
+                    if (Posts.Items != null)
+                        Posts.ScrollIntoView(Posts.Items.Last(), ScrollIntoViewAlignment.Leading);
+                    break;
+            }
         }
     }
 }
