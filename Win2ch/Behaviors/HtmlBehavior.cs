@@ -93,9 +93,13 @@ namespace Win2ch.Behaviors {
 
         private static Func<InlineWrapper, Inline> CreateRegularLinkConverter(string url) {
             return wrapper => {
-                var link = new Hyperlink { NavigateUri = new Uri(HtmlEntity.DeEntitize(url)) };
-                link.Inlines.Add(InlineWrapper.StandartConverter(wrapper));
-                return link;
+                try {
+                    var link = new Hyperlink {NavigateUri = new Uri(HtmlEntity.DeEntitize(url))};
+                    link.Inlines.Add(InlineWrapper.StandartConverter(wrapper));
+                    return link;
+                } catch (UriFormatException) {
+                    return InlineWrapper.StandartConverter(wrapper);
+                }
             };
         }
 
