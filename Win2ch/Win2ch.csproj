@@ -128,6 +128,8 @@
     <Compile Include="Models\Exceptions\HttpException.cs" />
     <Compile Include="Models\Utils.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Services\CacheItemType.cs" />
+    <Compile Include="Services\CacheService.cs" />
     <Compile Include="Services\SettingsServices\RepliesViewMode.cs" />
     <Compile Include="Services\SettingsServices\Theme.cs" />
     <Compile Include="ViewModels\PostingViewModel.cs" />
