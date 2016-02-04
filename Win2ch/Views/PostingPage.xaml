@@ -9,7 +9,10 @@
     xmlns:controls="using:Template10.Controls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Template10.Behaviors"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    AllowDrop="True"
+    DragOver="PostingPage_OnDragOver"
+    Drop="PostingPage_OnDrop">
 
     <Page.DataContext>
         <viewModels:PostingViewModel/>
@@ -73,7 +76,6 @@
                        Text="{x:Bind ViewModel.CurrentJob, Mode=OneWay}"
                        VerticalAlignment="Center"/>
         </Grid>
-        
         
         <SplitView x:Name="SplitView"
                    Grid.Row="1"

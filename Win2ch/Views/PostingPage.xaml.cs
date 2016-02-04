@@ -10,22 +10,17 @@ using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Win2ch.Common;
 
 namespace Win2ch.Views {
     public class PostingPageNavigationInfo {
         public NewPostInfo PostInfo { get; set; }
         public Thread Thread { get; set; }
     }
-
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class PostingPage : Page {
+    public sealed partial class PostingPage {
         public PostingViewModel ViewModel => DataContext as PostingViewModel;
 
         public PostingPage() {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void TextButton_OnClick(object sender, RoutedEventArgs e) {
@@ -64,6 +59,24 @@ namespace Win2ch.Views {
               pixels.DetachPixelData());
             await encoder.FlushAsync();
             return RandomAccessStreamReference.CreateFromStream(outStream);
+        }
+
+        private void PostingPage_OnDragOver(object sender, DragEventArgs e) {
+            e.AcceptedOperation = DataPackageOperation.Copy;
+            if (e.DragUIOverride == null)
+                return;
+            e.DragUIOverride.Caption = "Прикрепить изображение";
+            e.DragUIOverride.IsCaptionVisible = true;
+            e.DragUIOverride.IsContentVisible = true;
+            e.DragUIOverride.IsGlyphVisible = true;
+        }
+
+        private async void PostingPage_OnDrop(object sender, DragEventArgs e) {
+            if (!e.DataView.Contains(StandardDataFormats.StorageItems))
+                return;
+
+            var items = await e.DataView.GetStorageItemsAsync();
+            await ViewModel.AttachImages(items.Cast<StorageFile>());
         }
     }
 }
