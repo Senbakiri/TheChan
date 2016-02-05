@@ -107,6 +107,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviors\HtmlBehavior.cs" />
+    <Compile Include="Common\CurrentPost.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\HtmlConverting\HtmlConverter.cs" />
     <Compile Include="Common\HtmlConverting\InlineWrapper.cs" />

@@ -232,7 +232,7 @@ namespace Win2ch.ViewModels {
             if (mode != NavigationMode.New || navigationInfo == null)
                 return;
 
-            PostInfo = navigationInfo.PostInfo;
+            PostInfo = CurrentPost.PostInfo;
             Thread = navigationInfo.Thread;
             await AttachImages(PostInfo?.Files);
             await base.OnNavigatedToAsync(parameter, mode, state);

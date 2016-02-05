@@ -110,8 +110,8 @@ namespace Win2ch.ViewModels {
         }
 
         private void AdvancedPosting() {
+            CurrentPost.PostInfo = PostInfo;
             NavigationService.Navigate(typeof(PostingPage), new PostingPageNavigationInfo {
-                PostInfo = PostInfo,
                 Thread = new Thread(Thread.Num, Thread.Board.Id)
             });
         }
@@ -153,6 +153,9 @@ namespace Win2ch.ViewModels {
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state) {
+            if (CurrentPost.PostInfo != null)
+                PostInfo = CurrentPost.PostInfo;
+
             if (parameter is Thread) {
                 var thread = (Thread) parameter;
                 if ( !ReferenceEquals(thread, Thread))
