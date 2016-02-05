@@ -11,6 +11,7 @@ using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Media;
 using Template10.Common;
+using Win2ch.Views;
 
 namespace Win2ch {
     /// Documentation on APIs used in this page:
@@ -22,7 +23,7 @@ namespace Win2ch {
         public App() {
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync();
             InitializeComponent();
-            SplashFactory = e => new Views.Splash(e);
+            SplashFactory = e => new Splash(e);
 
             #region App settings
 
@@ -34,15 +35,17 @@ namespace Win2ch {
 
             #endregion
         }
-
-        // runs even if restored from state
+        
         public override async Task OnInitializeAsync(IActivatedEventArgs args) {
             ApplicationView.GetForCurrentView()?.SetPreferredMinSize(new Size(360, 620));
             if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
                 await StatusBar.GetForCurrentView().HideAsync();
-            // setup hamburger shell
-            var nav = NavigationServiceFactory(BackButton.Attach, ExistingContent.Include);
-            Window.Current.Content = new Views.Shell(nav);
+            var shell = Window.Current.Content as Shell;
+            if (shell == null) {
+                var nav = NavigationServiceFactory(BackButton.Attach, ExistingContent.Exclude);
+                shell = new Shell(nav);
+                Window.Current.Content = shell;
+            }
         }
 
         // runs only when not restored from state
