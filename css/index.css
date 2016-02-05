@@ -62,7 +62,7 @@ a:hover {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: calc(100% - 2em);
+	min-height: calc(100% - 2em);
 }
 
 #short-content a {
@@ -104,4 +104,16 @@ a:hover {
 	width: 4em;
 	height: 4em;
 	background-size: contain;
+}
+
+#thankyou {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+#go-back {
+	margin-top: 1em;
 }
