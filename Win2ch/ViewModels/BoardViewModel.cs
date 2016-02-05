@@ -70,7 +70,7 @@ namespace Win2ch.ViewModels {
             if (mode == NavigationMode.New || mode == NavigationMode.Forward)
                 Board = (Board)parameter;
 
-            return Task.CompletedTask;
+            return base.OnNavigatedToAsync(parameter, mode, state);
         }
 
         public void Refresh() {

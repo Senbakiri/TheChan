@@ -152,6 +152,7 @@ namespace Win2ch.ViewModels {
             }
 
             FastReplyText = PostInfo.Comment;
+            await base.OnNavigatedToAsync(parameter, mode, state);
         }
 
         private async Task LoadThread(Thread thread) {

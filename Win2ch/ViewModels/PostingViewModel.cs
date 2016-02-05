@@ -235,6 +235,7 @@ namespace Win2ch.ViewModels {
             PostInfo = navigationInfo.PostInfo;
             Thread = navigationInfo.Thread;
             await AttachImages(PostInfo?.Files);
+            await base.OnNavigatedToAsync(parameter, mode, state);
         }
     }
 }
