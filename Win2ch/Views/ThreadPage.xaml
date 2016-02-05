@@ -178,10 +178,17 @@
         </Border>
 
         <CommandBar Grid.Row="3">
+            <CommandBar.Resources>
+                <Style TargetType="AppBarButton">
+                    <Setter Property="Foreground" Value="{ThemeResource AppBarItemForegroundThemeBrush}"/>
+                </Style>
+            </CommandBar.Resources>
+            <AppBarButton Icon="Favorite"
+                          Label="Добавить в избранное"
+                          Click="{x:Bind ViewModel.AddToFavorites}"/>
             <AppBarButton Icon="Refresh"
                           Label="Обновить"
-                          Click="{x:Bind Refresh}"
-                          Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
+                          Click="{x:Bind Refresh}"/>
         </CommandBar>
     </Grid>
 </Page>

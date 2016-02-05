@@ -15,9 +15,9 @@ namespace Win2ch.Models {
     public class Thread {
         public Board Board { get; set; }
 
-        public List<Post> Posts { get; set; } = new List<Post>();
+        public virtual List<Post> Posts { get; set; } = new List<Post>();
 
-        public string Name => Posts?.FirstOrDefault()?.Subject;
+        public virtual string Name => Posts?.FirstOrDefault()?.Subject;
 
         [JsonProperty("posts_count")]
         public int TotalPosts { get; set; }

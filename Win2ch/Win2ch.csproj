@@ -126,12 +126,15 @@
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Converters\UpperCaseConverter.cs" />
     <Compile Include="Models\Exceptions\HttpException.cs" />
+    <Compile Include="Models\FavoriteThread.cs" />
     <Compile Include="Models\Utils.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Services\CacheItemType.cs" />
     <Compile Include="Services\CacheService.cs" />
+    <Compile Include="Services\FavoritesService.cs" />
     <Compile Include="Services\SettingsServices\RepliesViewMode.cs" />
     <Compile Include="Services\SettingsServices\Theme.cs" />
+    <Compile Include="ViewModels\FavoritesViewModel.cs" />
     <Compile Include="ViewModels\PostingViewModel.cs" />
     <Compile Include="Views\Errors\BoardErrorPage.xaml.cs">
       <DependentUpon>BoardErrorPage.xaml</DependentUpon>
@@ -165,6 +168,9 @@
     <Compile Include="ViewModels\ThreadViewModel.cs" />
     <Compile Include="Views\BoardPage.xaml.cs">
       <DependentUpon>BoardPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FavoritesPage.xaml.cs">
+      <DependentUpon>FavoritesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -268,6 +274,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Views\BoardPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FavoritesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

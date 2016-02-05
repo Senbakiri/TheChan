@@ -32,6 +32,8 @@ namespace Win2ch.Models {
         public long Num { get; set; }
         public string Date { get; set; }
         public Board Board { get; set; }
+
+        [JsonIgnore]
         public List<Post> Replies { get; set; } = new List<Post>();
 
         [JsonProperty(PropertyName = "files")]

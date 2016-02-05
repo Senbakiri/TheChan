@@ -12,6 +12,7 @@ using Template10.Mvvm;
 using Win2ch.Common;
 using Win2ch.Models;
 using Win2ch.Models.Exceptions;
+using Win2ch.Services;
 using Win2ch.Views;
 using ViewModelBase = Win2ch.Mvvm.ViewModelBase;
 
@@ -52,6 +53,7 @@ namespace Win2ch.ViewModels {
 
         private string _JobStatus;
         private NewPostInfo _PostInfo = new NewPostInfo();
+        private bool _IsInFavorites;
 
         public string JobStatus {
             get { return _JobStatus; }
@@ -69,12 +71,26 @@ namespace Win2ch.ViewModels {
             }
         }
 
+        public bool IsInFavorites {
+            get { return _IsInFavorites; }
+            set {
+                _IsInFavorites = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public ICommand AdvancedPostingCommand { get; }
 
         public ICanScrollToItem<Post> PostScroller { get; set; } 
 
         public ThreadViewModel() {
             AdvancedPostingCommand = new DelegateCommand(AdvancedPosting);
+        }
+
+        public void AddToFavorites() {
+            var favService = FavoritesService.Instance;
+            favService.AddThread(Thread);
+            IsInFavorites = true;
         }
 
         public async Task<bool> FastReply() {
@@ -180,6 +196,11 @@ namespace Win2ch.ViewModels {
             }
         }
 
+        public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending) {
+            if (FavoritesService.Instance.IsThreadInFavorites(Thread))
+                await FavoritesService.Instance.ResetThread(Thread);
+            await base.OnNavigatedFromAsync(state, suspending);
+        }
     }
 
     public class NavigationToThreadWithScrolling {
