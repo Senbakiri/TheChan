@@ -1,25 +1,15 @@
 using System;
-using System.Linq;
 using Windows.UI.Xaml;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Win2ch.Services.SettingsServices;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.System.Profile;
-using Windows.UI;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml.Media;
-using Template10.Common;
 using Win2ch.Views;
 
 namespace Win2ch {
-    /// Documentation on APIs used in this page:
-    /// https://github.com/Windows-XAML/Template10/wiki
-
     sealed partial class App {
-        readonly ISettingsService _settings;
-
         public App() {
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync();
             InitializeComponent();
@@ -27,11 +17,11 @@ namespace Win2ch {
 
             #region App settings
 
-            _settings = SettingsService.Instance;
-            if (_settings.AppTheme != Theme.System)
-                RequestedTheme = (ApplicationTheme)_settings.AppTheme;
-            CacheMaxDuration = _settings.CacheMaxDuration;
-            ShowShellBackButton = _settings.UseShellBackButton;
+            ISettingsService settings = SettingsService.Instance;
+            if (settings.AppTheme != Theme.System)
+                RequestedTheme = (ApplicationTheme)settings.AppTheme;
+            CacheMaxDuration = settings.CacheMaxDuration;
+            ShowShellBackButton = settings.UseShellBackButton;
 
             #endregion
         }
@@ -47,14 +37,10 @@ namespace Win2ch {
                 Window.Current.Content = shell;
             }
         }
-
-        // runs only when not restored from state
-        public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args) {
-            // perform long-running load
-            await Task.Delay(0);
-
-            // navigate to first page
-            NavigationService.Navigate(typeof(Views.MainPage));
+        
+        public override Task OnStartAsync(StartKind startKind, IActivatedEventArgs args) {
+            NavigationService.Navigate(typeof(MainPage));
+            return Task.CompletedTask;
         }
 
     }
