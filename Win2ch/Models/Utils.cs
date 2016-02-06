@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using HtmlAgilityPack;
 using Win2ch.Models.Exceptions;
 
 namespace Win2ch.Models {
@@ -28,6 +29,13 @@ namespace Win2ch.Models {
             var dialog = new MessageDialog(
                 exception.Message, title);
             await dialog.ShowAsync();
+        }
+
+
+        public static string RemoveHtml(string html) {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html.Replace("<br>", "\n"));
+            return HtmlEntity.DeEntitize(doc.DocumentNode.InnerText);
         }
     }
 }

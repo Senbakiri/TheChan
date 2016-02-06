@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Windows.Web;
+using HtmlAgilityPack;
 
 namespace Win2ch.Models {
     public class Post {
@@ -14,7 +15,7 @@ namespace Win2ch.Models {
 
         public string Name {
             get { return _Name; }
-            set { _Name = RemoveHtml(value); }
+            set { _Name = Utils.RemoveHtml(value); }
         }
 
         public int Position { get; set; }
@@ -39,39 +40,6 @@ namespace Win2ch.Models {
         [JsonProperty(PropertyName = "files")]
         public List<ImageInfo> Images { get; set; } = new List<ImageInfo>();
 
-        private string RemoveHtml(string html) {
-            string result = WebUtility.HtmlDecode(html);
-
-            result = Regex.Replace(result,
-                 @"<( )*br( )*>", "\n",
-                 RegexOptions.IgnoreCase);
-            result = Regex.Replace(result,
-                     @"<( )*li( )*>", "\n",
-                     RegexOptions.IgnoreCase);
-
-            // insert line paragraphs (double line breaks) in place
-            // if <P>, <DIV> and <TR> tags
-            result = Regex.Replace(result,
-                     @"<( )*div([^>])*>", "\n",
-                     RegexOptions.IgnoreCase);
-            result = Regex.Replace(result,
-                     @"<( )*tr([^>])*>", "\n",
-                     RegexOptions.IgnoreCase);
-            result = Regex.Replace(result,
-                     @"<( )*p([^>])*>", "\n",
-                     RegexOptions.IgnoreCase);
-            result = Regex.Replace(result,
-                     @"\\r\\n", string.Empty,
-                     RegexOptions.IgnoreCase);
-
-            // Remove remaining tags like <a>, links, images,
-            // comments etc - anything that's enclosed inside < >
-            result = Regex.Replace(result,
-                @"<[^>]*>", string.Empty,
-                RegexOptions.IgnoreCase);
-
-            return result.Trim();
-        }
 
         protected bool Equals(Post other) {
             return string.Equals(Num, other.Num) && Equals(Board, other.Board);

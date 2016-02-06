@@ -4,15 +4,16 @@ using Newtonsoft.Json;
 
 namespace Win2ch.Models {
     public sealed class FavoriteThread : Thread {
+        [JsonIgnore]
+        private Post _FirstPost;
 
         public int UnreadPosts { get; set; }
 
         public int LastPostPosition { get; set; }
-
-        public override string Name =>
-            string.IsNullOrEmpty(FirstPost?.Subject)
-                ? FirstPost?.Comment
-                : FirstPost?.Subject;
+        
+        [JsonProperty]
+        public new string Name { get; private set; }
+            
 
         [JsonIgnore]
         public override List<Post> Posts {
@@ -21,8 +22,27 @@ namespace Win2ch.Models {
         }
 
         [JsonProperty]
-        public Post FirstPost { get; set; }
-        
+        public string ThumbnailUrl { get; private set; }
+
+        [JsonIgnore]
+        public Post FirstPost {
+            get { return _FirstPost; }
+            set {
+                _FirstPost = value;
+                if (value == null)
+                    return;
+
+                var clear = Utils.RemoveHtml(_FirstPost.Comment);
+                if (clear.Length > 50)
+                    clear = clear.Substring(0, 50);
+                ThumbnailUrl = _FirstPost.Images?.FirstOrDefault()?.ThumbnailUrl;
+
+                Name = string.IsNullOrEmpty(_FirstPost.Subject)
+                        ? clear
+                        : _FirstPost.Subject;
+            }
+        }
+
         [JsonConstructor]
         private FavoriteThread() : base(0, "") { }
 
