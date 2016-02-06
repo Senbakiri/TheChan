@@ -77,14 +77,16 @@ namespace Win2ch.Services {
         /// </summary>
         /// <param name="thread">Результат проверки</param>
         /// <returns></returns>
-        public bool IsThreadInFavorites(Thread thread) {
+        public async Task<bool> IsThreadInFavorites(Thread thread) {
+            if (!IsLoaded)
+                await Load();
             return FavoriteThreads.Contains(thread);
         }
 
         /// <summary>
         /// Получить список избранных тредов
         /// </summary>
-        public async Task<IReadOnlyCollection<FavoriteThread>> GetFavoriteThreads(bool update) {
+        public async Task<IReadOnlyCollection<FavoriteThread>> GetFavoriteThreads(bool update = false) {
             if (!IsLoaded)
                 await Load();
             if (update)
@@ -107,6 +109,16 @@ namespace Win2ch.Services {
             fav.UnreadPosts = 0;
             fav.LastPostPosition = thread.Posts.Count;
             await Store();
+        }
+
+        public async Task<bool> RemoveThread(Thread thread) {
+            if (!IsLoaded)
+                await Load();
+
+            var favThread = FavoriteThreads.FirstOrDefault(t => t.Equals(thread));
+            var removed = FavoriteThreads.Remove(favThread);
+            if (removed) await Store();
+            return removed;
         }
     }
 }

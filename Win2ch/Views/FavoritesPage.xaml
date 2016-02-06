@@ -11,6 +11,7 @@
     xmlns:viewModels="using:Win2ch.ViewModels"
     xmlns:models="using:Win2ch.Models"
     xmlns:behaviors="using:Win2ch.Behaviors"
+    xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml"
     mc:Ignorable="d"
     NavigationCacheMode="Disabled">
 
@@ -53,25 +54,34 @@
                           ContainerContentChanging="{x:Bind ResizeThreads}">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="models:FavoriteThread">
-                            <Grid Width="162"
+                            <Grid Width="225"
                                   Height="107"
-                                  Padding="7 7 0 7"
                                   Background="{ThemeResource FavoriteThreadBackground}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="{x:Bind Board.Id}"
+                                <Grid Grid.Row="0"
+                                      Grid.RowSpan="3">
+                                    <xaml:CanvasControl Draw="CanvasControl_OnDraw"
+                                                        CreateResources="CanvasControl_OnCreateResources"/>
+                                    <Border Background="{ThemeResource FavoriteThreadBackground}"
+                                            Opacity="0.85"/>
+                                </Grid>
+                                <TextBlock Grid.Row="0"
+                                           Text="{x:Bind Board.Id}"
                                            Foreground="{StaticResource CustomColorBrush}"
                                            FontWeight="SemiBold"
-                                           Padding="0 0 0 3"
+                                           Padding="7 7 0 3"
                                            FontSize="12"/>
                                 <TextBlock Text="{x:Bind Name}"
                                            TextWrapping="Wrap"
                                            MaxLines="2"
-                                           Grid.Row="1"/>
+                                           Grid.Row="1"
+                                           Padding="7 0 0 7"/>
                                 <TextBlock Grid.Row="2"
+                                           Padding="7"
                                            FontWeight="SemiBold">
                                     <Run Text="{x:Bind UnreadPosts}"/>
                                     <Run Text="{x:Bind UnreadPosts, Converter={StaticResource NounFormConverter}, ConverterParameter='НОВЫЙ НОВЫХ НОВЫХ'}"/>

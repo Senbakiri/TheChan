@@ -8,7 +8,8 @@
     "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.0.3",
     "Newtonsoft.Json": "8.0.2",
     "Template10": "1.1.1",
-    "UniversalWrapPanel": "1.0.0"
+    "UniversalWrapPanel": "1.0.0",
+    "Win2D.uwp": "1.15.0"
   },
   "frameworks": {
     "uap10.0": {}

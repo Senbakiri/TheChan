@@ -87,10 +87,12 @@ namespace Win2ch.ViewModels {
             AdvancedPostingCommand = new DelegateCommand(AdvancedPosting);
         }
 
-        public void AddToFavorites() {
+        public async void Favorite() {
             var favService = FavoritesService.Instance;
-            favService.AddThread(Thread);
-            IsInFavorites = true;
+            var isAdded =  await favService.AddThread(Thread);
+            if (!isAdded)
+                await favService.RemoveThread(Thread);
+            IsInFavorites = await FavoritesService.Instance.IsThreadInFavorites(Thread);
         }
 
         public async Task<bool> FastReply() {
@@ -158,10 +160,12 @@ namespace Win2ch.ViewModels {
 
             if (parameter is Thread) {
                 var thread = (Thread) parameter;
+                IsInFavorites = await FavoritesService.Instance.IsThreadInFavorites(thread);
                 if ( !ReferenceEquals(thread, Thread))
                     await LoadThread(thread);
             } else if (parameter is NavigationToThreadWithScrolling) {
                 var nav = (NavigationToThreadWithScrolling) parameter;
+                IsInFavorites = await FavoritesService.Instance.IsThreadInFavorites(nav.Thread);
                 if (!Equals(nav.Thread, Thread))
                     await LoadThread(nav.Thread);
 
@@ -200,7 +204,7 @@ namespace Win2ch.ViewModels {
         }
 
         public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending) {
-            if (FavoritesService.Instance.IsThreadInFavorites(Thread))
+            if (await FavoritesService.Instance.IsThreadInFavorites(Thread))
                 await FavoritesService.Instance.ResetThread(Thread);
             await base.OnNavigatedFromAsync(state, suspending);
         }

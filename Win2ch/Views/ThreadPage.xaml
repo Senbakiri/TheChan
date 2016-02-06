@@ -10,8 +10,9 @@
     xmlns:models="using:Win2ch.Models"
     xmlns:c="using:Win2ch.Controls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:behaviors="using:Template10.Behaviors"
+    xmlns:t10Behaviors="using:Template10.Behaviors"
     xmlns:views="using:Win2ch.Views"
+    xmlns:behaviors="using:Win2ch.Behaviors"
     mc:Ignorable="d"
     NavigationCacheMode="Enabled"
     KeyDown="ThreadPage_OnKeyDown">
@@ -64,7 +65,7 @@
                            Tapped="Header_OnTapped"/>
             </controls:PageHeader.Content>
             <interactivity:Interaction.Behaviors>
-                <behaviors:EllipsisBehavior Visibility="Collapsed" />
+                <t10Behaviors:EllipsisBehavior Visibility="Collapsed" />
             </interactivity:Interaction.Behaviors>
         </controls:PageHeader>
 
@@ -185,10 +186,16 @@
             </CommandBar.Resources>
             <AppBarButton Icon="Favorite"
                           Label="Добавить в избранное"
-                          Click="{x:Bind ViewModel.AddToFavorites}"/>
+                          Click="{x:Bind ViewModel.Favorite}">
+                <interactivity:Interaction.Behaviors>
+                    <behaviors:FavoriteButtonBehavior
+                        IsInFavorites="{x:Bind ViewModel.IsInFavorites, Mode=OneWay}"/>
+                </interactivity:Interaction.Behaviors>
+            </AppBarButton>
             <AppBarButton Icon="Refresh"
                           Label="Обновить"
-                          Click="{x:Bind Refresh}"/>
+                          Click="{x:Bind Refresh}">
+            </AppBarButton>
         </CommandBar>
     </Grid>
 </Page>
