@@ -90,16 +90,26 @@ namespace Win2ch.Services {
             if (!IsLoaded)
                 await Load();
             if (update)
-                await Update();
+                await UpdateAllThreads();
             return FavoriteThreads.ToList().AsReadOnly();
         }
 
-        public async Task Update() {
+        public async Task UpdateAllThreads() {
             foreach (var thread in FavoriteThreads) {
                 var posts = await thread.GetPostsFrom(thread.LastPostPosition + 1);
                 thread.UnreadPosts += posts.Count;
                 thread.LastPostPosition += posts.Count;
             }
+        }
+
+        public async Task<bool> UpdateThread(Thread thread) {
+            var fav = FavoriteThreads.FirstOrDefault(f => Equals(f, thread));
+            if (fav == null)
+                return false;
+            var posts = await thread.GetPostsFrom(fav.LastPostPosition + 1);
+            fav.UnreadPosts += posts.Count;
+            fav.LastPostPosition += posts.Count;
+            return true;
         }
 
         public async Task ResetThread(Thread thread) {
@@ -115,7 +125,8 @@ namespace Win2ch.Services {
             if (!IsLoaded)
                 await Load();
 
-            var favThread = FavoriteThreads.FirstOrDefault(t => t.Equals(thread));
+            var favoriteThread = thread as FavoriteThread;
+            var favThread = favoriteThread ?? FavoriteThreads.FirstOrDefault(t => t.Equals(thread));
             var removed = FavoriteThreads.Remove(favThread);
             if (removed) await Store();
             return removed;

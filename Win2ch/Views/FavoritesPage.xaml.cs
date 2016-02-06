@@ -10,6 +10,7 @@ using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.UI;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Win2ch.Models;
+using Win2ch.Services;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Views {
@@ -92,6 +93,10 @@ namespace Win2ch.Views {
                 _isImageLoaded[thread] = true;
                 sender.Invalidate();
             }
+        }
+
+        private async void RemoveThreadFromFavoritesMenuFlyoutItem_OnClick(object sender, RoutedEventArgs e) {
+            await ViewModel.RemoveThreadFromFavorites((FavoriteThread)((FrameworkElement) sender).DataContext);
         }
     }
 }

@@ -29,6 +29,11 @@
                 <TextBlock Style="{StaticResource PageHeaderTitle}"
                            Text="ИЗБРАННОЕ"/>
             </controls:PageHeader.Content>
+            <controls:PageHeader.PrimaryCommands>
+                <AppBarButton Icon="Refresh"
+                              Click="{x:Bind ViewModel.Update}"
+                              Label="Обновить"/>
+            </controls:PageHeader.PrimaryCommands>
             <interactivity:Interaction.Behaviors>
                 <t10Behaviors:EllipsisBehavior Visibility="Collapsed"/>
             </interactivity:Interaction.Behaviors>
@@ -75,7 +80,7 @@
                                            FontWeight="SemiBold"
                                            Padding="7 7 0 3"
                                            FontSize="12"/>
-                                <TextBlock Text="{x:Bind Name}"
+                                <TextBlock Text="{x:Bind Name, Mode=OneWay}"
                                            TextWrapping="Wrap"
                                            MaxLines="2"
                                            Grid.Row="1"
@@ -83,15 +88,31 @@
                                 <TextBlock Grid.Row="2"
                                            Padding="7"
                                            FontWeight="SemiBold">
-                                    <Run Text="{x:Bind UnreadPosts}"/>
-                                    <Run Text="{x:Bind UnreadPosts, Converter={StaticResource NounFormConverter}, ConverterParameter='НОВЫЙ НОВЫХ НОВЫХ'}"/>
-                                    <Run Text="{x:Bind UnreadPosts, Converter={StaticResource NounFormConverter}, ConverterParameter='ПОСТ ПОСТА ПОСТОВ'}"/>
+                                    <Run Text="{x:Bind UnreadPosts, Mode=OneWay}"/>
+                                    <Run Text="{x:Bind UnreadPosts, Mode=OneWay, Converter={StaticResource NounFormConverter}, ConverterParameter='НОВЫЙ НОВЫХ НОВЫХ'}"/>
+                                    <Run Text="{x:Bind UnreadPosts, Mode=OneWay, Converter={StaticResource NounFormConverter}, ConverterParameter='ПОСТ ПОСТА ПОСТОВ'}"/>
                                 </TextBlock>
+                                <interactivity:Interaction.Behaviors>
+                                    <behaviors:ContextMenuBehavior>
+                                        <behaviors:ContextMenuBehavior.MenuFlyout>
+                                            <MenuFlyout>
+                                                <MenuFlyoutItem Text="Удалить"
+                                                                Click="RemoveThreadFromFavoritesMenuFlyoutItem_OnClick"></MenuFlyoutItem>
+                                            </MenuFlyout>
+                                        </behaviors:ContextMenuBehavior.MenuFlyout>
+                                    </behaviors:ContextMenuBehavior>
+                                </interactivity:Interaction.Behaviors>
                             </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
             </PivotItem>
         </Pivot>
+        <ProgressRing IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
+                      Grid.Row="1"
+                      Foreground="{ThemeResource SystemControlHighlightBaseHighBrush}"
+                      Width="50"
+                      Height="50"
+                      Canvas.ZIndex="2"/>
     </Grid>
 </Page>

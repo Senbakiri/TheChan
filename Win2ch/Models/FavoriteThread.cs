@@ -1,16 +1,38 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
+using Win2ch.Annotations;
 
 namespace Win2ch.Models {
-    public sealed class FavoriteThread : Thread {
+    public sealed class FavoriteThread : Thread, INotifyPropertyChanged {
         [JsonIgnore]
         private Post _FirstPost;
 
-        public int UnreadPosts { get; set; }
+        private int _LastPostPosition;
+        private int _UnreadPosts;
 
-        public int LastPostPosition { get; set; }
-        
+        public int UnreadPosts {
+            get { return _UnreadPosts; }
+            set {
+                if (value == _UnreadPosts)
+                    return;
+                _UnreadPosts = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public int LastPostPosition {
+            get { return _LastPostPosition; }
+            set {
+                if (value == _LastPostPosition)
+                    return;
+                _LastPostPosition = value;
+                RaisePropertyChanged();
+            }
+        }
+
         [JsonProperty]
         public new string Name { get; private set; }
             
@@ -53,6 +75,13 @@ namespace Win2ch.Models {
             FilesCount = thread.FilesCount;
             TotalPosts = thread.TotalPosts;
             LastPostPosition = thread.Posts.Count;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = null) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

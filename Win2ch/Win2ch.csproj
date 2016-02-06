@@ -106,6 +106,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Behaviors\ContextMenuBehavior.cs" />
     <Compile Include="Behaviors\FavoriteButtonBehavior.cs" />
     <Compile Include="Behaviors\HtmlBehavior.cs" />
     <Compile Include="Common\CurrentPost.cs" />
