@@ -31,8 +31,9 @@
             </controls:PageHeader.Content>
             <controls:PageHeader.PrimaryCommands>
                 <AppBarButton Icon="Refresh"
-                              Click="{x:Bind ViewModel.Update}"
-                              Label="Обновить"/>
+                              Click="{x:Bind ViewModel.Load}"
+                              Label="Обновить"
+                              IsEnabled="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource InverseBool}}"/>
             </controls:PageHeader.PrimaryCommands>
             <interactivity:Interaction.Behaviors>
                 <t10Behaviors:EllipsisBehavior Visibility="Collapsed"/>
@@ -75,7 +76,7 @@
                                             Opacity="0.85"/>
                                 </Grid>
                                 <TextBlock Grid.Row="0"
-                                           Text="{x:Bind Board.Id}"
+                                           Text="{x:Bind Board.Id, Mode=OneWay}"
                                            Foreground="{StaticResource CustomColorBrush}"
                                            FontWeight="SemiBold"
                                            Padding="7 7 0 3"

@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Template10.Controls;
 using Win2ch.Models;
 using Win2ch.Models.Exceptions;
@@ -19,17 +21,30 @@ namespace Win2ch.ViewModels {
         public bool IsLoading {
             get { return _IsLoading; }
             set {
+                if (value == _IsLoading)
+                    return;
                 _IsLoading = value;
                 RaisePropertyChanged();
             }
         }
 
         public FavoritesViewModel() {
+            FavoritesService.Updated += FavoritesServiceOnUpdated;
             FavoriteThreads = new ObservableItemCollection<FavoriteThread>();
             Load();
         }
 
-        private async void Load() {
+        private void FavoritesServiceOnUpdated(FavoritesService s) {
+            Window.Current.Activated += (_, e) => {
+                if (e.WindowActivationState != CoreWindowActivationState.Deactivated)
+                    Load();
+            };
+        }
+
+        public async void Load() {
+            if (IsLoading)
+                return;
+            IsLoading = true;
 
             try {
                 var threads = (await FavoritesService.GetFavoriteThreads()).OrderByDescending(t => t.UnreadPosts);
@@ -64,7 +79,7 @@ namespace Win2ch.ViewModels {
         }
 
         public async Task RemoveThreadFromFavorites(FavoriteThread thread) {
-            var succ = await FavoritesService.RemoveThread(thread);
+            await FavoritesService.RemoveThread(thread);
             Load();
         }
 

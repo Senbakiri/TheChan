@@ -14,11 +14,18 @@ namespace Win2ch.Services {
         
         public static FavoritesService Instance { get; } = new FavoritesService();
 
-        private FavoritesService() { }
+        private FavoritesService() {
+            ApplicationData.Current.DataChanged += (s, e) => {
+                IsLoaded = false;
+                Updated(this);
+            };
+        }
 
         private HashSet<FavoriteThread> FavoriteThreads { get; set; } = new HashSet<FavoriteThread>();
         private StorageFolder Folder { get; } = ApplicationData.Current.RoamingFolder;
         private ISerializationService SerializationService { get; } = Template10.Services.SerializationService.SerializationService.Json;
+
+        public event Action<FavoritesService> Updated = delegate { };
 
         private const string ThreadsFileName = "FavThreads.json";
 
