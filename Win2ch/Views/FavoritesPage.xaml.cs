@@ -63,11 +63,14 @@ namespace Win2ch.Views {
                 var blurEffect = _blurEffect[thread];
                 session.Units = CanvasUnits.Pixels;
 
-                double displayScaling = DisplayInformation.GetForCurrentView().LogicalDpi / 96.0;
+                var displayScaling = DisplayInformation.GetForCurrentView().LogicalDpi / 96.0;
 
-                double pixelWidth = sender.ActualWidth * displayScaling;
+                var pixelWidth = sender.ActualWidth * displayScaling;
 
                 var scalefactor = pixelWidth / image.Size.Width;
+
+                if ((int) scalefactor == 0)
+                    return;
 
                 scaleEffect.Source = image;
                 scaleEffect.Scale = new Vector2 {
