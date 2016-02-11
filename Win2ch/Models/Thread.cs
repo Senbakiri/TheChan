@@ -108,7 +108,8 @@ namespace Win2ch.Models {
 
                 var uri = new Uri(Urls.Posting);
                 var response = await client.PostAsync(uri, content);
-                response.EnsureSuccessStatusCode();
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpException(response.StatusCode);
                 var responseString = await response.Content.ReadAsStringAsync();
                 responseString.CheckForApiError();
             }
