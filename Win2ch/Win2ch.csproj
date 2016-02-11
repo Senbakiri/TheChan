@@ -98,6 +98,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ReleaseNotes.txt" />
+    <PRIResource Include="Strings\ru-RU\Resources.resw" />
     <None Include="Win2ch_StoreKey.pfx" />
     <None Include="Win2ch_TemporaryKey.pfx" />
     <None Include="project.json" />
@@ -310,7 +311,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Strings\" />
     <Folder Include="Themes\" />
   </ItemGroup>
   <ItemGroup>
