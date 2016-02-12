@@ -29,16 +29,8 @@ namespace Win2ch.ViewModels {
         }
 
         public FavoritesViewModel() {
-            FavoritesService.Updated += FavoritesServiceOnUpdated;
             FavoriteThreads = new ObservableItemCollection<StoredThreadInfo>();
             Load();
-        }
-
-        private void FavoritesServiceOnUpdated(FavoritesService s) {
-            Window.Current.Activated += (_, e) => {
-                if (e.WindowActivationState != CoreWindowActivationState.Deactivated)
-                    Load();
-            };
         }
 
         public async void Load() {

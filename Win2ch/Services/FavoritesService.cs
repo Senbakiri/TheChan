@@ -14,7 +14,7 @@ namespace Win2ch.Services {
         private FavoritesService() {
             var appData = ApplicationData.Current;
             FavoriteThreadsStoringService = new StoringService<StoredThreadInfo>(
-                ApplicationData.Current.RoamingFolder, "FavThreads.json");
+                appData.RoamingFolder, "FavThreads.json");
         }
 
         /// <summary>
