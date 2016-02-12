@@ -53,6 +53,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid x:Name="ImagesViewerUnderlay"
@@ -67,12 +68,6 @@
             <interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed" />
             </interactivity:Interaction.Behaviors>
-            <controls:PageHeader.PrimaryCommands>
-                <!--AppBarButton Icon="Add"
-                              Command="{x:Bind ViewModel.NewThreadCommand}"/>-->
-                <AppBarButton Icon="Refresh"
-                              Click="{x:Bind ViewModel.Refresh}"/>
-            </controls:PageHeader.PrimaryCommands>
         </controls:PageHeader>
 
         <ListView SelectionMode="None" 
@@ -394,5 +389,14 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
+
+        <CommandBar Grid.Row="2">
+            <CommandBar.Resources>
+                <Style TargetType="AppBarButton"/>
+            </CommandBar.Resources>
+            <AppBarButton Icon="Refresh"
+                          Click="{x:Bind ViewModel.Refresh}"
+                          Label="Обновить"/>
+        </CommandBar>
     </Grid>
 </Page>
