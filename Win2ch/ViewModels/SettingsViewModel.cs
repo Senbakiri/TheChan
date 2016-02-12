@@ -34,6 +34,17 @@ namespace Win2ch.ViewModels {
             }
         }
 
+        public int MaxLinesInPostOnBoard {
+            get { return _settingsService.MaxLinesInPostOnBoard; }
+            set {
+                var correctValue = Math.Max(0, value);
+                if (_settingsService.MaxLinesInPostOnBoard == correctValue)
+                    return;
+                _settingsService.MaxLinesInPostOnBoard = correctValue;
+                RaisePropertyChanged();
+            }
+        }
+
         public List<Theme> AvailableThemes { get; } = Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
         public List<RepliesViewMode> AvailableRepliesViewModes
             { get; } = Enum.GetValues(typeof(RepliesViewMode)).Cast<RepliesViewMode>().ToList();

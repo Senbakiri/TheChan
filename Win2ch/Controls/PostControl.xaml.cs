@@ -28,6 +28,16 @@ namespace Win2ch.Controls {
             dependencyObject.SetValue(DataContextProperty, e.NewValue);
         }
 
+        public static readonly DependencyProperty MaxLinesProperty = DependencyProperty.Register(
+            "MaxLines",
+            typeof (int), typeof (PostControl),
+            PropertyMetadata.Create(0));
+
+        public int MaxLines {
+            get { return (int) GetValue(MaxLinesProperty); }
+            set { SetValue(MaxLinesProperty, value); }
+        }
+
         private readonly ISettingsService _settings = SettingsService.Instance;
 
         public delegate void PostReplyEventHandler(object sender, PostReplyEventArgs e);

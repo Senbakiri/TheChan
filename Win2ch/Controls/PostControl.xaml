@@ -94,7 +94,8 @@
                            TextWrapping="Wrap"
                            Visibility="{x:Bind Post.Comment, Converter={StaticResource StrToVis}, Mode=OneWay}"
                            MaxWidth="1200"
-                           HorizontalAlignment="Left">
+                           HorizontalAlignment="Left"
+                           MaxLines="{x:Bind MaxLines, Mode=OneWay}">
                     <interactivity:Interaction.Behaviors>
                         <behaviors:HtmlBehavior
                             Html="{x:Bind Post.Comment, Mode=TwoWay}"

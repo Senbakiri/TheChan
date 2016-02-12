@@ -57,6 +57,14 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
+                        
+                        <TextBlock Margin="0 10"
+                                   Text="Максимальное количество строк в постах при просмотре доски"
+                                   TextWrapping="Wrap"/>
+                        <TextBox InputScope="Number"
+                                 HorizontalAlignment="Left"
+                                 Width="50"
+                                 Text="{x:Bind ViewModel.MaxLinesInPostOnBoard, Mode=TwoWay}"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>

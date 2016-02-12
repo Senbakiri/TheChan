@@ -14,7 +14,8 @@
     xmlns:win2Ch="using:Win2ch"
     xmlns:c="using:Win2ch.Controls"
     mc:Ignorable="d"
-    NavigationCacheMode="Enabled">
+    NavigationCacheMode="Enabled"
+    x:Name="This">
 
     <Page.DataContext>
         <vm:BoardViewModel/>
@@ -31,7 +32,8 @@
                             <c:PostControl Post="{x:Bind}"
                                            IsSimple="True"
                                            ImageClick="PostControl_OnImageClick"
-                                           Margin="10 10 10 0"/>
+                                           Margin="10 10 10 0"
+                                           MaxLines="{Binding ElementName=This, Path=MaxLinesInPost}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

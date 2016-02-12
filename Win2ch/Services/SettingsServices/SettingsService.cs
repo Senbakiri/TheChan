@@ -37,6 +37,16 @@ namespace Win2ch.Services.SettingsServices {
             }
         }
 
+        public int MaxLinesInPostOnBoard {
+            get {
+                return _helper.Read(nameof(MaxLinesInPostOnBoard), 0);
+            }
+
+            set {
+                _helper.Write(nameof(MaxLinesInPostOnBoard), value);
+            }
+        }
+
         public Theme AppTheme {
             get {
                 var theme = Theme.System;
