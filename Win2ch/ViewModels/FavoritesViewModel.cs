@@ -39,7 +39,7 @@ namespace Win2ch.ViewModels {
             IsLoading = true;
 
             try {
-                var threads = (await FavoritesService.GetFavoriteThreads()).OrderByDescending(t => t.UnreadPosts);
+                var threads = (await FavoritesService.Threads.GetItems()).OrderByDescending(t => t.UnreadPosts);
                 FavoriteThreads.Clear();
                 foreach (var thread in threads) {
                     FavoriteThreads.Add(thread);
@@ -55,13 +55,13 @@ namespace Win2ch.ViewModels {
             IsLoading = true;
             foreach (var thread in FavoriteThreads) {
                 try {
-                    await FavoritesService.UpdateThread(thread);
+                    await FavoritesService.Threads.UpdateThread(thread);
                 } catch (COMException) {
                     // ничего страшного
                 } catch (HttpException) {
                     // всё в порядке
                 } catch (ApiException) {
-                    await FavoritesService.RemoveThread(thread);
+                    await FavoritesService.Threads.RemoveThread(thread);
                 } catch (Exception e) {
                     await Utils.ShowOtherError(e, "Не удалось загрузить избранные треды");
                 }
@@ -71,7 +71,7 @@ namespace Win2ch.ViewModels {
         }
 
         public async Task RemoveThreadFromFavorites(StoredThreadInfo thread) {
-            await FavoritesService.RemoveThread(thread);
+            await FavoritesService.Threads.RemoveThread(thread);
             Load();
         }
 

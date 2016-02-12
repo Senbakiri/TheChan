@@ -136,9 +136,11 @@
     <Compile Include="Services\CacheItemType.cs" />
     <Compile Include="Services\CacheService.cs" />
     <Compile Include="Services\FavoritesService.cs" />
+    <Compile Include="Services\RecentThreadsService.cs" />
     <Compile Include="Services\SettingsServices\RepliesViewMode.cs" />
     <Compile Include="Services\SettingsServices\Theme.cs" />
-    <Compile Include="Services\StoringService.cs" />
+    <Compile Include="Services\StorageService.cs" />
+    <Compile Include="Services\ThreadStorageService.cs" />
     <Compile Include="ViewModels\FavoritesViewModel.cs" />
     <Compile Include="ViewModels\PostingViewModel.cs" />
     <Compile Include="Views\Errors\BoardErrorPage.xaml.cs">

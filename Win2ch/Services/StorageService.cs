@@ -7,7 +7,7 @@ using Windows.Storage;
 using Template10.Services.SerializationService;
 
 namespace Win2ch.Services {
-    internal class StorageService<T> {
+    public class StorageService<T> {
 
         public StorageFolder RootFolder { get; set; }
         public string FileName { get; set; }

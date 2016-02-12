@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Navigation;
 using Template10.Mvvm;
 using Win2ch.Common;
@@ -88,11 +85,11 @@ namespace Win2ch.ViewModels {
         }
 
         public async void Favorite() {
-            var favService = FavoritesService.Instance;
+            var favService = FavoritesService.Instance.Threads;
             var isAdded =  await favService.AddThread(Thread);
             if (!isAdded)
                 await favService.RemoveThread(Thread);
-            IsInFavorites = await FavoritesService.Instance.IsThreadInFavorites(Thread);
+            IsInFavorites = await favService.ContainsThread(Thread);
         }
 
         public async Task<bool> FastReply() {
@@ -159,17 +156,19 @@ namespace Win2ch.ViewModels {
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state) {
+            var favThreadsService = FavoritesService.Instance.Threads;
+
             if (CurrentPost.PostInfo != null)
                 PostInfo = CurrentPost.PostInfo;
 
             if (parameter is Thread) {
                 var thread = (Thread) parameter;
-                IsInFavorites = await FavoritesService.Instance.IsThreadInFavorites(thread);
+                IsInFavorites = await favThreadsService.ContainsThread(thread);
                 if ( !ReferenceEquals(thread, Thread))
                     await LoadThread(thread);
             } else if (parameter is NavigationToThreadWithScrolling) {
                 var nav = (NavigationToThreadWithScrolling) parameter;
-                IsInFavorites = await FavoritesService.Instance.IsThreadInFavorites(nav.Thread);
+                IsInFavorites = await favThreadsService.ContainsThread(nav.Thread);
                 if (!Equals(nav.Thread, Thread))
                     await LoadThread(nav.Thread);
 
@@ -208,8 +207,9 @@ namespace Win2ch.ViewModels {
         }
 
         public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending) {
-            if (await FavoritesService.Instance.IsThreadInFavorites(Thread))
-                await FavoritesService.Instance.ResetThread(Thread);
+            var favsService = FavoritesService.Instance.Threads;
+            if (await favsService.ContainsThread(Thread))
+                await favsService.ResetThread(Thread);
             await base.OnNavigatedFromAsync(state, suspending);
         }
     }
