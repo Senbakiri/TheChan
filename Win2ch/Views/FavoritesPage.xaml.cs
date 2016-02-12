@@ -10,7 +10,6 @@ using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.UI;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Win2ch.Models;
-using Win2ch.Services;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Views {

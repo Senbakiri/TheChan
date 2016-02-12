@@ -7,7 +7,7 @@ using Windows.Storage;
 using Template10.Services.SerializationService;
 
 namespace Win2ch.Services {
-    internal class StoringService<T> {
+    internal class StorageService<T> {
 
         public StorageFolder RootFolder { get; set; }
         public string FileName { get; set; }
@@ -16,7 +16,7 @@ namespace Win2ch.Services {
 
         public bool IsLoaded { get; private set; }
 
-        public StoringService(StorageFolder rootFolder, string fileName) {
+        public StorageService(StorageFolder rootFolder, string fileName) {
             RootFolder = rootFolder;
             FileName = fileName;
         }
@@ -45,7 +45,7 @@ namespace Win2ch.Services {
             if (file == null)
                 return null;
 
-            var result = "";
+            var result;
             using (var stream = await file.OpenAsync(FileAccessMode.Read))
             using (var reader = new StreamReader(stream.AsStreamForRead()))
                 result = reader.ReadToEnd();
