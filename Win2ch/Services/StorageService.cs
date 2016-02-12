@@ -45,7 +45,7 @@ namespace Win2ch.Services {
             if (file == null)
                 return null;
 
-            var result;
+            string result;
             using (var stream = await file.OpenAsync(FileAccessMode.Read))
             using (var reader = new StreamReader(stream.AsStreamForRead()))
                 result = reader.ReadToEnd();
