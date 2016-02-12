@@ -69,7 +69,7 @@ namespace Win2ch.Views {
 
                 var scalefactor = pixelWidth / image.Size.Width;
 
-                if ((int) scalefactor == 0)
+                if (Math.Abs(scalefactor) < 0.001)
                     return;
 
                 scaleEffect.Source = image;
