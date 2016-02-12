@@ -154,7 +154,8 @@
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"
                         Width="40"
-                        Command="{x:Bind ViewModel.AdvancedPostingCommand}">
+                        Command="{x:Bind ViewModel.AdvancedPostingCommand}"
+                        IsEnabled="{x:Bind ViewModel.IsWorking, Mode=OneWay, Converter={StaticResource InverseBool}}">
                     <SymbolIcon Symbol="More" Opacity="0.8"/>
                 </Button>
                 <TextBox x:Name="FastReplyTextBox"
@@ -172,7 +173,8 @@
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"
                         Width="40"
-                        Click="{x:Bind FastReply}">
+                        Click="{x:Bind FastReply}"
+                        IsEnabled="{x:Bind ViewModel.IsWorking, Mode=OneWay, Converter={StaticResource InverseBool}}">
                     <SymbolIcon Symbol="Send"/>
                 </Button>
             </Grid>
@@ -194,7 +196,8 @@
             </AppBarButton>
             <AppBarButton Icon="Refresh"
                           Label="Обновить"
-                          Click="{x:Bind Refresh}">
+                          Click="{x:Bind Refresh}"
+                          IsEnabled="{x:Bind ViewModel.IsWorking, Mode=OneWay, Converter={StaticResource InverseBool}}">
             </AppBarButton>
         </CommandBar>
     </Grid>
