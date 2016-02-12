@@ -97,6 +97,8 @@ namespace Win2ch.ViewModels {
 
         public async Task<bool> FastReply() {
             try {
+                IsWorking = true;
+                JobStatus = "Отправка";
                 await Thread.Reply(PostInfo);
                 FastReplyText = string.Empty;
                 return await Refresh();
@@ -106,6 +108,8 @@ namespace Win2ch.ViewModels {
                 await Utils.ShowHttpError(e, "Ошибка");
             } catch (COMException e) {
                 await Utils.ShowConnectionError(e, "Ошибка");
+            } finally {
+                IsWorking = false;
             }
 
             return false;
