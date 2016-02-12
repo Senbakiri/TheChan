@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using Win2ch.Annotations;
 
 namespace Win2ch.Models {
-    public sealed class FavoriteThread : Thread, INotifyPropertyChanged {
+    public sealed class StoredThreadInfo : Thread, INotifyPropertyChanged {
         [JsonIgnore]
         private Post _FirstPost;
 
@@ -66,11 +66,11 @@ namespace Win2ch.Models {
         }
 
         [JsonConstructor]
-        private FavoriteThread() : base(0, "") { }
+        private StoredThreadInfo() : base(0, "") { }
 
-        public FavoriteThread(long num, string boardId) : base(num, boardId) {}
+        public StoredThreadInfo(long num, string boardId) : base(num, boardId) {}
 
-        public FavoriteThread(Thread thread) : base(thread.Num, thread.Board.Id) {
+        public StoredThreadInfo(Thread thread) : base(thread.Num, thread.Board.Id) {
             Posts = thread.Posts;
             FilesCount = thread.FilesCount;
             TotalPosts = thread.TotalPosts;

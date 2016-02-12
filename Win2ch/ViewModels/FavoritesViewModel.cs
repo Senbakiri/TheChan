@@ -15,7 +15,7 @@ using Win2ch.Views;
 namespace Win2ch.ViewModels {
     public class FavoritesViewModel : ViewModelBase {
         private bool _IsLoading;
-        public ObservableItemCollection<FavoriteThread> FavoriteThreads { get; }
+        public ObservableItemCollection<StoredThreadInfo> FavoriteThreads { get; }
         private FavoritesService FavoritesService { get; } = FavoritesService.Instance;
 
         public bool IsLoading {
@@ -30,7 +30,7 @@ namespace Win2ch.ViewModels {
 
         public FavoritesViewModel() {
             FavoritesService.Updated += FavoritesServiceOnUpdated;
-            FavoriteThreads = new ObservableItemCollection<FavoriteThread>();
+            FavoriteThreads = new ObservableItemCollection<StoredThreadInfo>();
             Load();
         }
 
@@ -78,13 +78,13 @@ namespace Win2ch.ViewModels {
             IsLoading = false;
         }
 
-        public async Task RemoveThreadFromFavorites(FavoriteThread thread) {
+        public async Task RemoveThreadFromFavorites(StoredThreadInfo thread) {
             await FavoritesService.RemoveThread(thread);
             Load();
         }
 
-        public void GoToThread(FavoriteThread favoriteThread) {
-            var thread = new Thread(favoriteThread.Num, favoriteThread.Board.Id);
+        public void GoToThread(StoredThreadInfo storedThreadInfo) {
+            var thread = new Thread(storedThreadInfo.Num, storedThreadInfo.Board.Id);
             NavigationService.Navigate(typeof(ThreadPage), thread);
         }
     }

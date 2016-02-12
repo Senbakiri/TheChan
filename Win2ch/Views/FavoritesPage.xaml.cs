@@ -17,12 +17,12 @@ namespace Win2ch.Views {
     public sealed partial class FavoritesPage {
         public FavoritesViewModel ViewModel { get; private set; }
 
-        private Dictionary<FavoriteThread, ScaleEffect> _scaleEffect = new Dictionary<FavoriteThread, ScaleEffect>();
+        private Dictionary<StoredThreadInfo, ScaleEffect> _scaleEffect = new Dictionary<StoredThreadInfo, ScaleEffect>();
 
-        private Dictionary<FavoriteThread, GaussianBlurEffect> _blurEffect =
-            new Dictionary<FavoriteThread, GaussianBlurEffect>();
-        private Dictionary<FavoriteThread, bool> _isImageLoaded = new Dictionary<FavoriteThread, bool>();
-        private Dictionary<FavoriteThread, CanvasBitmap> _image = new Dictionary<FavoriteThread, CanvasBitmap>();
+        private Dictionary<StoredThreadInfo, GaussianBlurEffect> _blurEffect =
+            new Dictionary<StoredThreadInfo, GaussianBlurEffect>();
+        private Dictionary<StoredThreadInfo, bool> _isImageLoaded = new Dictionary<StoredThreadInfo, bool>();
+        private Dictionary<StoredThreadInfo, CanvasBitmap> _image = new Dictionary<StoredThreadInfo, CanvasBitmap>();
 
         public FavoritesPage() {
             InitializeComponent();
@@ -34,7 +34,7 @@ namespace Win2ch.Views {
         }
 
         private void FavoriteThreads_OnItemClick(object sender, ItemClickEventArgs e) {
-            ViewModel.GoToThread((FavoriteThread) e.ClickedItem);
+            ViewModel.GoToThread((StoredThreadInfo) e.ClickedItem);
         }
 
         private void ResizeThreads() {
@@ -53,7 +53,7 @@ namespace Win2ch.Views {
         }
 
         private void CanvasControl_OnDraw(CanvasControl sender, CanvasDrawEventArgs args) {
-            var thread = (FavoriteThread) sender.DataContext;
+            var thread = (StoredThreadInfo) sender.DataContext;
             if (!_isImageLoaded[thread])
                 return;
 
@@ -86,7 +86,7 @@ namespace Win2ch.Views {
         }
 
         private async void CanvasControl_OnCreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args) {
-            var thread = (FavoriteThread)sender.DataContext;
+            var thread = (StoredThreadInfo)sender.DataContext;
             _isImageLoaded[thread] = false;
             if (!string.IsNullOrWhiteSpace(thread.ThumbnailUrl)) {
                 _scaleEffect[thread] = new ScaleEffect();
@@ -99,7 +99,7 @@ namespace Win2ch.Views {
         }
 
         private async void RemoveThreadFromFavoritesMenuFlyoutItem_OnClick(object sender, RoutedEventArgs e) {
-            await ViewModel.RemoveThreadFromFavorites((FavoriteThread)((FrameworkElement) sender).DataContext);
+            await ViewModel.RemoveThreadFromFavorites((StoredThreadInfo)((FrameworkElement) sender).DataContext);
         }
     }
 }

@@ -59,7 +59,7 @@
                           x:Name="FavoriteThreadsGrid"
                           ContainerContentChanging="{x:Bind ResizeThreads}">
                     <GridView.ItemTemplate>
-                        <DataTemplate x:DataType="models:FavoriteThread">
+                        <DataTemplate x:DataType="models:StoredThreadInfo">
                             <Grid Width="225"
                                   Height="107"
                                   Background="{ThemeResource FavoriteThreadBackground}">
