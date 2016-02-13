@@ -8,10 +8,13 @@ using Windows.UI.Xaml;
 using Win2ch.Models;
 using Win2ch.Models.Api;
 using Win2ch.Models.Exceptions;
+using Win2ch.Services;
 using Win2ch.Views;
 
 namespace Win2ch.ViewModels {
     public class MainPageViewModel : Mvvm.ViewModelBase {
+
+        private StorageService<Board> FavoriteBoards { get; } = FavoritesService.Instance.Boards;
 
         public MainPageViewModel() {
             Categories = new ObservableCollection<Category>();
@@ -35,6 +38,10 @@ namespace Win2ch.ViewModels {
                 dialog.Commands.Add(new UICommand("Попробовать снова", _ => LoadBoards()));
                 dialog.Commands.Add(new UICommand("Закрыть приложение", _ => Application.Current.Exit()));
                 await dialog.ShowAsync();
+            }
+            var favorites = await FavoriteBoards.GetItems();
+            if (favorites.Count > 0) {
+                Categories.Add(new Category(favorites) { Name = "Избранное" });
             }
 
             foreach (var category in categories) {

@@ -11,12 +11,14 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Template10.Mvvm;
 using Win2ch.Models.Exceptions;
+using Win2ch.Services;
 using Win2ch.Views;
 
 namespace Win2ch.ViewModels {
     public class BoardViewModel : Mvvm.ViewModelBase {
         private Board _Board;
         private ThreadsCollection _threads;
+        private bool _IsInFavorites;
 
         public Board Board {
             get { return _Board; }
@@ -39,7 +41,17 @@ namespace Win2ch.ViewModels {
                 RaisePropertyChanged();
             }
         }
-        
+
+        public bool IsInFavorites {
+            get { return _IsInFavorites; }
+            private set {
+                if (_IsInFavorites == value)
+                    return;
+                _IsInFavorites = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public ICommand NewThreadCommand { get; }
 
         public BoardViewModel() {
@@ -61,7 +73,7 @@ namespace Win2ch.ViewModels {
             NavigationService.Navigate(typeof(ThreadPage), thread);
         }
 
-        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state) {
+        public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state) {
             // if user goes to the board from board list, load threads,
             // because they can be restored from navigation cache
             if (mode == NavigationMode.New)
@@ -70,11 +82,24 @@ namespace Win2ch.ViewModels {
             if (mode == NavigationMode.New || mode == NavigationMode.Forward)
                 Board = (Board)parameter;
 
-            return base.OnNavigatedToAsync(parameter, mode, state);
+            IsInFavorites = await FavoritesService.Instance.Boards.ContainsItem(Board);
+
+            await base.OnNavigatedToAsync(parameter, mode, state);
         }
 
         public void Refresh() {
             Threads?.Refresh();
+        }
+
+        public async Task Favorite() {
+            var favorites = FavoritesService.Instance.Boards;
+            if (await favorites.ContainsItem(Board)) {
+                await favorites.RemoveItem(Board);
+                IsInFavorites = false;
+            } else {
+                await favorites.Add(Board);
+                IsInFavorites = true;
+            }
         }
 
         private void OnBoardLoadError(HttpException exception) {

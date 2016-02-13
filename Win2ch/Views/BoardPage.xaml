@@ -2,17 +2,15 @@
     x:Class="Win2ch.Views.BoardPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:behaviors="using:Template10.Behaviors"
-    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:template10Behaviors="using:Template10.Behaviors"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:controls="using:Template10.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Win2ch.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Win2ch.ViewModels"
     xmlns:m="using:Win2ch.Models"
-    xmlns:win2Ch="using:Win2ch"
     xmlns:c="using:Win2ch.Controls"
+    xmlns:behaviors="using:Win2ch.Behaviors"
     mc:Ignorable="d"
     NavigationCacheMode="Enabled"
     x:Name="This">
@@ -66,7 +64,7 @@
                            Style="{StaticResource PageHeaderTitle}"/>
             </controls:PageHeader.Content>
             <interactivity:Interaction.Behaviors>
-                <behaviors:EllipsisBehavior Visibility="Collapsed" />
+                <template10Behaviors:EllipsisBehavior Visibility="Collapsed" />
             </interactivity:Interaction.Behaviors>
         </controls:PageHeader>
 
@@ -394,6 +392,11 @@
             <CommandBar.Resources>
                 <Style TargetType="AppBarButton"/>
             </CommandBar.Resources>
+            <AppBarButton Click="{x:Bind ViewModel.Favorite}">
+                <interactivity:Interaction.Behaviors>
+                    <behaviors:FavoriteButtonBehavior IsInFavorites="{x:Bind ViewModel.IsInFavorites, Mode=OneWay}"/>
+                </interactivity:Interaction.Behaviors>
+            </AppBarButton>
             <AppBarButton Icon="Refresh"
                           Click="{x:Bind ViewModel.Refresh}"
                           Label="Обновить"/>
