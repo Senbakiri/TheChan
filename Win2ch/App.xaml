@@ -3,7 +3,10 @@
                      xmlns:models="using:Win2ch.Models"
                      xmlns:template10Converters="using:Template10.Converters"
                      xmlns:system="using:System"
-                     xmlns:converters="using:Win2ch.Converters">
+                     xmlns:converters="using:Win2ch.Converters"
+                     xmlns:controls="using:Win2ch.Controls"
+                     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+                     xmlns:behaviors="using:Win2ch.Behaviors">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -18,9 +21,11 @@
             <converters:ListCountConverter x:Key="CountConverter"/>
             <converters:ListToVisibilityConverter x:Key="ListToVis"/>
             <converters:NounFormConverter x:Key="NounFormConverter"/>
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles\Custom.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
         </ResourceDictionary>
     </Application.Resources>
 

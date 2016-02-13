@@ -84,5 +84,12 @@ namespace Win2ch.Services {
             if (removed) await Store();
             return removed;
         }
+
+        public async Task ClearItems() {
+            if (!IsLoaded)
+                await Load();
+            Items.Clear();
+            await Store();
+        }
     }
 }

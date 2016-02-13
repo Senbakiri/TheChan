@@ -2,7 +2,6 @@
     x:Class="Win2ch.Views.FavoritesPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Win2ch.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:template10Controls="using:Template10.Controls"
@@ -11,7 +10,6 @@
     xmlns:viewModels="using:Win2ch.ViewModels"
     xmlns:models="using:Win2ch.Models"
     xmlns:behaviors="using:Win2ch.Behaviors"
-    xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml"
     xmlns:controls="using:Win2ch.Controls"
     mc:Ignorable="d"
     NavigationCacheMode="Disabled">

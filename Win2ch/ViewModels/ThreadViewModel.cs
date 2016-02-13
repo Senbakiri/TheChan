@@ -177,6 +177,8 @@ namespace Win2ch.ViewModels {
                     PostScroller?.ScrollToItem(post);
             }
 
+            await RecentThreadsService.Instance.AddThread(Thread);
+
             FastReplyText = PostInfo.Comment;
             await base.OnNavigatedToAsync(parameter, mode, state);
         }
@@ -208,8 +210,11 @@ namespace Win2ch.ViewModels {
 
         public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending) {
             var favsService = FavoritesService.Instance.Threads;
+            var recentService = RecentThreadsService.Instance;
             if (await favsService.ContainsThread(Thread))
                 await favsService.ResetThread(Thread);
+            if (await recentService.ContainsThread(Thread))
+                await recentService.ResetThread(Thread);
             await base.OnNavigatedFromAsync(state, suspending);
         }
     }

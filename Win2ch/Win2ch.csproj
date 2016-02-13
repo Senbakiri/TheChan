@@ -146,6 +146,7 @@
     <Compile Include="Services\ThreadStorageService.cs" />
     <Compile Include="ViewModels\FavoritesViewModel.cs" />
     <Compile Include="ViewModels\PostingViewModel.cs" />
+    <Compile Include="ViewModels\RecentThreadsViewModel.cs" />
     <Compile Include="Views\Errors\BoardErrorPage.xaml.cs">
       <DependentUpon>BoardErrorPage.xaml</DependentUpon>
     </Compile>
