@@ -33,11 +33,11 @@
                 <AppBarButton Icon="Clear"
                               Label="Очистить"
                               Click="{x:Bind ViewModel.Clear}"
-                              IsEnabled="{x:Bind ViewModel.IsLoading, Converter={StaticResource InverseBool}}"/>
+                              IsEnabled="{x:Bind ViewModel.IsLoading, Converter={StaticResource InverseBool}, Mode=OneWay}"/>
                 <AppBarButton Icon="Refresh"
                               Label="Обновить"
                               Click="{x:Bind ViewModel.Load}"
-                              IsEnabled="{x:Bind ViewModel.IsLoading, Converter={StaticResource InverseBool}}"/>
+                              IsEnabled="{x:Bind ViewModel.IsLoading, Converter={StaticResource InverseBool}, Mode=OneWay}"/>
             </controls:PageHeader.PrimaryCommands>
             <interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed"/>
