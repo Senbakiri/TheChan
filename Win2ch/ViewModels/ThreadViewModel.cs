@@ -103,7 +103,7 @@ namespace Win2ch.ViewModels {
                 JobStatus = "Отправка";
                 await Thread.Reply(PostInfo);
                 FastReplyText = string.Empty;
-                return await Refresh();
+                return await Refresh(true);
             } catch (ApiException e) {
                 await Utils.ShowOtherError(e, "Ошибка");
             } catch (HttpException e) {
@@ -124,7 +124,7 @@ namespace Win2ch.ViewModels {
             });
         }
 
-        public async Task<bool> Refresh() {
+        public async Task<bool> Refresh(bool scrollToLastPost = false) {
             IsWorking = true;
             JobStatus = "Получение новых постов";
             List<Post> newPosts;
@@ -150,6 +150,8 @@ namespace Win2ch.ViewModels {
                 Thread.Posts.AddRange(newPosts);
                 foreach (var newPost in newPosts)
                     Posts.Add(newPost);
+                if (scrollToLastPost)
+                    PostScroller?.ScrollToItem(Posts.LastOrDefault());
                 JobStatus = $"Получено новых постов: {newPosts.Count}";
             } else {
                 JobStatus = "Нет новых постов";
