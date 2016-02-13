@@ -24,7 +24,8 @@ namespace Win2ch.ViewModels {
         private List<Category> HiddenCategories { get; } = new List<Category>();
 
         public async void LoadBoards() {
-            List<Category> categories;
+            Categories.Clear();
+            var categories = new List<Category>();
             try {
                 categories = await new ApiBoardsProvider().GetCategories();
             } catch (HttpException e) {
@@ -33,14 +34,12 @@ namespace Win2ch.ViewModels {
                 dialog.Commands.Add(new UICommand("Закрыть"));
                 dialog.Commands.Add(new UICommand("Выход", _ => Application.Current.Exit()));
                 await dialog.ShowAsync();
-                return;
             } catch (COMException e) {
                 var dialog = new MessageDialog("Код ошибки: 0x" + e.HResult.ToString("X"), "Не удалось получить список досок");
                 dialog.Commands.Add(new UICommand("Повторить", _ => LoadBoards()));
                 dialog.Commands.Add(new UICommand("Закрыть"));
                 dialog.Commands.Add(new UICommand("Выход", _ => Application.Current.Exit()));
                 await dialog.ShowAsync();
-                return;
             }
             
             var favorites = await FavoriteBoards.GetItems();
