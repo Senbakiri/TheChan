@@ -30,15 +30,20 @@ namespace Win2ch.ViewModels {
                 categories = await new ApiBoardsProvider().GetCategories();
             } catch (HttpException e) {
                 var dialog = new MessageDialog("Код ошибки: " + (int)e.Code, "Не удалось получить список досок");
-                dialog.Commands.Add(new UICommand("Попробовать снова", _ => LoadBoards()));
-                dialog.Commands.Add(new UICommand("Закрыть приложение", _ => Application.Current.Exit()));
+                dialog.Commands.Add(new UICommand("Повторить", _ => LoadBoards()));
+                dialog.Commands.Add(new UICommand("Закрыть"));
+                dialog.Commands.Add(new UICommand("Выход", _ => Application.Current.Exit()));
                 await dialog.ShowAsync();
+                return;
             } catch (COMException e) {
                 var dialog = new MessageDialog("Код ошибки: 0x" + e.HResult.ToString("X"), "Не удалось получить список досок");
-                dialog.Commands.Add(new UICommand("Попробовать снова", _ => LoadBoards()));
-                dialog.Commands.Add(new UICommand("Закрыть приложение", _ => Application.Current.Exit()));
+                dialog.Commands.Add(new UICommand("Повторить", _ => LoadBoards()));
+                dialog.Commands.Add(new UICommand("Закрыть"));
+                dialog.Commands.Add(new UICommand("Выход", _ => Application.Current.Exit()));
                 await dialog.ShowAsync();
+                return;
             }
+            
             var favorites = await FavoriteBoards.GetItems();
             if (favorites.Count > 0) {
                 Categories.Add(new Category(favorites) { Name = "Избранное" });
