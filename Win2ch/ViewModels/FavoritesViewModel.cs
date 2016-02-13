@@ -35,7 +35,7 @@ namespace Win2ch.ViewModels {
             FavoritePosts = new ObservableCollection<Post>();
         }
 
-        public async void Load() {
+        public async Task Load() {
             if (IsLoading)
                 return;
             IsLoading = true;
@@ -82,7 +82,7 @@ namespace Win2ch.ViewModels {
 
         public async Task RemoveThreadFromFavorites(StoredThreadInfo thread) {
             await FavoritesService.Threads.RemoveThread(thread);
-            Load();
+            await Load();
         }
 
         public void GoToThread(StoredThreadInfo storedThreadInfo) {
@@ -91,7 +91,7 @@ namespace Win2ch.ViewModels {
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state) {
-            Load();
+            await Load();
             await base.OnNavigatedToAsync(parameter, mode, state);
         }
     }
