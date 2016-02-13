@@ -25,6 +25,12 @@ namespace Win2ch.ViewModels {
 
         public async void LoadBoards() {
             Categories.Clear();
+
+            var favorites = await FavoriteBoards.GetItems();
+            if (favorites.Count > 0) {
+                Categories.Add(new Category(favorites) { Name = "Избранное" });
+            }
+
             var categories = new List<Category>();
             try {
                 categories = await new ApiBoardsProvider().GetCategories();
@@ -40,11 +46,6 @@ namespace Win2ch.ViewModels {
                 dialog.Commands.Add(new UICommand("Закрыть"));
                 dialog.Commands.Add(new UICommand("Выход", _ => Application.Current.Exit()));
                 await dialog.ShowAsync();
-            }
-            
-            var favorites = await FavoriteBoards.GetItems();
-            if (favorites.Count > 0) {
-                Categories.Add(new Category(favorites) { Name = "Избранное" });
             }
 
             foreach (var category in categories) {
