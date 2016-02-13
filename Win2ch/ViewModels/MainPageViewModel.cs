@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Runtime.InteropServices;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -25,7 +24,7 @@ namespace Win2ch.ViewModels {
         private List<Category> HiddenCategories { get; } = new List<Category>();
 
         public async void LoadBoards() {
-            var categories = new List<Category>();
+            List<Category> categories;
             try {
                 categories = await new ApiBoardsProvider().GetCategories();
             } catch (HttpException e) {
