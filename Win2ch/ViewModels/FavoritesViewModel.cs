@@ -76,12 +76,21 @@ namespace Win2ch.ViewModels {
                 }
             }
 
-            await FavoritesService.Threads.Store();
+            try {
+                await FavoritesService.Threads.Store();
+            } catch (Exception e) {
+                await Utils.ShowOtherError(e, "Сохранение не удалось");
+            }
+
             IsLoading = false;
         }
 
         public async Task RemoveThreadFromFavorites(StoredThreadInfo thread) {
-            await FavoritesService.Threads.RemoveThread(thread);
+            try {
+                await FavoritesService.Threads.RemoveThread(thread);
+            } catch (Exception e) {
+                await Utils.ShowOtherError(e, "Не удалось удалить тред");
+            }
             await Load();
         }
 

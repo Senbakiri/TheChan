@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -85,11 +86,15 @@ namespace Win2ch.ViewModels {
         }
 
         public async void Favorite() {
-            var favService = FavoritesService.Instance.Threads;
-            var isAdded =  await favService.AddThread(Thread);
-            if (!isAdded)
-                await favService.RemoveThread(Thread);
-            IsInFavorites = await favService.ContainsThread(Thread);
+            try {
+                var favService = FavoritesService.Instance.Threads;
+                var isAdded = await favService.AddThread(Thread);
+                if (!isAdded)
+                    await favService.RemoveThread(Thread);
+                IsInFavorites = await favService.ContainsThread(Thread);
+            } catch (Exception e) {
+                await Utils.ShowOtherError(e, "Не удалось удалить тред из избранного или добавить его");
+            }
         }
 
         public async Task<bool> FastReply() {
@@ -163,12 +168,10 @@ namespace Win2ch.ViewModels {
 
             if (parameter is Thread) {
                 var thread = (Thread) parameter;
-                IsInFavorites = await favThreadsService.ContainsThread(thread);
                 if ( !ReferenceEquals(thread, Thread))
                     await LoadThread(thread);
             } else if (parameter is NavigationToThreadWithScrolling) {
                 var nav = (NavigationToThreadWithScrolling) parameter;
-                IsInFavorites = await favThreadsService.ContainsThread(nav.Thread);
                 if (!Equals(nav.Thread, Thread))
                     await LoadThread(nav.Thread);
 
@@ -177,7 +180,18 @@ namespace Win2ch.ViewModels {
                     PostScroller?.ScrollToItem(post);
             }
 
-            await RecentThreadsService.Instance.AddThread(Thread);
+
+            try {
+                IsInFavorites = await favThreadsService.ContainsThread(Thread);
+            } catch (Exception e) {
+                Utils.TrackError(e);
+            }
+
+            try {
+                await RecentThreadsService.Instance.AddThread(Thread);
+            } catch (Exception e) {
+                await Utils.ShowOtherError(e, "Не удалось добавить тред в недавние");
+            }
 
             FastReplyText = PostInfo.Comment;
             await base.OnNavigatedToAsync(parameter, mode, state);
@@ -209,12 +223,17 @@ namespace Win2ch.ViewModels {
         }
 
         public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending) {
-            var favsService = FavoritesService.Instance.Threads;
-            var recentService = RecentThreadsService.Instance;
-            if (await favsService.ContainsThread(Thread))
-                await favsService.ResetThread(Thread);
-            if (await recentService.ContainsThread(Thread))
-                await recentService.ResetThread(Thread);
+            try {
+                var favsService = FavoritesService.Instance.Threads;
+                var recentService = RecentThreadsService.Instance;
+                if (await favsService.ContainsThread(Thread))
+                    await favsService.ResetThread(Thread);
+                if (await recentService.ContainsThread(Thread))
+                    await recentService.ResetThread(Thread);
+            } catch (Exception e) {
+                await Utils.ShowOtherError(e, "Не удалось обновить информацию о треде");
+            }
+
             await base.OnNavigatedFromAsync(state, suspending);
         }
     }

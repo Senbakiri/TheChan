@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Win2ch.Models;
-using Windows.System.Profile;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Template10.Mvvm;
@@ -82,7 +79,11 @@ namespace Win2ch.ViewModels {
             if (mode == NavigationMode.New || mode == NavigationMode.Forward)
                 Board = (Board)parameter;
 
-            IsInFavorites = await FavoritesService.Instance.Boards.ContainsItem(Board);
+            try {
+                IsInFavorites = await FavoritesService.Instance.Boards.ContainsItem(Board);
+            } catch (Exception e) {
+                Utils.TrackError(e);
+            }
 
             await base.OnNavigatedToAsync(parameter, mode, state);
         }
@@ -92,13 +93,17 @@ namespace Win2ch.ViewModels {
         }
 
         public async Task Favorite() {
-            var favorites = FavoritesService.Instance.Boards;
-            if (await favorites.ContainsItem(Board)) {
-                await favorites.RemoveItem(Board);
-                IsInFavorites = false;
-            } else {
-                await favorites.Add(Board);
-                IsInFavorites = true;
+            try {
+                var favorites = FavoritesService.Instance.Boards;
+                if (await favorites.ContainsItem(Board)) {
+                    await favorites.RemoveItem(Board);
+                    IsInFavorites = false;
+                } else {
+                    await favorites.Add(Board);
+                    IsInFavorites = true;
+                }
+            } catch (Exception e) {
+                await Utils.ShowOtherError(e, "Не удалось удалить/добавить доску");
             }
         }
 
