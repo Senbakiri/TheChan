@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Navigation;
 using Template10.Controls;
 using Win2ch.Models;
 using Win2ch.Models.Exceptions;
@@ -30,7 +32,6 @@ namespace Win2ch.ViewModels {
 
         public FavoritesViewModel() {
             FavoriteThreads = new ObservableItemCollection<StoredThreadInfo>();
-            Load();
         }
 
         public async void Load() {
@@ -79,6 +80,11 @@ namespace Win2ch.ViewModels {
         public void GoToThread(StoredThreadInfo storedThreadInfo) {
             var thread = new Thread(storedThreadInfo.Num, storedThreadInfo.Board.Id);
             NavigationService.Navigate(typeof(ThreadPage), thread);
+        }
+
+        public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state) {
+            Load();
+            await base.OnNavigatedToAsync(parameter, mode, state);
         }
     }
 }
