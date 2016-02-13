@@ -67,6 +67,7 @@ namespace Win2ch.ViewModels {
                 }
             }
 
+            await FavoritesService.Threads.Store();
             IsLoading = false;
         }
 

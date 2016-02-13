@@ -63,6 +63,7 @@ namespace Win2ch.ViewModels {
                 }
             }
 
+            await RecentThreadsService.Store();
             IsLoading = false;
         }
 
