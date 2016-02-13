@@ -215,7 +215,7 @@ namespace Win2ch.Controls {
         }
 
         private void Root_OnTapped(object sender, TappedRoutedEventArgs e) {
-            IsInfoPanelVisible = true;
+            IsInfoPanelVisible = !IsInfoPanelVisible;
         }
 
         private async void SaveImageAsMenuFlyoutItem_OnClick(object sender, RoutedEventArgs e) {
