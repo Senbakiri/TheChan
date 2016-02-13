@@ -116,6 +116,9 @@
     <Compile Include="Common\HtmlConverting\InlineWrapper.cs" />
     <Compile Include="Common\HtmlConverting\Selector.cs" />
     <Compile Include="Common\ICanScrollToItem.cs" />
+    <Compile Include="Controls\BlurImage.xaml.cs">
+      <DependentUpon>BlurImage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PostViewer.xaml.cs">
       <DependentUpon>PostViewer.xaml</DependentUpon>
     </Compile>
@@ -184,6 +187,9 @@
     </Compile>
     <Compile Include="Views\PostingPage.xaml.cs">
       <DependentUpon>PostingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecentThreadsPage.xaml.cs">
+      <DependentUpon>RecentThreadsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -259,6 +265,10 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\BlurImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\PostViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -293,6 +303,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\PostingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecentThreadsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

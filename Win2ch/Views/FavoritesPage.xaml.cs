@@ -51,52 +51,6 @@ namespace Win2ch.Views {
             }
         }
 
-        private void CanvasControl_OnDraw(CanvasControl sender, CanvasDrawEventArgs args) {
-            var thread = (StoredThreadInfo) sender.DataContext;
-            if (!_isImageLoaded[thread])
-                return;
-
-            using (var session = args.DrawingSession) {
-                var image = _image[thread];
-                var scaleEffect = _scaleEffect[thread];
-                var blurEffect = _blurEffect[thread];
-                session.Units = CanvasUnits.Pixels;
-
-                var displayScaling = DisplayInformation.GetForCurrentView().LogicalDpi / 96.0;
-
-                var pixelWidth = sender.ActualWidth * displayScaling;
-
-                var scalefactor = pixelWidth / image.Size.Width;
-
-                if (Math.Abs(scalefactor) < 0.001)
-                    return;
-
-                scaleEffect.Source = image;
-                scaleEffect.Scale = new Vector2 {
-                    X = (float)scalefactor,
-                    Y = (float)scalefactor
-                };
-
-                blurEffect.Source = scaleEffect;
-                blurEffect.BlurAmount = 10;
-
-                session.DrawImage(blurEffect, 0.0f, 0.0f);
-            }
-        }
-
-        private async void CanvasControl_OnCreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args) {
-            var thread = (StoredThreadInfo)sender.DataContext;
-            _isImageLoaded[thread] = false;
-            if (!string.IsNullOrWhiteSpace(thread.ThumbnailUrl)) {
-                _scaleEffect[thread] = new ScaleEffect();
-                _blurEffect[thread] = new GaussianBlurEffect();
-                _image[thread] = await CanvasBitmap.LoadAsync(sender.Device,
-                    new Uri(thread.ThumbnailUrl));
-                _isImageLoaded[thread] = true;
-                sender.Invalidate();
-            }
-        }
-
         private async void RemoveThreadFromFavoritesMenuFlyoutItem_OnClick(object sender, RoutedEventArgs e) {
             await ViewModel.RemoveThreadFromFavorites((StoredThreadInfo)((FrameworkElement) sender).DataContext);
         }

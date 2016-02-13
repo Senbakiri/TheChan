@@ -5,13 +5,14 @@
     xmlns:local="using:Win2ch.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Template10.Controls"
+    xmlns:template10Controls="using:Template10.Controls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:t10Behaviors="using:Template10.Behaviors"
     xmlns:viewModels="using:Win2ch.ViewModels"
     xmlns:models="using:Win2ch.Models"
     xmlns:behaviors="using:Win2ch.Behaviors"
     xmlns:xaml="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    xmlns:controls="using:Win2ch.Controls"
     mc:Ignorable="d"
     NavigationCacheMode="Disabled">
 
@@ -24,21 +25,21 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <controls:PageHeader Frame="{x:Bind Frame}">
-            <controls:PageHeader.Content>
+        <template10Controls:PageHeader Frame="{x:Bind Frame}">
+            <template10Controls:PageHeader.Content>
                 <TextBlock Style="{StaticResource PageHeaderTitle}"
                            Text="ИЗБРАННОЕ"/>
-            </controls:PageHeader.Content>
-            <controls:PageHeader.PrimaryCommands>
+            </template10Controls:PageHeader.Content>
+            <template10Controls:PageHeader.PrimaryCommands>
                 <AppBarButton Icon="Refresh"
                               Click="{x:Bind ViewModel.Load}"
                               Label="Обновить"
                               IsEnabled="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource InverseBool}}"/>
-            </controls:PageHeader.PrimaryCommands>
+            </template10Controls:PageHeader.PrimaryCommands>
             <interactivity:Interaction.Behaviors>
                 <t10Behaviors:EllipsisBehavior Visibility="Collapsed"/>
             </interactivity:Interaction.Behaviors>
-        </controls:PageHeader>
+        </template10Controls:PageHeader>
         
         <Pivot Grid.Row="1">
             <Pivot.HeaderTemplate>
@@ -70,8 +71,7 @@
                                 </Grid.RowDefinitions>
                                 <Grid Grid.Row="0"
                                       Grid.RowSpan="3">
-                                    <xaml:CanvasControl Draw="CanvasControl_OnDraw"
-                                                        CreateResources="CanvasControl_OnCreateResources"/>
+                                    <controls:BlurImage ImageUrl="{x:Bind ThumbnailUrl}"/> 
                                     <Border Background="{ThemeResource FavoriteThreadBackground}"
                                             Opacity="0.85"/>
                                 </Grid>
@@ -117,3 +117,4 @@
                       Canvas.ZIndex="2"/>
     </Grid>
 </Page>
+
