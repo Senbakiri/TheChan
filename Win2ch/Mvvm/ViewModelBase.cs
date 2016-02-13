@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
+using Win2ch.Annotations;
 using Win2ch.Models;
 using Win2ch.ViewModels;
 using Win2ch.Views;
@@ -30,6 +32,11 @@ namespace Win2ch.Mvvm {
             });
 
             return base.OnNavigatedToAsync(parameter, mode, state);
+        }
+
+        [NotifyPropertyChangedInvocator]
+        public override void RaisePropertyChanged([CallerMemberName] string propertyName = null) {
+            base.RaisePropertyChanged(propertyName: propertyName);
         }
     }
 }

@@ -6,6 +6,12 @@ using Windows.UI.Xaml.Markup;
 
 namespace Win2ch.Converters {
 
+    public class Case : ICase {
+        public object Key { get; set; }
+        public object Value { get; set; }
+        public Type KeyType { get; set; }
+    }
+
     [ContentProperty(Name = "Cases")]
     public class SwitchConverter : DependencyObject, ISwitchConverter, ICompositeConverter {
         public static readonly DependencyProperty DefaultProperty = DependencyProperty.Register(

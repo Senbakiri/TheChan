@@ -1,9 +1,12 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Markup;
 using Microsoft.Xaml.Interactivity;
 
 namespace Win2ch.Behaviors {
+
+    [ContentProperty(Name = "MenuFlyout")]
     public class ContextMenuBehavior : Behavior<FrameworkElement> {
 
         public static readonly DependencyProperty MenuFlyoutProperty = DependencyProperty.Register(
@@ -13,6 +16,14 @@ namespace Win2ch.Behaviors {
         public MenuFlyout MenuFlyout {
             get { return (MenuFlyout) GetValue(MenuFlyoutProperty); }
             set { SetValue(MenuFlyoutProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.Register(
+            "IsEnabled", typeof (bool), typeof (ContextMenuBehavior), new PropertyMetadata(true));
+
+        public bool IsEnabled {
+            get { return (bool) GetValue(IsEnabledProperty); }
+            set { SetValue(IsEnabledProperty, value); }
         }
 
         protected override void OnAttached() {
@@ -26,11 +37,13 @@ namespace Win2ch.Behaviors {
         }
 
         private void AssociatedObjectOnRightTapped(object sender, RightTappedRoutedEventArgs e) {
-            MenuFlyout?.ShowAt(AssociatedObject, e.GetPosition(AssociatedObject));
+            if (IsEnabled)
+                MenuFlyout?.ShowAt(AssociatedObject, e.GetPosition(AssociatedObject));
         }
 
         private void AssociatedObjectOnHolding(object sender, HoldingRoutedEventArgs e) {
-            MenuFlyout?.ShowAt(AssociatedObject, e.GetPosition(AssociatedObject));
+            if (IsEnabled)
+                MenuFlyout?.ShowAt(AssociatedObject, e.GetPosition(AssociatedObject));
         }
     }
 }

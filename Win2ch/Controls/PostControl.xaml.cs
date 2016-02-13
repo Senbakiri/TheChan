@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Windows.Devices.Input;
-using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Win2ch.Annotations;
 using Win2ch.Models;
+using Win2ch.Services;
 using Win2ch.Services.SettingsServices;
-using Win2ch.Views;
 
 namespace Win2ch.Controls {
-    public sealed partial class PostControl : Page {
-
-
+    public sealed partial class PostControl : INotifyPropertyChanged {
         public static DependencyProperty PostProperty = DependencyProperty.Register(
             "Post",
             typeof(Post), typeof(PostControl),
@@ -24,8 +22,10 @@ namespace Win2ch.Controls {
             typeof(bool), typeof(PostControl),
             PropertyMetadata.Create(false));
 
-        private static void PostPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e) {
-            dependencyObject.SetValue(DataContextProperty, e.NewValue);
+        private static async void PostPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e) {
+            var postControl = (PostControl) dependencyObject;
+            postControl.SetValue(DataContextProperty, e.NewValue);
+            postControl.IsInFavorites = await FavoritesService.Instance.Posts.ContainsItem(postControl.Post);
         }
 
         public static readonly DependencyProperty MaxLinesProperty = DependencyProperty.Register(
@@ -39,6 +39,7 @@ namespace Win2ch.Controls {
         }
 
         private readonly ISettingsService _settings = SettingsService.Instance;
+        private bool _IsInFavorites;
 
         public delegate void PostReplyEventHandler(object sender, PostReplyEventArgs e);
 
@@ -54,6 +55,8 @@ namespace Win2ch.Controls {
 
         public event EventHandler<ParentPostShowEventArgs> ParentPostShowRequested = delegate { };
 
+        public event EventHandler RemovedFromFavorites = delegate { };
+
         public bool ShowRepliesAsTree =>
             _settings.RepliesViewMode == RepliesViewMode.Tree ||
             (_settings.RepliesViewMode == RepliesViewMode.Auto && new MouseCapabilities().MousePresent > 0);
@@ -64,12 +67,24 @@ namespace Win2ch.Controls {
 
         public Post Post {
             get { return (Post)GetValue(PostProperty); }
-            set { SetValue(PostProperty, value); }
+            set {
+                SetValue(PostProperty, value);
+            }
         }
 
         public bool IsSimple {
             get { return (bool)GetValue(IsSimpleProperty); }
             set { SetValue(IsSimpleProperty, value); }
+        }
+
+        public bool IsInFavorites {
+            get { return _IsInFavorites; }
+            private set {
+                if (_IsInFavorites == value)
+                    return;
+                _IsInFavorites = value;
+                RaisePropertyChanged();
+            }
         }
 
         private void PostNum_OnTapped(object sender, TappedRoutedEventArgs e) {
@@ -93,6 +108,28 @@ namespace Win2ch.Controls {
         private void OnPostNumClicked(int postN, int threadNum) {
             ParentPostShowRequested(this, new ParentPostShowEventArgs(Post, threadNum, postN));
         }
+
+        public async void Favorite() {
+            var favorites = FavoritesService.Instance.Posts;
+            var added = await favorites.Add(Post);
+            Post.Replies.Clear();
+            if (!added) {
+                await favorites.RemoveItem(Post);
+                RemovedFromFavorites(this, new EventArgs());
+            }
+            IsInFavorites = added;
+        }
+
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = null) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
     }
 
 

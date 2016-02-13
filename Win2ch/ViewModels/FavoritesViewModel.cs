@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -14,8 +15,10 @@ using Win2ch.Views;
 namespace Win2ch.ViewModels {
     public class FavoritesViewModel : ViewModelBase {
         private bool _IsLoading;
-        public ObservableItemCollection<StoredThreadInfo> FavoriteThreads { get; }
         private FavoritesService FavoritesService { get; } = FavoritesService.Instance;
+
+        public ObservableItemCollection<StoredThreadInfo> FavoriteThreads { get; }
+        public ObservableCollection<Post> FavoritePosts { get; }
 
         public bool IsLoading {
             get { return _IsLoading; }
@@ -29,6 +32,7 @@ namespace Win2ch.ViewModels {
 
         public FavoritesViewModel() {
             FavoriteThreads = new ObservableItemCollection<StoredThreadInfo>();
+            FavoritePosts = new ObservableCollection<Post>();
         }
 
         public async void Load() {
@@ -38,15 +42,22 @@ namespace Win2ch.ViewModels {
 
             try {
                 var threads = (await FavoritesService.Threads.GetItems()).OrderByDescending(t => t.UnreadPosts);
-                FavoriteThreads.Clear();
-                foreach (var thread in threads) {
-                    FavoriteThreads.Add(thread);
-                }
+                Fill(threads, FavoriteThreads);
+
+                var posts = await FavoritesService.Posts.GetItems();
+                Fill(posts, FavoritePosts);
             } catch (Exception e) {
                 await Utils.ShowOtherError(e, "Не удалось загрузить избранные треды");
             }
             
             await Update();
+        }
+
+        private void Fill<T>(IEnumerable<T> source, IList<T> target) {
+            FavoritePosts.Clear();
+            foreach (var post in source) {
+                target.Add(post);
+            }
         }
 
         public async Task Update() {

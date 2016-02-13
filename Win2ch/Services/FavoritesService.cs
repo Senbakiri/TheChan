@@ -7,7 +7,8 @@ namespace Win2ch.Services {
         public static FavoritesService Instance { get; } = new FavoritesService();
         
         public ThreadStorageService Threads { get; }
-        public StorageService<Board> Boards { get; } 
+        public StorageService<Board> Boards { get; }
+        public StorageService<Post> Posts { get; }
 
         private FavoritesService() {
             var appData = ApplicationData.Current;
@@ -15,6 +16,8 @@ namespace Win2ch.Services {
                 appData.RoamingFolder, "FavThreads.json");
             Boards = new StorageService<Board>(
                 appData.RoamingFolder, "FavBoards.json");
+            Posts = new StorageService<Post>(
+                appData.RoamingFolder, "FavPosts.json");
         }
     }
 }
