@@ -53,8 +53,8 @@ namespace Win2ch.ViewModels {
             await Update();
         }
 
-        private void Fill<T>(IEnumerable<T> source, IList<T> target) {
-            FavoritePosts.Clear();
+        private static void Fill<T>(IEnumerable<T> source, IList<T> target) {
+            target.Clear();
             foreach (var post in source) {
                 target.Add(post);
             }
