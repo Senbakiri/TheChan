@@ -15,7 +15,7 @@ namespace Win2ch.Views {
         }
 
         private void RecentThreads_OnItemClick(object sender, ItemClickEventArgs e) {
-            
+            ViewModel.GoToThread((StoredThreadInfo) e.ClickedItem);
         }
 
         public void ResizeThreads() {
