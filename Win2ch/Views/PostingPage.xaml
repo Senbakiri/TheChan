@@ -66,10 +66,8 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <ProgressRing IsActive="True"
-                          Height="30"
-                          Width="30"
                           VerticalAlignment="Center"
-                          Margin="10"/>
+                          Margin="10 0"/>
             <TextBlock Grid.Column="1"
                        Text="{x:Bind ViewModel.CurrentJob, Mode=OneWay}"
                        VerticalAlignment="Center"/>
@@ -80,18 +78,20 @@
                    PanePlacement="Right"
                    DisplayMode="Overlay">
             <SplitView.Content>
-                <Grid>
+                <Grid x:Name="Grid">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Grid Height="50">
+                    <Grid Height="50"
+                          Grid.Row="1">
                         <Grid.Resources>
                             <Style TargetType="Button">
                                 <Setter Property="VerticalAlignment" Value="Stretch"/>
                                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}"/>
                                 <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="IsTabStop" Value="False"/>
                             </Style>
                         </Grid.Resources>
                         <Grid.ColumnDefinitions>
@@ -168,7 +168,7 @@
                         </Button>
                     </Grid>
                     <TextBox x:Name="TextBox"
-                             Grid.Row="1"
+                             Grid.Row="0"
                              BorderThickness="0"
                              Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              TextWrapping="Wrap"

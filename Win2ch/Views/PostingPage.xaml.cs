@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.UI.ViewManagement;
 
 namespace Win2ch.Views {
     public class PostingPageNavigationInfo {
@@ -21,6 +22,17 @@ namespace Win2ch.Views {
 
         public PostingPage() {
             InitializeComponent();
+            InputPane.GetForCurrentView().Showing += InputPane_OnShowing;
+            InputPane.GetForCurrentView().Hiding += InputPane_OnHiding;
+        }
+
+        private void InputPane_OnHiding(InputPane sender, InputPaneVisibilityEventArgs args) {
+            Grid.RowDefinitions[0].MaxHeight = double.PositiveInfinity;
+        }
+
+        private void InputPane_OnShowing(InputPane sender, InputPaneVisibilityEventArgs args) {
+            var height = Grid.ActualHeight - 50 - args.OccludedRect.Height;
+            Grid.RowDefinitions[0].MaxHeight = height >= 0 ? height : double.PositiveInfinity;
         }
 
         private void TextButton_OnClick(object sender, RoutedEventArgs e) {
