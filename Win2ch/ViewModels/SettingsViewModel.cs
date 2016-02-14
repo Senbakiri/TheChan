@@ -63,9 +63,21 @@ namespace Win2ch.ViewModels {
         public Theme SelectedTheme {
             get { return _settingsService.AppTheme; }
             set {
-                _settingsService.AppTheme = value;
-                RaisePropertyChanged();
+                if (_settingsService.AppTheme == value)
+                    return;
+                TryChangeCurrentTheme(value);
             }
+        }
+
+        private async void TryChangeCurrentTheme(Theme theme) {
+            var dialog = new MessageDialog("Для смены темы необходимо перезапустить приложение",
+                "Требуется перезапуск");
+            dialog.Commands.Add(new UICommand("Выход", _ => {
+                _settingsService.AppTheme = theme;
+                Application.Current.Exit();
+            }));
+            dialog.Commands.Add(new UICommand("Отмена", _ => RaisePropertyChanged(() => SelectedTheme)));
+            await dialog.ShowAsync();
         }
 
         public RepliesViewMode SelectedRepliesViewMode {

@@ -71,7 +71,7 @@
 
         <Grid Grid.Row="1"
               Visibility="{x:Bind ViewModel.IsWorking, Converter={StaticResource BoolToVis}, Mode=OneWay}"
-              Background="{StaticResource CustomColorBrush}"
+              Background="{StaticResource SystemControlBackgroundChromeMediumBrush}"
               Canvas.ZIndex="2"
               Height="50"
               VerticalAlignment="Top">
@@ -80,13 +80,11 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             
-            <ProgressRing Foreground="White"
-                          IsActive="True"
+            <ProgressRing IsActive="True"
                           VerticalAlignment="Center"
                           Margin="10 0"/>
             <TextBlock Grid.Column="1"
                        Text="{x:Bind ViewModel.JobStatus, Mode=OneWay}"
-                       Foreground="White"
                        VerticalAlignment="Center"/>
         </Grid>
 

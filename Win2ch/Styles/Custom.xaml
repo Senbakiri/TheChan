@@ -11,14 +11,13 @@
     <x:Double x:Key="WideMinWidth">-1</x:Double>
 
     <Color x:Key="CustomColor">#FF6600</Color>
-    <SolidColorBrush x:Key="CustomColorBrush" Color="{StaticResource CustomColor}" />
-
+    <SolidColorBrush x:Key="CustomColorBrush" Color="{StaticResource CustomColor}"/>
     <Color x:Key="ContrastColor">White</Color>
     <SolidColorBrush x:Key="ContrastColorBrush" Color="{StaticResource ContrastColor}" />
 
-    <Style TargetType="AppBarButton">
+    <!--<Style TargetType="AppBarButton">
         <Setter Property="Foreground" Value="White"/>
-    </Style>
+    </Style>-->
     
     <ResourceDictionary.ThemeDictionaries>
 
@@ -36,7 +35,7 @@
             <SolidColorBrush x:Key="ThreadBackgroundBrush" Color="#323232"/>
             <SolidColorBrush x:Key="SpoilerForeground" Color="#40FFFFFF"/>
             <SolidColorBrush x:Key="FavoriteThreadBackground" Color="#222"/>
-            
+
             <SolidColorBrush x:Key="ModalBackground" Opacity=".5" Color="{ThemeResource CustomColor}" />
 
             <Style TargetType="controls:HamburgerMenu">
@@ -45,11 +44,12 @@
                 <Setter Property="VisualStateNarrowMinWidth" Value="{StaticResource NarrowMinWidth}" />
                 <Setter Property="VisualStateNormalMinWidth" Value="{StaticResource NormalMinWidth}" />
                 <Setter Property="VisualStateWideMinWidth" Value="{StaticResource WideMinWidth}" />
+                <Setter Property="PaneBorderThickness" Value="0"/>
             </Style>
 
             <Style TargetType="controls:PageHeader">
-                <Setter Property="Background" Value="{ThemeResource CustomColorBrush}" />
-                <Setter Property="Foreground" Value="{ThemeResource ContrastColorBrush}" />
+                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}" />
+                <Setter Property="Foreground" Value="{ThemeResource SystemChromeAltLowColor}" />
                 <Setter Property="VisualStateNarrowMinWidth" Value="{StaticResource NarrowMinWidth}" />
                 <Setter Property="VisualStateNormalMinWidth" Value="{StaticResource NormalMinWidth}" />
             </Style>
@@ -83,11 +83,12 @@
                 <Setter Property="VisualStateNarrowMinWidth" Value="{StaticResource NarrowMinWidth}" />
                 <Setter Property="VisualStateNormalMinWidth" Value="{StaticResource NormalMinWidth}" />
                 <Setter Property="VisualStateWideMinWidth" Value="{StaticResource WideMinWidth}" />
+                <Setter Property="PaneBorderThickness" Value="0"/>
             </Style>
 
             <Style TargetType="controls:PageHeader">
-                <Setter Property="Background" Value="{ThemeResource CustomColorBrush}" />
-                <Setter Property="Foreground" Value="{ThemeResource ContrastColorBrush}" />
+                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}" />
+                <Setter Property="Foreground" Value="{ThemeResource SystemChromeAltLowColor}" />
                 <Setter Property="VisualStateNarrowMinWidth" Value="{StaticResource NarrowMinWidth}" />
                 <Setter Property="VisualStateNormalMinWidth" Value="{StaticResource NormalMinWidth}" />
             </Style>

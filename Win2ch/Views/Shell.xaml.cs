@@ -6,6 +6,7 @@ using Template10.Services.NavigationService;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
 
 namespace Win2ch.Views {
     // DOCS: https://github.com/Windows-XAML/Template10/wiki/Docs-%7C-SplitView
@@ -17,30 +18,24 @@ namespace Win2ch.Views {
             Instance = this;
             InitializeComponent();
             MyHamburgerMenu.NavigationService = navigationService;
-            SetColors();
+            HamburgerMenu.RefreshStyles(Application.Current.RequestedTheme);
+            SetupColors();
         }
 
         public bool IsBusy { get; set; }
         public string BusyText { get; set; } = "Please wait...";
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void SetColors() {
-            var bg = (Color)BootStrapper.Current.Resources["CustomColor"];
-            var fg = Colors.White;
+        public void SetupColors() {
+            var bg = (Color)BootStrapper.Current.Resources["SystemChromeMediumColor"];
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor =
                 titleBar.ButtonBackgroundColor =
                 titleBar.ButtonInactiveBackgroundColor =
                 titleBar.InactiveBackgroundColor = bg;
 
-            titleBar.ForegroundColor =
-                titleBar.ButtonForegroundColor =
-                titleBar.ButtonHoverForegroundColor = fg;
+            Window.Current.CoreWindow.Activated += (s, e) => SetupColors();
 
-            titleBar.InactiveForegroundColor = Colors.Black;
-
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0xFF, 0xFF, 0x99, 0x55);
-            
         }
 
         public static void SetBusy(bool busy, string text = null) {
