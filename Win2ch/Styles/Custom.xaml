@@ -32,7 +32,7 @@
             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource SystemAltHighColor}"/>
 
             <SolidColorBrush x:Key="ReplyForeground" Color="#57c209"/>
-            <SolidColorBrush x:Key="ThreadBackgroundBrush" Color="#323232"/>
+            <SolidColorBrush x:Key="ThreadBackgroundBrush" Color="{ThemeResource SystemChromeMediumLowColor}"/>
             <SolidColorBrush x:Key="SpoilerForeground" Color="#40FFFFFF"/>
             <SolidColorBrush x:Key="FavoriteThreadBackground" Color="#222"/>
 
@@ -71,7 +71,7 @@
             <Color x:Key="SystemAltHighColor">White</Color>
             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource SystemAltHighColor}"/>
 
-            <SolidColorBrush x:Key="ThreadBackgroundBrush" Color="#EDEDED"/>
+            <SolidColorBrush x:Key="ThreadBackgroundBrush" Color="{ThemeResource SystemChromeMediumLowColor}"/>
             <SolidColorBrush x:Key="ReplyForeground" Color="#1e9440"/>
             <SolidColorBrush x:Key="SpoilerForeground" Color="#40000000"/>
             <SolidColorBrush x:Key="FavoriteThreadBackground" Color="#eee"/>
