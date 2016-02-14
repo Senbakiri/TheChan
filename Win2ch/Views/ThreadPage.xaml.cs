@@ -28,6 +28,7 @@ namespace Win2ch.Views {
         private readonly DispatcherTimer _closeRepliesTimer = new DispatcherTimer();
         private PostControl _replyUnderMouse;
         private readonly bool _isMouseConnected = new MouseCapabilities().MousePresent > 0;
+        private long _lastRepliedPostNum;
 
         public ThreadPage() {
             InitializeComponent();
@@ -85,15 +86,21 @@ namespace Win2ch.Views {
         private void PostControl_OnReply(object sender, PostReplyEventArgs e) {
             string textToAdd;
 
+            var correctText = FastReplyTextBox.Text.Replace("\r\n", "\n");
+            var selStart = FastReplyTextBox.SelectionStart;
+
             if (e.SelectedText.Length > 0) {
-                var pre = FastReplyTextBox.SelectionStart > 0 ? "\n" : "";
-                textToAdd = $"{pre}>>{e.Post.Num}\n> {e.SelectedText}\n";
+                var pre = selStart > 0 && correctText[selStart - 1] != '\n' ? "\n" : "";
+                textToAdd = _lastRepliedPostNum == e.Post.Num && correctText.Contains(_lastRepliedPostNum.ToString())
+                    ? $"{pre}\n> {e.SelectedText}\n"
+                    : $"{pre}>>{e.Post.Num}\n> {e.SelectedText}\n";
             } else
                 textToAdd = $">>{e.Post.Num}\n";
 
             var selectionIndex = FastReplyTextBox.SelectionStart;
-            FastReplyTextBox.Text = FastReplyTextBox.Text.Replace("\r\n", "\n").Insert(selectionIndex, textToAdd);
+            FastReplyTextBox.Text = correctText.Insert(selectionIndex, textToAdd);
             FastReplyTextBox.SelectionStart = selectionIndex + textToAdd.Length;
+            _lastRepliedPostNum = e.Post.Num;
         }
 
         private void PostControl_OnImageClick(object sender, ImageClickEventArgs e) {
