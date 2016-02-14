@@ -8,5 +8,6 @@
     mc:Ignorable="d">
 
     <xaml:CanvasControl Draw="CanvasControl_OnDraw"
-                        CreateResources="CanvasControl_OnCreateResources"/>
+                        CreateResources="CanvasControl_OnCreateResources"
+                        x:Name="CanvasControl"/>
 </Page>

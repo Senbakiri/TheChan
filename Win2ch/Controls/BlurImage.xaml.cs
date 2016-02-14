@@ -23,7 +23,10 @@ namespace Win2ch.Controls {
 
         public string ImageUrl {
             get { return (string) GetValue(ImageUrlProperty); }
-            set { SetValue(ImageUrlProperty, value); }
+            set {
+                SetValue(ImageUrlProperty, value);
+                CreateImage();
+            }
         }
 
         public BlurImage() {
@@ -34,6 +37,7 @@ namespace Win2ch.Controls {
         private GaussianBlurEffect _blurEffect;
         private ScaleEffect _scaleEffect;
         private CanvasBitmap _imageBitmap;
+        private CanvasDevice _device;
 
         private void CanvasControl_OnDraw(CanvasControl sender, CanvasDrawEventArgs args) {
             if (!_isLoaded)
@@ -64,15 +68,20 @@ namespace Win2ch.Controls {
             }
         }
 
-        private async void CanvasControl_OnCreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args) {
-            if (string.IsNullOrWhiteSpace(ImageUrl))
+        private async void CreateImage() {
+            if (string.IsNullOrWhiteSpace(ImageUrl) || _device == null)
                 return;
 
             _blurEffect = new GaussianBlurEffect();
             _scaleEffect = new ScaleEffect();
-            _imageBitmap = await CanvasBitmap.LoadAsync(sender.Device, new Uri(ImageUrl));
+            _imageBitmap = await CanvasBitmap.LoadAsync(_device, new Uri(ImageUrl));
             _isLoaded = true;
-            sender.Invalidate();
+            CanvasControl.Invalidate();
+        }
+
+        private async void CanvasControl_OnCreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args) {
+            _device = sender.Device;
+            CreateImage();
         }
     }
 }

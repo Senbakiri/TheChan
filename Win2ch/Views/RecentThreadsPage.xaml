@@ -63,7 +63,7 @@
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0"
                                       Grid.RowSpan="3">
-                            <controls1:BlurImage ImageUrl="{x:Bind ThumbnailUrl}"/>
+                            <controls1:BlurImage ImageUrl="{x:Bind ThumbnailUrl, Mode=OneWay}"/>
                             <Border Background="{ThemeResource FavoriteThreadBackground}"
                                             Opacity="0.85"/>
                         </Grid>
