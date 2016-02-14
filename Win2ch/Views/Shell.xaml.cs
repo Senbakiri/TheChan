@@ -33,9 +33,6 @@ namespace Win2ch.Views {
                 titleBar.ButtonBackgroundColor =
                 titleBar.ButtonInactiveBackgroundColor =
                 titleBar.InactiveBackgroundColor = bg;
-
-            Window.Current.CoreWindow.Activated += (s, e) => SetupColors();
-
         }
 
         public static void SetBusy(bool busy, string text = null) {
