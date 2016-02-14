@@ -37,7 +37,7 @@ namespace Win2ch.ViewModels {
             IsLoading = true;
 
             try {
-                var threads = await RecentThreadsService.GetItems();
+                var threads = (await RecentThreadsService.GetItems()).Reverse();
                 RecentThreads.Clear();
                 foreach (var thread in threads) {
                     RecentThreads.Add(thread);
