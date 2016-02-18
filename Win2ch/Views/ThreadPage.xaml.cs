@@ -309,6 +309,16 @@ namespace Win2ch.Views {
                     break;
             }
         }
-        
+
+        private void CommandBar_OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e) {
+            if (e.PointerDeviceType != PointerDeviceType.Touch)
+                e.Complete();
+        }
+
+        private void CommandBar_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) {
+            var total = e.Cumulative.Translation.X;
+            if (total < -75)
+                ViewModel.GoToBoard();
+        }
     }
 }

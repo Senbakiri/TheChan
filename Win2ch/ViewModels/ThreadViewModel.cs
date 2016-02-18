@@ -265,6 +265,10 @@ namespace Win2ch.ViewModels {
 
             await base.OnNavigatedFromAsync(state, suspending);
         }
+
+        public void GoToBoard() {
+            NavigationService.Navigate(typeof (BoardPage), Thread.Board);
+        }
     }
 
     public class ThreadNavigationInfo {

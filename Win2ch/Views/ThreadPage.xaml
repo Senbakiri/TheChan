@@ -189,12 +189,15 @@
             </Grid>
         </Border>
 
-        <CommandBar Grid.Row="3">
-            <CommandBar.Resources>
-                <Style TargetType="AppBarButton">
-                    <Setter Property="Foreground" Value="{ThemeResource AppBarItemForegroundThemeBrush}"/>
-                </Style>
-            </CommandBar.Resources>
+        <CommandBar x:Name="CommandBar"
+                    Grid.Row="3"
+                    ManipulationMode="TranslateX"
+                    ManipulationDelta="CommandBar_OnManipulationDelta"
+                    ManipulationCompleted="CommandBar_OnManipulationCompleted">
+            <AppBarButton Icon="Back"
+                          Visibility="{x:Bind _isMouseConnected, Converter={StaticResource BoolToVis}}"
+                          Label="Перейти к доске"
+                          Click="{x:Bind ViewModel.GoToBoard}"/>
             <AppBarButton Icon="Favorite"
                           Label="Добавить в избранное"
                           Click="{x:Bind ViewModel.Favorite}">
