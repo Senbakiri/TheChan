@@ -35,12 +35,12 @@ namespace Win2ch.Services {
             var fav = threads.FirstOrDefault(f => Equals(f, thread));
             if (fav == null)
                 return;
-
-            if (fav.LastPostPosition >= thread.Posts.Count)
-                return;
-
+            
             fav.UnreadPosts = 0;
-            fav.LastPostPosition = thread.Posts.Count;
+            if (fav.LastPostPosition < thread.Posts.Count) {
+                fav.LastPostPosition = thread.Posts.Count;
+            }
+
             await Store();
         }
 
