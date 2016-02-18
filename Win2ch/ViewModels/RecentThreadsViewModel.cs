@@ -78,8 +78,14 @@ namespace Win2ch.ViewModels {
         }
 
         public async Task RemoveThreadFromRecent(StoredThreadInfo storedThreadInfo) {
-            await RecentThreadsService.RemoveThread(storedThreadInfo);
-            await Load();
+            try {
+                var removed = await RecentThreadsService.RemoveThread(storedThreadInfo);
+                if (removed)
+                    RecentThreads.Remove(storedThreadInfo);
+                await Update();
+            } catch (Exception e) {
+                await Utils.ShowOtherError(e, "Не удалось удалить тред");
+            }
         }
 
         public async Task Clear() {

@@ -87,11 +87,14 @@ namespace Win2ch.ViewModels {
 
         public async Task RemoveThreadFromFavorites(StoredThreadInfo thread) {
             try {
-                await FavoritesService.Threads.RemoveThread(thread);
+                var removed = await FavoritesService.Threads.RemoveThread(thread);
+                if (removed)
+                    FavoriteThreads.Remove(thread);
             } catch (Exception e) {
                 await Utils.ShowOtherError(e, "Не удалось удалить тред");
             }
-            await Load();
+
+            await Update();
         }
 
         public void GoToThread(StoredThreadInfo storedThreadInfo) {
