@@ -268,9 +268,7 @@ namespace Win2ch.Views {
         }
 
         public async void Refresh() {
-            var hasNewPosts = await ViewModel.Refresh();
-            if (hasNewPosts)
-                Posts.ScrollIntoView(Posts.Items.Last(), ScrollIntoViewAlignment.Leading);
+            await ViewModel.Refresh();
         }
 
         private void ImagesViewerOnClose(object sender, ImagesViewerCloseEventArgs e) {
