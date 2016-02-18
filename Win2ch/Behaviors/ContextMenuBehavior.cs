@@ -26,6 +26,14 @@ namespace Win2ch.Behaviors {
             set { SetValue(IsEnabledProperty, value); }
         }
 
+        public static readonly DependencyProperty ShowAtCoordinatesProperty = DependencyProperty.Register(
+            "ShowAtCoordinates", typeof (bool), typeof (ContextMenuBehavior), new PropertyMetadata(default(bool)));
+
+        public bool ShowAtCoordinates {
+            get { return (bool) GetValue(ShowAtCoordinatesProperty); }
+            set { SetValue(ShowAtCoordinatesProperty, value); }
+        }
+
         protected override void OnAttached() {
             AssociatedObject.Holding += AssociatedObjectOnHolding;
             AssociatedObject.RightTapped += AssociatedObjectOnRightTapped;
@@ -37,13 +45,23 @@ namespace Win2ch.Behaviors {
         }
 
         private void AssociatedObjectOnRightTapped(object sender, RightTappedRoutedEventArgs e) {
-            if (IsEnabled)
+            if (!IsEnabled)
+                return;
+
+            if (ShowAtCoordinates)
                 MenuFlyout?.ShowAt(AssociatedObject, e.GetPosition(AssociatedObject));
+            else
+                MenuFlyout?.ShowAt(AssociatedObject);
         }
 
         private void AssociatedObjectOnHolding(object sender, HoldingRoutedEventArgs e) {
-            if (IsEnabled)
+            if (!IsEnabled)
+                return;
+
+            if (ShowAtCoordinates)
                 MenuFlyout?.ShowAt(AssociatedObject, e.GetPosition(AssociatedObject));
+            else
+                MenuFlyout?.ShowAt(AssociatedObject);
         }
     }
 }
