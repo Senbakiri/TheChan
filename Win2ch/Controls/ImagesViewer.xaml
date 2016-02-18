@@ -93,19 +93,74 @@
                 <Style TargetType="TextBlock">
                     <Setter Property="Foreground" Value="White"/>
                 </Style>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Grid x:Name="Root">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup>
+                                            <VisualState x:Name="Normal">
+                                                <VisualState.Storyboard>
+                                                    <Storyboard>
+                                                        <PointerUpThemeAnimation Storyboard.TargetName="Root" />
+                                                    </Storyboard>
+                                                </VisualState.Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="PointerOver">
+                                                <VisualState.Setters>
+                                                    <Setter Target="Root.Background" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                                </VisualState.Setters>
+                                                <VisualState.Storyboard>
+                                                    <Storyboard>
+                                                        <PointerUpThemeAnimation Storyboard.TargetName="Root" />
+                                                    </Storyboard>
+                                                </VisualState.Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Pressed">
+                                                <VisualState.Setters>
+                                                    <Setter Target="Root.Background" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}"/>
+                                                </VisualState.Setters>
+                                                <VisualState.Storyboard>
+                                                    <Storyboard>
+                                                        <PointerDownThemeAnimation Storyboard.TargetName="Root" />
+                                                    </Storyboard>
+                                                </VisualState.Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <ContentPresenter x:Name="Content" Foreground="White"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
             </StackPanel.Resources>
-            <TextBlock Text="{x:Bind CurrentImageInfo.Name, Mode=OneWay}"
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <TextBlock Text="{x:Bind CurrentImageInfo.Name, Mode=OneWay}"
                        FontSize="24"/>
-            <StackPanel Orientation="Horizontal"
+                    <StackPanel Orientation="Horizontal"
                         Margin="0 5 0 0">
-                <TextBlock>
+                        <TextBlock>
                     <Run Text="{x:Bind CurrentImageInfo.Width, Mode=OneWay}"/>X<Run Text="{x:Bind CurrentImageInfo.Height, Mode=OneWay}"/>
-                </TextBlock>
-                <TextBlock Margin="10 0 0 0">
+                        </TextBlock>
+                        <TextBlock Margin="10 0 0 0">
                     <Run Text="{x:Bind CurrentImageInfo.Size, Mode=OneWay}"/>
                     <Run Text="КБ"/>
-                </TextBlock>
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+                <Button Margin="10 0"
+                        VerticalAlignment="Center"
+                        Foreground="White"
+                        Height="50"
+                        Width="50"
+                        Click="OpenInBrowser_OnClick">
+                    <SymbolIcon Symbol="Globe"/>
+                </Button>
             </StackPanel>
+            
         </StackPanel>
     </Grid>
 </Page>

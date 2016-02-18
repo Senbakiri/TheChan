@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.InteropServices;
+using Windows.UI.Xaml;
 
 namespace Win2ch.Common {
     public static class Extensions {
@@ -9,6 +11,10 @@ namespace Win2ch.Common {
 
         public static bool EqualsNc(this string first, string second) {
             return string.Equals(first, second, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static T GetDataContext<T>(this object root)  where T : class {
+            return (root as FrameworkElement)?.DataContext as T;
         }
     }
 }

@@ -10,7 +10,8 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:behaviors="using:Win2ch.Behaviors"
     xmlns:converters="using:Win2ch.Converters"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    x:Name="This">
     
     <UserControl.Resources>
         <converters:SwitchConverter x:Key="IsInFavoritesToMenuItemText">
@@ -87,7 +88,7 @@
                       ScrollViewer.IsVerticalRailEnabled="False">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
-                    <Setter Property="Margin" Value="0 5 5 0"></Setter>
+                    <Setter Property="Margin" Value="0 5 5 0"/>
                 </Style>
             </GridView.ItemContainerStyle>
             <GridView.ItemTemplate>

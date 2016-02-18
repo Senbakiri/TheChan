@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Win2ch.Annotations;
+using Win2ch.Common;
 using Win2ch.Models;
 
 namespace Win2ch.Controls {
@@ -242,6 +243,10 @@ namespace Win2ch.Controls {
             var senderFrameworkElem = (FrameworkElement)sender;
             var flyout = FlyoutBase.GetAttachedFlyout(senderFrameworkElem) as MenuFlyout;
             flyout?.ShowAt(senderFrameworkElem, e.GetPosition(senderFrameworkElem));
+        }
+
+        private async void OpenInBrowser_OnClick(object sender, RoutedEventArgs e) {
+            await Launcher.LaunchUriAsync(new Uri(CurrentImageInfo.Url));
         }
     }
 
