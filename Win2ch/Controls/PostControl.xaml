@@ -43,10 +43,10 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="{x:Bind Post.Subject, Mode=OneWay}"
-                       Visibility="{x:Bind Post.Subject, Converter={StaticResource StrToVis}, Mode=OneWay}"
-                       FontWeight="SemiBold"
-                       TextWrapping="Wrap"
-                       Foreground="{StaticResource CustomColorBrush}"/>
+                   Visibility="{x:Bind Post.Subject, Converter={StaticResource StrToVis}, Mode=OneWay}"
+                   FontWeight="SemiBold"
+                   TextWrapping="Wrap"
+                   Foreground="{StaticResource CustomColorBrush}"/>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBlock Text="{x:Bind Post.Position, Mode=OneWay}"
@@ -80,12 +80,16 @@
         <GridView Grid.Row="2" 
                       ItemsSource="{x:Bind Post.Images, Mode=OneWay}"
                       Visibility="{x:Bind Post.Images, Converter={StaticResource ListToVis}, Mode=OneWay}"
-                      Margin="0 5 0 0"
                       Padding="0"
                       SelectionMode="None"
                       IsItemClickEnabled="True"
                       ItemClick="ImagesGridView_OnItemClick"
                       ScrollViewer.IsVerticalRailEnabled="False">
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Margin" Value="0 5 5 0"></Setter>
+                </Style>
+            </GridView.ItemContainerStyle>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="models:ImageInfo">
                     <StackPanel>
@@ -100,9 +104,9 @@
         </GridView>
 
         <ScrollViewer Grid.Row="3"
-                          VerticalScrollBarVisibility="Auto"
-                          Margin="0 5 0 0">
+                      VerticalScrollBarVisibility="Auto">
             <TextBlock x:Name="PostText"
+                       Margin="0 2 0 0"
                            IsTextSelectionEnabled="{x:Bind IsSimple, Converter={StaticResource InverseBool}}"
                            TextWrapping="Wrap"
                            Visibility="{x:Bind Post.Comment, Converter={StaticResource StrToVis}, Mode=OneWay}"
@@ -110,20 +114,18 @@
                            HorizontalAlignment="Left"
                            MaxLines="{x:Bind MaxLines, Mode=OneWay}">
                     <interactivity:Interaction.Behaviors>
-                        <behaviors:HtmlBehavior
-                            Html="{x:Bind Post.Comment, Mode=TwoWay}"
-                            PostNumClicked="OnPostNumClicked"/>
+                        <behaviors:HtmlBehavior Html="{x:Bind Post.Comment, Mode=TwoWay}"
+                                                PostNumClicked="OnPostNumClicked"/>
                     </interactivity:Interaction.Behaviors>
             </TextBlock>
         </ScrollViewer>
 
         <StackPanel
                     Grid.Row="4"
-                    Visibility="{x:Bind Post.Replies, Converter={StaticResource ListToVis}, Mode=OneWay}"
-                    Margin="0 5 0 0">
+                    Visibility="{x:Bind Post.Replies, Converter={StaticResource ListToVis}, Mode=OneWay}">
             <Button
                     Background="Transparent"
-                    Padding="0 3"
+                    Padding="0 8"
                     Visibility="{x:Bind ShowRepliesAsTree, Converter={StaticResource BoolToVisInverse}}"
                     FontSize="14"
                     Click="RepliesButton_OnClick"
@@ -153,13 +155,11 @@
                         <Run Text="{x:Bind Post.Replies, Converter={StaticResource NounFormConverter}, ConverterParameter='ОТВЕТ ОТВЕТА ОТВЕТОВ', Mode=OneWay}"/>
                 </TextBlock>
             </Button>
-            <GridView
-                    Visibility="{x:Bind ShowRepliesAsTree, Converter={StaticResource BoolToVis}}"
-                    ItemsSource="{x:Bind Post.Replies, Mode=OneWay}"
-                    Margin="0"
-                    Padding="0"
-                    SelectionMode="None"
-                    IsItemClickEnabled="True">
+            <GridView Visibility="{x:Bind ShowRepliesAsTree, Converter={StaticResource BoolToVis}}"
+                      ItemsSource="{x:Bind Post.Replies, Mode=OneWay}"
+                      Padding="0"
+                      SelectionMode="None"
+                      IsItemClickEnabled="True">
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <gregstoll:UniversalWrapPanel Orientation="Horizontal"/>
@@ -172,13 +172,14 @@
                         <Setter Property="MinWidth" Value="0"/>
                         <Setter Property="MaxWidth" Value="NaN"/>
                         <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Margin" Value="0 2 5 0"/>
                     </Style>
                 </GridView.ItemContainerStyle>
                 <GridView.Header>
                     <TextBlock Text="Ответы:"
-                                   FontSize="13"
-                                   FontWeight="SemiBold"
-                                   Padding="0 0 5 0"/>
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               Padding="0 2 5 0"/>
                 </GridView.Header>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="models:Post">
@@ -197,9 +198,10 @@
         </StackPanel>
 
         <TextBlock Grid.Row="5"
-                       Opacity="0.7"
-                       Text="{x:Bind Post.Date, Mode=OneWay}"
-                       FontSize="13"/>
+                   Opacity="0.7"
+                   Text="{x:Bind Post.Date, Mode=OneWay}"
+                   FontSize="13"
+                   Margin="0 2 0 0"/>
 
     </Grid>
 </UserControl>
