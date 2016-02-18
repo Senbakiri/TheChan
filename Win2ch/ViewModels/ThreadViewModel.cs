@@ -245,13 +245,13 @@ namespace Win2ch.ViewModels {
                 await Utils.ShowOtherError(e, "Сервер вернул ошибку");
             } catch (HttpException e) {
                 await Utils.ShowHttpError(e, "Не удалось загрузить тред.");
-            }
-            catch (COMException e) {
+            } catch (COMException e) {
                 await Utils.ShowConnectionError(e, "Не удалось загрузить тред");
             }
         }
 
         public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending) {
+            HighlightPosts = false;
             try {
                 var favsService = FavoritesService.Instance.Threads;
                 var recentService = RecentThreadsService.Instance;
