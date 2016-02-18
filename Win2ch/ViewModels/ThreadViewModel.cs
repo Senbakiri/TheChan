@@ -55,6 +55,7 @@ namespace Win2ch.ViewModels {
         private bool _IsInFavorites;
         private int _HighlightedPostsStart;
         private bool _HighlightPosts;
+        private bool _isLoadedCorrectly;
 
         public string JobStatus {
             get { return _JobStatus; }
@@ -231,6 +232,7 @@ namespace Win2ch.ViewModels {
             Thread = thread;
             Title = "Просмотр треда";
 
+            _isLoadedCorrectly = false;
             try {
                 var posts = await thread.GetPostsFrom(1);
                 if (!string.IsNullOrEmpty(thread.Name))
@@ -241,6 +243,8 @@ namespace Win2ch.ViewModels {
                 foreach (var post in posts) {
                     Posts.Add(post);
                 }
+
+                _isLoadedCorrectly = true;
             } catch (ApiException e) {
                 await Utils.ShowOtherError(e, "Сервер вернул ошибку");
             } catch (HttpException e) {
@@ -252,15 +256,18 @@ namespace Win2ch.ViewModels {
 
         public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending) {
             HighlightPosts = false;
-            try {
-                var favsService = FavoritesService.Instance.Threads;
-                var recentService = RecentThreadsService.Instance;
-                if (await favsService.ContainsThread(Thread))
-                    await favsService.ResetThread(Thread);
-                if (await recentService.ContainsThread(Thread))
-                    await recentService.ResetThread(Thread);
-            } catch (Exception e) {
-                await Utils.ShowOtherError(e, "Не удалось обновить информацию о треде");
+
+            if (_isLoadedCorrectly) {
+                try {
+                    var favsService = FavoritesService.Instance.Threads;
+                    var recentService = RecentThreadsService.Instance;
+                    if (await favsService.ContainsThread(Thread))
+                        await favsService.ResetThread(Thread);
+                    if (await recentService.ContainsThread(Thread))
+                        await recentService.ResetThread(Thread);
+                } catch (Exception e) {
+                    await Utils.ShowOtherError(e, "Не удалось обновить информацию о треде");
+                }
             }
 
             await base.OnNavigatedFromAsync(state, suspending);
