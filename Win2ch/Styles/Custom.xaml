@@ -68,7 +68,7 @@
             <SolidColorBrush x:Key="ExtendedSplashBackground" Color="{StaticResource CustomColor}" />
             <SolidColorBrush x:Key="ExtendedSplashForeground" Color="White" />
 
-            <Color x:Key="SystemAltHighColor">White</Color>
+            <Color x:Key="SystemAltHighColor">#FAFAFA</Color>
             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource SystemAltHighColor}"/>
 
             <SolidColorBrush x:Key="ThreadBackgroundBrush" Color="{ThemeResource SystemChromeMediumLowColor}"/>
