@@ -183,9 +183,6 @@ namespace Win2ch.ViewModels {
                 JobStatus = "Нет новых постов";
             }
 
-            HighlightedPostsStart = Posts.Count;
-            HighlightPosts = true;
-
             await Task.Delay(2000);
             IsWorking = false;
             return newPosts.Count > 0;
