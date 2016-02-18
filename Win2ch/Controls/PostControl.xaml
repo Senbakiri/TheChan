@@ -125,7 +125,6 @@
                     Visibility="{x:Bind Post.Replies, Converter={StaticResource ListToVis}, Mode=OneWay}">
             <Button
                     Background="Transparent"
-                    Padding="0 8"
                     Visibility="{x:Bind ShowRepliesAsTree, Converter={StaticResource BoolToVisInverse}}"
                     FontSize="14"
                     Click="RepliesButton_OnClick"
@@ -149,8 +148,8 @@
                     </ControlTemplate>
                 </Button.Template>
 
-                <TextBlock
-                        FontWeight="SemiBold">
+                <TextBlock Padding="0 5 0 2"
+                           FontWeight="SemiBold">
                         <Run Text="{x:Bind Post.Replies, Converter={StaticResource CountConverter}, Mode=OneWay}"/>
                         <Run Text="{x:Bind Post.Replies, Converter={StaticResource NounFormConverter}, ConverterParameter='ОТВЕТ ОТВЕТА ОТВЕТОВ', Mode=OneWay}"/>
                 </TextBlock>
