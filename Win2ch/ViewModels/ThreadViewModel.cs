@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Navigation;
+using Newtonsoft.Json;
 using Template10.Mvvm;
 using Win2ch.Common;
 using Win2ch.Models;
@@ -52,6 +53,8 @@ namespace Win2ch.ViewModels {
         private string _JobStatus;
         private NewPostInfo _PostInfo = new NewPostInfo();
         private bool _IsInFavorites;
+        private int _HighlightedPostsStart;
+        private bool _HighlightPosts;
 
         public string JobStatus {
             get { return _JobStatus; }
@@ -77,9 +80,29 @@ namespace Win2ch.ViewModels {
             }
         }
 
+        public int HighlightedPostsStart {
+            get { return _HighlightedPostsStart; }
+            private set {
+                if (value == _HighlightedPostsStart)
+                    return;
+                _HighlightedPostsStart = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool HighlightPosts {
+            get { return _HighlightPosts; }
+            private set {
+                if (value == _HighlightPosts)
+                    return;
+                _HighlightPosts = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public ICommand AdvancedPostingCommand { get; }
 
-        public ICanScrollToItem<Post> PostScroller { get; set; } 
+        public ICanScrollToItem<Post> PostScroller { get; set; }
 
         public ThreadViewModel() {
             AdvancedPostingCommand = new DelegateCommand(AdvancedPosting);
@@ -125,6 +148,7 @@ namespace Win2ch.ViewModels {
         }
 
         public async Task<bool> Refresh(bool scrollToLastPost = false) {
+            HighlightPosts = false;
             IsWorking = true;
             JobStatus = "Получение новых постов";
             List<Post> newPosts;
@@ -146,6 +170,8 @@ namespace Win2ch.ViewModels {
             }
 
             if (newPosts.Count > 0) {
+                HighlightedPostsStart = Posts.Count + 1;
+                HighlightPosts = true;
                 JobStatus = "Обработка";
                 Thread.Posts.AddRange(newPosts);
                 foreach (var newPost in newPosts)
@@ -156,6 +182,9 @@ namespace Win2ch.ViewModels {
             } else {
                 JobStatus = "Нет новых постов";
             }
+
+            HighlightedPostsStart = Posts.Count;
+            HighlightPosts = true;
 
             await Task.Delay(2000);
             IsWorking = false;
@@ -168,20 +197,21 @@ namespace Win2ch.ViewModels {
             if (CurrentPost.PostInfo != null)
                 PostInfo = CurrentPost.PostInfo;
 
-            if (parameter is Thread) {
-                var thread = (Thread) parameter;
-                if ( !ReferenceEquals(thread, Thread))
-                    await LoadThread(thread);
-            } else if (parameter is NavigationToThreadWithScrolling) {
-                var nav = (NavigationToThreadWithScrolling) parameter;
-                if (!Equals(nav.Thread, Thread))
-                    await LoadThread(nav.Thread);
-
-                var post = Posts.FirstOrDefault(p => p.Num == nav.PostNum);
-                if (post != null)
-                    PostScroller?.ScrollToItem(post);
+            var navigationInfo = (ThreadNavigationInfo) parameter;
+            if (navigationInfo.ForceRefresh || !Equals(navigationInfo.Thread, Thread)) {
+                await LoadThread(navigationInfo.Thread);
+                if (Posts.Count > 0 && !navigationInfo.PostNum.HasValue)
+                    PostScroller?.ScrollToItem(Posts.First());
             }
 
+            if (navigationInfo.PostNum.HasValue) {
+                var post = Posts.FirstOrDefault(p => p.Position == navigationInfo.PostNum.Value);
+                if (post != null) {
+                    PostScroller?.ScrollToItem(post);
+                    HighlightPosts = navigationInfo.Highlight;
+                    HighlightedPostsStart = navigationInfo.PostNum.Value;
+                }
+            }
 
             try {
                 IsInFavorites = await favThreadsService.ContainsThread(Thread);
@@ -240,14 +270,33 @@ namespace Win2ch.ViewModels {
         }
     }
 
-    public class NavigationToThreadWithScrolling {
-        public NavigationToThreadWithScrolling(Thread thread, int postNum) {
-            Thread = thread;
+    public class ThreadNavigationInfo {
+        public ThreadNavigationInfo(Thread thread, int? postNum = null, bool highlight = false) {
+            Thread = new Thread(thread.Num, thread.Board.Id);
             PostNum = postNum;
+            Highlight = highlight;
         }
+        
+        [JsonConstructor]
+        private ThreadNavigationInfo() { }
 
-        public Thread Thread { get; }
-        public int PostNum { get; }
+        public ThreadNavigationInfo(long threadNum, string boardId, int? postNum = null, bool highlight = false) {
+            Thread = new Thread(threadNum, boardId);
+            PostNum = postNum;
+            Highlight = highlight;
+        }
+        
+        [JsonProperty]
+        public Thread Thread { get; private set; }
+
+        [JsonProperty]
+        public int? PostNum { get; private set; }
+
+        [JsonProperty]
+        public bool Highlight { get; private set; }
+
+        [JsonProperty]
+        public bool ForceRefresh { get; set; }
     }
 
 

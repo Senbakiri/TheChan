@@ -7,7 +7,6 @@ using Microsoft.ApplicationInsights.DataContracts;
 using Win2ch.Annotations;
 using Win2ch.Models;
 using Win2ch.ViewModels;
-using Win2ch.Views;
 
 namespace Win2ch.Mvvm {
     public abstract class ViewModelBase : Template10.Mvvm.ViewModelBase {
@@ -17,9 +16,7 @@ namespace Win2ch.Mvvm {
             if (mode == NavigationMode.Back)
                 return base.OnNavigatedToAsync(parameter, mode, state);
 
-            var thread = parameter is Thread
-                ? (Thread) parameter
-                : (parameter as NavigationToThreadWithScrolling)?.Thread;
+            var thread = (parameter as ThreadNavigationInfo)?.Thread;
 
             var info = (parameter as Board)?.Id ??
                        (string.IsNullOrEmpty(thread?.Name)

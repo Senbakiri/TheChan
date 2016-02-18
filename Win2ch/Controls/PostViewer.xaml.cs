@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -96,7 +95,7 @@ namespace Win2ch.Controls {
 
             try {
                 var post = await SourceThread.Board.GetPost(postNum);
-                Thread.FillPosts(new List<Post> {post}, SourceThread.Board);
+                Thread.FillPosts(new List<Post> { post }, SourceThread.Board);
                 Posts.Add(post);
                 CanGoToThread = true;
             } catch (COMException e) {
@@ -129,11 +128,11 @@ namespace Win2ch.Controls {
         private void PostControl_OnImageClick(object sender, ImageClickEventArgs e) {
             ImageClick(sender, e);
         }
-        
+
         private void Post_OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e) {
             if (RepliesListView.ItemsPanelRoot == null)
                 return;
- 
+
             var total = e.Cumulative.Translation.X;
             var elem =
                 RepliesListView.ItemsPanelRoot.Children.OfType<ListViewItem>()
@@ -142,7 +141,7 @@ namespace Win2ch.Controls {
 
             double itemsCount = RepliesListView.ItemsPanelRoot.Children.Count;
 
-            GoToPostButton.Opacity = GoToThreadButton.Opacity = 1 - Math.Abs(total)/ManipulationAmountToClose;
+            GoToPostButton.Opacity = GoToThreadButton.Opacity = 1 - Math.Abs(total) / ManipulationAmountToClose;
 
             for (int i = 0; i < itemsCount; ++i) {
                 var distance = Math.Abs(index - i);
@@ -194,16 +193,17 @@ namespace Win2ch.Controls {
         public void GoToPost() {
             if (CanGoToPost)
                 Shell.HamburgerMenu
-                     .NavigationService.Navigate(typeof(ThreadPage),
-                         new NavigationToThreadWithScrolling(
-                             new Thread(ThreadNum, SourceThread.Board.Id),
+                     .NavigationService
+                     .Navigate(typeof (ThreadPage),
+                         new ThreadNavigationInfo(ThreadNum,
+                             SourceThread.Board.Id,
                              (int) Posts.First().Num));
         }
 
         public void GoToThread() {
             if (CanGoToThread)
                 Shell.HamburgerMenu
-                     .NavigationService.Navigate(typeof (ThreadPage),
+                     .NavigationService.Navigate(typeof(ThreadPage),
                          new Thread(ThreadNum, SourceThread.Board.Id));
         }
     }

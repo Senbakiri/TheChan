@@ -95,8 +95,13 @@ namespace Win2ch.ViewModels {
         }
 
         public void GoToThread(StoredThreadInfo storedThreadInfo) {
-            var thread = new Thread(storedThreadInfo.Num, storedThreadInfo.Board.Id);
-            NavigationService.Navigate(typeof(ThreadPage), thread);
+            NavigationService.Navigate(typeof (ThreadPage),
+                new ThreadNavigationInfo(storedThreadInfo.Num,
+                    storedThreadInfo.Board.Id,
+                    storedThreadInfo.LastPostPosition - storedThreadInfo.UnreadPosts + 1,
+                    true) {
+                        ForceRefresh = true
+                    });
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state) {

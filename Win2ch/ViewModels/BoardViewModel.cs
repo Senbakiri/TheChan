@@ -67,7 +67,7 @@ namespace Win2ch.ViewModels {
         }
 
         public void NavigateToThread(Thread thread) {
-            NavigationService.Navigate(typeof(ThreadPage), thread);
+            NavigationService.Navigate(typeof(ThreadPage), new ThreadNavigationInfo(thread));
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state) {
