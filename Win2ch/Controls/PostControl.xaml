@@ -1,4 +1,4 @@
-﻿<Page
+﻿<UserControl
     x:Class="Win2ch.Controls.PostControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,12 +12,12 @@
     xmlns:converters="using:Win2ch.Converters"
     mc:Ignorable="d">
     
-    <Page.Resources>
+    <UserControl.Resources>
         <converters:SwitchConverter x:Key="IsInFavoritesToMenuItemText">
             <converters:Case Key="True" Value="Удалить из избранного" />
             <converters:Case Key="False" Value="Добавить в избранное" />
         </converters:SwitchConverter>
-    </Page.Resources>
+    </UserControl.Resources>
 
     <Grid Background="{x:Bind Background, Mode=OneWay}"
           BorderThickness="{x:Bind BorderThickness, Mode=OneWay}"
@@ -202,4 +202,4 @@
                        FontSize="13"/>
 
     </Grid>
-</Page>
+</UserControl>

@@ -59,7 +59,8 @@
         <FlipView x:Name="ImagesList"
                   VerticalContentAlignment="Stretch"
                   HorizontalContentAlignment="Stretch"
-                  SelectionChanged="ImagesList_OnSelectionChanged">
+                  SelectionChanged="ImagesList_OnSelectionChanged"
+                  Background="Transparent">
             <FlipView.ItemTemplate>
                 <DataTemplate x:DataType="BitmapImage">
                     <ScrollViewer x:Name="ScrollViewer"

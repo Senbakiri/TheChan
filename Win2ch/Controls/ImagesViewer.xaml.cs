@@ -15,13 +15,11 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 using Win2ch.Annotations;
 using Win2ch.Models;
-using Win2ch.Views;
 
 namespace Win2ch.Controls {
-    public sealed partial class ImagesViewer : INotifyPropertyChanged {
+    public sealed partial class ImagesViewer :  INotifyPropertyChanged {
         public ObservableCollection<BitmapImage> ImagesSources { get; }
 
         public event EventHandler<ImagesViewerCloseEventArgs> OnClose = delegate { };
@@ -95,10 +93,6 @@ namespace Win2ch.Controls {
             ImagesList.ItemsSource = ImagesSources;
             AllImages = allImages;
             CurrentImage = ImagesSources.FirstOrDefault(im => im.UriSource.OriginalString.Equals(currentImage.Url));
-        }
-
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) {
-            Shell.HamburgerMenu.IsFullScreen = false;
         }
 
         private void OnKeyDown(object sender, KeyRoutedEventArgs e) {
@@ -192,7 +186,8 @@ namespace Win2ch.Controls {
             if (translate == null)
                 elem.RenderTransform = translate = new TranslateTransform();
             translate.Y = e.Cumulative.Translation.Y;
-            elem.Opacity = Underlay.Opacity = 1 - Math.Abs(total) / 300;
+
+            Underlay.Opacity =  1 - Math.Abs(total) / 300;
         }
 
         private void UIElement_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) {
