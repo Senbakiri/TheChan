@@ -44,14 +44,11 @@ namespace Win2ch.ViewModels {
             } catch (HttpException e) {
                 var dialog = new MessageDialog("Код ошибки: " + e.Code, "Не удалось получить список досок");
                 dialog.Commands.Add(new UICommand("Повторить", _ => LoadBoards()));
-                dialog.Commands.Add(new UICommand("Закрыть"));
-                dialog.Commands.Add(new UICommand("Выход", _ => Application.Current.Exit()));
                 await dialog.ShowAsync();
             } catch (COMException e) {
                 var dialog = new MessageDialog("Код ошибки: 0x" + e.HResult.ToString("X"), "Не удалось получить список досок");
                 dialog.Commands.Add(new UICommand("Повторить", _ => LoadBoards()));
                 dialog.Commands.Add(new UICommand("Закрыть"));
-                dialog.Commands.Add(new UICommand("Выход", _ => Application.Current.Exit()));
                 await dialog.ShowAsync();
             }
 
