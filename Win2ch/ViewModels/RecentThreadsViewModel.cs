@@ -69,12 +69,10 @@ namespace Win2ch.ViewModels {
 
         public void GoToThread(StoredThreadInfo storedThreadInfo) {
             NavigationService.Navigate(typeof(ThreadPage),
-                new ThreadNavigationInfo(storedThreadInfo.Num,
-                    storedThreadInfo.Board.Id,
-                    storedThreadInfo.LastPostPosition - storedThreadInfo.UnreadPosts + 1,
-                    true) {
-                        ForceRefresh = true
-                    });
+                ThreadNavigation
+                    .NavigateToThread(storedThreadInfo.Num, storedThreadInfo.Board.Id)
+                    .WithHighlighting(storedThreadInfo.LastPostPosition - storedThreadInfo.UnreadPosts + 1)
+                    .WithForceRefresh());
         }
 
         public async Task RemoveThreadFromRecent(StoredThreadInfo storedThreadInfo) {

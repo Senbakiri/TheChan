@@ -194,19 +194,23 @@ namespace Win2ch.ViewModels {
             if (CurrentPost.PostInfo != null)
                 PostInfo = CurrentPost.PostInfo;
 
-            var navigationInfo = (ThreadNavigationInfo) parameter;
+            var navigationInfo = (ThreadNavigation) parameter;
             if (navigationInfo.ForceRefresh || !Equals(navigationInfo.Thread, Thread)) {
                 await LoadThread(navigationInfo.Thread);
-                if (Posts.Count > 0 && !navigationInfo.PostNum.HasValue)
+                if (Posts.Count > 0 && !navigationInfo.PostPosition.HasValue)
                     PostScroller?.ScrollToItem(Posts.First());
             }
 
             if (navigationInfo.PostNum.HasValue) {
-                var post = Posts.FirstOrDefault(p => p.Position == navigationInfo.PostNum.Value);
+                var post = Posts.FirstOrDefault(p => p.Num == navigationInfo.PostNum.Value);
+                if (post != null) 
+                    PostScroller?.ScrollToItem(post);
+            } else if (navigationInfo.PostPosition.HasValue) {
+                var post = Posts.FirstOrDefault(p => p.Position == navigationInfo.PostPosition.Value);
                 if (post != null) {
                     PostScroller?.ScrollToItem(post);
                     HighlightPosts = navigationInfo.Highlight;
-                    HighlightedPostsStart = navigationInfo.PostNum.Value;
+                    HighlightedPostsStart = navigationInfo.PostPosition.Value;
                 }
             }
 
@@ -271,33 +275,53 @@ namespace Win2ch.ViewModels {
         }
     }
 
-    public class ThreadNavigationInfo {
-        public ThreadNavigationInfo(Thread thread, int? postNum = null, bool highlight = false) {
-            Thread = new Thread(thread.Num, thread.Board.Id);
-            PostNum = postNum;
-            Highlight = highlight;
-        }
-        
-        [JsonConstructor]
-        private ThreadNavigationInfo() { }
+    public class ThreadNavigation {
 
-        public ThreadNavigationInfo(long threadNum, string boardId, int? postNum = null, bool highlight = false) {
-            Thread = new Thread(threadNum, boardId);
-            PostNum = postNum;
-            Highlight = highlight;
+        public static ThreadNavigation NavigateToThread(Thread thread) {
+            return new ThreadNavigation {
+                Thread = new Thread(thread.Num, thread.Board.Id)
+            };
         }
+
+        public static ThreadNavigation NavigateToThread(long threadNum, string boardId) {
+            return new ThreadNavigation {
+                Thread = new Thread(threadNum, boardId)
+            };
+        }
+
+        public ThreadNavigation WithHighlighting(int highlightingStart) {
+            Highlight = true;
+            PostPosition = highlightingStart;
+            return this;
+        }
+
+        public ThreadNavigation WithForceRefresh() {
+            ForceRefresh = true;
+            return this;
+        }
+
+        public ThreadNavigation ToPostByNum(long postNum) {
+            PostNum = postNum;
+            return this;
+        }
+
+        [JsonConstructor]
+        private ThreadNavigation() { }
         
         [JsonProperty]
         public Thread Thread { get; private set; }
 
         [JsonProperty]
-        public int? PostNum { get; private set; }
+        public int? PostPosition { get; private set; }
 
         [JsonProperty]
         public bool Highlight { get; private set; }
 
         [JsonProperty]
-        public bool ForceRefresh { get; set; }
+        public bool ForceRefresh { get; private set; }
+
+        [JsonProperty]
+        public long? PostNum { get; private set; }
     }
 
 

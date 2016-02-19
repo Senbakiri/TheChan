@@ -195,9 +195,10 @@ namespace Win2ch.Controls {
                 Shell.HamburgerMenu
                      .NavigationService
                      .Navigate(typeof (ThreadPage),
-                         new ThreadNavigationInfo(ThreadNum,
-                             SourceThread.Board.Id,
-                             (int) Posts.First().Num));
+                         ThreadNavigation.NavigateToThread(
+                             ThreadNum,
+                             SourceThread.Board.Id).ToPostByNum(
+                             Posts.First().Num));
         }
 
         public void GoToThread() {

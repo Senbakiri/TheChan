@@ -16,7 +16,7 @@ namespace Win2ch.Mvvm {
             if (mode == NavigationMode.Back)
                 return base.OnNavigatedToAsync(parameter, mode, state);
 
-            var thread = (parameter as ThreadNavigationInfo)?.Thread;
+            var thread = (parameter as ThreadNavigation)?.Thread;
 
             var info = (parameter as Board)?.Id ??
                        (string.IsNullOrEmpty(thread?.Name)
