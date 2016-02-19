@@ -73,7 +73,7 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <TextBlock Text="Прокрутка к посту с изображением после просмотра изображения"
-                                   TextWrapping="Wrap"></TextBlock>
+                                   TextWrapping="Wrap"/>
                         <ToggleSwitch IsOn="{x:Bind ViewModel.ScrollToPostWithImageAfterViewingImage, Mode=TwoWay}"/>
                     </StackPanel>
                 </ScrollViewer>
@@ -133,6 +133,7 @@
                                        Style="{StaticResource SubtitleTextBlockStyle}"/>
                                 <TextBlock>Александр Б.</TextBlock>
                                 <TextBlock>Денис Ф.</TextBlock>
+                                <TextBlock>Юрий Г.</TextBlock>
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
