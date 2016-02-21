@@ -179,8 +179,10 @@ namespace Win2ch.ViewModels {
                 HighlightPosts = true;
                 JobStatus = "Обработка";
                 Thread.Posts.AddRange(newPosts);
-                foreach (var newPost in newPosts)
+                foreach (var newPost in newPosts) {
                     Posts.Add(newPost);
+                }
+
                 if (scrollToLastPost)
                     PostScroller?.ScrollToItem(Posts.LastOrDefault());
                 JobStatus = $"Получено новых постов: {newPosts.Count}";
@@ -199,27 +201,27 @@ namespace Win2ch.ViewModels {
             if (CurrentPost.PostInfo != null)
                 PostInfo = CurrentPost.PostInfo;
 
+            Post post;
+
             var navigationInfo = (ThreadNavigation) parameter;
             if (navigationInfo.ForceRefresh || !Equals(navigationInfo.Thread, Thread)) {
                 await LoadThread(navigationInfo.Thread);
                 if (Posts.Count > 0 && (!navigationInfo.PostPosition.HasValue || navigationInfo.PostPosition.Value < 2)) {
-                    var post = Posts.First();
+                    post = Posts.First();
                     PostScroller?.ScrollToItem(Posts.Last());
                     PostScroller?.ScrollToItem(post);
                 }
             }
 
             if (navigationInfo.PostNum.HasValue) {
-                var post = Posts.FirstOrDefault(p => p.Num == navigationInfo.PostNum.Value);
+                post = Posts.FirstOrDefault(p => p.Num == navigationInfo.PostNum.Value);
                 if (post != null) 
                     PostScroller?.ScrollToItem(post);
-            } else if (navigationInfo.PostPosition.HasValue) {
-                var post = Posts.FirstOrDefault(p => p.Position == navigationInfo.PostPosition.Value);
-                if (post != null) {
-                    PostScroller?.ScrollToItem(post);
-                    HighlightPosts = navigationInfo.Highlight;
-                    HighlightedPostsStart = navigationInfo.PostPosition.Value;
-                }
+            } else if (navigationInfo.PostPosition.HasValue &&
+                (post = Posts.FirstOrDefault(p => p.Position == navigationInfo.PostPosition.Value)) != null) {
+                PostScroller?.ScrollToItem(post);
+                HighlightPosts = navigationInfo.Highlight;
+                HighlightedPostsStart = navigationInfo.PostPosition.Value;
             } else if (ThreadPosition.ContainsKey(Thread.Num)) {
                 PositionScroller.Position = ThreadPosition[Thread.Num];
             }
