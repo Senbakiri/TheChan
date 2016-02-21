@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="using:Win2ch.ViewModels"
     xmlns:controls="using:Win2ch.Controls"
     mc:Ignorable="d"
     x:Name="This"
@@ -66,19 +65,19 @@
                 <DataTemplate x:DataType="controls:ImageWrapper">
                     <Grid>
                         <ScrollViewer x:Name="ScrollViewer"
-                                  ZoomMode="Enabled"
-                                  VerticalScrollMode="Enabled"
-                                  HorizontalScrollBarVisibility="Auto"
-                                  VerticalScrollBarVisibility="Auto">
+                                      ZoomMode="Enabled"
+                                      VerticalScrollMode="Enabled"
+                                      HorizontalScrollBarVisibility="Auto"
+                                      VerticalScrollBarVisibility="Auto">
                             <Image Stretch="Uniform"
-                               Source="{x:Bind BitmapImage}"
-                               FlyoutBase.AttachedFlyout="{StaticResource ImageMenuFlyout}"
-                               Holding="Image_OnHolding"
-                               IsHoldingEnabled="True"
-                               RightTapped="Image_OnRightTapped"
-                               ManipulationMode="System, TranslateY, TranslateInertia"
-                               ManipulationDelta="Underlay_OnManipulationDelta"
-                               ManipulationCompleted="Underlay_OnManipulationCompleted">
+                                   Source="{x:Bind BitmapImage}"
+                                   FlyoutBase.AttachedFlyout="{StaticResource ImageMenuFlyout}"
+                                   Holding="Image_OnHolding"
+                                   IsHoldingEnabled="True"
+                                   RightTapped="Image_OnRightTapped"
+                                   ManipulationMode="System, TranslateY, TranslateInertia"
+                                   ManipulationDelta="Underlay_OnManipulationDelta"
+                                   ManipulationCompleted="Underlay_OnManipulationCompleted">
                             </Image>
                         </ScrollViewer>
                         <Grid Background="#80000000"
@@ -107,8 +106,7 @@
                 </DataTemplate>
             </FlipView.ItemTemplate>
         </FlipView>
-        <StackPanel x:Name="InfoPanel"
-                    VerticalAlignment="Top"
+        <StackPanel VerticalAlignment="Top"
                     HorizontalAlignment="Stretch"
                     Background="#80000000"
                     Padding="10">
