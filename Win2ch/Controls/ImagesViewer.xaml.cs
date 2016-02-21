@@ -170,29 +170,39 @@ namespace Win2ch.Controls {
             OnClose(this, new ImagesViewerCloseEventArgs(lastImage));
         }
 
-        private void Image_OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e) {
+        private void Underlay_OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e) {
             IsInfoPanelVisible = false;
             var elem = (FrameworkElement)sender;
-            var scrollViewer = elem.Parent as ScrollViewer;
+            var scrollViewer = (ScrollViewer) elem.Parent;
             var total = e.Cumulative.Translation.Y;
-            if (scrollViewer == null || scrollViewer.ZoomFactor > 1)
-                e.Complete();
-
-            if (e.IsInertial && Math.Abs(total) > 500) {
-                e.Complete();
-                return;
-            }
-
             var translate = elem.RenderTransform as TranslateTransform;
             if (translate == null)
                 elem.RenderTransform = translate = new TranslateTransform();
-            translate.Y = e.Cumulative.Translation.Y;
 
-            Underlay.Opacity =  1 - Math.Abs(total) / 300;
+            if (scrollViewer.ZoomFactor > 1) {
+                    scrollViewer.ChangeView(null,
+                        scrollViewer.VerticalOffset - e.Delta.Translation.Y,
+                        null, false);
+            } else {
+                if (e.IsInertial && Math.Abs(total) > 500) {
+                    e.Complete();
+                    return;
+                }
+
+                translate.Y = e.Cumulative.Translation.Y;
+
+                Underlay.Opacity = 1 - Math.Abs(total) / 300;
+            }
+
+            
         }
 
-        private void UIElement_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) {
+        private void Underlay_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) {
             var elem = (FrameworkElement)sender;
+
+            if (((ScrollViewer) elem.Parent).ZoomFactor > 1)
+                return;
+
             var transform = elem.RenderTransform as TranslateTransform;
             if (transform != null) {
                 transform.X = 0;

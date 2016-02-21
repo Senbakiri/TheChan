@@ -65,17 +65,19 @@
                 <DataTemplate x:DataType="BitmapImage">
                     <ScrollViewer x:Name="ScrollViewer"
                                   ZoomMode="Enabled"
+                                  VerticalScrollMode="Enabled"
                                   HorizontalScrollBarVisibility="Auto"
                                   VerticalScrollBarVisibility="Auto">
                         <Image Stretch="Uniform"
                                Source="{x:Bind}"
-                               ManipulationMode="System, TranslateY, TranslateInertia"
-                               ManipulationDelta="Image_OnManipulationDelta"
-                               ManipulationCompleted="UIElement_OnManipulationCompleted"
                                FlyoutBase.AttachedFlyout="{StaticResource ImageMenuFlyout}"
                                Holding="Image_OnHolding"
                                IsHoldingEnabled="True"
-                               RightTapped="Image_OnRightTapped"/>
+                               RightTapped="Image_OnRightTapped"
+                               ManipulationMode="System, TranslateY, TranslateInertia"
+                               ManipulationDelta="Underlay_OnManipulationDelta"
+                               ManipulationCompleted="Underlay_OnManipulationCompleted">
+                        </Image>
                     </ScrollViewer>
                 </DataTemplate>
             </FlipView.ItemTemplate>
