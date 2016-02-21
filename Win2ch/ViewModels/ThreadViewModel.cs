@@ -197,8 +197,11 @@ namespace Win2ch.ViewModels {
             var navigationInfo = (ThreadNavigation) parameter;
             if (navigationInfo.ForceRefresh || !Equals(navigationInfo.Thread, Thread)) {
                 await LoadThread(navigationInfo.Thread);
-                if (Posts.Count > 0 && !navigationInfo.PostPosition.HasValue)
-                    PostScroller?.ScrollToItem(Posts.First());
+                if (Posts.Count > 0 && (!navigationInfo.PostPosition.HasValue || navigationInfo.PostPosition.Value < 2)) {
+                    var post = Posts.First();
+                    PostScroller?.ScrollToItem(Posts.Last());
+                    PostScroller?.ScrollToItem(post);
+                }
             }
 
             if (navigationInfo.PostNum.HasValue) {
