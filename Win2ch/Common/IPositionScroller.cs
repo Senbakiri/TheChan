@@ -1,5 +1,5 @@
 ﻿namespace Win2ch.Common {
     public interface IPositionScroller {
-        double Position { get; set; }
+        double Position { get; set; } 
     }
 }

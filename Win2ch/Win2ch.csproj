@@ -117,6 +117,7 @@
     <Compile Include="Common\HtmlConverting\InlineWrapper.cs" />
     <Compile Include="Common\HtmlConverting\Selector.cs" />
     <Compile Include="Common\ICanScrollToItem.cs" />
+    <Compile Include="Common\IPositionScroller.cs" />
     <Compile Include="Controls\BlurImage.xaml.cs">
       <DependentUpon>BlurImage.xaml</DependentUpon>
     </Compile>
