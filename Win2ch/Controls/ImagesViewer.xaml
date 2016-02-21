@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:Win2ch.ViewModels"
+    xmlns:controls="using:Win2ch.Controls"
     mc:Ignorable="d"
     x:Name="This"
     SizeChanged="OnSizeChanged"
@@ -62,14 +63,15 @@
                   SelectionChanged="ImagesList_OnSelectionChanged"
                   Background="Transparent">
             <FlipView.ItemTemplate>
-                <DataTemplate x:DataType="BitmapImage">
-                    <ScrollViewer x:Name="ScrollViewer"
+                <DataTemplate x:DataType="controls:ImageWrapper">
+                    <Grid>
+                        <ScrollViewer x:Name="ScrollViewer"
                                   ZoomMode="Enabled"
                                   VerticalScrollMode="Enabled"
                                   HorizontalScrollBarVisibility="Auto"
                                   VerticalScrollBarVisibility="Auto">
-                        <Image Stretch="Uniform"
-                               Source="{x:Bind}"
+                            <Image Stretch="Uniform"
+                               Source="{x:Bind BitmapImage}"
                                FlyoutBase.AttachedFlyout="{StaticResource ImageMenuFlyout}"
                                Holding="Image_OnHolding"
                                IsHoldingEnabled="True"
@@ -77,8 +79,31 @@
                                ManipulationMode="System, TranslateY, TranslateInertia"
                                ManipulationDelta="Underlay_OnManipulationDelta"
                                ManipulationCompleted="Underlay_OnManipulationCompleted">
-                        </Image>
-                    </ScrollViewer>
+                            </Image>
+                        </ScrollViewer>
+                        <Grid Background="#80000000"
+                              Visibility="{x:Bind IsLoading, Mode=OneWay, Converter={StaticResource BoolToVis}}"/>
+                        <StackPanel VerticalAlignment="Center"
+                                    Visibility="{x:Bind IsLoading, Mode=OneWay, Converter={StaticResource BoolToVis}}">
+                            <TextBlock Foreground="White"
+                                       TextAlignment="Center"
+                                       HorizontalAlignment="Center">
+                                <Run Text="{x:Bind LoadingProgress, Mode=OneWay}"/><Run>%</Run>
+                            </TextBlock>
+                            <ProgressBar MinWidth="150"
+                                         MaxWidth="300"
+                                         Height="5"
+                                         Minimum="0"
+                                         Maximum="100"
+                                         IsIndeterminate="False"
+                                         Value="{x:Bind LoadingProgress, Mode=OneWay}"
+                                         Margin="0 5"/>
+                            <TextBlock Text="{x:Bind LoadingString, Mode=OneWay}"
+                                       HorizontalAlignment="Center"
+                                       TextAlignment="Center"
+                                       Foreground="White"/>
+                        </StackPanel>
+                    </Grid>
                 </DataTemplate>
             </FlipView.ItemTemplate>
         </FlipView>
@@ -140,15 +165,15 @@
             </StackPanel.Resources>
             <StackPanel Orientation="Horizontal">
                 <StackPanel>
-                    <TextBlock Text="{x:Bind CurrentImageInfo.Name, Mode=OneWay}"
+                    <TextBlock Text="{x:Bind CurrentImage.ImageInfo.Name, Mode=OneWay}"
                        FontSize="24"/>
                     <StackPanel Orientation="Horizontal"
                         Margin="0 5 0 0">
                         <TextBlock>
-                    <Run Text="{x:Bind CurrentImageInfo.Width, Mode=OneWay}"/>X<Run Text="{x:Bind CurrentImageInfo.Height, Mode=OneWay}"/>
+                    <Run Text="{x:Bind CurrentImage.ImageInfo.Width, Mode=OneWay}"/>X<Run Text="{x:Bind CurrentImage.ImageInfo.Height, Mode=OneWay}"/>
                         </TextBlock>
                         <TextBlock Margin="10 0 0 0">
-                    <Run Text="{x:Bind CurrentImageInfo.Size, Mode=OneWay}"/>
+                    <Run Text="{x:Bind CurrentImage.ImageInfo.Size, Mode=OneWay}"/>
                     <Run Text="КБ"/>
                         </TextBlock>
                     </StackPanel>

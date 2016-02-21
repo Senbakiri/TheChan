@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using Windows.Web.Http;
 using System.Runtime.CompilerServices;
+using Windows.Web.Http;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
@@ -15,20 +15,95 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Template10.Controls;
 using Win2ch.Annotations;
-using Win2ch.Common;
 using Win2ch.Models;
 
 namespace Win2ch.Controls {
-    public sealed partial class ImagesViewer :  INotifyPropertyChanged {
-        public ObservableCollection<BitmapImage> ImagesSources { get; }
+    public class ImageWrapper : INotifyPropertyChanged {
+        private int _LoadingProgress;
+        private bool _IsLoading;
+        private string _LoadingString;
+
+        public ImageInfo ImageInfo { get; }
+        public BitmapImage BitmapImage { get; }
+
+        public int LoadingProgress {
+            get { return _LoadingProgress; }
+            private set {
+                if (value == _LoadingProgress)
+                    return;
+                _LoadingProgress = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsLoading {
+            get { return _IsLoading; }
+            private set {
+                if (value == _IsLoading)
+                    return;
+                _IsLoading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string LoadingString {
+            get { return _LoadingString; }
+            private set {
+                if (value == _LoadingString)
+                    return;
+                _LoadingString = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ImageWrapper(ImageInfo imageInfo) {
+            ImageInfo = imageInfo;
+            BitmapImage = new BitmapImage(new Uri(ImageInfo.Url, UriKind.Absolute));
+            BitmapImage.DownloadProgress += BitmapImageOnDownloadProgress;
+            BitmapImage.ImageFailed += BitmapImageOnImageFailed;
+            IsLoading = true;
+            LoadingString = FormatLoadingString();
+        }
+
+        private void BitmapImageOnImageFailed(object sender, ExceptionRoutedEventArgs e) {
+            LoadingString = "Произошла ошибка" + "(" + e.ErrorMessage + ")";
+        }
+
+        private void BitmapImageOnDownloadProgress(object sender, DownloadProgressEventArgs e) {
+            LoadingProgress = e.Progress;
+            LoadingString = FormatLoadingString();
+            if (LoadingProgress >= 100)
+                IsLoading = false;
+        }
+
+        private string FormatLoadingString() {
+            var downloaded = (int)((double) ImageInfo.Size/100*LoadingProgress);
+            return $"{downloaded:D} / {ImageInfo.Size} KB";
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #region PropertyChanged
+                [NotifyPropertyChangedInvocator]
+                protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null) {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                }
+        #endregion
+    }
+
+    public sealed partial class ImagesViewer : INotifyPropertyChanged {
+
+
+        public ObservableItemCollection<ImageWrapper> Images { get; }
 
         public event EventHandler<ImagesViewerCloseEventArgs> OnClose = delegate { };
 
         private List<ImageInfo> _AllImages;
-        private BitmapImage _CurrentImage;
+        private ImageWrapper _CurrentImage;
         private int _CurrentIndex = -1;
-        private ImageInfo _CurrentImageInfo;
+        //private ImageInfo _CurrentImageInfo;
         private bool _IsInfoPanelVisible = true;
 
         public List<ImageInfo> AllImages {
@@ -36,35 +111,36 @@ namespace Win2ch.Controls {
             set {
                 _AllImages = value;
 
-                ImagesSources.Clear();
+                Images.Clear();
                 if (_AllImages == null)
                     return;
 
                 foreach (var imageInfo in AllImages) {
-                    ImagesSources.Add(new BitmapImage(new Uri(imageInfo.Url, UriKind.Absolute)));
+                    Images.Add(new ImageWrapper(imageInfo));
                 }
             }
         }
 
-        public BitmapImage CurrentImage {
+        public ImageWrapper CurrentImage {
             get { return _CurrentImage; }
             set {
                 if (Equals(value, _CurrentImage))
                     return;
                 _CurrentImage = value;
-                CurrentIndex = ImagesSources.IndexOf(value);
-            }
-        }
-
-        public ImageInfo CurrentImageInfo {
-            get { return _CurrentImageInfo; }
-            set {
-                if (Equals(value, _CurrentImageInfo))
-                    return;
-                _CurrentImageInfo = value;
+                CurrentIndex = Images.IndexOf(value);
                 RaisePropertyChanged();
             }
         }
+
+        //public ImageInfo CurrentImageInfo {
+        //    get { return _CurrentImageInfo; }
+        //    set {
+        //        if (Equals(value, _CurrentImageInfo))
+        //            return;
+        //        _CurrentImageInfo = value;
+        //        RaisePropertyChanged();
+        //    }
+        //}
 
         public int CurrentIndex {
             get { return _CurrentIndex; }
@@ -72,9 +148,8 @@ namespace Win2ch.Controls {
                 if (value == _CurrentIndex)
                     return;
                 _CurrentIndex = value;
-                if (CurrentIndex >= 0 && CurrentIndex < ImagesSources.Count) {
-                    _CurrentImage = ImagesSources[CurrentIndex];
-                    CurrentImageInfo = AllImages[CurrentIndex];
+                if (CurrentIndex >= 0 && CurrentIndex < Images.Count) {
+                    _CurrentImage = Images[CurrentIndex];
                     ImagesList.SelectedIndex = value;
                 }
             }
@@ -89,11 +164,11 @@ namespace Win2ch.Controls {
         }
 
         public ImagesViewer(ImageInfo currentImage, List<ImageInfo> allImages) {
-            ImagesSources = new ObservableCollection<BitmapImage>();
+            Images = new ObservableItemCollection<ImageWrapper>();
             InitializeComponent();
-            ImagesList.ItemsSource = ImagesSources;
             AllImages = allImages;
-            CurrentImage = ImagesSources.FirstOrDefault(im => im.UriSource.OriginalString.Equals(currentImage.Url));
+            ImagesList.ItemsSource = Images;
+            CurrentImage = Images.FirstOrDefault(im => im.ImageInfo.Url.Equals(currentImage.Url));
         }
 
         private void OnKeyDown(object sender, KeyRoutedEventArgs e) {
@@ -166,7 +241,7 @@ namespace Win2ch.Controls {
         }
 
         public void Close() {
-            var lastImage = AllImages.FirstOrDefault(i => i.Url == CurrentImage.UriSource.OriginalString);
+            var lastImage = CurrentImage.ImageInfo;
             OnClose(this, new ImagesViewerCloseEventArgs(lastImage));
         }
 
@@ -193,8 +268,6 @@ namespace Win2ch.Controls {
 
                 Underlay.Opacity = 1 - Math.Abs(total) / 300;
             }
-
-            
         }
 
         private void Underlay_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) {
@@ -212,28 +285,21 @@ namespace Win2ch.Controls {
             if (Math.Abs(e.Cumulative.Translation.Y) > 150)
                 Close();
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        private void RaisePropertyChanged([CallerMemberName] string propertyName = null) {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
+        
         private void Root_OnTapped(object sender, TappedRoutedEventArgs e) {
             IsInfoPanelVisible = !IsInfoPanelVisible;
         }
 
         private async void SaveImageAsMenuFlyoutItem_OnClick(object sender, RoutedEventArgs e) {
             var picker = new FileSavePicker {
-                SuggestedFileName = CurrentImageInfo.Name.Split('.')[0]
+                SuggestedFileName = CurrentImage.ImageInfo.Name.Split('.')[0]
             };
             picker.FileTypeChoices.Add("JPEG file", new[] { ".jpg" });
 
             try {
                 var file = await picker.PickSaveFileAsync();
                 var client = new HttpClient();
-                var resp = await client.GetAsync(new Uri(CurrentImageInfo.Url));
+                var resp = await client.GetAsync(new Uri(CurrentImage.ImageInfo.Url));
                 var opened = await file.OpenAsync(FileAccessMode.ReadWrite);
                 await resp.Content.WriteToStreamAsync(opened);
                 opened.Dispose();
@@ -256,7 +322,14 @@ namespace Win2ch.Controls {
         }
 
         private async void OpenInBrowser_OnClick(object sender, RoutedEventArgs e) {
-            await Launcher.LaunchUriAsync(new Uri(CurrentImageInfo.Url));
+            await Launcher.LaunchUriAsync(new Uri(CurrentImage.ImageInfo.Url));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = null) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 
