@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Storage;
 using Windows.UI.Xaml.Navigation;
 using Newtonsoft.Json;
 using Template10.Mvvm;
@@ -17,6 +18,9 @@ using ViewModelBase = Win2ch.Mvvm.ViewModelBase;
 
 namespace Win2ch.ViewModels {
     public class ThreadViewModel : ViewModelBase {
+        private static Dictionary<long, double> ThreadPosition { get; }
+            = new Dictionary<long, double>(); 
+
         public ObservableCollection<Post> Posts { get; } = new ObservableCollection<Post>();
 
         public Thread Thread { get; private set; }
@@ -103,6 +107,7 @@ namespace Win2ch.ViewModels {
         public ICommand AdvancedPostingCommand { get; }
 
         public ICanScrollToItem<Post> PostScroller { get; set; }
+        public IPositionScroller PositionScroller { get; set; }
 
         public ThreadViewModel() {
             AdvancedPostingCommand = new DelegateCommand(AdvancedPosting);
@@ -215,6 +220,8 @@ namespace Win2ch.ViewModels {
                     HighlightPosts = navigationInfo.Highlight;
                     HighlightedPostsStart = navigationInfo.PostPosition.Value;
                 }
+            } else if (ThreadPosition.ContainsKey(Thread.Num)) {
+                PositionScroller.Position = ThreadPosition[Thread.Num];
             }
 
             try {
@@ -259,6 +266,7 @@ namespace Win2ch.ViewModels {
 
         public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending) {
             HighlightPosts = false;
+            ThreadPosition[Thread.Num] = PositionScroller.Position;
             try {
                 var favsService = FavoritesService.Instance.Threads;
                 var recentService = RecentThreadsService.Instance;

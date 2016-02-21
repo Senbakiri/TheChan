@@ -17,7 +17,7 @@ using Win2ch.Services.SettingsServices;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Views {
-    public sealed partial class ThreadPage : ICanScrollToItem<Post> {
+    public sealed partial class ThreadPage : ICanScrollToItem<Post>, IPositionScroller {
         public ThreadViewModel ViewModel { get; private set; }
 
         private Dictionary<Post, int> ReplyLevel { get; } = new Dictionary<Post, int>();
@@ -26,6 +26,7 @@ namespace Win2ch.Views {
         private PostControl _replyUnderMouse;
         private readonly bool _isMouseConnected = new MouseCapabilities().MousePresent > 0;
         private long _lastRepliedPostNum;
+        private ScrollViewer _postsScrollViewer;
 
         public ThreadPage() {
             InitializeComponent();
@@ -34,9 +35,19 @@ namespace Win2ch.Views {
             DataContextChanged += OnDataContextChanged;
         }
 
+        private void ThreadPage_OnLoaded(object sender, RoutedEventArgs e) {
+            _postsScrollViewer = GetScrollViewer(Posts);
+        }
+
+        private static ScrollViewer GetScrollViewer(ListView listView) {
+            var border = (Border)VisualTreeHelper.GetChild(listView, 0);
+            return VisualTreeHelper.GetChild(border, 0) as ScrollViewer;
+        }
+
         private void OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args) {
             ViewModel = (ThreadViewModel) DataContext;
             ViewModel.PostScroller = this;
+            ViewModel.PositionScroller = this;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) {
@@ -317,6 +328,11 @@ namespace Win2ch.Views {
             var total = e.Cumulative.Translation.X;
             if (total < -75)
                 ViewModel.GoToBoard();
+        }
+
+        public double Position {
+            get { return _postsScrollViewer.VerticalOffset; }
+            set { _postsScrollViewer.ChangeView(null, value, null); }
         }
     }
 }

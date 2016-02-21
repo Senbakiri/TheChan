@@ -16,7 +16,8 @@
     mc:Ignorable="d"
     NavigationCacheMode="Enabled"
     KeyDown="ThreadPage_OnKeyDown"
-    x:Name="This">
+    x:Name="This"
+    Loaded="ThreadPage_OnLoaded">
 
     <Page.Resources>
         <Style x:Key="PostPopupStyle" TargetType="c:PostControl">
