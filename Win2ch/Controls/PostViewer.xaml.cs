@@ -198,14 +198,16 @@ namespace Win2ch.Controls {
                          ThreadNavigation.NavigateToThread(
                              ThreadNum,
                              SourceThread.Board.Id).ToPostByNum(
-                             Posts.First().Num));
+                                 Posts.First().Num));
         }
 
         public void GoToThread() {
             if (CanGoToThread)
                 Shell.HamburgerMenu
-                     .NavigationService.Navigate(typeof(ThreadPage),
-                         new Thread(ThreadNum, SourceThread.Board.Id));
+                     .NavigationService
+                     .Navigate(typeof (ThreadPage),
+                         ThreadNavigation.NavigateToThread(ThreadNum,
+                             SourceThread.Board.Id));
         }
     }
 }
