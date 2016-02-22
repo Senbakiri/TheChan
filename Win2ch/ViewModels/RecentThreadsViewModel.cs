@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Navigation;
 using Template10.Controls;
+using Win2ch.Common;
 using Win2ch.Models;
 using Win2ch.Models.Exceptions;
 using Win2ch.Mvvm;

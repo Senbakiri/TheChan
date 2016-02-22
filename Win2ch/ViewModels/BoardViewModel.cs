@@ -7,6 +7,7 @@ using Win2ch.Models;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Template10.Mvvm;
+using Win2ch.Common;
 using Win2ch.Models.Exceptions;
 using Win2ch.Services;
 using Win2ch.Views;

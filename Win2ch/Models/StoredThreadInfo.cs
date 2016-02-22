@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using Win2ch.Annotations;
+using Win2ch.Common;
 
 namespace Win2ch.Models {
     public sealed class StoredThreadInfo : Thread, INotifyPropertyChanged {

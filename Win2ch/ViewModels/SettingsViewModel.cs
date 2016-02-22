@@ -13,6 +13,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Microsoft.ApplicationInsights;
 using Template10.Mvvm;
+using Win2ch.Common;
 using Win2ch.Services.SettingsServices;
 using Win2ch.Models;
 using ViewModelBase = Win2ch.Mvvm.ViewModelBase;

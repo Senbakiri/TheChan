@@ -7,7 +7,7 @@ using HtmlAgilityPack;
 using Microsoft.ApplicationInsights;
 using Win2ch.Models.Exceptions;
 
-namespace Win2ch.Models {
+namespace Win2ch.Common {
     public static class Utils {
         private static IAsyncOperation<IUICommand> _messageDialogCommand;
         private static TelemetryClient _telemetryClient = new TelemetryClient();

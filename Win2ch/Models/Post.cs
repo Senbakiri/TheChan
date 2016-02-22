@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Windows.Web;
 using HtmlAgilityPack;
+using Win2ch.Common;
 
 namespace Win2ch.Models {
     public class Post {

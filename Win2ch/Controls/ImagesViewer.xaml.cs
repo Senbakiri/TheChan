@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Template10.Controls;
 using Win2ch.Annotations;
+using Win2ch.Common;
 using Win2ch.Models;
 
 namespace Win2ch.Controls {

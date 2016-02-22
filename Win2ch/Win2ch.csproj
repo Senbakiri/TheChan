@@ -139,7 +139,7 @@
     <Compile Include="Converters\UpperCaseConverter.cs" />
     <Compile Include="Models\Exceptions\HttpException.cs" />
     <Compile Include="Models\StoredThreadInfo.cs" />
-    <Compile Include="Models\Utils.cs" />
+    <Compile Include="Common\Utils.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Services\CacheItemType.cs" />
     <Compile Include="Services\CacheService.cs" />

@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Win2ch.Annotations;
+using Win2ch.Common;
 using Win2ch.Models;
 using Win2ch.Models.Exceptions;
 using Win2ch.ViewModels;
