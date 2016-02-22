@@ -63,18 +63,20 @@ namespace Win2ch.ViewModels {
 
         public async Task Update() {
             IsLoading = true;
-            foreach (var thread in FavoriteThreads) {
-                try {
-                    await FavoritesService.Threads.UpdateThread(thread);
-                } catch (COMException) {
-                    // ничего страшного
-                } catch (HttpException) {
-                    // всё в порядке
-                } catch (ApiException) {
-                    await FavoritesService.Threads.RemoveThread(thread);
-                } catch (Exception e) {
-                    await Utils.ShowOtherError(e, "Не удалось загрузить избранные треды");
+            try {
+                foreach (var thread in FavoriteThreads) {
+                    try {
+                        await FavoritesService.Threads.UpdateThread(thread);
+                    } catch (ApiException) {
+                        await FavoritesService.Threads.RemoveThread(thread);
+                    }
                 }
+            } catch (COMException) {
+                // ничего страшного
+            } catch (HttpException) {
+                // всё в порядке
+            } catch (Exception e) {
+                await Utils.ShowOtherError(e, "Не удалось загрузить избранные треды");
             }
 
             try {

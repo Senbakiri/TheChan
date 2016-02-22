@@ -213,6 +213,8 @@ namespace Win2ch.ViewModels {
                 await Utils.ShowHttpError(e, "Ошибка");
             } catch (COMException e) {
                 await Utils.ShowConnectionError(e, "Ошибка");
+            } catch (Exception e) {
+                await Utils.ShowOtherError(e, "Ошибка");
             } finally {
                 IsWorking = false;
             }

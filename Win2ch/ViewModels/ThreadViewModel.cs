@@ -138,6 +138,8 @@ namespace Win2ch.ViewModels {
                 await Utils.ShowHttpError(e, "Ошибка");
             } catch (COMException e) {
                 await Utils.ShowConnectionError(e, "Ошибка");
+            } catch (Exception e) {
+                await Utils.ShowOtherError(e, "Ошибка");
             } finally {
                 IsWorking = false;
             }
@@ -170,6 +172,10 @@ namespace Win2ch.ViewModels {
                 return false;
             } catch (COMException e) {
                 await Utils.ShowConnectionError(e, "Не удалось получить посты");
+                IsWorking = false;
+                return false;
+            } catch (Exception e) {
+                await Utils.ShowOtherError(e, "Не удалось получить посты");
                 IsWorking = false;
                 return false;
             }
@@ -263,6 +269,9 @@ namespace Win2ch.ViewModels {
                 await Utils.ShowHttpError(e, "Не удалось загрузить тред.");
             } catch (COMException e) {
                 await Utils.ShowConnectionError(e, "Не удалось загрузить тред");
+            } catch (Exception e) {
+                await Utils.ShowOtherError(e, "Не удалось загрузить тред");
+                IsWorking = false;
             }
         }
 

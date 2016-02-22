@@ -74,12 +74,18 @@ namespace Win2ch.Controls {
 
             _blurEffect = new GaussianBlurEffect();
             _scaleEffect = new ScaleEffect();
-            _imageBitmap = await CanvasBitmap.LoadAsync(_device, new Uri(ImageUrl));
+            try {
+                _imageBitmap = await CanvasBitmap.LoadAsync(_device, new Uri(ImageUrl));
+            } catch (Exception) {
+                _isLoaded = false;
+                return;
+            }
+
             _isLoaded = true;
             CanvasControl.Invalidate();
         }
 
-        private async void CanvasControl_OnCreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args) {
+        private void CanvasControl_OnCreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args) {
             _device = sender.Device;
             CreateImage();
         }

@@ -57,6 +57,9 @@ namespace Win2ch.Models {
             } catch (HttpException e) {
                 await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => BoardLoadError(e));
                 HasMoreItems = false;
+            } catch (Exception e) {
+                await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => BoardLoadError(new HttpException(e)));
+                HasMoreItems = false;
             }
 
             return new LoadMoreItemsResult { Count = resultCount };

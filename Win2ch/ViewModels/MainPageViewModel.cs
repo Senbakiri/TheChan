@@ -41,15 +41,8 @@ namespace Win2ch.ViewModels {
             var categories = new List<Category>();
             try {
                 categories = await new ApiBoardsProvider().GetCategories();
-            } catch (HttpException e) {
-                var dialog = new MessageDialog("Код ошибки: " + e.Code, "Не удалось получить список досок");
-                dialog.Commands.Add(new UICommand("Повторить", _ => LoadBoards()));
-                await dialog.ShowAsync();
-            } catch (COMException e) {
-                var dialog = new MessageDialog("Код ошибки: 0x" + e.HResult.ToString("X"), "Не удалось получить список досок");
-                dialog.Commands.Add(new UICommand("Повторить", _ => LoadBoards()));
-                dialog.Commands.Add(new UICommand("Закрыть"));
-                await dialog.ShowAsync();
+            } catch (Exception e) {
+                await CreateErrorDialog(e, "Не удалось получить список досок").ShowAsync();
             }
 
             foreach (var category in categories) {
@@ -63,6 +56,13 @@ namespace Win2ch.ViewModels {
                         Categories.Add(cat);
                 }
             }
+        }
+
+        private MessageDialog CreateErrorDialog(Exception e, string title) {
+            var dialog = new MessageDialog("Код ошибки: 0x" + e.HResult.ToString("X"), title);
+            dialog.Commands.Add(new UICommand("Повторить", _ => LoadBoards()));
+            dialog.Commands.Add(new UICommand("Закрыть"));
+            return dialog;
         }
 
         private async Task<Category> CreateCategoryWithAllowedBoards(Category baseCategory) {

@@ -52,16 +52,20 @@ namespace Win2ch.ViewModels {
 
         public async Task Update() {
             IsLoading = true;
-            foreach (var thread in RecentThreads) {
-                try {
-                    await RecentThreadsService.UpdateThread(thread);
-                } catch (COMException) {
-                } catch (HttpException) {
-                } catch (ApiException) {
-                    await RecentThreadsService.RemoveThread(thread);
-                } catch (Exception e) {
-                    await Utils.ShowOtherError(e, "Не удалось загрузить недавние треды");
+            try {
+                foreach (var thread in RecentThreads) {
+                    try {
+                        await RecentThreadsService.UpdateThread(thread);
+                    } catch (ApiException) {
+                        await RecentThreadsService.RemoveThread(thread);
+                    }
                 }
+            } catch (COMException) {
+                // ничего страшного
+            } catch (HttpException) {
+                // всё в порядке
+            } catch (Exception e) {
+                await Utils.ShowOtherError(e, "Не удалось загрузить избранные треды");
             }
 
             await RecentThreadsService.Store();
