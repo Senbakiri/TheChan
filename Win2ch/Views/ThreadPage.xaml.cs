@@ -254,6 +254,7 @@ namespace Win2ch.Views {
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
+            ChangeScrollButonView();
             if (e.NavigationMode == NavigationMode.Back)
                 return;
 
@@ -340,7 +341,11 @@ namespace Win2ch.Views {
         }
 
         private void Posts_OnViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
-            var succ = VisualStateManager.GoToState(this,
+            ChangeScrollButonView();
+        }
+
+        private void ChangeScrollButonView() {
+            VisualStateManager.GoToState(this,
                 _postsScrollViewer.VerticalOffset >= _postsScrollViewer.ExtentHeight/3*2 ? "Down" : "Up",
                 true);
         }
