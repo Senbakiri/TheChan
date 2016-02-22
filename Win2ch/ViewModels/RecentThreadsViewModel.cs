@@ -49,7 +49,7 @@ namespace Win2ch.ViewModels {
             await Update();
         }
 
-        private async Task Update() {
+        public async Task Update() {
             IsLoading = true;
             foreach (var thread in RecentThreads) {
                 try {

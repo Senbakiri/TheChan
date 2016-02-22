@@ -36,7 +36,8 @@
                               IsEnabled="{x:Bind ViewModel.IsLoading, Converter={StaticResource InverseBool}, Mode=OneWay}"/>
                 <AppBarButton Icon="Refresh"
                               Label="Обновить"
-                              Click="{x:Bind ViewModel.Load}"
+                              Click="{x:Bind ViewModel.Update}"
+                              Holding="{x:Bind ViewModel.Load}"
                               IsEnabled="{x:Bind ViewModel.IsLoading, Converter={StaticResource InverseBool}, Mode=OneWay}"/>
             </controls:PageHeader.PrimaryCommands>
             <interactivity:Interaction.Behaviors>

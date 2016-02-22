@@ -30,7 +30,8 @@
             </template10Controls:PageHeader.Content>
             <template10Controls:PageHeader.PrimaryCommands>
                 <AppBarButton Icon="Refresh"
-                              Click="{x:Bind ViewModel.Load}"
+                              Click="{x:Bind ViewModel.Update}"
+                              Holding="{x:Bind ViewModel.Load}"
                               Label="Обновить"
                               IsEnabled="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource InverseBool}}"/>
             </template10Controls:PageHeader.PrimaryCommands>
