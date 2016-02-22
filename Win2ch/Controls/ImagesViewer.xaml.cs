@@ -68,7 +68,7 @@ namespace Win2ch.Controls {
         }
 
         private void BitmapImageOnImageFailed(object sender, ExceptionRoutedEventArgs e) {
-            LoadingString = "Произошла ошибка" + "(" + e.ErrorMessage + ")";
+            LoadingString = "Произошла ошибка" + " (" + e.ErrorMessage + ")";
         }
 
         private void BitmapImageOnDownloadProgress(object sender, DownloadProgressEventArgs e) {
@@ -83,13 +83,24 @@ namespace Win2ch.Controls {
             return $"{downloaded:D} / {ImageInfo.Size} KB";
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public override bool Equals(object obj) {
+            return obj is ImageWrapper && Equals((ImageWrapper) obj);
+        }
+
+        protected bool Equals(ImageWrapper other) {
+            return Equals(ImageInfo, other.ImageInfo);
+        }
+
+        public override int GetHashCode() {
+            return (ImageInfo != null ? ImageInfo.GetHashCode() : 0);
+        }
 
         #region PropertyChanged
-                [NotifyPropertyChangedInvocator]
-                protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null) {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                }
+        public event PropertyChangedEventHandler PropertyChanged;
+        [NotifyPropertyChangedInvocator]
+        protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         #endregion
     }
 
@@ -103,7 +114,6 @@ namespace Win2ch.Controls {
         private List<ImageInfo> _AllImages;
         private ImageWrapper _CurrentImage;
         private int _CurrentIndex = -1;
-        //private ImageInfo _CurrentImageInfo;
         private bool _IsInfoPanelVisible = true;
 
         public List<ImageInfo> AllImages {
@@ -127,20 +137,10 @@ namespace Win2ch.Controls {
                 if (Equals(value, _CurrentImage))
                     return;
                 _CurrentImage = value;
-                CurrentIndex = Images.IndexOf(value);
+                CurrentIndex = Images.IndexOf(CurrentImage);
                 RaisePropertyChanged();
             }
         }
-
-        //public ImageInfo CurrentImageInfo {
-        //    get { return _CurrentImageInfo; }
-        //    set {
-        //        if (Equals(value, _CurrentImageInfo))
-        //            return;
-        //        _CurrentImageInfo = value;
-        //        RaisePropertyChanged();
-        //    }
-        //}
 
         public int CurrentIndex {
             get { return _CurrentIndex; }
@@ -149,7 +149,7 @@ namespace Win2ch.Controls {
                     return;
                 _CurrentIndex = value;
                 if (CurrentIndex >= 0 && CurrentIndex < Images.Count) {
-                    _CurrentImage = Images[CurrentIndex];
+                    CurrentImage = Images[CurrentIndex];
                     ImagesList.SelectedIndex = value;
                 }
             }
