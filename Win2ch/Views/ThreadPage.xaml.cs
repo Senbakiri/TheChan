@@ -37,6 +37,7 @@ namespace Win2ch.Views {
 
         private void ThreadPage_OnLoaded(object sender, RoutedEventArgs e) {
             _postsScrollViewer = GetScrollViewer(Posts);
+            _postsScrollViewer.ViewChanged += Posts_OnViewChanged;
         }
 
         private static ScrollViewer GetScrollViewer(ListView listView) {
@@ -85,9 +86,12 @@ namespace Win2ch.Views {
                 Posts.ScrollIntoView(Posts.Items[0]);
         }
 
-        private void ScrollDown_OnClicked(object sender, RoutedEventArgs e) {
-            if (Posts.Items != null && Posts.Items.Count > 0)
-                Posts.ScrollIntoView(Posts.Items[Posts.Items.Count - 1]);
+        private void ScrollButton_OnClick(object sender, RoutedEventArgs e) {
+            if (_postsScrollViewer.VerticalOffset < _postsScrollViewer.ExtentHeight / 3 * 2) {
+                _postsScrollViewer.ChangeView(null, _postsScrollViewer.ExtentHeight, null);
+            } else {
+                _postsScrollViewer.ChangeView(null, 0, null);
+            }
         }
 
 
@@ -333,6 +337,12 @@ namespace Win2ch.Views {
         public double Position {
             get { return _postsScrollViewer.VerticalOffset; }
             set { _postsScrollViewer.ChangeView(null, value, null); }
+        }
+
+        private void Posts_OnViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
+            var succ = VisualStateManager.GoToState(this,
+                _postsScrollViewer.VerticalOffset >= _postsScrollViewer.ExtentHeight/3*2 ? "Down" : "Up",
+                true);
         }
     }
 }

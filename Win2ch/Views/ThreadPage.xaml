@@ -34,7 +34,7 @@
     <Page.DataContext>
         <vm:ThreadViewModel/>
     </Page.DataContext>
-
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -142,11 +142,18 @@
             </ListView.ItemContainerStyle>
         </ListView>
 
-        <Button Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right"
-                Margin="10" Opacity="0.7" Padding="10" Click="ScrollDown_OnClicked">
+        
+        <Button Grid.Row="1"
+                x:Name="ScrollButton"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Margin="10"
+                Opacity="0.7"
+                Padding="10"
+                Click="ScrollButton_OnClick">
             <SymbolIcon Symbol="Up" RenderTransformOrigin="0.5 0.5">
                 <SymbolIcon.RenderTransform>
-                    <RotateTransform Angle="180"/>
+                    <RotateTransform x:Name="UpDownButtonRotateTransform" Angle="180"/>
                 </SymbolIcon.RenderTransform>
             </SymbolIcon>
         </Button>
@@ -213,5 +220,34 @@
                           IsEnabled="{x:Bind ViewModel.IsWorking, Mode=OneWay, Converter={StaticResource InverseBool}}">
             </AppBarButton>
         </CommandBar>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="UpDownStateGroup">
+                <VisualState x:Name="Up">
+                    <Storyboard>
+                        <DoubleAnimation To="180"
+                                     Storyboard.TargetName="UpDownButtonRotateTransform"
+                                     Storyboard.TargetProperty="Angle"
+                                     Duration="0:0:0.5">
+                            <DoubleAnimation.EasingFunction>
+                                <CircleEase EasingMode="EaseInOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Down">
+                    <Storyboard>
+                        <DoubleAnimation To="0"
+                                     Storyboard.TargetName="UpDownButtonRotateTransform"
+                                     Storyboard.TargetProperty="Angle"
+                                     Duration="0:0:0.5">
+                            <DoubleAnimation.EasingFunction>
+                                <CircleEase EasingMode="EaseInOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>
