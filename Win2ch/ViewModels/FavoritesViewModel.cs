@@ -71,18 +71,8 @@ namespace Win2ch.ViewModels {
                         await FavoritesService.Threads.RemoveThread(thread);
                     }
                 }
-            } catch (COMException) {
+            } catch (Exception) {
                 // ничего страшного
-            } catch (HttpException) {
-                // всё в порядке
-            } catch (Exception e) {
-                await Utils.ShowOtherError(e, "Не удалось загрузить избранные треды");
-            }
-
-            try {
-                await FavoritesService.Threads.Store();
-            } catch (Exception e) {
-                await Utils.ShowOtherError(e, "Сохранение не удалось");
             }
 
             IsLoading = false;

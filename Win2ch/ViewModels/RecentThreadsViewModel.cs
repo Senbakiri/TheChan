@@ -60,15 +60,10 @@ namespace Win2ch.ViewModels {
                         await RecentThreadsService.RemoveThread(thread);
                     }
                 }
-            } catch (COMException) {
+            } catch (Exception) {
                 // ничего страшного
-            } catch (HttpException) {
-                // всё в порядке
-            } catch (Exception e) {
-                await Utils.ShowOtherError(e, "Не удалось загрузить избранные треды");
             }
-
-            await RecentThreadsService.Store();
+            
             IsLoading = false;
         }
 
@@ -102,7 +97,6 @@ namespace Win2ch.ViewModels {
 
             if (!clear)
                 return;
-
             await RecentThreadsService.ClearItems();
             await Load();
         }
