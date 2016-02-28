@@ -31,6 +31,10 @@ namespace Win2ch.Behaviors {
             }
         }
 
+        protected override void OnAttached() {
+            UpdateIcon();
+        }
+
         private void UpdateIcon() {
             Symbol icon;
             string text;
@@ -41,8 +45,11 @@ namespace Win2ch.Behaviors {
                 icon = Symbol.Favorite;
                 text = "Добавить в избранное";
             }
-            AssociatedObject.Icon = new SymbolIcon(icon);
-            AssociatedObject.Label = text;
+
+            if (AssociatedObject != null) {
+                AssociatedObject.Icon = new SymbolIcon(icon);
+                AssociatedObject.Label = text;
+            }
         }
     }
 }
