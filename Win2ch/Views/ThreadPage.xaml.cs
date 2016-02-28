@@ -36,6 +36,7 @@ namespace Win2ch.Views {
         }
 
         private void ThreadPage_OnLoaded(object sender, RoutedEventArgs e) {
+            ChangeScrollButonView();
             _postsScrollViewer = GetScrollViewer(Posts);
             _postsScrollViewer.ViewChanged += Posts_OnViewChanged;
         }
@@ -87,11 +88,10 @@ namespace Win2ch.Views {
         }
 
         private void ScrollButton_OnClick(object sender, RoutedEventArgs e) {
-            if (_postsScrollViewer.VerticalOffset < _postsScrollViewer.ExtentHeight / 3 * 2) {
-                _postsScrollViewer.ChangeView(null, _postsScrollViewer.ExtentHeight, null);
-            } else {
-                _postsScrollViewer.ChangeView(null, 0, null);
-            }
+            _postsScrollViewer.ChangeView(null,
+                _postsScrollViewer.VerticalOffset < _postsScrollViewer.ScrollableHeight
+                    ? _postsScrollViewer.ExtentHeight
+                    : 0, null);
         }
 
 
@@ -154,7 +154,7 @@ namespace Win2ch.Views {
         }
 
         private void HandleGoingBeyondTheWindow(FrameworkElement control, Point position, FrameworkElement parent) {
-            // if the control could go beyond the window, move it by his size to the opposite side
+            // if the control could go beyond the window, move it by its size to the opposite side
 
             double x;
             if (ActualWidth <= 480) {
@@ -345,9 +345,12 @@ namespace Win2ch.Views {
         }
 
         private void ChangeScrollButonView() {
-            VisualStateManager.GoToState(this,
-                _postsScrollViewer.VerticalOffset >= _postsScrollViewer.ExtentHeight/3*2 ? "Down" : "Up",
-                true);
+            if (_postsScrollViewer == null)
+                VisualStateManager.GoToState(this, "Up", true);
+            else
+                VisualStateManager.GoToState(this,
+                    _postsScrollViewer.VerticalOffset >= _postsScrollViewer.ScrollableHeight ? "Down" : "Up",
+                    true);
         }
     }
 }
