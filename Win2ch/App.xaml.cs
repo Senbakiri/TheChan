@@ -45,7 +45,6 @@ namespace Win2ch {
 
         public override Task OnStartAsync(StartKind startKind, IActivatedEventArgs args) {
             NavigationService.Navigate(typeof(MainPage));
-            SetupJumpList();
             return Task.CompletedTask;
         }
 

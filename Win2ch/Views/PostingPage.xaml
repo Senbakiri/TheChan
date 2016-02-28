@@ -83,7 +83,7 @@
                         <RowDefinition/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Grid Height="50"
+                    <!--<Grid Height="50"
                           Grid.Row="1">
                         <Grid.Resources>
                             <Style TargetType="Button">
@@ -166,7 +166,7 @@
                             <TextBlock Text=">"
                                        FontWeight="SemiBold"/>
                         </Button>
-                    </Grid>
+                    </Grid>-->
                     <TextBox x:Name="TextBox"
                              Grid.Row="0"
                              BorderThickness="0"
@@ -220,6 +220,66 @@
                 </ScrollViewer>
             </SplitView.Pane>
         </SplitView>
-        
     </Grid>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <interactivity:Interaction.Behaviors>
+                <behaviors:EllipsisBehavior Visibility="Collapsed"/>
+            </interactivity:Interaction.Behaviors>
+            <CommandBar.Resources>
+                <Style TargetType="AppBarButton">
+                    <Setter Property="Width" Value="45"/>
+                    <Setter Property="IsTabStop" Value="False"/>
+                </Style>
+            </CommandBar.Resources>
+            <AppBarButton Icon="Bold"
+                          Command="{x:Bind ViewModel.TagCommand}"
+                          CommandParameter="b"/>
+            <AppBarButton Icon="Italic"
+                          Command="{x:Bind ViewModel.TagCommand}"
+                          CommandParameter="i"/>
+            <AppBarButton Icon="Underline"
+                          Command="{x:Bind ViewModel.TagCommand}"
+                          CommandParameter="u"/>
+            <AppBarButton Command="{x:Bind ViewModel.TagCommand}"
+                          CommandParameter="s">
+                <Grid>
+                    <SymbolIcon Symbol="Remove"/>
+                    <TextBlock TextAlignment="Center"
+                                           Text="S"/>
+                </Grid>
+            </AppBarButton>
+            <AppBarButton HorizontalContentAlignment="Center"
+                          Command="{x:Bind ViewModel.TagCommand}"
+                          CommandParameter="spoiler">
+                <Grid Background="#40000000"
+                      HorizontalAlignment="Center">
+                    <TextBlock Text="SP"
+                               Margin="3 0"/>
+                </Grid>
+            </AppBarButton>
+            <AppBarButton Command="{x:Bind ViewModel.TagCommand}"
+                          CommandParameter="sub">
+                <TextBlock FontSize="10"
+                           Text="SUB"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"/>
+            </AppBarButton>
+            <AppBarButton Command="{x:Bind ViewModel.TagCommand}"
+                          CommandParameter="sup">
+                <TextBlock FontSize="10"
+                           Text="SUP"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"/>
+            </AppBarButton>
+            <AppBarButton Command="{x:Bind ViewModel.InsertCommand}"
+                          CommandParameter="> ">
+                <TextBlock Text=">"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"></TextBlock>
+            </AppBarButton>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>
