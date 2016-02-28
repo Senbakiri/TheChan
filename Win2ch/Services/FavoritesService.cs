@@ -1,4 +1,5 @@
-﻿using Windows.Storage;
+﻿using System.Threading.Tasks;
+using Windows.Storage;
 using Win2ch.Models;
 
 namespace Win2ch.Services {
@@ -6,14 +7,13 @@ namespace Win2ch.Services {
         
         public static FavoritesService Instance { get; } = new FavoritesService();
         
-        public ThreadStorageService Threads { get; }
+        public FavoriteThreadsStorageService Threads { get; }
         public StorageService<Board> Boards { get; }
         public StorageService<Post> Posts { get; }
 
         private FavoritesService() {
             var appData = ApplicationData.Current;
-            Threads = new ThreadStorageService(
-                appData.RoamingFolder, "FavThreads.json");
+            Threads = new FavoriteThreadsStorageService();
             Boards = new StorageService<Board>(
                 appData.RoamingFolder, "FavBoards.json");
             Posts = new StorageService<Post>(

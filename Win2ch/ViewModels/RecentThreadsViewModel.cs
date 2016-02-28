@@ -60,6 +60,8 @@ namespace Win2ch.ViewModels {
                         await RecentThreadsService.RemoveThread(thread);
                     }
                 }
+
+                await RecentThreadsService.Store();
             } catch (Exception) {
                 // ничего страшного
             }
@@ -80,7 +82,7 @@ namespace Win2ch.ViewModels {
                 var removed = await RecentThreadsService.RemoveThread(storedThreadInfo);
                 if (removed)
                     RecentThreads.Remove(storedThreadInfo);
-                await Update();
+                await Load();
             } catch (Exception e) {
                 await Utils.ShowOtherError(e, "Не удалось удалить тред");
             }

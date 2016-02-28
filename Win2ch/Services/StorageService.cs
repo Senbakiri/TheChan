@@ -29,7 +29,7 @@ namespace Win2ch.Services {
             return added;
         }
 
-        public async Task Store() {
+        public virtual async Task Store() {
             var json = SerializationService.Serialize(Items);
             await WriteToFile(FileName, json);
         }

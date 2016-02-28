@@ -27,6 +27,7 @@ namespace Win2ch.Services {
             var posts = await thread.GetPostsFrom(fav.LastPostPosition + 1);
             fav.UnreadPosts += posts.Count;
             fav.LastPostPosition += posts.Count;
+
             return true;
         }
 

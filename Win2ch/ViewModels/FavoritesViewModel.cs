@@ -71,6 +71,8 @@ namespace Win2ch.ViewModels {
                         await FavoritesService.Threads.RemoveThread(thread);
                     }
                 }
+
+                await FavoritesService.Threads.Store();
             } catch (Exception) {
                 // ничего страшного
             }
@@ -87,7 +89,7 @@ namespace Win2ch.ViewModels {
                 await Utils.ShowOtherError(e, "Не удалось удалить тред");
             }
 
-            await Update();
+            await Load();
         }
 
         public void GoToThread(StoredThreadInfo storedThreadInfo) {
