@@ -145,6 +145,7 @@
     <Compile Include="Services\CacheService.cs" />
     <Compile Include="Services\FavoritesService.cs" />
     <Compile Include="Services\FavoriteThreadsStorageService.cs" />
+    <Compile Include="Services\LiveTileService.cs" />
     <Compile Include="Services\RecentThreadsService.cs" />
     <Compile Include="Services\SettingsServices\RepliesViewMode.cs" />
     <Compile Include="Services\SettingsServices\Theme.cs" />
