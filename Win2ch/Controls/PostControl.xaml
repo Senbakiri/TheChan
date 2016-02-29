@@ -88,17 +88,28 @@
                       ScrollViewer.IsVerticalRailEnabled="False">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
-                    <Setter Property="Margin" Value="0 5 5 0"/>
+                    <Setter Property="Margin" Value="0 0 5 0"/>
                 </Style>
             </GridView.ItemContainerStyle>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="models:Attachment">
-                    <StackPanel>
-                        <Image Source="{x:Bind ThumbnailUrl}" Height="100" Stretch="Uniform"/>
-                        <TextBlock Opacity="0.7" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{x:Bind ThumbnailUrl}"
+                               Height="100"
+                               MaxWidth="400"
+                               Stretch="Uniform"/>
+                        <StackPanel VerticalAlignment="Center"
+                                    Opacity="0.7"
+                                    Margin="5 0">
+                            <TextBlock Text="{x:Bind Type, Converter={StaticResource ToUpper}}"/>
+                            <TextBlock>
+                                <Run Text="{x:Bind Width}"/>X<Run Text="{x:Bind Height}"/>
+                            </TextBlock>
+                            <TextBlock>
                                 <Run Text="{x:Bind Size}"/>
-                                <Run Text="КБ"/>
-                        </TextBlock>
+                                <Run Text="KB"/>
+                            </TextBlock>
+                        </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </GridView.ItemTemplate>
