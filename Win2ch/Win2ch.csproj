@@ -137,6 +137,7 @@
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Converters\SwitchConverter.cs" />
     <Compile Include="Converters\UpperCaseConverter.cs" />
+    <Compile Include="Models\AttachmentType.cs" />
     <Compile Include="Models\Exceptions\HttpException.cs" />
     <Compile Include="Models\StoredThreadInfo.cs" />
     <Compile Include="Common\Utils.cs" />
