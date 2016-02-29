@@ -13,11 +13,11 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Template10.Controls;
 using Win2ch.Annotations;
 using Win2ch.Common;
 using Win2ch.Models;
+using XamlAnimatedGif;
 
 namespace Win2ch.Controls {
     public class ImageWrapper : INotifyPropertyChanged {
@@ -26,7 +26,6 @@ namespace Win2ch.Controls {
         private string _LoadingString;
 
         public Attachment Image { get; }
-        public BitmapImage BitmapImage { get; }
 
         public int LoadingProgress {
             get { return _LoadingProgress; }
@@ -34,6 +33,8 @@ namespace Win2ch.Controls {
                 if (value == _LoadingProgress)
                     return;
                 _LoadingProgress = value;
+                LoadingString = FormatLoadingString();
+                IsLoading = LoadingProgress < 100;
                 RaisePropertyChanged();
             }
         }
@@ -58,24 +59,25 @@ namespace Win2ch.Controls {
             }
         }
 
+        static ImageWrapper() {
+            AnimationBehavior.DownloadProgress += BitmapImageOnDownloadProgress;
+            AnimationBehavior.Error += BitmapImageOnImageFailed;
+        }
+
         public ImageWrapper(Attachment image) {
             Image = image;
-            BitmapImage = new BitmapImage(new Uri(Image.Url, UriKind.Absolute));
-            BitmapImage.DownloadProgress += BitmapImageOnDownloadProgress;
-            BitmapImage.ImageFailed += BitmapImageOnImageFailed;
-            IsLoading = true;
             LoadingString = FormatLoadingString();
         }
 
-        private void BitmapImageOnImageFailed(object sender, ExceptionRoutedEventArgs e) {
-            LoadingString = "Произошла ошибка" + " (" + e.ErrorMessage + ")";
+        private static void BitmapImageOnImageFailed(object sender, AnimationErrorEventArgs e) {
+            var wrapper = sender.GetDataContext<ImageWrapper>();
+            wrapper.IsLoading = true;
+            wrapper.LoadingString = "Произошла ошибка" + " (" + e.Exception + ")";
         }
 
-        private void BitmapImageOnDownloadProgress(object sender, DownloadProgressEventArgs e) {
-            LoadingProgress = e.Progress;
-            LoadingString = FormatLoadingString();
-            if (LoadingProgress >= 100)
-                IsLoading = false;
+        private static void BitmapImageOnDownloadProgress(object sender, DownloadProgressEventArgs e) {
+            var wrapper = sender.GetDataContext<ImageWrapper>();
+            wrapper.LoadingProgress = e.Progress;
         }
 
         private string FormatLoadingString() {
@@ -92,7 +94,7 @@ namespace Win2ch.Controls {
         }
 
         public override int GetHashCode() {
-            return (Image != null ? Image.GetHashCode() : 0);
+            return Image?.GetHashCode() ?? 0;
         }
 
         #region PropertyChanged

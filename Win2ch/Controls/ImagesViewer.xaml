@@ -5,6 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Win2ch.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:xamlAnimatedGif="using:XamlAnimatedGif"
     mc:Ignorable="d"
     x:Name="This"
     SizeChanged="OnSizeChanged"
@@ -70,7 +72,7 @@
                                       HorizontalScrollBarVisibility="Auto"
                                       VerticalScrollBarVisibility="Auto">
                             <Image Stretch="Uniform"
-                                   Source="{x:Bind BitmapImage}"
+                                   xamlAnimatedGif:AnimationBehavior.SourceUri="{Binding Image.Uri}"
                                    FlyoutBase.AttachedFlyout="{StaticResource ImageMenuFlyout}"
                                    Holding="Image_OnHolding"
                                    IsHoldingEnabled="True"
