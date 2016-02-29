@@ -141,6 +141,7 @@
     <Compile Include="Models\StoredThreadInfo.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Services\BadgeService.cs" />
     <Compile Include="Services\CacheItemType.cs" />
     <Compile Include="Services\CacheService.cs" />
     <Compile Include="Services\FavoritesService.cs" />

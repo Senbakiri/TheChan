@@ -23,8 +23,8 @@ namespace Win2ch.Services {
                 .Pair()
                 .ToList();
 
+            updater.Clear();
             if (!threadPairs.Any()) {
-                updater.Clear();
                 return;
             }
 
