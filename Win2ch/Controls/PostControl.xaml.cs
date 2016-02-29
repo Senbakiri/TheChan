@@ -92,7 +92,7 @@ namespace Win2ch.Controls {
         }
 
         private void ImagesGridView_OnItemClick(object sender, ItemClickEventArgs e) {
-            ImageClick(this, new ImageClickEventArgs((ImageInfo)e.ClickedItem));
+            ImageClick(this, new ImageClickEventArgs((Attachment)e.ClickedItem));
         }
 
         private void ReplyNum_OnPointerAction(object sender, PointerRoutedEventArgs e) {
@@ -168,10 +168,10 @@ namespace Win2ch.Controls {
     }
 
     public class ImageClickEventArgs : EventArgs {
-        public ImageClickEventArgs(ImageInfo imageInfo) {
-            ImageInfo = imageInfo;
+        public ImageClickEventArgs(Attachment attachment) {
+            Attachment = attachment;
         }
 
-        public ImageInfo ImageInfo { get; }
+        public Attachment Attachment { get; }
     }
 }

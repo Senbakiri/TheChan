@@ -163,15 +163,15 @@
             </StackPanel.Resources>
             <StackPanel Orientation="Horizontal">
                 <StackPanel>
-                    <TextBlock Text="{x:Bind CurrentImage.ImageInfo.Name, Mode=OneWay}"
+                    <TextBlock Text="{x:Bind CurrentImage.Image.Name, Mode=OneWay}"
                        FontSize="24"/>
                     <StackPanel Orientation="Horizontal"
                         Margin="0 5 0 0">
                         <TextBlock>
-                    <Run Text="{x:Bind CurrentImage.ImageInfo.Width, Mode=OneWay}"/>x<Run Text="{x:Bind CurrentImage.ImageInfo.Height, Mode=OneWay}"/>
+                    <Run Text="{x:Bind CurrentImage.Image.Width, Mode=OneWay}"/>x<Run Text="{x:Bind CurrentImage.Image.Height, Mode=OneWay}"/>
                         </TextBlock>
                         <TextBlock Margin="10 0 0 0">
-                    <Run Text="{x:Bind CurrentImage.ImageInfo.Size, Mode=OneWay}"/>
+                    <Run Text="{x:Bind CurrentImage.Image.Size, Mode=OneWay}"/>
                     <Run Text="КБ"/>
                         </TextBlock>
                     </StackPanel>

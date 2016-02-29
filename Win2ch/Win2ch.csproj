@@ -170,7 +170,7 @@
     <Compile Include="Models\Api\ApiBoardsProvider.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Exceptions\ApiException.cs" />
-    <Compile Include="Models\ImageInfo.cs" />
+    <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\NewPostInfo.cs" />
     <Compile Include="Models\Thread.cs" />

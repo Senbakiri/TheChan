@@ -7,7 +7,7 @@ using Windows.Foundation;
 using Newtonsoft.Json;
 
 namespace Win2ch.Models {
-    public class ImageInfo {
+    public class Attachment {
         public string Name { get; set; }
 
         public string Path { get; set; }
@@ -21,6 +21,8 @@ namespace Win2ch.Models {
 
         public int Size { get; set; }
 
+        public AttachmentType Type { get; set; }
+
         [JsonProperty(PropertyName = "th_width")]
         public int ThumbnailWidth { get; set; }
 
@@ -29,7 +31,7 @@ namespace Win2ch.Models {
 
         public Board Board { get; set; }
 
-        protected bool Equals(ImageInfo other) {
+        protected bool Equals(Attachment other) {
             return string.Equals(Name, other.Name) && Equals(Board, other.Board);
         }
 
@@ -37,7 +39,7 @@ namespace Win2ch.Models {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((ImageInfo)obj);
+            return Equals((Attachment)obj);
         }
 
         public override int GetHashCode() {

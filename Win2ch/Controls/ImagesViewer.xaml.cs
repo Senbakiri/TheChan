@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -26,7 +25,7 @@ namespace Win2ch.Controls {
         private bool _IsLoading;
         private string _LoadingString;
 
-        public ImageInfo ImageInfo { get; }
+        public Attachment Image { get; }
         public BitmapImage BitmapImage { get; }
 
         public int LoadingProgress {
@@ -59,9 +58,9 @@ namespace Win2ch.Controls {
             }
         }
 
-        public ImageWrapper(ImageInfo imageInfo) {
-            ImageInfo = imageInfo;
-            BitmapImage = new BitmapImage(new Uri(ImageInfo.Url, UriKind.Absolute));
+        public ImageWrapper(Attachment image) {
+            Image = image;
+            BitmapImage = new BitmapImage(new Uri(Image.Url, UriKind.Absolute));
             BitmapImage.DownloadProgress += BitmapImageOnDownloadProgress;
             BitmapImage.ImageFailed += BitmapImageOnImageFailed;
             IsLoading = true;
@@ -80,8 +79,8 @@ namespace Win2ch.Controls {
         }
 
         private string FormatLoadingString() {
-            var downloaded = (int)((double) ImageInfo.Size/100*LoadingProgress);
-            return $"{downloaded:D} / {ImageInfo.Size} KB";
+            var downloaded = (int)((double) Image.Size/100*LoadingProgress);
+            return $"{downloaded:D} / {Image.Size} KB";
         }
 
         public override bool Equals(object obj) {
@@ -89,11 +88,11 @@ namespace Win2ch.Controls {
         }
 
         protected bool Equals(ImageWrapper other) {
-            return Equals(ImageInfo, other.ImageInfo);
+            return Equals(Image, other.Image);
         }
 
         public override int GetHashCode() {
-            return (ImageInfo != null ? ImageInfo.GetHashCode() : 0);
+            return (Image != null ? Image.GetHashCode() : 0);
         }
 
         #region PropertyChanged
@@ -112,12 +111,12 @@ namespace Win2ch.Controls {
 
         public event EventHandler<ImagesViewerCloseEventArgs> OnClose = delegate { };
 
-        private List<ImageInfo> _AllImages;
+        private List<Attachment> _AllImages;
         private ImageWrapper _CurrentImage;
         private int _CurrentIndex = -1;
         private bool _IsInfoPanelVisible = true;
 
-        public List<ImageInfo> AllImages {
+        public List<Attachment> AllImages {
             get { return _AllImages; }
             set {
                 _AllImages = value;
@@ -164,12 +163,12 @@ namespace Win2ch.Controls {
             }
         }
 
-        public ImagesViewer(ImageInfo currentImage, List<ImageInfo> allImages) {
+        public ImagesViewer(Attachment currentImage, List<Attachment> allImages) {
             Images = new ObservableItemCollection<ImageWrapper>();
             InitializeComponent();
             AllImages = allImages;
             ImagesList.ItemsSource = Images;
-            CurrentImage = Images.FirstOrDefault(im => im.ImageInfo.Url.Equals(currentImage.Url));
+            CurrentImage = Images.FirstOrDefault(im => im.Image.Url.Equals(currentImage.Url));
         }
 
         private void OnKeyDown(object sender, KeyRoutedEventArgs e) {
@@ -242,7 +241,7 @@ namespace Win2ch.Controls {
         }
 
         public void Close() {
-            var lastImage = CurrentImage.ImageInfo;
+            var lastImage = CurrentImage.Image;
             OnClose(this, new ImagesViewerCloseEventArgs(lastImage));
         }
 
@@ -293,14 +292,14 @@ namespace Win2ch.Controls {
 
         private async void SaveImageAsMenuFlyoutItem_OnClick(object sender, RoutedEventArgs e) {
             var picker = new FileSavePicker {
-                SuggestedFileName = CurrentImage.ImageInfo.Name.Split('.')[0]
+                SuggestedFileName = CurrentImage.Image.Name.Split('.')[0]
             };
             picker.FileTypeChoices.Add("JPEG file", new[] { ".jpg" });
 
             try {
                 var file = await picker.PickSaveFileAsync();
                 var client = new HttpClient();
-                var resp = await client.GetAsync(new Uri(CurrentImage.ImageInfo.Url));
+                var resp = await client.GetAsync(new Uri(CurrentImage.Image.Url));
                 var opened = await file.OpenAsync(FileAccessMode.ReadWrite);
                 await resp.Content.WriteToStreamAsync(opened);
                 opened.Dispose();
@@ -323,7 +322,7 @@ namespace Win2ch.Controls {
         }
 
         private async void OpenInBrowser_OnClick(object sender, RoutedEventArgs e) {
-            await Launcher.LaunchUriAsync(new Uri(CurrentImage.ImageInfo.Url));
+            await Launcher.LaunchUriAsync(new Uri(CurrentImage.Image.Url));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -335,9 +334,9 @@ namespace Win2ch.Controls {
     }
 
     public class ImagesViewerCloseEventArgs {
-        public ImageInfo LastImage { get; }
+        public Attachment LastImage { get; }
 
-        public ImagesViewerCloseEventArgs(ImageInfo lastImage) {
+        public ImagesViewerCloseEventArgs(Attachment lastImage) {
             LastImage = lastImage;
         }
     }

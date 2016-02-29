@@ -92,7 +92,7 @@
                 </Style>
             </GridView.ItemContainerStyle>
             <GridView.ItemTemplate>
-                <DataTemplate x:DataType="models:ImageInfo">
+                <DataTemplate x:DataType="models:Attachment">
                     <StackPanel>
                         <Image Source="{x:Bind ThumbnailUrl}" Height="100" Stretch="Uniform"/>
                         <TextBlock Opacity="0.7" HorizontalAlignment="Center">
