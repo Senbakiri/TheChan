@@ -41,7 +41,7 @@
                                        Padding="10"
                                        Margin="0 2 0 0"
                                        Reply="PostControl_OnReply"
-                                       ImageClick="PostControl_OnImageClick"
+                                       AttachmentClick="PostControlOnAttachmentClick"
                                        ManipulationMode="System, TranslateX"
                                        ManipulationDelta="Post_OnManipulationDelta"
                                        ManipulationCompleted="Post_OnManipulationCompleted"

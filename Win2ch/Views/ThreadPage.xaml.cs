@@ -115,7 +115,7 @@ namespace Win2ch.Views {
             _lastRepliedPostNum = e.Post.Num;
         }
 
-        private void PostControl_OnImageClick(object sender, ImageClickEventArgs e) {
+        private void PostControlOnAttachmentClick(object sender, AttachmentClickEventArgs e) {
             var viewer = new ImagesViewer(e.Attachment,
                 ViewModel.Posts.SelectMany(p => p.Images).ToList());
 
@@ -182,7 +182,7 @@ namespace Win2ch.Views {
         private void SetupEventsForReply(PostControl control) {
             control.Reply += PostControl_OnReply;
             control.ReplyShowRequested += PostControl_OnReplyShowRequested;
-            control.ImageClick += PostControl_OnImageClick;
+            control.AttachmentClick += PostControlOnAttachmentClick;
             control.ParentPostShowRequested += PostControl_OnParentPostShowRequested;
             control.PointerMoved += (s, _) => StartTimer();
             control.ManipulationDelta += PostOnManipulationDelta;
@@ -264,7 +264,7 @@ namespace Win2ch.Views {
         private void PostControl_OnRepliesListShowRequested(Post post) {
             var control = new PostViewer(ViewModel.Thread, post.Replies);
             control.Close += s => PostAndRepliesListUnderlay.Children.Remove((UIElement)s);
-            control.ImageClick += PostControl_OnImageClick;
+            control.ImageClick += PostControlOnAttachmentClick;
             control.Reply += PostControl_OnReply;
             PostAndRepliesListUnderlay.Children.Add(control);
         }
@@ -302,7 +302,7 @@ namespace Win2ch.Views {
             ClearReplies();
             var control = new PostViewer(ViewModel.Thread, e.ThreadNum, e.PostNum);
             control.Close += s => PostAndRepliesListUnderlay.Children.Remove((UIElement)s);
-            control.ImageClick += PostControl_OnImageClick;
+            control.ImageClick += PostControlOnAttachmentClick;
             control.Reply += PostControl_OnReply;
             control.ReplyShowRequested += PostControl_OnReplyShowRequested;
             PostAndRepliesListUnderlay.Children.Add(control);

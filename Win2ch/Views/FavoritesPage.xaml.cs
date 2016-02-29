@@ -42,7 +42,7 @@ namespace Win2ch.Views {
             await ViewModel.RemoveThreadFromFavorites((StoredThreadInfo)((FrameworkElement) sender).DataContext);
         }
 
-        private void PostControl_OnImageClick(object sender, ImageClickEventArgs e) {
+        private void PostControlOnAttachmentClick(object sender, AttachmentClickEventArgs e) {
             var viewer = new ImagesViewer(e.Attachment,
                 ViewModel.FavoritePosts.SelectMany(p => p.Images).ToList());
             viewer.OnClose += ViewerOnClose;

@@ -31,7 +31,7 @@ namespace Win2ch.Views {
             }
         }
 
-        private void PostControl_OnImageClick(object sender, ImageClickEventArgs e) {
+        private void PostControlOnAttachmentClick(object sender, AttachmentClickEventArgs e) {
             var viewer = new ImagesViewer(e.Attachment,
                 ViewModel.Threads.SelectMany(t => t.Posts.SelectMany(p => p.Images)).ToList());
             viewer.OnClose += (s, _) => ImagesViewerUnderlay.Children.Clear();

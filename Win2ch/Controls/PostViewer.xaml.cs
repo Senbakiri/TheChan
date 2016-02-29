@@ -54,7 +54,7 @@ namespace Win2ch.Controls {
 
         public ObservableCollection<Post> Posts { get; }
         public event Action<object> Close;
-        public event PostControl.ImageClickEventHandler ImageClick = delegate { };
+        public event PostControl.AttachmentClickEventHandler ImageClick = delegate { };
         public event PostControl.PostReplyEventHandler Reply = delegate { };
         public event EventHandler<ReplyShowEventArgs> ReplyShowRequested = delegate { };
         public event PropertyChangedEventHandler PropertyChanged;
@@ -118,7 +118,7 @@ namespace Win2ch.Controls {
             var control = new PostViewer(SourceThread, post.Replies);
             control.Close += s => Root.Children.Remove((UIElement)s);
             control.Reply += PostControl_OnReply;
-            control.ImageClick += PostControl_OnImageClick;
+            control.ImageClick += PostControlOnAttachmentClick;
             Root.Children.Add(control);
         }
 
@@ -126,7 +126,7 @@ namespace Win2ch.Controls {
             Reply(sender, e);
         }
 
-        private void PostControl_OnImageClick(object sender, ImageClickEventArgs e) {
+        private void PostControlOnAttachmentClick(object sender, AttachmentClickEventArgs e) {
             ImageClick(sender, e);
         }
 
@@ -186,7 +186,7 @@ namespace Win2ch.Controls {
             var control = new PostViewer(SourceThread, e.ThreadNum, e.PostNum);
             control.Close += s => Root.Children.Remove((UIElement)s);
             control.Reply += PostControl_OnReply;
-            control.ImageClick += PostControl_OnImageClick;
+            control.ImageClick += PostControlOnAttachmentClick;
             control.ReplyShowRequested += PostControl_OnReplyShowRequested;
             Root.Children.Add(control);
         }

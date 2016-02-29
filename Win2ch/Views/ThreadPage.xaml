@@ -112,7 +112,7 @@
                             <c:PostControl Post="{x:Bind}"
                                        Margin="0 10"
                                        Reply="PostControl_OnReply"
-                                       ImageClick="PostControl_OnImageClick"
+                                       AttachmentClick="PostControlOnAttachmentClick"
                                        ReplyShowRequested="PostControl_OnReplyShowRequested"
                                        RepliesListShowRequested="PostControl_OnRepliesListShowRequested"
                                        ParentPostShowRequested="PostControl_OnParentPostShowRequested">

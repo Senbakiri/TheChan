@@ -45,9 +45,9 @@ namespace Win2ch.Controls {
 
         public event PostReplyEventHandler Reply = delegate { };
 
-        public delegate void ImageClickEventHandler(object sender, ImageClickEventArgs e);
+        public delegate void AttachmentClickEventHandler(object sender, AttachmentClickEventArgs e);
 
-        public event ImageClickEventHandler ImageClick = delegate { };
+        public event AttachmentClickEventHandler AttachmentClick = delegate { };
 
         public event EventHandler<ReplyShowEventArgs> ReplyShowRequested = delegate { };
 
@@ -92,7 +92,7 @@ namespace Win2ch.Controls {
         }
 
         private void ImagesGridView_OnItemClick(object sender, ItemClickEventArgs e) {
-            ImageClick(this, new ImageClickEventArgs((Attachment)e.ClickedItem));
+            AttachmentClick(this, new AttachmentClickEventArgs((Attachment)e.ClickedItem));
         }
 
         private void ReplyNum_OnPointerAction(object sender, PointerRoutedEventArgs e) {
@@ -167,8 +167,8 @@ namespace Win2ch.Controls {
         }
     }
 
-    public class ImageClickEventArgs : EventArgs {
-        public ImageClickEventArgs(Attachment attachment) {
+    public class AttachmentClickEventArgs : EventArgs {
+        public AttachmentClickEventArgs(Attachment attachment) {
             Attachment = attachment;
         }
 

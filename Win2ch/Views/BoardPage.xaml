@@ -29,7 +29,7 @@
                         <DataTemplate x:DataType="m:Post">
                             <c:PostControl Post="{x:Bind}"
                                            IsSimple="True"
-                                           ImageClick="PostControl_OnImageClick"
+                                           AttachmentClick="PostControlOnAttachmentClick"
                                            Margin="10 10 10 0"
                                            MaxLines="{Binding ElementName=This, Path=MaxLinesInPost}"/>
                         </DataTemplate>
