@@ -17,7 +17,7 @@ using Win2ch.Services.SettingsServices;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Views {
-    public sealed partial class ThreadPage : ICanScrollToItem<Post>, IPositionScroller {
+    public sealed partial class ThreadPage : ICanScrollToItem<Attachment>, ICanScrollToItem<Post>, IPositionScroller {
         public ThreadViewModel ViewModel { get; private set; }
 
         private Dictionary<Post, int> ReplyLevel { get; } = new Dictionary<Post, int>();
@@ -116,11 +116,14 @@ namespace Win2ch.Views {
         }
 
         private void PostControlOnAttachmentClick(object sender, AttachmentClickEventArgs e) {
-            var viewer = new ImagesViewer(e.Attachment,
-                ViewModel.Posts.SelectMany(p => p.Images).ToList());
+            var viewer = new AttachmentViewer(
+                e.Attachment,
+                ImagesViewerUnderlay,
+                ViewModel.Posts.SelectMany(p => p.Attachments)) {
+                    Scroller = this
+                };
 
-            viewer.OnClose += ImagesViewerOnClose;
-            ImagesViewerUnderlay.Children.Add(viewer);
+            viewer.Open();
         }
 
         private void PostControl_OnReplyShowRequested(object sender, ReplyShowEventArgs e) {
@@ -287,17 +290,6 @@ namespace Win2ch.Views {
             await ViewModel.Refresh();
         }
 
-        private void ImagesViewerOnClose(object sender, ImagesViewerCloseEventArgs e) {
-            ImagesViewerUnderlay.Children.Clear();
-
-            if (!SettingsService.Instance.ScrollToPostWithImageAfterViewingImage)
-                return;
-
-            var post = ViewModel.Posts.FirstOrDefault(p => p.Images.Contains(e.LastImage));
-            if (post != null)
-                Posts.ScrollIntoView(post, ScrollIntoViewAlignment.Leading);
-        }
-
         private void PostControl_OnParentPostShowRequested(object sender, ParentPostShowEventArgs e) {
             ClearReplies();
             var control = new PostViewer(ViewModel.Thread, e.ThreadNum, e.PostNum);
@@ -351,6 +343,12 @@ namespace Win2ch.Views {
                 VisualStateManager.GoToState(this,
                     _postsScrollViewer.VerticalOffset >= _postsScrollViewer.ScrollableHeight ? "Down" : "Up",
                     true);
+        }
+
+        public void ScrollToItem(Attachment item) {
+            var post = ViewModel.Posts.FirstOrDefault(p => p.Attachments?.Contains(item) ?? false);
+            if (post != null)
+                Posts.ScrollIntoView(post, ScrollIntoViewAlignment.Leading);
         }
     }
 }

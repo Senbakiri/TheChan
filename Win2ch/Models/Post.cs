@@ -39,7 +39,7 @@ namespace Win2ch.Models {
         public List<Post> Replies { get; set; } = new List<Post>();
 
         [JsonProperty(PropertyName = "files")]
-        public List<Attachment> Images { get; set; } = new List<Attachment>();
+        public List<Attachment> Attachments { get; set; } = new List<Attachment>();
 
 
         protected bool Equals(Post other) {

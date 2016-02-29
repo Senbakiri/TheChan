@@ -2,6 +2,7 @@
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Win2ch.Common;
 using Win2ch.Controls;
 using Win2ch.Models;
 using Win2ch.ViewModels;
@@ -43,18 +44,14 @@ namespace Win2ch.Views {
         }
 
         private void PostControlOnAttachmentClick(object sender, AttachmentClickEventArgs e) {
-            var viewer = new ImagesViewer(e.Attachment,
-                ViewModel.FavoritePosts.SelectMany(p => p.Images).ToList());
-            viewer.OnClose += ViewerOnClose;
-            ImagesViewerUnderlay.Children.Add(viewer);
+            var viewer = new AttachmentViewer(e.Attachment,
+                ImagesViewerUnderlay,
+                ViewModel.FavoritePosts.SelectMany(p => p.Attachments));
+            viewer.Open();
         }
 
-        private void ViewerOnClose(object sender, ImagesViewerCloseEventArgs imagesViewerCloseEventArgs) {
-            ImagesViewerUnderlay.Children.Clear();
-        }
-
-        private void PostControl_OnRemovedFromFavorites(object sender, EventArgs e) {
-            ViewModel.Load();
+        private async void PostControl_OnRemovedFromFavorites(object sender, EventArgs e) {
+            await ViewModel.Load();
         }
     }
 }

@@ -59,7 +59,7 @@ namespace Win2ch.Models {
                 post.Board = b;
 
                 post.Position = firstPostPos + i;
-                foreach (var info in post.Images)
+                foreach (var info in post.Attachments)
                     info.Board = b;
                 result.Add(post);
             }

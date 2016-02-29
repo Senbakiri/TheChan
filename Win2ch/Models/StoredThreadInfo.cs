@@ -58,7 +58,7 @@ namespace Win2ch.Models {
                 var clear = Utils.RemoveHtml(_FirstPost.Comment);
                 if (clear.Length > 50)
                     clear = clear.Substring(0, 50);
-                ThumbnailUrl = _FirstPost.Images?.FirstOrDefault()?.ThumbnailUrl;
+                ThumbnailUrl = _FirstPost.Attachments?.FirstOrDefault()?.ThumbnailUrl;
 
                 Name = string.IsNullOrEmpty(_FirstPost.Subject)
                         ? clear

@@ -3,6 +3,6 @@
         Jpg = 1,
         Png = 2,
         Gif = 4,
-        Webm = 6
+        WebM = 6
     }
 }

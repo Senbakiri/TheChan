@@ -79,8 +79,8 @@
         </StackPanel>
 
         <GridView Grid.Row="2" 
-                      ItemsSource="{x:Bind Post.Images, Mode=OneWay}"
-                      Visibility="{x:Bind Post.Images, Converter={StaticResource ListToVis}, Mode=OneWay}"
+                      ItemsSource="{x:Bind Post.Attachments, Mode=OneWay}"
+                      Visibility="{x:Bind Post.Attachments, Converter={StaticResource ListToVis}, Mode=OneWay}"
                       Padding="0"
                       SelectionMode="None"
                       IsItemClickEnabled="True"

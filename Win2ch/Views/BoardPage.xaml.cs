@@ -5,6 +5,7 @@ using Win2ch.Models;
 using Win2ch.ViewModels;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Win2ch.Common;
 using Win2ch.Controls;
 using Win2ch.Services.SettingsServices;
 
@@ -32,10 +33,10 @@ namespace Win2ch.Views {
         }
 
         private void PostControlOnAttachmentClick(object sender, AttachmentClickEventArgs e) {
-            var viewer = new ImagesViewer(e.Attachment,
-                ViewModel.Threads.SelectMany(t => t.Posts.SelectMany(p => p.Images)).ToList());
-            viewer.OnClose += (s, _) => ImagesViewerUnderlay.Children.Clear();
-            ImagesViewerUnderlay.Children.Add(viewer);
+            var viewer = new AttachmentViewer(e.Attachment,
+                ImagesViewerUnderlay,
+                ViewModel.Threads.SelectMany(t => t.Posts.SelectMany(p => p.Attachments)));
+            viewer.Open();
         }
     }
 }

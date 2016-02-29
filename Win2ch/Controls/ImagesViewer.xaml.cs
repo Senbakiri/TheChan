@@ -109,7 +109,7 @@ namespace Win2ch.Controls {
 
         public ObservableItemCollection<ImageWrapper> Images { get; }
 
-        public event EventHandler<ImagesViewerCloseEventArgs> OnClose = delegate { };
+        public event EventHandler<ImagesViewerClosedEventArgs> Closed = delegate { };
 
         private List<Attachment> _AllImages;
         private ImageWrapper _CurrentImage;
@@ -242,7 +242,7 @@ namespace Win2ch.Controls {
 
         public void Close() {
             var lastImage = CurrentImage.Image;
-            OnClose(this, new ImagesViewerCloseEventArgs(lastImage));
+            Closed(this, new ImagesViewerClosedEventArgs(lastImage));
         }
 
         private void Underlay_OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e) {
@@ -333,10 +333,10 @@ namespace Win2ch.Controls {
         }
     }
 
-    public class ImagesViewerCloseEventArgs {
+    public class ImagesViewerClosedEventArgs {
         public Attachment LastImage { get; }
 
-        public ImagesViewerCloseEventArgs(Attachment lastImage) {
+        public ImagesViewerClosedEventArgs(Attachment lastImage) {
             LastImage = lastImage;
         }
     }

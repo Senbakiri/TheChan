@@ -111,6 +111,7 @@
     <Compile Include="Behaviors\FavoriteButtonBehavior.cs" />
     <Compile Include="Behaviors\HighlightBehavior.cs" />
     <Compile Include="Behaviors\HtmlBehavior.cs" />
+    <Compile Include="Common\AttachmentViewer.cs" />
     <Compile Include="Common\CurrentPost.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\HtmlConverting\HtmlConverter.cs" />
