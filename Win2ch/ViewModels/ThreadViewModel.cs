@@ -59,6 +59,7 @@ namespace Win2ch.ViewModels {
         private bool _IsInFavorites;
         private int _HighlightedPostsStart;
         private bool _HighlightPosts;
+        private bool _IsPinned;
 
         public string JobStatus {
             get { return _JobStatus; }
@@ -100,6 +101,16 @@ namespace Win2ch.ViewModels {
                 if (value == _HighlightPosts)
                     return;
                 _HighlightPosts = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsPinned {
+            get { return _IsPinned; }
+            private set {
+                if (value == _IsPinned)
+                    return;
+                _IsPinned = value;
                 RaisePropertyChanged();
             }
         }
@@ -238,6 +249,8 @@ namespace Win2ch.ViewModels {
                 Utils.TrackError(e);
             }
 
+            IsPinned = TileService.Instance.IsThreadPinned(Thread);
+
             try {
                 await RecentThreadsService.Instance.AddThread(Thread);
             } catch (Exception e) {
@@ -295,6 +308,10 @@ namespace Win2ch.ViewModels {
         public void GoToBoard() {
             NavigationService.Navigate(typeof (BoardPage), Thread.Board);
         }
+
+        public async Task Pin() {
+            IsPinned = await TileService.Instance.PinThread(Thread);
+        } 
     }
 
     public class ThreadNavigation {

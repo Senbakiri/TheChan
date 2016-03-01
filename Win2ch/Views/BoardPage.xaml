@@ -390,9 +390,9 @@
         </ListView>
 
         <CommandBar Grid.Row="2">
-            <CommandBar.Resources>
-                <Style TargetType="AppBarButton"/>
-            </CommandBar.Resources>
+            <AppBarButton Icon="{x:Bind ViewModel.IsPinned, Mode=OneWay, Converter={StaticResource PinButtonConverter}}"
+                          Label="{x:Bind ViewModel.IsPinned, Mode=OneWay, Converter={StaticResource PinButtonLabelConverter}}"
+                          Click="{x:Bind ViewModel.Pin}"/>
             <AppBarButton Click="{x:Bind ViewModel.Favorite}">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:FavoriteButtonBehavior IsInFavorites="{x:Bind ViewModel.IsInFavorites, Mode=OneWay}"/>

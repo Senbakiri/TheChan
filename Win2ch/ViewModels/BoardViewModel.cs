@@ -17,6 +17,7 @@ namespace Win2ch.ViewModels {
         private Board _Board;
         private ThreadsCollection _threads;
         private bool _IsInFavorites;
+        private bool _IsPinned;
 
         public Board Board {
             get { return _Board; }
@@ -46,6 +47,16 @@ namespace Win2ch.ViewModels {
                 if (_IsInFavorites == value)
                     return;
                 _IsInFavorites = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsPinned {
+            get { return _IsPinned; }
+            private set {
+                if (value == _IsPinned)
+                    return;
+                _IsPinned = value;
                 RaisePropertyChanged();
             }
         }
@@ -86,6 +97,8 @@ namespace Win2ch.ViewModels {
                 Utils.TrackError(e);
             }
 
+            IsPinned = TileService.Instance.IsBoardPinned(Board);
+
             await base.OnNavigatedToAsync(parameter, mode, state);
         }
 
@@ -111,6 +124,10 @@ namespace Win2ch.ViewModels {
         private void OnBoardLoadError(HttpException exception) {
             NavigationService.Navigate(typeof (Views.Errors.BoardErrorPage), exception,
                 new SuppressNavigationTransitionInfo());
+        }
+
+        public async Task Pin() {
+            IsPinned = await TileService.Instance.PinBoard(Board);
         }
     }
 }

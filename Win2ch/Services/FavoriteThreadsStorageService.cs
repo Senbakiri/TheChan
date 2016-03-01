@@ -7,7 +7,7 @@ namespace Win2ch.Services {
 
         public override async Task Store() {
             await base.Store();
-            await LiveTileService.Instance.Update();
+            await TileService.Instance.UpdateLiveTile();
             await BadgeService.Instance.Update();
         }
     }
