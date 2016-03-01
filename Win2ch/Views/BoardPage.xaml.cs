@@ -26,15 +26,15 @@ namespace Win2ch.Views {
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) {
-            if (ImagesViewerUnderlay.Children.Count > 0) {
-                ImagesViewerUnderlay.Children.Clear();
+            if (AttachmentViewerUnderlay.Children.Count > 0) {
+                AttachmentViewerUnderlay.Children.Clear();
                 e.Cancel = true;
             }
         }
 
         private void PostControlOnAttachmentClick(object sender, AttachmentClickEventArgs e) {
             var viewer = new AttachmentViewer(e.Attachment,
-                ImagesViewerUnderlay,
+                AttachmentViewerUnderlay,
                 ViewModel.Threads.SelectMany(t => t.Posts.SelectMany(p => p.Attachments)));
             viewer.Open();
         }

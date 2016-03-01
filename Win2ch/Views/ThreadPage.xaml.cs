@@ -66,8 +66,8 @@ namespace Win2ch.Views {
                 e.Cancel = true;
             }
 
-            if (ImagesViewerUnderlay.Children.Count > 0) {
-                ImagesViewerUnderlay.Children.Clear();
+            if (AttachmentViewerUnderlay.Children.Count > 0) {
+                AttachmentViewerUnderlay.Children.Clear();
                 e.Cancel = true;
             }
         }
@@ -118,7 +118,7 @@ namespace Win2ch.Views {
         private void PostControlOnAttachmentClick(object sender, AttachmentClickEventArgs e) {
             var viewer = new AttachmentViewer(
                 e.Attachment,
-                ImagesViewerUnderlay,
+                AttachmentViewerUnderlay,
                 ViewModel.Posts.SelectMany(p => p.Attachments)) {
                     Scroller = this
                 };

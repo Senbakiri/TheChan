@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FFmpegInterop", "FFmpegInterop\FFmpegInterop.vcxproj", "{9CFA3B3E-B7AF-4629-84E2-C962C5B046B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -39,6 +41,18 @@ Global
 		{913200AC-C2D4-4EB5-B243-465864742022}.Release|x86.ActiveCfg = Release|x86
 		{913200AC-C2D4-4EB5-B243-465864742022}.Release|x86.Build.0 = Release|x86
 		{913200AC-C2D4-4EB5-B243-465864742022}.Release|x86.Deploy.0 = Release|x86
+		{9CFA3B3E-B7AF-4629-84E2-C962C5B046B1}.Debug|ARM.ActiveCfg = Debug|ARM
+		{9CFA3B3E-B7AF-4629-84E2-C962C5B046B1}.Debug|ARM.Build.0 = Debug|ARM
+		{9CFA3B3E-B7AF-4629-84E2-C962C5B046B1}.Debug|x64.ActiveCfg = Debug|x64
+		{9CFA3B3E-B7AF-4629-84E2-C962C5B046B1}.Debug|x64.Build.0 = Debug|x64
+		{9CFA3B3E-B7AF-4629-84E2-C962C5B046B1}.Debug|x86.ActiveCfg = Debug|Win32
+		{9CFA3B3E-B7AF-4629-84E2-C962C5B046B1}.Debug|x86.Build.0 = Debug|Win32
+		{9CFA3B3E-B7AF-4629-84E2-C962C5B046B1}.Release|ARM.ActiveCfg = Release|ARM
+		{9CFA3B3E-B7AF-4629-84E2-C962C5B046B1}.Release|ARM.Build.0 = Release|ARM
+		{9CFA3B3E-B7AF-4629-84E2-C962C5B046B1}.Release|x64.ActiveCfg = Release|x64
+		{9CFA3B3E-B7AF-4629-84E2-C962C5B046B1}.Release|x64.Build.0 = Release|x64
+		{9CFA3B3E-B7AF-4629-84E2-C962C5B046B1}.Release|x86.ActiveCfg = Release|Win32
+		{9CFA3B3E-B7AF-4629-84E2-C962C5B046B1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

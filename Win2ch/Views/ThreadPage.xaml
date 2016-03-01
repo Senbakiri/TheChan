@@ -55,7 +55,7 @@
               Canvas.ZIndex="10">
         </Grid>
 
-        <Grid x:Name="ImagesViewerUnderlay"
+        <Grid x:Name="AttachmentViewerUnderlay"
               Grid.Row="1"
               Grid.RowSpan="3"
               Canvas.ZIndex="12"/>

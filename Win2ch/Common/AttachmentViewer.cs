@@ -58,6 +58,13 @@ namespace Win2ch.Common {
                 Scroller?.ScrollToItem(e.LastImage);
         }
 
-        private void OpenWebM() {}
+        private void OpenWebM() {
+            if (Attachment.Type != AttachmentType.WebM)
+                throw new ArgumentException("Type must be webm");
+            var player = new WebMPlayer(Attachment);
+            Parent.Children.Clear();
+            Parent.Children.Add(player);
+
+        }
     }
 }

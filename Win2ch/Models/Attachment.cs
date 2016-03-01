@@ -12,6 +12,7 @@ namespace Win2ch.Models {
 
         public string Path { get; set; }
         public string Url => string.Format(Urls.BoardUrl, Board.Id, Path);
+        public string UrlHttp => string.Format(Urls.BoardUrlHttp, Board.Id, Path);
         public Uri Uri => new Uri(Url);
 
         public int Width { get; set; }
