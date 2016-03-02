@@ -61,10 +61,11 @@
                         <TextBlock Margin="0 10"
                                    Text="Максимальное количество строк в постах при просмотре доски"
                                    TextWrapping="Wrap"/>
-                        <TextBox InputScope="Number"
-                                 HorizontalAlignment="Left"
-                                 Width="50"
-                                 Text="{x:Bind ViewModel.MaxLinesInPostOnBoard, Mode=TwoWay}"/>
+                        <Slider Maximum="50"
+                                Minimum="0"
+                                Value="{x:Bind ViewModel.MaxLinesInPostOnBoard, Mode=TwoWay}"
+                                Width="200"
+                                HorizontalAlignment="Left"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
@@ -78,7 +79,29 @@
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
-
+            
+            <PivotItem Header="дополнительно">
+                <StackPanel>
+                    <TextBlock Text="Кэш"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Margin="0 5"/>
+                    <TextBlock Margin="0 5">
+                        <Run Text="Видео:"
+                             FontWeight="SemiBold"/>
+                        <Run Text="{x:Bind ViewModel.VideoCacheSize, Mode=OneWay}"/>
+                    </TextBlock>
+                    <TextBlock Margin="0 5">
+                        <Run Text="Всего:"
+                             FontWeight="SemiBold"/>
+                        <Run Text="{x:Bind ViewModel.TotalCacheSize, Mode=OneWay}"/>
+                    </TextBlock>
+                    <Button Content="Очистить"
+                            Margin="0 5"
+                            Click="{x:Bind ViewModel.ClearCache}"
+                            IsEnabled="{x:Bind ViewModel.CanClearCache, Mode=OneWay}"/>
+                </StackPanel>
+            </PivotItem>
+            
             <PivotItem Header="о программе">
                 <Grid>
                     <Grid.RowDefinitions>

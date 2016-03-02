@@ -53,5 +53,29 @@ namespace Win2ch.Common {
             doc.LoadHtml(html.Replace("<br>", "\n"));
             return HtmlEntity.DeEntitize(doc.DocumentNode.InnerText);
         }
+
+        public static string ToFileSize(ulong fileSize) {
+            const double kiloByte = 1024;
+            const double megaByte = kiloByte * 1024;
+            const double gigaByte = megaByte * 1024;
+
+            double result = fileSize;
+
+            string sizeType;
+            if (fileSize > gigaByte) {
+                result = fileSize / gigaByte;
+                sizeType = "GB";
+            } else if (fileSize > megaByte) {
+                result = fileSize/megaByte;
+                sizeType = "MB";
+            } else if (fileSize > kiloByte) {
+                result = fileSize / kiloByte;
+                sizeType = "KB";
+            } else {
+                sizeType = "B";
+            }
+
+            return $"{Math.Round(result, 2)}{sizeType}";
+        }
     }
 }

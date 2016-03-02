@@ -16,6 +16,7 @@ using Template10.Mvvm;
 using Win2ch.Common;
 using Win2ch.Services.SettingsServices;
 using Win2ch.Models;
+using Win2ch.Services;
 using ViewModelBase = Win2ch.Mvvm.ViewModelBase;
 
 namespace Win2ch.ViewModels {
@@ -24,6 +25,9 @@ namespace Win2ch.ViewModels {
         private ISettingsService _settingsService;
         private string _ReleaseNotes;
         private readonly TelemetryClient _telemetryClient = new TelemetryClient();
+        private string _VideoCacheSize;
+        private string _TotalCacheSize;
+        private bool _CanClearCache = true;
 
         public string Version { get; }
 
@@ -35,10 +39,10 @@ namespace Win2ch.ViewModels {
             }
         }
 
-        public int MaxLinesInPostOnBoard {
+        public double MaxLinesInPostOnBoard {
             get { return _settingsService.MaxLinesInPostOnBoard; }
             set {
-                var correctValue = Math.Max(0, value);
+                var correctValue = (int) Math.Max(0, value);
                 if (_settingsService.MaxLinesInPostOnBoard == correctValue)
                     return;
                 _settingsService.MaxLinesInPostOnBoard = correctValue;
@@ -89,6 +93,36 @@ namespace Win2ch.ViewModels {
             }
         }
 
+        public string VideoCacheSize {
+            get { return _VideoCacheSize; }
+            private set {
+                if (value == _VideoCacheSize)
+                    return;
+                _VideoCacheSize = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string TotalCacheSize {
+            get { return _TotalCacheSize; }
+            private set {
+                if (value == _TotalCacheSize)
+                    return;
+                _TotalCacheSize = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool CanClearCache {
+            get { return _CanClearCache; }
+            private set {
+                if (value == _CanClearCache)
+                    return;
+                _CanClearCache = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public SettingsViewModel() {
             _settingsService = SettingsService.Instance;
 
@@ -96,6 +130,7 @@ namespace Win2ch.ViewModels {
             Version = $"v{id.Version.Major}.{id.Version.Minor}.{id.Version.Build}";
             LoadReleaseNotes();
             FullFillUnfulfilledConsumables();
+            ShowCacheSizes();
         }
 
         private async void LoadReleaseNotes() {
@@ -103,6 +138,27 @@ namespace Win2ch.ViewModels {
             var stream = await file.OpenReadAsync();
             var reader = new StreamReader(stream.AsStreamForRead());
             ReleaseNotes = reader.ReadToEnd();
+        }
+
+        private async void ShowCacheSizes() {
+            var cache = CacheService.Instance;
+            var videoSize = await cache.GetCacheItemsSize(CacheItemType.Video);
+            var totalSize = await cache.GetTotalCacheSize();
+            VideoCacheSize = Utils.ToFileSize(videoSize);
+            TotalCacheSize = Utils.ToFileSize(totalSize);
+        }
+
+        public async void ClearCache() {
+            CanClearCache = false;
+
+            try {
+                await CacheService.Instance.Clear();
+            } catch (Exception e) {
+                await Utils.ShowOtherError(e, "Не удалось очистить кэш");
+            }
+
+            CanClearCache = true;
+            ShowCacheSizes();
         }
 
         private async void FullFillUnfulfilledConsumables() {

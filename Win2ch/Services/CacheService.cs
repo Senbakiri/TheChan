@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Search;
 using Windows.Storage.Streams;
 using Windows.Web.Http;
 
@@ -42,6 +43,36 @@ namespace Win2ch.Services {
             await response.Content.WriteToStreamAsync(opened);
             opened.Dispose();
             return newFile;
+        }
+
+        private async Task<ulong> GetFolderSize(StorageFolder folder) {
+            var query = folder.CreateFileQueryWithOptions(new QueryOptions {
+                FolderDepth = FolderDepth.Deep
+            });
+
+            var files = await query.GetFilesAsync();
+            ulong size = 0;
+            foreach (var file in files) {
+                var props = await file.GetBasicPropertiesAsync();
+                size += props.Size;
+            }
+
+            return size;
+        }
+
+        public async Task<ulong> GetCacheItemsSize(CacheItemType type) {
+            var folder = await GetFolder(type);
+            return await GetFolderSize(folder);
+        }
+
+        public async Task<ulong> GetTotalCacheSize() {
+            return await GetFolderSize(Root);
+        }
+
+        public async Task Clear() {
+            var items = await Root.GetItemsAsync();
+            foreach (var item in items)
+                await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
         }
     }
 }
