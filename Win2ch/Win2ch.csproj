@@ -108,6 +108,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviors\ContextMenuBehavior.cs" />
+    <Compile Include="Behaviors\PinButtonBehavior.cs" />
     <Compile Include="Behaviors\FavoriteButtonBehavior.cs" />
     <Compile Include="Behaviors\HighlightBehavior.cs" />
     <Compile Include="Behaviors\HtmlBehavior.cs" />

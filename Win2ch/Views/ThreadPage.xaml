@@ -207,9 +207,11 @@
                           Visibility="{x:Bind _isMouseConnected, Converter={StaticResource BoolToVis}}"
                           Label="Перейти к доске"
                           Click="{x:Bind ViewModel.GoToBoard}"/>
-            <AppBarButton Icon="{x:Bind ViewModel.IsPinned, Mode=OneWay, Converter={StaticResource PinButtonConverter}}"
-                          Label="{x:Bind ViewModel.IsPinned, Mode=OneWay, Converter={StaticResource PinButtonLabelConverter}}"
-                          Click="{x:Bind ViewModel.Pin}"/>
+            <AppBarButton Click="{x:Bind ViewModel.Pin}" >
+                <interactivity:Interaction.Behaviors>
+                    <behaviors:PinButtonBehavior IsPinned="{x:Bind ViewModel.IsPinned, Mode=OneWay}"/>
+                </interactivity:Interaction.Behaviors>
+            </AppBarButton>
             <AppBarButton Icon="Favorite"
                           Label="Добавить в избранное"
                           Click="{x:Bind ViewModel.Favorite}">
