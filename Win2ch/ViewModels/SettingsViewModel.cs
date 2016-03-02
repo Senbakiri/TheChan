@@ -123,6 +123,16 @@ namespace Win2ch.ViewModels {
             }
         }
 
+        public bool IsWebmEnabled {
+            get { return _settingsService.IsWebmEnabled; }
+            set {
+                if (_settingsService.IsWebmEnabled == value)
+                    return;
+                _settingsService.IsWebmEnabled = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public SettingsViewModel() {
             _settingsService = SettingsService.Instance;
 

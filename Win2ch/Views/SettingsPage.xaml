@@ -102,6 +102,24 @@
                 </StackPanel>
             </PivotItem>
             
+            <PivotItem Header="экспериментальное">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                               Text="Внимание!"
+                               Foreground="Firebrick"/>
+                    <TextBlock TextWrapping="Wrap"
+                               MaxWidth="600"
+                               HorizontalAlignment="Left"
+                               Margin="0 0 0 10">
+                        Все возможности, перечисленные здесь, крайне нестабильны и могут содержать ошибки,
+                        препятствующие нормальному использованию этих возможностей, а то и всего приложения.
+                        Учитывайте это, когда будете их включать.
+                    </TextBlock>
+                    <ToggleSwitch Header="Просмотр .webm"
+                                  IsOn="{x:Bind ViewModel.IsWebmEnabled, Mode=TwoWay}"/>
+                </StackPanel>
+            </PivotItem>
+            
             <PivotItem Header="о программе">
                 <Grid>
                     <Grid.RowDefinitions>

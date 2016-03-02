@@ -47,6 +47,11 @@ namespace Win2ch.Services.SettingsServices {
             }
         }
 
+        public bool IsWebmEnabled {
+            get { return _helper.Read(nameof(IsWebmEnabled), false); }
+            set { _helper.Write(nameof(IsWebmEnabled), value); }
+        }
+
         public Theme AppTheme {
             get {
                 var theme = Theme.System;

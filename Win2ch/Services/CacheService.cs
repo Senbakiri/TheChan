@@ -7,6 +7,7 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.Storage.Streams;
 using Windows.Web.Http;
+using Win2ch.Models;
 
 namespace Win2ch.Services {
     class CacheService {
@@ -43,6 +44,24 @@ namespace Win2ch.Services {
             await response.Content.WriteToStreamAsync(opened);
             opened.Dispose();
             return newFile;
+        }
+
+        public async Task<StorageFile> DownloadAndCacheAttachment(Attachment attachment) {
+            var type = GetCacheItemType(attachment.Type);
+            return await DownloadAndCacheItem(attachment.Url, type, attachment.Name);
+        }
+
+        private CacheItemType GetCacheItemType(AttachmentType attachmentType) {
+            switch (attachmentType) {
+                case AttachmentType.Jpg:
+                case AttachmentType.Png:
+                case AttachmentType.Gif:
+                    return CacheItemType.Image;
+                case AttachmentType.WebM:
+                    return CacheItemType.Video;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(attachmentType), attachmentType, null);
+            }
         }
 
         private async Task<ulong> GetFolderSize(StorageFolder folder) {

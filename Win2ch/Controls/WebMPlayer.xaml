@@ -12,6 +12,15 @@
                       AutoPlay="True"
                       AreTransportControlsEnabled="True"
                       RealTimePlayback="True"
-                      PlaybackRate="1"/>
+                      PlaybackRate="1"
+                      Visibility="{x:Bind IsWebmEnabled, Mode=OneWay, Converter={StaticResource BoolToVis}}"/>
+        <ProgressRing IsActive="{x:Bind IsLoading, Mode=OneWay}"
+                      Height="50"
+                      Width="50"/>
+        <TextBlock Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
+                   TextAlignment="Center"
+                   Text="Просмотр .webm выключен."
+                   VerticalAlignment="Center"
+                   Visibility="{x:Bind IsWebmEnabled, Mode=OneWay, Converter={StaticResource BoolToVisInverse}}"/>
     </Grid>
 </Page>
