@@ -142,10 +142,14 @@ namespace Win2ch.ViewModels {
 
         private async void ShowCacheSizes() {
             var cache = CacheService.Instance;
-            var videoSize = await cache.GetCacheItemsSize(CacheItemType.Video);
-            var totalSize = await cache.GetTotalCacheSize();
-            VideoCacheSize = Utils.ToFileSize(videoSize);
-            TotalCacheSize = Utils.ToFileSize(totalSize);
+            try {
+                var videoSize = await cache.GetCacheItemsSize(CacheItemType.Video);
+                var totalSize = await cache.GetTotalCacheSize();
+                VideoCacheSize = Utils.ToFileSize(videoSize);
+                TotalCacheSize = Utils.ToFileSize(totalSize);
+            } catch {
+                VideoCacheSize = TotalCacheSize = "Не удалось получить размер";
+            }
         }
 
         public async void ClearCache() {
