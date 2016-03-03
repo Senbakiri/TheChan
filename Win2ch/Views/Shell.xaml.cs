@@ -50,16 +50,6 @@ namespace Win2ch.Views {
                 Instance.PropertyChanged?.Invoke(Instance, new PropertyChangedEventArgs(nameof(BusyText)));
             });
         }
-
-        private void MyHamburgerMenu_OnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) {
-            if (e.Position.X > 50)
-                e.Complete();
-        }
-
-        private void MyHamburgerMenu_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) {
-            if (e.Cumulative.Translation.X > 75)
-                MyHamburgerMenu.IsOpen = true;
-        }
     }
 }
 
