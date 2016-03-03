@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Windows.System;
 using FFmpegInterop;
 using Win2ch.Annotations;
 using Win2ch.Common;
@@ -38,19 +39,23 @@ namespace Win2ch.Controls {
             Attachment = attachment;
             InitializeComponent();
             IsWebmEnabled = SettingsService.Instance.IsWebmEnabled;
-            if (IsWebmEnabled)
-                CreateStream();
+            CreateStream();
         }
 
         private async void CreateStream() {
+
             try {
                 IsLoading = true;
                 var file = await CacheService.Instance.DownloadAndCacheAttachment(Attachment);
-                var stream = await file.OpenReadAsync();
-                var source = FFmpegInteropMSS.CreateFFmpegInteropMSSFromStream(stream, true, true);
-                var mss = source.GetMediaStreamSource();
-                mss.BufferTime = new TimeSpan(0);
-                MediaElement.SetMediaStreamSource(mss);
+                if (IsWebmEnabled) {
+                    var stream = await file.OpenReadAsync();
+                    var source = FFmpegInteropMSS.CreateFFmpegInteropMSSFromStream(stream, true, true);
+                    var mss = source.GetMediaStreamSource();
+                    mss.BufferTime = new TimeSpan(0);
+                    MediaElement.SetMediaStreamSource(mss);
+                } else {
+                    await Launcher.LaunchFileAsync(file);
+                }
             } catch (Exception e) {
                 await Utils.ShowOtherError(e, "Не удалось загрузить видео");
             }

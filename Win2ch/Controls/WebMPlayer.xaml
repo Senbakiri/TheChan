@@ -14,13 +14,17 @@
                       RealTimePlayback="True"
                       PlaybackRate="1"
                       Visibility="{x:Bind IsWebmEnabled, Mode=OneWay, Converter={StaticResource BoolToVis}}"/>
-        <ProgressRing IsActive="{x:Bind IsLoading, Mode=OneWay}"
-                      Height="50"
-                      Width="50"/>
-        <TextBlock Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
+        <StackPanel VerticalAlignment="Center">
+            <ProgressRing IsActive="{x:Bind IsLoading, Mode=OneWay}"
+                          Height="50"
+                          Width="50"/>
+            <TextBlock Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
                    TextAlignment="Center"
-                   Text="Просмотр .webm выключен."
+                   Text="Просмотр .webm выключен. Видео будет открыто в стороннем приложении."
+                   TextWrapping="Wrap"
                    VerticalAlignment="Center"
+                   Padding="10"
                    Visibility="{x:Bind IsWebmEnabled, Mode=OneWay, Converter={StaticResource BoolToVisInverse}}"/>
+        </StackPanel>
     </Grid>
 </Page>
