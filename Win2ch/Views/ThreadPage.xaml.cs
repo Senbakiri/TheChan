@@ -262,6 +262,7 @@ namespace Win2ch.Views {
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
+            _lastVerticalOffsetBeforeScrolling = 0;
             ChangeScrollButonView();
             if (e.NavigationMode == NavigationMode.Back)
                 return;
