@@ -25,5 +25,11 @@
         public const string BoardUrlHttp = "http://2ch.hk/{0}/{1}";
 
         public const string SinglePost = "https://2ch.hk/makaba/mobile.fcgi?task=get_post&board={0}&post={1}";
+
+        public const string PostingCaptcha = "https://2ch.hk/makaba/captcha.fcgi?type=2chaptcha";
+
+        public const string ThreadCaptcha = "https://2ch.hk/makaba/captcha.fcgi?type=2chaptcha&action=thread";
+
+        public const string CaptchaImage = "https://2ch.hk/makaba/captcha.fcgi?type=2chaptcha&action=image&id={0}";
     }
 }

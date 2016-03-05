@@ -4,7 +4,6 @@ using System.Linq;
 using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.System;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -13,7 +12,6 @@ using Windows.UI.Xaml.Navigation;
 using Win2ch.Common;
 using Win2ch.Controls;
 using Win2ch.Models;
-using Win2ch.Services.SettingsServices;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Views {
@@ -27,7 +25,7 @@ namespace Win2ch.Views {
         private readonly bool _isMouseConnected = new MouseCapabilities().MousePresent > 0;
         private long _lastRepliedPostNum;
         private ScrollViewer _postsScrollViewer;
-        private double _lastVerticalOffsetBeforeScrolling = 0;
+        private double _lastVerticalOffsetBeforeScrolling;
 
         public ThreadPage() {
             InitializeComponent();

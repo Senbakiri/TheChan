@@ -10,6 +10,7 @@ using Windows.Web.Http.Filters;
 using Windows.Web.Http.Headers;
 using Newtonsoft.Json;
 using Win2ch.Models.Exceptions;
+using Win2ch.Services;
 
 namespace Win2ch.Models {
     public class Thread {
@@ -128,6 +129,8 @@ namespace Win2ch.Models {
                 {new HttpStringContent(postInfo.Comment ?? ""), "comment"}
             };
 
+            await SetupCaptcha(content, Num == 0);
+
             if (postInfo.Files == null)
                 return content;
 
@@ -142,6 +145,21 @@ namespace Win2ch.Models {
             }
 
             return content;
+        }
+
+        private async Task SetupCaptcha(HttpMultipartFormDataContent content, bool isNewThread) {
+            var service = CaptchaService.Instance;
+            var info = isNewThread
+                ? await service.GetCaptchaInfoForThread()
+                : await service.GetCaptchaInfoForPosting();
+
+            content.Add(new HttpStringContent(info.CaptchaType), "captcha_type");
+            if (!info.IsCaptchaNeeded)
+                return;
+
+            content.Add(new HttpStringContent(info.Key), "2chaptcha_id");
+            var result = await service.GetCaptchaResult(info);
+            content.Add(new HttpStringContent(result), "2chaptcha_value");
         }
 
         private HttpStreamContent CreateFileContent(IInputStream stream,

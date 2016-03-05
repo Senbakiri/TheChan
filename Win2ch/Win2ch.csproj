@@ -123,6 +123,9 @@
     <Compile Include="Controls\BlurImage.xaml.cs">
       <DependentUpon>BlurImage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CaptchaDialog.xaml.cs">
+      <DependentUpon>CaptchaDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PostViewer.xaml.cs">
       <DependentUpon>PostViewer.xaml</DependentUpon>
     </Compile>
@@ -150,6 +153,7 @@
     <Compile Include="Services\BadgeService.cs" />
     <Compile Include="Services\CacheItemType.cs" />
     <Compile Include="Services\CacheService.cs" />
+    <Compile Include="Services\CaptchaService.cs" />
     <Compile Include="Services\FavoritesService.cs" />
     <Compile Include="Services\FavoriteThreadsStorageService.cs" />
     <Compile Include="Services\SettingsServices\StartingPage.cs" />
@@ -288,6 +292,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\BlurImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\CaptchaDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -47,7 +47,8 @@
             </controls:PageHeader.Content>
             <controls:PageHeader.PrimaryCommands>
                 <AppBarButton Icon="More" Click="More_OnClick" x:Name="MoreAppBarButton"/>
-                <AppBarButton Icon="Send" Command="{x:Bind ViewModel.SendCommand}"/>
+                <AppBarButton Icon="Send" Command="{x:Bind ViewModel.SendCommand}"
+                              IsTabStop="False"/>
             </controls:PageHeader.PrimaryCommands>
             <interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed"/>
