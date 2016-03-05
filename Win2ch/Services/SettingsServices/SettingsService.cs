@@ -47,6 +47,12 @@ namespace Win2ch.Services.SettingsServices {
             }
         }
 
+
+        public StartingPage StartingPage {
+            get { return _helper.Read(nameof(StartingPage), StartingPage.Main); }
+            set { _helper.Write(nameof(StartingPage), value); }
+        }
+
         public bool IsWebmEnabled {
             get { return _helper.Read(nameof(IsWebmEnabled), false); }
             set { _helper.Write(nameof(IsWebmEnabled), value); }

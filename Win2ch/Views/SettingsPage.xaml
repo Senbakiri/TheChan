@@ -73,6 +73,16 @@
             <PivotItem Header="поведение">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
+                        <ComboBox Header="Начальная страница"
+                                  ItemsSource="{x:Bind ViewModel.AvailableStartingPages}"
+                                  SelectedItem="{Binding SelectedStartingPage, Mode=TwoWay}"
+                                  Margin="0 10">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="settingsServices:StartingPage">
+                                    <TextBlock Text="{Binding Converter={StaticResource EnumToString}}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                         <TextBlock Text="Прокрутка к посту с изображением после просмотра изображения"
                                    TextWrapping="Wrap"/>
                         <ToggleSwitch IsOn="{x:Bind ViewModel.ScrollToPostWithImageAfterViewingImage, Mode=TwoWay}"/>

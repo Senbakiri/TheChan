@@ -11,6 +11,7 @@ namespace Win2ch.Services.SettingsServices {
         bool IsWebmEnabled { get; set; }
         Theme AppTheme { get; set; }
         RepliesViewMode RepliesViewMode { get; set; }
+        StartingPage StartingPage { get; set; }
         TimeSpan CacheMaxDuration { get; set; }
     }
 }

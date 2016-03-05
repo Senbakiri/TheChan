@@ -51,8 +51,12 @@ namespace Win2ch.ViewModels {
         }
 
         public List<Theme> AvailableThemes { get; } = Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
+
         public List<RepliesViewMode> AvailableRepliesViewModes
             { get; } = Enum.GetValues(typeof(RepliesViewMode)).Cast<RepliesViewMode>().ToList();
+
+        public List<StartingPage> AvailableStartingPages { get; }
+            = Enum.GetValues(typeof (StartingPage)).Cast<StartingPage>().ToList();
 
         public bool ScrollToPostWithImageAfterViewingImage {
             get { return _settingsService.ScrollToPostWithImageAfterViewingImage; }
@@ -89,6 +93,14 @@ namespace Win2ch.ViewModels {
             get { return _settingsService.RepliesViewMode; }
             set {
                 _settingsService.RepliesViewMode = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public StartingPage SelectedStartingPage {
+            get { return _settingsService.StartingPage; }
+            set {
+                _settingsService.StartingPage = value;
                 RaisePropertyChanged();
             }
         }

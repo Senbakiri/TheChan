@@ -59,7 +59,7 @@ namespace Win2ch {
                     await NavigateToPageWithArguments(((LaunchActivatedEventArgs)args).Arguments);
                     break;
                 default:
-                    NavigationService.Navigate(typeof(MainPage));
+                    NavigationService.Navigate(GetStartingPage());
                     break;
             }
         }
@@ -88,6 +88,19 @@ namespace Win2ch {
             NavigationService.Navigate(typeof (ThreadPage), navigation);
         }
 
+        private Type GetStartingPage() {
+            switch (SettingsService.Instance.StartingPage) {
+                case StartingPage.Main:
+                    return typeof(MainPage);
+                case StartingPage.Favorites:
+                    return typeof(FavoritesPage);
+                case StartingPage.RecentThreads:
+                    return typeof(RecentThreadsPage);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
         public static async Task SetupJumpList() {
             if (!JumpList.IsSupported())
                 return;
@@ -96,8 +109,7 @@ namespace Win2ch {
             var favBoards = await FavoritesService.Instance.Boards.GetItems();
             foreach (var board in favBoards) {
                 var args = new JObject {
-                    {"type", "board" },
-                    {"board", board.Id }
+                    {"type", "board"}, {"board", board.Id}
                 };
 
                 var item = JumpListItem.CreateWithArguments(args.ToString(), $"/{board.Id}/ - {board.Name}");
