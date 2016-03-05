@@ -27,6 +27,7 @@ namespace Win2ch.Views {
         private readonly bool _isMouseConnected = new MouseCapabilities().MousePresent > 0;
         private long _lastRepliedPostNum;
         private ScrollViewer _postsScrollViewer;
+        private double _lastVerticalOffsetBeforeScrolling = 0;
 
         public ThreadPage() {
             InitializeComponent();
@@ -83,8 +84,12 @@ namespace Win2ch.Views {
         }
 
         private void Header_OnTapped(object sender, TappedRoutedEventArgs e) {
-            if (Posts.Items != null && Posts.Items.Count > 0)
-                Posts.ScrollIntoView(Posts.Items[0]);
+            if (_postsScrollViewer == null)
+                return;
+
+            var offset = _lastVerticalOffsetBeforeScrolling;
+            _lastVerticalOffsetBeforeScrolling = _postsScrollViewer.VerticalOffset;
+            _postsScrollViewer.ChangeView(null, offset, null);
         }
 
         private void ScrollButton_OnClick(object sender, RoutedEventArgs e) {
