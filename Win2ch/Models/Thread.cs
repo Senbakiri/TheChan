@@ -98,25 +98,32 @@ namespace Win2ch.Models {
             }
         }
 
-        public async Task Reply(NewPostInfo info) {
+        public async Task Reply(NewPostInfo info, bool forceCaptcha = false) {
             if (Board == null)
                 // TODO: Replace with separate exception
                 throw new Exception("Invalid thread");
 
             using (var client = new HttpClient()) {
                 SetupHeaders(client);
-                var content = await SetupContent(info);
+                var content = await SetupContent(info, forceCaptcha);
 
                 var uri = new Uri(Urls.Posting);
                 var response = await client.PostAsync(uri, content);
                 if (!response.IsSuccessStatusCode)
                     throw new HttpException(response.StatusCode);
                 var responseString = await response.Content.ReadAsStringAsync();
-                responseString.CheckForApiError();
+                try {
+                    responseString.CheckForApiError();
+                } catch (ApiException e) {
+                    if (e.Message == "Капча невалидна." && !forceCaptcha)
+                        await Reply(info, true);
+                    else
+                        throw;
+                }
             }
         }
 
-        private async Task<IHttpContent> SetupContent(NewPostInfo postInfo) {
+        private async Task<IHttpContent> SetupContent(NewPostInfo postInfo, bool forceCaptcha) {
             var content = new HttpMultipartFormDataContent
             {
                 {new HttpStringContent("1"), "json"},
@@ -129,7 +136,7 @@ namespace Win2ch.Models {
                 {new HttpStringContent(postInfo.Comment ?? ""), "comment"}
             };
 
-            await SetupCaptcha(content, Num == 0);
+            await SetupCaptcha(content, Num == 0 || forceCaptcha);
 
             if (postInfo.Files == null)
                 return content;
