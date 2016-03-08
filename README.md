@@ -1,4 +1,2 @@
 # Win2ch
-Браузер для 2ch.hk для всех устройств на Windows 10
-
-**Последняя версия:** 0.7 Beta
+A client for 2ch.hk
