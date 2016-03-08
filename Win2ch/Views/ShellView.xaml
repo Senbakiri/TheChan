@@ -5,9 +5,138 @@
     xmlns:local="using:Win2ch.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:viewModels="using:Win2ch.ViewModels"
+    xmlns:core="using:Win2ch.Core"
+    xmlns:micro="using:Caliburn.Micro"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance viewModels:ShellViewModel}"
+    SizeChanged="OnSizeChanged">
+
+    <Page.Resources>
+        <Style TargetType="Button" x:Key="CloseButtonStyle">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="Content.Foreground" Value="#e82b39"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              x:Name="Content"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <ListView x:Name="TabsList"
+                      ItemsSource="{x:Bind ViewModel.Items}"
+                      SelectedItem="{Binding ActiveItem, Mode=TwoWay}"
+                      VerticalAlignment="Stretch"
+                      ScrollViewer.IsHorizontalRailEnabled="True"
+                      ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                      ScrollViewer.HorizontalScrollMode="Enabled"
+                      ScrollViewer.VerticalScrollMode="Disabled"
+                      SelectionMode="Single"
+                      CanReorderItems="True"
+                      AllowDrop="True">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+                                    Orientation="Horizontal">
+                            <StackPanel.ChildrenTransitions>
+                                <TransitionCollection/>
+                            </StackPanel.ChildrenTransitions>
+                        </StackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="MinHeight" Value="0"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <ListViewItemPresenter CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" 
+                                                           ContentMargin="{TemplateBinding Padding}" 
+                                                           CheckMode="Inline" 
+                                                           ContentTransitions="{TemplateBinding ContentTransitions}" 
+                                                           CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" 
+                                                           DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}" 
+                                                           DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}" 
+                                                           DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}" 
+                                                           DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}" 
+                                                           FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}" 
+                                                           FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}" 
+                                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                           PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+                                                           PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}"
+                                                           PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
+                                                           PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}"
+                                                           ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" 
+                                                           SelectedPressedBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                                           SelectionCheckMarkVisualEnabled="True" 
+                                                           SelectedForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+                                                           SelectedPointerOverBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
+                                                           SelectedBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="core:Tab">
+                        <Grid Width="200"
+                              BorderThickness="0 0 1 0"
+                              Padding="10 0"
+                              VerticalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{x:Bind DisplayName}"
+                                       VerticalAlignment="Center"
+                                       FontSize="12"/>
+                            <Button Grid.Column="1"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    Content="&#xE711;"
+                                    Style="{StaticResource CloseButtonStyle}"
+                                    micro:Message.Attach="CloseTab($dataContext)"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Border Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+                    x:Name="Bar"
+                    Grid.Column="1"/>
+        </Grid>
+        <ContentControl x:Name="ActiveItem"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        Grid.Row="1"/>
     </Grid>
 </Page>

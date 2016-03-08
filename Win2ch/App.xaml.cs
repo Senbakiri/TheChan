@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.UI.Xaml;
 using Caliburn.Micro;
 using Win2ch.ViewModels;
 
