@@ -18,7 +18,9 @@ namespace Win2ch
         protected override void Configure() {
             _container = new WinRTContainer();
             _container.RegisterWinRTServices();
-            _container.Singleton<ShellViewModel>();
+            _container
+                .Singleton<ShellViewModel>()
+                .PerRequest<HomeViewModel>();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args) {

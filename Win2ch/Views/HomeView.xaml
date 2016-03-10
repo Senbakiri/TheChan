@@ -6,8 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:micro="using:Caliburn.Micro"
+    xmlns:core="using:Win2ch.Core"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <TextBlock>Page #<Run Text="{x:Bind ViewModel.Number}"/></TextBlock>
+            <Button Content="Open new" micro:Message.Attach="OpenNewPage"/>
+        </StackPanel>
     </Grid>
 </Page>

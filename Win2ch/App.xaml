@@ -4,9 +4,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Win2ch"
     xmlns:micro="using:Caliburn.Micro"
-    RequestedTheme="Light">
+    xmlns:converters="using:WinRTXamlToolkit.Converters"
+    xmlns:converters1="using:Win2ch.Converters">
     <Application.Resources>
         <ResourceDictionary>
+            <micro:BooleanToVisibilityConverter x:Key="TrueToVisible"/>
+            <converters:BooleanToVisibilityConverter IsInversed="True" x:Key="TrueToCollaped"/>
+            <converters1:StringToVisibilityConverter x:Key="EmptyStringToCollapsed"/>
+            
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#191919"/>

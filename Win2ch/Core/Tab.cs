@@ -1,4 +1,7 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Caliburn.Micro;
 
 namespace Win2ch.Core {
@@ -9,6 +12,6 @@ namespace Win2ch.Core {
 
         public virtual Image Icon { get; set; }
 
-        public virtual bool IsCloseable { get; set; }
+        public virtual bool IsCloseable { get; set; } = true;
     }
 }

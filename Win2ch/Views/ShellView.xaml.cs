@@ -2,38 +2,31 @@
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Views {
     public sealed partial class ShellView {
         public ShellView() {
             InitializeComponent();
-            DataContextChanged += (s, e) => ViewModel = DataContext as ShellViewModel;
+            DataContextChanged += OnDataContextChanged;
             SetupTitleBar();
+        }
+
+        private void OnDataContextChanged(FrameworkElement s, DataContextChangedEventArgs e) {
+            ViewModel = DataContext as ShellViewModel;
         }
 
         private ShellViewModel ViewModel { get; set; }
 
         private void SetupTitleBar() {
-            CoreApplicationViewTitleBar coreBar = CoreApplication.GetCurrentView().TitleBar;
-            if (coreBar == null)
-                return;
-
-            coreBar.ExtendViewIntoTitleBar = true;
-            coreBar.LayoutMetricsChanged += TitleBarOnLayoutMetricsChanged;
-            Window.Current.SetTitleBar(Bar);
-
             ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonBackgroundColor = (Color)Application.Current.Resources["SystemAltHighColor"];
-        }
-
-        private void TitleBarOnLayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args) {
-            Bar.Height = sender.Height;
-            Bar.MinWidth = sender.SystemOverlayRightInset;
-        }
-
-        private void OnSizeChanged(object sender, SizeChangedEventArgs e) {
-            TabsList.MaxWidth = ActualWidth - Bar.MinWidth;
+            var bg = (SolidColorBrush)Application.Current.Resources["ApplicationPageBackgroundThemeBrush"];
+            titleBar.BackgroundColor =
+                titleBar.ButtonBackgroundColor =
+                titleBar.ButtonInactiveBackgroundColor =
+                titleBar.InactiveBackgroundColor = bg.Color;
         }
     }
 }
