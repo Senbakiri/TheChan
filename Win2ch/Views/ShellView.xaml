@@ -111,7 +111,6 @@
                 </VisualState>
                 <VisualState>
                     <VisualState.Setters>
-                        <Setter Target="SwipeableSplitView.IsSwipeablePaneOpen" Value="False"/>
                         <Setter Target="SwipeableSplitView.DisplayMode" Value="Overlay"/>
                         <Setter Target="SwipeableSplitView.OpenPaneLength" Value="200"/>
                     </VisualState.Setters>
