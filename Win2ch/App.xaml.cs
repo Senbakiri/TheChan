@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Windows.ApplicationModel.Activation;
 using Caliburn.Micro;
+using Win2ch.Core;
 using Win2ch.ViewModels;
 
 namespace Win2ch
@@ -19,12 +20,12 @@ namespace Win2ch
             _container = new WinRTContainer();
             _container.RegisterWinRTServices();
             _container
-                .Singleton<ShellViewModel>()
                 .PerRequest<HomeViewModel>();
+            _container.RegisterSingleton(typeof(IShell), null, typeof(ShellViewModel));
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args) {
-            DisplayRootViewFor<ShellViewModel>();
+            DisplayRootViewFor<IShell>();
         }
 
         protected override object GetInstance(Type service, string key) {

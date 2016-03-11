@@ -1,10 +1,9 @@
-﻿using Windows.UI.Xaml;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Win2ch.Core;
 
 namespace Win2ch.ViewModels {
     internal sealed class HomeViewModel : Tab {
-        private static int _pagesOpened = 0;
+        private static int _pagesOpened;
 
         public int Number { get; }
 
@@ -21,7 +20,7 @@ namespace Win2ch.ViewModels {
         }
 
         public void OpenNewPage() {
-            IoC.Get<ShellViewModel>().ActivateItem(IoC.Get<HomeViewModel>());
+            IoC.Get<IShell>().Navigate<HomeViewModel>();
         }
     }
 }

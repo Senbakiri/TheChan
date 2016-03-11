@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Controls;
 using Caliburn.Micro;
 
 namespace Win2ch.Core {
-    class Tab : Screen {
+    public class Tab : Screen {
         public virtual string BadgeContent { get; set; }
 
         public virtual bool IsLoading { get; set; }
