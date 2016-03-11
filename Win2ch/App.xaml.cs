@@ -21,7 +21,8 @@ namespace Win2ch
             _container.RegisterWinRTServices();
             _container
                 .PerRequest<HomeViewModel>()
-                .Singleton<IShell, ShellViewModel>();
+                .Singleton<IShell, ShellViewModel>()
+                .Singleton<IEventAggregator, EventAggregator>();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args) {
