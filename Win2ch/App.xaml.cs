@@ -9,7 +9,7 @@ namespace Win2ch
 {
     sealed partial class App {
 
-        private WinRTContainer _container;
+        private WinRTContainer container;
 
         public App()
         {
@@ -17,9 +17,9 @@ namespace Win2ch
         }
 
         protected override void Configure() {
-            _container = new WinRTContainer();
-            _container.RegisterWinRTServices();
-            _container
+            container = new WinRTContainer();
+            container.RegisterWinRTServices();
+            container
                 .PerRequest<HomeViewModel>()
                 .Singleton<IShell, ShellViewModel>()
                 .Singleton<IEventAggregator, EventAggregator>();
@@ -30,15 +30,15 @@ namespace Win2ch
         }
 
         protected override object GetInstance(Type service, string key) {
-            return _container.GetInstance(service, key);
+            return container.GetInstance(service, key);
         }
 
         protected override IEnumerable<object> GetAllInstances(Type service) {
-            return _container.GetAllInstances(service);
+            return container.GetAllInstances(service);
         }
 
         protected override void BuildUp(object instance) {
-            _container.BuildUp(instance);
+            container.BuildUp(instance);
         }
     }
 }

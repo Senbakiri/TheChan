@@ -14,21 +14,21 @@ namespace Win2ch.Controls {
     public sealed class SwipeableSplitView : SplitView {
         #region private variables
 
-        private Grid _paneRoot;
-        private Grid _overlayRoot;
-        private Rectangle _panArea;
-        private Rectangle _dismissLayer;
-        private CompositeTransform _paneRootTransform;
-        private CompositeTransform _panAreaTransform;
-        private Storyboard _openSwipeablePane;
-        private Storyboard _closeSwipeablePane;
+        private Grid paneRoot;
+        private Grid overlayRoot;
+        private Rectangle panArea;
+        private Rectangle dismissLayer;
+        private CompositeTransform paneRootTransform;
+        private CompositeTransform panAreaTransform;
+        private Storyboard openSwipeablePane;
+        private Storyboard closeSwipeablePane;
 
-        private Selector _menuHost;
-        private IList<SelectorItem> _menuItems = new List<SelectorItem>();
-        private int _toBeSelectedIndex;
-        private static double TOTAL_PANNING_DISTANCE = 160d;
-        private double _distancePerItem;
-        private double _startingDistance;
+        private Selector menuHost;
+        private IList<SelectorItem> menuItems = new List<SelectorItem>();
+        private int toBeSelectedIndex;
+        private static double _totalPanningDistance = 160d;
+        private double distancePerItem;
+        private double startingDistance;
 
         #endregion
 
@@ -40,92 +40,92 @@ namespace Win2ch.Controls {
 
         // safely subscribe/unsubscribe manipulation events here
         internal Grid PaneRoot {
-            get { return _paneRoot; }
+            get { return paneRoot; }
             set {
-                if (_paneRoot != null) {
-                    _paneRoot.Loaded -= OnPaneRootLoaded;
-                    _paneRoot.ManipulationStarted -= OnManipulationStarted;
-                    _paneRoot.ManipulationDelta -= OnManipulationDelta;
-                    _paneRoot.ManipulationCompleted -= OnManipulationCompleted;
+                if (paneRoot != null) {
+                    paneRoot.Loaded -= OnPaneRootLoaded;
+                    paneRoot.ManipulationStarted -= OnManipulationStarted;
+                    paneRoot.ManipulationDelta -= OnManipulationDelta;
+                    paneRoot.ManipulationCompleted -= OnManipulationCompleted;
                 }
 
-                _paneRoot = value;
+                paneRoot = value;
 
-                if (_paneRoot != null) {
-                    _paneRoot.Loaded += OnPaneRootLoaded;
-                    _paneRoot.ManipulationStarted += OnManipulationStarted;
-                    _paneRoot.ManipulationDelta += OnManipulationDelta;
-                    _paneRoot.ManipulationCompleted += OnManipulationCompleted;
+                if (paneRoot != null) {
+                    paneRoot.Loaded += OnPaneRootLoaded;
+                    paneRoot.ManipulationStarted += OnManipulationStarted;
+                    paneRoot.ManipulationDelta += OnManipulationDelta;
+                    paneRoot.ManipulationCompleted += OnManipulationCompleted;
                 }
             }
         }
 
         // safely subscribe/unsubscribe manipulation events here
         internal Rectangle PanArea {
-            get { return _panArea; }
+            get { return panArea; }
             set {
-                if (_panArea != null) {
-                    _panArea.ManipulationStarted -= OnManipulationStarted;
-                    _panArea.ManipulationDelta -= OnManipulationDelta;
-                    _panArea.ManipulationCompleted -= OnManipulationCompleted;
-                    _panArea.Tapped -= OnDismissLayerTapped;
+                if (panArea != null) {
+                    panArea.ManipulationStarted -= OnManipulationStarted;
+                    panArea.ManipulationDelta -= OnManipulationDelta;
+                    panArea.ManipulationCompleted -= OnManipulationCompleted;
+                    panArea.Tapped -= OnDismissLayerTapped;
                 }
 
-                _panArea = value;
+                panArea = value;
 
-                if (_panArea != null) {
-                    _panArea.ManipulationStarted += OnManipulationStarted;
-                    _panArea.ManipulationDelta += OnManipulationDelta;
-                    _panArea.ManipulationCompleted += OnManipulationCompleted;
-                    _panArea.Tapped += OnDismissLayerTapped;
+                if (panArea != null) {
+                    panArea.ManipulationStarted += OnManipulationStarted;
+                    panArea.ManipulationDelta += OnManipulationDelta;
+                    panArea.ManipulationCompleted += OnManipulationCompleted;
+                    panArea.Tapped += OnDismissLayerTapped;
                 }
             }
         }
 
         // safely subscribe/unsubscribe manipulation events here
         internal Rectangle DismissLayer {
-            get { return _dismissLayer; }
+            get { return dismissLayer; }
             set {
-                if (_dismissLayer != null) {
-                    _dismissLayer.Tapped -= OnDismissLayerTapped;
+                if (dismissLayer != null) {
+                    dismissLayer.Tapped -= OnDismissLayerTapped;
                 }
 
-                _dismissLayer = value;
+                dismissLayer = value;
 
-                if (_dismissLayer != null) {
-                    _dismissLayer.Tapped += OnDismissLayerTapped; ;
+                if (dismissLayer != null) {
+                    dismissLayer.Tapped += OnDismissLayerTapped; ;
                 }
             }
         }
 
         // safely subscribe/unsubscribe animation completed events here
         internal Storyboard OpenSwipeablePaneAnimation {
-            get { return _openSwipeablePane; }
+            get { return openSwipeablePane; }
             set {
-                if (_openSwipeablePane != null) {
-                    _openSwipeablePane.Completed -= OnOpenSwipeablePaneCompleted;
+                if (openSwipeablePane != null) {
+                    openSwipeablePane.Completed -= OnOpenSwipeablePaneCompleted;
                 }
 
-                _openSwipeablePane = value;
+                openSwipeablePane = value;
 
-                if (_openSwipeablePane != null) {
-                    _openSwipeablePane.Completed += OnOpenSwipeablePaneCompleted;
+                if (openSwipeablePane != null) {
+                    openSwipeablePane.Completed += OnOpenSwipeablePaneCompleted;
                 }
             }
         }
 
         // safely subscribe/unsubscribe animation completed events here
         internal Storyboard CloseSwipeablePaneAnimation {
-            get { return _closeSwipeablePane; }
+            get { return closeSwipeablePane; }
             set {
-                if (_closeSwipeablePane != null) {
-                    _closeSwipeablePane.Completed -= OnCloseSwipeablePaneCompleted;
+                if (closeSwipeablePane != null) {
+                    closeSwipeablePane.Completed -= OnCloseSwipeablePaneCompleted;
                 }
 
-                _closeSwipeablePane = value;
+                closeSwipeablePane = value;
 
-                if (_closeSwipeablePane != null) {
-                    _closeSwipeablePane.Completed += OnCloseSwipeablePaneCompleted;
+                if (closeSwipeablePane != null) {
+                    closeSwipeablePane.Completed += OnCloseSwipeablePaneCompleted;
                 }
             }
         }
@@ -195,11 +195,11 @@ namespace Win2ch.Controls {
             base.OnApplyTemplate();
 
             PaneRoot = GetTemplateChild<Grid>("PaneRoot");
-            _overlayRoot = GetTemplateChild<Grid>("OverlayRoot");
+            overlayRoot = GetTemplateChild<Grid>("OverlayRoot");
             PanArea = GetTemplateChild<Rectangle>("PanArea");
             DismissLayer = GetTemplateChild<Rectangle>("DismissLayer");
 
-            var rootGrid = _paneRoot.GetParent<Grid>();
+            var rootGrid = paneRoot.GetParent<Grid>();
 
             OpenSwipeablePaneAnimation = rootGrid.GetStoryboard("OpenSwipeablePane");
             CloseSwipeablePaneAnimation = rootGrid.GetStoryboard("CloseSwipeablePane");
@@ -223,16 +223,16 @@ namespace Win2ch.Controls {
                 case SplitViewDisplayMode.CompactOverlay:
                 case SplitViewDisplayMode.CompactInline:
                     PanAreaInitialTranslateX = 0d;
-                    _overlayRoot.Visibility = Visibility.Collapsed;
+                    overlayRoot.Visibility = Visibility.Collapsed;
                     break;
 
                 case SplitViewDisplayMode.Overlay:
                     PanAreaInitialTranslateX = OpenPaneLength * -1;
-                    _overlayRoot.Visibility = Visibility.Visible;
+                    overlayRoot.Visibility = Visibility.Visible;
                     break;
             }
 
-            ((CompositeTransform)_paneRoot.RenderTransform).TranslateX = PanAreaInitialTranslateX;
+            ((CompositeTransform)paneRoot.RenderTransform).TranslateX = PanAreaInitialTranslateX;
         }
 
         #endregion
@@ -240,34 +240,34 @@ namespace Win2ch.Controls {
         #region manipulation event handlers
 
         private void OnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) {
-            _panAreaTransform = PanArea.GetCompositeTransform();
-            _paneRootTransform = PaneRoot.GetCompositeTransform();
+            panAreaTransform = PanArea.GetCompositeTransform();
+            paneRootTransform = PaneRoot.GetCompositeTransform();
         }
 
         private void OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e) {
-            var x = _panAreaTransform.TranslateX + e.Delta.Translation.X;
+            var x = panAreaTransform.TranslateX + e.Delta.Translation.X;
 
             // keep the pan within the bountry
             if (x < PanAreaInitialTranslateX || x > 0) return;
 
             // while we are panning the PanArea on X axis, let's sync the PaneRoot's position X too
-            _paneRootTransform.TranslateX = _panAreaTransform.TranslateX = x;
+            paneRootTransform.TranslateX = panAreaTransform.TranslateX = x;
 
-            if (sender == _paneRoot && IsPanSelectorEnabled) {
+            if (sender == paneRoot && IsPanSelectorEnabled) {
                 // un-highlight everything first
-                foreach (var item in _menuItems) {
+                foreach (var item in menuItems) {
                     VisualStateManager.GoToState(item, "Normal", true);
                 }
 
-                _toBeSelectedIndex = (int)Math.Round((e.Cumulative.Translation.Y + _startingDistance) / _distancePerItem, MidpointRounding.AwayFromZero);
-                if (_toBeSelectedIndex < 0) {
-                    _toBeSelectedIndex = 0;
-                } else if (_toBeSelectedIndex >= _menuItems.Count) {
-                    _toBeSelectedIndex = _menuItems.Count - 1;
+                toBeSelectedIndex = (int)Math.Round((e.Cumulative.Translation.Y + startingDistance) / distancePerItem, MidpointRounding.AwayFromZero);
+                if (toBeSelectedIndex < 0) {
+                    toBeSelectedIndex = 0;
+                } else if (toBeSelectedIndex >= menuItems.Count) {
+                    toBeSelectedIndex = menuItems.Count - 1;
                 }
 
                 // highlight the item that's going to be selected
-                var itemContainer = _menuItems[_toBeSelectedIndex];
+                var itemContainer = menuItems[toBeSelectedIndex];
                 VisualStateManager.GoToState(itemContainer, "PointerOver", true);
             }
         }
@@ -279,7 +279,7 @@ namespace Win2ch.Controls {
             if (x <= -0.1) {
                 CloseSwipeablePane();
             } else if (x > -0.1 && x < 0.1) {
-                if (Math.Abs(_panAreaTransform.TranslateX) > Math.Abs(PanAreaInitialTranslateX) / 2) {
+                if (Math.Abs(panAreaTransform.TranslateX) > Math.Abs(PanAreaInitialTranslateX) / 2) {
                     CloseSwipeablePane();
                 } else {
                     OpenSwipeablePane();
@@ -289,12 +289,12 @@ namespace Win2ch.Controls {
             }
 
             if (IsPanSelectorEnabled) {
-                if (sender == _paneRoot) {
+                if (sender == paneRoot) {
                     // if it's a flick, meaning the user wants to cancel the action, so we remove all the highlights;
                     // or it's intended to be a horizontal gesture, we also remove all the highlights
                     if (Math.Abs(e.Velocities.Linear.Y) >= 2 ||
                         Math.Abs(e.Cumulative.Translation.X) > Math.Abs(e.Cumulative.Translation.Y)) {
-                        foreach (var item in _menuItems) {
+                        foreach (var item in menuItems) {
                             VisualStateManager.GoToState(item, "Normal", true);
                         }
 
@@ -302,20 +302,20 @@ namespace Win2ch.Controls {
                     }
 
                     // un-highlight everything first
-                    foreach (var item in _menuItems) {
+                    foreach (var item in menuItems) {
                         VisualStateManager.GoToState(item, "Unselected", true);
                     }
 
                     // highlight the item that's going to be selected
-                    var itemContainer = _menuItems[_toBeSelectedIndex];
+                    var itemContainer = menuItems[toBeSelectedIndex];
                     VisualStateManager.GoToState(itemContainer, "Selected", true);
 
                     // do a selection after a short delay to allow visual effect takes place first
                     await Task.Delay(250);
-                    _menuHost.SelectedIndex = _toBeSelectedIndex;
+                    menuHost.SelectedIndex = toBeSelectedIndex;
                 } else {
                     // recalculate the starting distance
-                    _startingDistance = _distancePerItem * _menuHost.SelectedIndex;
+                    startingDistance = distancePerItem * menuHost.SelectedIndex;
                 }
             }
         }
@@ -348,17 +348,17 @@ namespace Win2ch.Controls {
             // fill the local menu items collection for later use
             if (IsPanSelectorEnabled) {
                 var border = (Border)PaneRoot.Children[0];
-                _menuHost = border.GetChild<Selector>("For the bottom panning to work, the Pane's Child needs to be of type Selector.");
+                menuHost = border.GetChild<Selector>("For the bottom panning to work, the Pane's Child needs to be of type Selector.");
 
-                foreach (var item in _menuHost.Items) {
-                    var container = (SelectorItem)_menuHost.ContainerFromItem(item);
-                    _menuItems.Add(container);
+                foreach (var item in menuHost.Items) {
+                    var container = (SelectorItem)menuHost.ContainerFromItem(item);
+                    menuItems.Add(container);
                 }
 
-                _distancePerItem = TOTAL_PANNING_DISTANCE / _menuItems.Count;
+                distancePerItem = _totalPanningDistance / menuItems.Count;
 
                 // calculate the initial starting distance
-                _startingDistance = _distancePerItem * _menuHost.SelectedIndex;
+                startingDistance = distancePerItem * menuHost.SelectedIndex;
             }
         }
 

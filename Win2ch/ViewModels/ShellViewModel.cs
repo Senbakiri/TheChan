@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Win2ch.Core;
 
 namespace Win2ch.ViewModels {
@@ -12,11 +8,25 @@ namespace Win2ch.ViewModels {
         }
 
         protected override void OnInitialize() {
-            ActivateItem(IoC.Get<HomeViewModel>());
+            Navigate<HomeViewModel>("test");
         }
 
-        public void Navigate<T>() where T : Tab {
-            ActivateItem(IoC.Get<T>());
+        public void Navigate<T>(object parameter = null) where T : Tab {
+            var item = IoC.Get<T>();
+            ActivateItem(item, parameter);
+        }
+
+        public override void ActivateItem(Tab item) {
+           ActivateItem(item, null);
+        }
+        
+        private void ActivateItem(Tab item, object parameter) {
+            if (ActiveItem != item && item != null) {
+                (item as IActivateWithParameter).Activate(parameter);
+                OnActivationProcessed(item, true);
+            }
+
+            ChangeActiveItem(item, false);
         }
     }
 }
