@@ -20,8 +20,8 @@ namespace Win2ch
             _container = new WinRTContainer();
             _container.RegisterWinRTServices();
             _container
-                .PerRequest<HomeViewModel>();
-            _container.RegisterSingleton(typeof(IShell), null, typeof(ShellViewModel));
+                .PerRequest<HomeViewModel>()
+                .Singleton<IShell, ShellViewModel>();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args) {
