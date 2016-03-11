@@ -7,12 +7,12 @@ using Win2ch.Core;
 
 namespace Win2ch.ViewModels {
     internal sealed class ShellViewModel : Conductor<Tab>.Collection.OneActive, IShell {
-        public ShellViewModel() {
-            ActivateItem(IoC.Get<HomeViewModel>());
-        }
-
         public void CloseTab(Tab tab) {
             DeactivateItem(tab, true);
+        }
+
+        protected override void OnInitialize() {
+            ActivateItem(IoC.Get<HomeViewModel>());
         }
 
         public void Navigate<T>() where T : Tab {

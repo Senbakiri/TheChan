@@ -6,8 +6,10 @@ namespace Win2ch.ViewModels {
         private static int _pagesOpened;
 
         public int Number { get; }
+        private IShell Shell { get; }
 
-        public HomeViewModel() {
+        public HomeViewModel(IShell shell) {
+            Shell = shell;
             _pagesOpened++;
             Number = _pagesOpened;
             DisplayName = $"Page #{Number}";
@@ -20,7 +22,7 @@ namespace Win2ch.ViewModels {
         }
 
         public void OpenNewPage() {
-            IoC.Get<IShell>().Navigate<HomeViewModel>();
+            Shell.Navigate<HomeViewModel>();
         }
     }
 }
