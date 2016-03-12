@@ -97,11 +97,11 @@
     </Compile>
     <Compile Include="Controls\SwipeableSplitView.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
-    <Compile Include="Core\ActivationWithParameterEventArgs.cs" />
-    <Compile Include="Core\Extensions.cs" />
-    <Compile Include="Core\IActivateWithParameter.cs" />
-    <Compile Include="Core\IShell.cs" />
-    <Compile Include="Core\Tab.cs" />
+    <Compile Include="Common\ActivationWithParameterEventArgs.cs" />
+    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\IActivateWithParameter.cs" />
+    <Compile Include="Common\IShell.cs" />
+    <Compile Include="Common\Tab.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
@@ -149,7 +149,16 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{63c4de70-8c04-4341-8b90-cfdd580755e6}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Makaba\Makaba.csproj">
+      <Project>{040550a7-82d3-4985-a7c9-f39e6da17a21}</Project>
+      <Name>Makaba</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

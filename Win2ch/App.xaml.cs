@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Windows.ApplicationModel.Activation;
 using Caliburn.Micro;
+using Makaba;
+using Ninject;
 using Win2ch.Common;
 using Win2ch.ViewModels;
 
@@ -9,7 +11,7 @@ namespace Win2ch
 {
     sealed partial class App {
 
-        private WinRTContainer container;
+        private IKernel kernel;
 
         public App()
         {
@@ -17,12 +19,9 @@ namespace Win2ch
         }
 
         protected override void Configure() {
-            container = new WinRTContainer();
-            container.RegisterWinRTServices();
-            container
-                .PerRequest<HomeViewModel>()
-                .Singleton<IShell, ShellViewModel>()
-                .Singleton<IEventAggregator, EventAggregator>();
+            kernel = new StandardKernel(new MakabaModule());
+            kernel.Bind<IShell>().To<ShellViewModel>().InSingletonScope();
+            kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args) {
@@ -30,15 +29,15 @@ namespace Win2ch
         }
 
         protected override object GetInstance(Type service, string key) {
-            return container.GetInstance(service, key);
+            return kernel.Get(service);
         }
 
         protected override IEnumerable<object> GetAllInstances(Type service) {
-            return container.GetAllInstances(service);
+            return kernel.GetAll(service);
         }
 
         protected override void BuildUp(object instance) {
-            container.BuildUp(instance);
+            kernel.Inject(instance);
         }
     }
 }

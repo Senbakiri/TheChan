@@ -12,9 +12,6 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel VerticalAlignment="Center"
                     HorizontalAlignment="Center">
-            <TextBlock>Page #<Run Text="{x:Bind ViewModel.Number}"/></TextBlock>
-            <TextBlock Text="{x:Bind ViewModel.Argument, Mode=OneWay}"/>
-            <Button Content="Open new" micro:Message.Attach="OpenNewPage"/>
         </StackPanel>
     </Grid>
 </Page>

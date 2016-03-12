@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="Converters\IConverter.cs" />
     <Compile Include="Converters\JsonConverter.cs" />
+    <Compile Include="Operations\HttpJsonCollectionOperationBase.cs" />
     <Compile Include="Operations\HttpJsonOperationBase.cs" />
     <Compile Include="Operations\HttpOperationBase.cs" />
     <Compile Include="Operations\IHttpOperation.cs" />

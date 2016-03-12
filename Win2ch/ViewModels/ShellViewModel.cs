@@ -1,14 +1,17 @@
 ﻿using Caliburn.Micro;
+using Makaba;
+using Ninject;
 using Win2ch.Common;
 
 namespace Win2ch.ViewModels {
     internal sealed class ShellViewModel : Conductor<Tab>.Collection.OneActive, IShell {
-        public void CloseTab(Tab tab) {
-            DeactivateItem(tab, true);
-        }
 
         protected override void OnInitialize() {
-            Navigate<HomeViewModel>("test");
+            Navigate<HomeViewModel>();
+        }
+
+        public void CloseTab(Tab tab) {
+            DeactivateItem(tab, true);
         }
 
         public void Navigate<T>(object parameter = null) where T : Tab {
