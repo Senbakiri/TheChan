@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Shapes;
-using Win2ch.Core;
+using Win2ch.Common;
 
 namespace Win2ch.Controls {
     public sealed class SwipeableSplitView : SplitView {

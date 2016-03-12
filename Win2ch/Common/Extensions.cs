@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
-namespace Win2ch.Core
+namespace Win2ch.Common
 {
     public static class Extensions
     {

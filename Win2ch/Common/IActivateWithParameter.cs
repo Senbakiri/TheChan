@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Win2ch.Core {
+namespace Win2ch.Common {
     public interface IActivateWithParameter {
         /// <summary>
         /// Indicates whether or not this instance is active.

@@ -5,9 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:Win2ch.ViewModels"
-    xmlns:core="using:Win2ch.Core"
     xmlns:micro="using:Caliburn.Micro"
     xmlns:controls="using:Win2ch.Controls"
+    xmlns:common="using:Win2ch.Common"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance viewModels:ShellViewModel}">
 
@@ -138,7 +138,7 @@
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="core:Tab">
+                        <DataTemplate x:DataType="common:Tab">
                             <Grid Height="35">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>

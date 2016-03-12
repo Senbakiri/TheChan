@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Windows.ApplicationModel.Activation;
 using Caliburn.Micro;
-using Win2ch.Core;
+using Win2ch.Common;
 using Win2ch.ViewModels;
 
 namespace Win2ch

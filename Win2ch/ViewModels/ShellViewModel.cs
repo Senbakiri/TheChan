@@ -1,5 +1,5 @@
 ﻿using Caliburn.Micro;
-using Win2ch.Core;
+using Win2ch.Common;
 
 namespace Win2ch.ViewModels {
     internal sealed class ShellViewModel : Conductor<Tab>.Collection.OneActive, IShell {

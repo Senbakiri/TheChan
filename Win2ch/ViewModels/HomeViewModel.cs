@@ -1,8 +1,8 @@
-﻿using Win2ch.Core;
+﻿using Win2ch.Common;
 
 namespace Win2ch.ViewModels {
     internal sealed class HomeViewModel : Tab {
-        private static int _pagesOpened;
+        private static int pagesOpened;
         private string argument;
 
         public int Number { get; }
@@ -20,19 +20,20 @@ namespace Win2ch.ViewModels {
 
         public HomeViewModel(IShell shell) {
             Shell = shell;
-            _pagesOpened++;
-            Number = _pagesOpened;
+            pagesOpened++;
+            Number = pagesOpened;
             DisplayName = $"Page #{Number}";
         }
 
         protected override void OnActivate(object parameter) {
-            Argument = parameter?.ToString();
+            if (parameter != null)
+                Argument = parameter.ToString();
         }
 
         protected override void OnDeactivate(bool close) {
             base.OnDeactivate(close);
             if (close)
-                _pagesOpened--;
+                pagesOpened--;
         }
 
         public void OpenNewPage() {
