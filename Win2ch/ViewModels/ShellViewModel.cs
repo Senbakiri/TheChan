@@ -1,6 +1,4 @@
 ﻿using Caliburn.Micro;
-using Makaba;
-using Ninject;
 using Win2ch.Common;
 
 namespace Win2ch.ViewModels {

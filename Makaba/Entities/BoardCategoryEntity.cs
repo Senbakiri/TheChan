@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace Makaba.Entities {
 
@@ -10,6 +9,6 @@ namespace Makaba.Entities {
         public string Name { get; set; }
 
         [DataMember]
-        public List<BoardEntity> Boards { get; set; }
+        public BoardEntity[] Boards { get; set; }
     }
 }

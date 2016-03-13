@@ -34,11 +34,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Board.cs" />
+    <Compile Include="BoardOperations.cs" />
+    <Compile Include="Converters\CategoriesConverter.cs" />
     <Compile Include="Entities\BoardCategoryEntity.cs" />
     <Compile Include="Entities\BoardEntity.cs" />
     <Compile Include="Entities\IconEntity.cs" />
     <Compile Include="MakabaModule.cs" />
-    <Compile Include="Operations\GetBoardsOperation.cs" />
+    <Compile Include="Operations\BoardsReceivingOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Url\IUrlService.cs" />
     <Compile Include="Services\Url\UrlService.cs" />

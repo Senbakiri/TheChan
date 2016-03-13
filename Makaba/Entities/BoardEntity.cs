@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace Makaba.Entities {
 
@@ -28,7 +27,7 @@ namespace Makaba.Entities {
         public bool IsTripCodesEnabled { get; set; }
 
         [DataMember]
-        public IList<IconEntity> Icons { get; set; }
+        public IconEntity[] Icons { get; set; }
 
         [DataMember]
         public string Id { get; set; }

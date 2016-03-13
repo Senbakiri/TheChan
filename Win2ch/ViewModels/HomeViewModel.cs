@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
-using Makaba.Entities;
-using Makaba.Operations;
+using Core.Common;
+using Core.Models;
 using Win2ch.Common;
 
 namespace Win2ch.ViewModels {
     internal sealed class HomeViewModel : Tab {
         private IShell Shell { get; }
-        private GetBoardsOperation GetBoardsOperation { get; }
+        private IBoard Board { get; }
 
         public HomeViewModel(IShell shell,
-                             GetBoardsOperation getBoardsOperation) {
+                             IBoard board) {
             Shell = shell;
-            GetBoardsOperation = getBoardsOperation;
+            Board = board;
         }
 
         protected override async void OnActivate(object parameter) {
+            IList<BoardsCategory> categories = await Board.Operations.BoardsReceiving.ExecuteAsync();
         }
     }
 }

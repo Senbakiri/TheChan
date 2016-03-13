@@ -1,5 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Core.Converters {
     public class JsonConverter<T> : IConverter<string, T> {

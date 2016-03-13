@@ -13,6 +13,10 @@ namespace Win2ch.Common {
         private string badgeContent;
         private bool isLoading;
 
+        protected Tab() {
+            DisplayName = GetType().FullName;
+        }
+
         public string BadgeContent {
             get { return badgeContent; }
             protected set {

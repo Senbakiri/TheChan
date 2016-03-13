@@ -9,7 +9,7 @@ namespace Makaba.Entities {
         public string Name { get; set; }
 
         [DataMember(Name = "num")]
-        public string Number { get; set; }
+        public int Number { get; set; }
 
         [DataMember]
         public string Url { get; set; }
