@@ -54,7 +54,8 @@
             </SemanticZoom.ZoomedOutView>
             <SemanticZoom.ZoomedInView>
                 <ListView ItemsSource="{Binding Source={StaticResource CategoriesCvs}}"
-                          ScrollViewer.IsVerticalScrollChainingEnabled="False">
+                          ScrollViewer.IsVerticalScrollChainingEnabled="False"
+                          SelectionMode="None">
                     <ListView.GroupStyle>
                         <GroupStyle>
                             <GroupStyle.HeaderContainerStyle>
