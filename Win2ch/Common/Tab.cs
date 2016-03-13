@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml.Controls;
 using Caliburn.Micro;
 
@@ -12,6 +13,7 @@ namespace Win2ch.Common {
         private Image icon;
         private string badgeContent;
         private bool isLoading;
+        private readonly ResourceLoader resourceLoader = new ResourceLoader();
 
         protected Tab() {
             DisplayName = GetType().FullName;
@@ -181,6 +183,13 @@ namespace Win2ch.Common {
             callback(true);
         }
 
-        
+        protected string GetLocalizationString(string id) {
+            string currentTypeName = GetType().Name;
+            string baseId = currentTypeName;
+            if (currentTypeName.Contains("ViewModel"))
+                baseId = currentTypeName.Remove(currentTypeName.IndexOf("ViewModel", StringComparison.Ordinal));
+            baseId += $"/{id.Replace('.', '/')}";
+            return resourceLoader.GetString(baseId);
+        }
     }
 }

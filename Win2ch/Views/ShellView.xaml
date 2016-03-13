@@ -50,7 +50,8 @@
             </Setter>
         </Style>
 
-        <Style TargetType="ListViewItem">
+        <Style TargetType="ListViewItem"
+               x:Key="TabItemStyle">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="Padding" Value="0"/>
             <Setter Property="MinHeight" Value="0"></Setter>
@@ -92,7 +93,7 @@
                 <VisualState>
                     <VisualState.Setters>
                         <Setter Target="SwipeableSplitView.OpenPaneLength" Value="300"/>
-                        <Setter Target="SwipeableSplitView.IsSwipeablePaneOpen" Value="True"/>
+                        <Setter Target="SwipeableSplitView.IsPaneOpen" Value="True"/>
                         <Setter Target="SwipeableSplitView.DisplayMode" Value="Inline"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
@@ -101,7 +102,7 @@
                 </VisualState>
                 <VisualState>
                     <VisualState.Setters>
-                        <Setter Target="SwipeableSplitView.IsSwipeablePaneOpen" Value="True"/>
+                        <Setter Target="SwipeableSplitView.IsPaneOpen" Value="True"/>
                         <Setter Target="SwipeableSplitView.DisplayMode" Value="Inline"/>
                         <Setter Target="SwipeableSplitView.OpenPaneLength" Value="200"/>
                     </VisualState.Setters>
@@ -125,7 +126,10 @@
                                      x:Name="SwipeableSplitView">
             <controls:SwipeableSplitView.Pane>
                 <ListView ItemsSource="{x:Bind ViewModel.Items}"
-                          SelectedItem="{Binding ActiveItem, Mode=TwoWay}">
+                          SelectedItem="{Binding ActiveItem, Mode=TwoWay}"
+                          ItemContainerStyle="{StaticResource TabItemStyle}"
+                          CanDragItems="True"
+                          CanDrag="True">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel>
@@ -179,11 +183,36 @@
                 </ListView>
             </controls:SwipeableSplitView.Pane>
             <controls:SwipeableSplitView.Content>
-                <ContentControl x:Name="ActiveItem"
+                <Grid>
+                    <ContentControl x:Name="ActiveItem"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
                         VerticalContentAlignment="Stretch"/>
+
+                    <Grid Height="50"
+                          Visibility="{x:Bind ViewModel.LoadingInfo.IsLoading, Mode=OneWay, Converter={StaticResource TrueToVisible}}"
+                          VerticalAlignment="Top"
+                          HorizontalAlignment="Stretch">
+                        <Grid.Background>
+                            <SolidColorBrush Color="{ThemeResource PageBackgroundColor}"
+                                             Opacity="0.7"/>
+                        </Grid.Background>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <ProgressRing Margin="20 0"
+                                      Width="20"
+                                      Height="20"
+                                      IsActive="{x:Bind ViewModel.LoadingInfo.IsLoading, Mode=OneWay}"
+                                      VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1"
+                                   Text="{x:Bind ViewModel.LoadingInfo.LoadingText, Mode=OneWay}"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+                </Grid>
+                
             </controls:SwipeableSplitView.Content>
         </controls:SwipeableSplitView>
     </Grid>

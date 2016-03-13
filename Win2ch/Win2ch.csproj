@@ -96,13 +96,16 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\LoadingInfo.cs" />
     <Compile Include="Controls\SwipeableSplitView.cs" />
+    <Compile Include="Converters\CaseConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Common\ActivationWithParameterEventArgs.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\IActivateWithParameter.cs" />
     <Compile Include="Common\IShell.cs" />
     <Compile Include="Common\Tab.cs" />
+    <Compile Include="Extensions\CollectionsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
@@ -117,6 +120,8 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <PRIResource Include="Strings\en-US\Resources.resw" />
+    <PRIResource Include="Strings\ru-RU\Resources.resw" />
     <None Include="Win2ch_StoreKey.pfx" />
     <None Include="Win2ch_TemporaryKey.pfx" />
   </ItemGroup>

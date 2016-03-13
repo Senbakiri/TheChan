@@ -4,21 +4,25 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Win2ch"
     xmlns:micro="using:Caliburn.Micro"
-    xmlns:converters="using:WinRTXamlToolkit.Converters"
-    xmlns:converters1="using:Win2ch.Converters">
+    xmlns:toolkitConverters="using:WinRTXamlToolkit.Converters"
+    xmlns:converters="using:Win2ch.Converters">
     <Application.Resources>
         <ResourceDictionary>
             <micro:BooleanToVisibilityConverter x:Key="TrueToVisible"/>
-            <converters:BooleanToVisibilityConverter IsInversed="True" x:Key="TrueToCollaped"/>
-            <converters1:StringToVisibilityConverter x:Key="EmptyStringToCollapsed"/>
+            <toolkitConverters:BooleanToVisibilityConverter IsInversed="True" x:Key="TrueToCollaped"/>
+            <converters:StringToVisibilityConverter x:Key="EmptyStringToCollapsed"/>
+            <converters:CaseConverter x:Key="ToLower" Casing="LowerCase"/>
+            <converters:CaseConverter x:Key="ToUpper" Casing="UpperCase"/>
             
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#191919"/>
+                    <Color x:Key="PageBackgroundColor">#191919</Color>
+                    <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource PageBackgroundColor}"/>
                 </ResourceDictionary>
 
                 <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#F1F1F1"/>
+                    <Color x:Key="PageBackgroundColor">#F1F1F1</Color>
+                    <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource PageBackgroundColor}"/>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>

@@ -4,6 +4,8 @@ using Win2ch.Common;
 namespace Win2ch.ViewModels {
     internal sealed class ShellViewModel : Conductor<Tab>.Collection.OneActive, IShell {
 
+        public LoadingInfo LoadingInfo { get; } = new LoadingInfo();
+
         protected override void OnInitialize() {
             Navigate<HomeViewModel>();
         }
