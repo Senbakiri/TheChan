@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Core.Common;
 using Core.Models;
@@ -23,17 +24,16 @@ namespace Win2ch.ViewModels {
         private IBoard Board { get; }
         public ObservableCollection<BoardsCategory> Categories { get; } 
 
-        protected override async void OnActivate(object parameter) {
-            Shell.LoadingInfo.IsLoading = true;
-            Shell.LoadingInfo.LoadingText = GetLocalizationString("ReceivingBoards");
+        protected override async void OnActivate(object parameter = null) {
+            LoadingInfo loadingInfo = Shell.LoadingInfo;
             try {
+                loadingInfo.InProgress(GetLocalizationString("ReceivingBoards"));
                 IList<BoardsCategory> categories = await Board.Operations.BoardsReceiving.ExecuteAsync();
                 Categories.AddRange(categories);
+                loadingInfo.Success(GetLocalizationString("BoardsLoaded"));
             } catch (Exception) {
-                // TODO: Exception handling
+                loadingInfo.Error(GetLocalizationString("BoardsNotLoaded"), true, () => OnActivate());
             }
-
-            Shell.LoadingInfo.IsLoading = false;
         }
     }
 }

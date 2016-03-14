@@ -117,10 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Home.BoardsLoaded" xml:space="preserve">
+    <value>Boards loaded successfully!</value>
+  </data>
+  <data name="Home.BoardsNotLoaded" xml:space="preserve">
+    <value>Unable to load the boards</value>
+  </data>
   <data name="Home.Name" xml:space="preserve">
     <value>Home</value>
   </data>
   <data name="Home.ReceivingBoards" xml:space="preserve">
-    <value>Receiving boards...</value>
+    <value>Loading boards...</value>
+  </data>
+  <data name="Shell.TryAgain.Content" xml:space="preserve">
+    <value>Try again</value>
   </data>
 </root>

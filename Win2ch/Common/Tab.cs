@@ -20,41 +20,41 @@ namespace Win2ch.Common {
         }
 
         public string BadgeContent {
-            get { return badgeContent; }
+            get { return this.badgeContent; }
             protected set {
-                if (value == badgeContent)
+                if (value == this.badgeContent)
                     return;
-                badgeContent = value;
+                this.badgeContent = value;
                 NotifyOfPropertyChange();
             }
         }
 
         public bool IsLoading {
-            get { return isLoading; }
+            get { return this.isLoading; }
             protected set {
-                if (value == isLoading)
+                if (value == this.isLoading)
                     return;
-                isLoading = value;
+                this.isLoading = value;
                 NotifyOfPropertyChange();
             }
         }
 
         public Image Icon {
-            get { return icon; }
+            get { return this.icon; }
             protected set {
-                if (Equals(value, icon))
+                if (Equals(value, this.icon))
                     return;
-                icon = value;
+                this.icon = value;
                 NotifyOfPropertyChange();
             }
         }
 
         public bool IsCloseable {
-            get { return isCloseable; }
+            get { return this.isCloseable; }
             protected set {
-                if (value == isCloseable)
+                if (value == this.isCloseable)
                     return;
-                isCloseable = value;
+                this.isCloseable = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -63,11 +63,11 @@ namespace Win2ch.Common {
         /// Gets or Sets the Display Name
         /// </summary>
         public string DisplayName {
-            get { return displayName; }
+            get { return this.displayName; }
             set {
-                if (value == displayName)
+                if (value == this.displayName)
                     return;
-                displayName = value;
+                this.displayName = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -76,11 +76,11 @@ namespace Win2ch.Common {
         /// Gets or Sets the Parent
         /// </summary>
         public object Parent {
-            get { return parent; }
+            get { return this.parent; }
             set {
-                if (Equals(value, parent))
+                if (Equals(value, this.parent))
                     return;
-                parent = value;
+                this.parent = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -89,11 +89,11 @@ namespace Win2ch.Common {
         /// Indicates whether or not this instance is active.
         /// </summary>
         public bool IsActive {
-            get { return isActive; }
+            get { return this.isActive; }
             private set {
-                if (value == isActive)
+                if (value == this.isActive)
                     return;
-                isActive = value;
+                this.isActive = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -101,11 +101,11 @@ namespace Win2ch.Common {
         public event EventHandler<ActivationWithParameterEventArgs> Activated;
 
         public bool IsInitialized {
-            get { return isInitialized; }
+            get { return this.isInitialized; }
             private set {
-                if (value == isInitialized)
+                if (value == this.isInitialized)
                     return;
-                isInitialized = value;
+                this.isInitialized = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -129,7 +129,7 @@ namespace Win2ch.Common {
 
         protected virtual void OnInitialize() { }
 
-        protected virtual void OnActivate(object parameter) { }
+        protected virtual void OnActivate(object parameter = null) { }
 
         /// <summary>
         /// Deactivates this instance.
@@ -189,7 +189,7 @@ namespace Win2ch.Common {
             if (currentTypeName.Contains("ViewModel"))
                 baseId = currentTypeName.Remove(currentTypeName.IndexOf("ViewModel", StringComparison.Ordinal));
             baseId += $"/{id.Replace('.', '/')}";
-            return resourceLoader.GetString(baseId);
+            return this.resourceLoader.GetString(baseId);
         }
     }
 }

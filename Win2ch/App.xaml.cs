@@ -19,10 +19,10 @@ namespace Win2ch
         }
 
         protected override void Configure() {
-            kernel = new StandardKernel(new Makaba.MakabaModule());
-            kernel.Bind<IShell>().To<ShellViewModel>().InSingletonScope();
-            kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
-            kernel.Bind<IBoard>().To<Makaba.Board>();
+            this.kernel = new StandardKernel(new Makaba.MakabaModule());
+            this.kernel.Bind<IShell>().To<ShellViewModel>().InSingletonScope();
+            this.kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
+            this.kernel.Bind<IBoard>().To<Makaba.Board>();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args) {
@@ -30,15 +30,15 @@ namespace Win2ch
         }
 
         protected override object GetInstance(Type service, string key) {
-            return kernel.Get(service);
+            return this.kernel.Get(service);
         }
 
         protected override IEnumerable<object> GetAllInstances(Type service) {
-            return kernel.GetAll(service);
+            return this.kernel.GetAll(service);
         }
 
         protected override void BuildUp(object instance) {
-            kernel.Inject(instance);
+            this.kernel.Inject(instance);
         }
     }
 }

@@ -1,30 +1,67 @@
 ﻿using Caliburn.Micro;
+using System;
+using Action = System.Action;
 
 namespace Win2ch.Common {
     public class LoadingInfo : PropertyChangedBase {
-        private bool isLoading;
-        private string loadingText;
+        private string message;
+        private LoadingState state;
+        private Action tryAgainCallback;
+        private bool isTryingAgainEnabled;
 
-        public bool IsLoading {
-            get { return isLoading; }
+        public LoadingState State {
+            get { return this.state; }
             set {
-                if (value == isLoading)
+                if (value == this.state)
                     return;
-                isLoading = value;
-                if (!value)
-                    LoadingText = "";
+                this.state = value;
                 NotifyOfPropertyChange();
             }
         }
 
-        public string LoadingText {
-            get { return loadingText; }
+        public string Message {
+            get { return this.message; }
             set {
-                if (value == loadingText)
+                if (value == this.message)
                     return;
-                loadingText = value;
+                this.message = value;
                 NotifyOfPropertyChange();
             }
+        }
+
+
+        public bool IsTryingAgainEnabled {
+            get { return this.isTryingAgainEnabled; }
+            private set {
+                if (value == this.isTryingAgainEnabled)
+                    return;
+                this.isTryingAgainEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public void InProgress(string message) {
+            SetState(LoadingState.InProgress, message);
+        }
+
+        public void Error(string message, bool canTryAgain = false, Action tryAgainCallback = null) {
+            this.tryAgainCallback = tryAgainCallback;
+            IsTryingAgainEnabled = canTryAgain;
+            SetState(LoadingState.Error, message);
+        }
+
+        public void Success(string message) {
+            SetState(LoadingState.Success, message);
+        }
+
+        private void SetState(LoadingState state, string message) {
+            State = state;
+            Message = message;
+        }
+
+        public void TryAgain() {
+            this.tryAgainCallback?.Invoke();
+            IsTryingAgainEnabled = false;
         }
     }
 }

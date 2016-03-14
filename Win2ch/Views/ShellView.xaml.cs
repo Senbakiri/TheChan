@@ -1,6 +1,8 @@
-﻿using Windows.UI.ViewManagement;
+﻿using System.ComponentModel;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using Win2ch.Common;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Views {
@@ -12,18 +14,57 @@ namespace Win2ch.Views {
         }
 
         private void OnDataContextChanged(FrameworkElement s, DataContextChangedEventArgs e) {
+            if (ViewModel != null)
+                ViewModel.LoadingInfo.PropertyChanged -= LoadingInfoOnPropertyChanged;
             ViewModel = DataContext as ShellViewModel;
+            if (ViewModel == null)
+                return;
+            ViewModel.LoadingInfo.PropertyChanged += LoadingInfoOnPropertyChanged;
+        }
+
+        private void LoadingInfoOnPropertyChanged(object sender, PropertyChangedEventArgs e) {
+            if (e.PropertyName == nameof(ViewModel.LoadingInfo.State))
+                SetVisualStateForLoadingState();
+        }
+
+        private void SetVisualStateForLoadingState() {
+            string commonStateName, concreteStateName;
+            switch (ViewModel.LoadingInfo.State) {
+                case LoadingState.InProgress:
+                    commonStateName = "Loading";
+                    concreteStateName = "Progress";
+                    break;
+                case LoadingState.Success:
+                    commonStateName = "Idle";
+                    concreteStateName = "Success";
+                    break;
+                case LoadingState.Error:
+                    commonStateName = ViewModel.LoadingInfo.IsTryingAgainEnabled ? "Loading" : "Idle";
+                    concreteStateName = "Error";
+                    break;
+                default:
+                    commonStateName = "Idle";
+                    concreteStateName = "Progress";
+                    break;
+            }
+
+            VisualStateManager.GoToState(this, commonStateName, true);
+            VisualStateManager.GoToState(this, concreteStateName, true);
         }
 
         private ShellViewModel ViewModel { get; set; }
 
         private void SetupTitleBar() {
             ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            var bg = (SolidColorBrush)Application.Current.Resources["ApplicationPageBackgroundThemeBrush"];
+            var bg = (SolidColorBrush) Application.Current.Resources["ApplicationPageBackgroundThemeBrush"];
             titleBar.BackgroundColor =
                 titleBar.ButtonBackgroundColor =
-                titleBar.ButtonInactiveBackgroundColor =
-                titleBar.InactiveBackgroundColor = bg.Color;
+                    titleBar.ButtonInactiveBackgroundColor =
+                        titleBar.InactiveBackgroundColor = bg.Color;
         }
+
+        private void ShellView_OnLoaded(object sender, RoutedEventArgs e) {}
+
+        private void ShellView_OnLoading(FrameworkElement sender, object args) {}
     }
 }

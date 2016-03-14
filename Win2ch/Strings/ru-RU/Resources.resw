@@ -117,10 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Home.BoardsLoaded" xml:space="preserve">
+    <value>Доски успешно загружены!</value>
+  </data>
+  <data name="Home.BoardsNotLoaded" xml:space="preserve">
+    <value>Не удалось загрузить доски</value>
+  </data>
   <data name="Home.Name" xml:space="preserve">
     <value>Домашняя страница</value>
   </data>
   <data name="Home.ReceivingBoards" xml:space="preserve">
-    <value>Получение досок...</value>
+    <value>Загрузка досок...</value>
+  </data>
+  <data name="Shell.TryAgain.Content" xml:space="preserve">
+    <value>Попробовать снова</value>
   </data>
 </root>

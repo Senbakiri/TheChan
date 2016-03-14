@@ -40,92 +40,92 @@ namespace Win2ch.Controls {
 
         // safely subscribe/unsubscribe manipulation events here
         internal Grid PaneRoot {
-            get { return paneRoot; }
+            get { return this.paneRoot; }
             set {
-                if (paneRoot != null) {
-                    paneRoot.Loaded -= OnPaneRootLoaded;
-                    paneRoot.ManipulationStarted -= OnManipulationStarted;
-                    paneRoot.ManipulationDelta -= OnManipulationDelta;
-                    paneRoot.ManipulationCompleted -= OnManipulationCompleted;
+                if (this.paneRoot != null) {
+                    this.paneRoot.Loaded -= OnPaneRootLoaded;
+                    this.paneRoot.ManipulationStarted -= OnManipulationStarted;
+                    this.paneRoot.ManipulationDelta -= OnManipulationDelta;
+                    this.paneRoot.ManipulationCompleted -= OnManipulationCompleted;
                 }
 
-                paneRoot = value;
+                this.paneRoot = value;
 
-                if (paneRoot != null) {
-                    paneRoot.Loaded += OnPaneRootLoaded;
-                    paneRoot.ManipulationStarted += OnManipulationStarted;
-                    paneRoot.ManipulationDelta += OnManipulationDelta;
-                    paneRoot.ManipulationCompleted += OnManipulationCompleted;
+                if (this.paneRoot != null) {
+                    this.paneRoot.Loaded += OnPaneRootLoaded;
+                    this.paneRoot.ManipulationStarted += OnManipulationStarted;
+                    this.paneRoot.ManipulationDelta += OnManipulationDelta;
+                    this.paneRoot.ManipulationCompleted += OnManipulationCompleted;
                 }
             }
         }
 
         // safely subscribe/unsubscribe manipulation events here
         internal Rectangle PanArea {
-            get { return panArea; }
+            get { return this.panArea; }
             set {
-                if (panArea != null) {
-                    panArea.ManipulationStarted -= OnManipulationStarted;
-                    panArea.ManipulationDelta -= OnManipulationDelta;
-                    panArea.ManipulationCompleted -= OnManipulationCompleted;
-                    panArea.Tapped -= OnDismissLayerTapped;
+                if (this.panArea != null) {
+                    this.panArea.ManipulationStarted -= OnManipulationStarted;
+                    this.panArea.ManipulationDelta -= OnManipulationDelta;
+                    this.panArea.ManipulationCompleted -= OnManipulationCompleted;
+                    this.panArea.Tapped -= OnDismissLayerTapped;
                 }
 
-                panArea = value;
+                this.panArea = value;
 
-                if (panArea != null) {
-                    panArea.ManipulationStarted += OnManipulationStarted;
-                    panArea.ManipulationDelta += OnManipulationDelta;
-                    panArea.ManipulationCompleted += OnManipulationCompleted;
-                    panArea.Tapped += OnDismissLayerTapped;
+                if (this.panArea != null) {
+                    this.panArea.ManipulationStarted += OnManipulationStarted;
+                    this.panArea.ManipulationDelta += OnManipulationDelta;
+                    this.panArea.ManipulationCompleted += OnManipulationCompleted;
+                    this.panArea.Tapped += OnDismissLayerTapped;
                 }
             }
         }
 
         // safely subscribe/unsubscribe manipulation events here
         internal Rectangle DismissLayer {
-            get { return dismissLayer; }
+            get { return this.dismissLayer; }
             set {
-                if (dismissLayer != null) {
-                    dismissLayer.Tapped -= OnDismissLayerTapped;
+                if (this.dismissLayer != null) {
+                    this.dismissLayer.Tapped -= OnDismissLayerTapped;
                 }
 
-                dismissLayer = value;
+                this.dismissLayer = value;
 
-                if (dismissLayer != null) {
-                    dismissLayer.Tapped += OnDismissLayerTapped; ;
+                if (this.dismissLayer != null) {
+                    this.dismissLayer.Tapped += OnDismissLayerTapped; ;
                 }
             }
         }
 
         // safely subscribe/unsubscribe animation completed events here
         internal Storyboard OpenSwipeablePaneAnimation {
-            get { return openSwipeablePane; }
+            get { return this.openSwipeablePane; }
             set {
-                if (openSwipeablePane != null) {
-                    openSwipeablePane.Completed -= OnOpenSwipeablePaneCompleted;
+                if (this.openSwipeablePane != null) {
+                    this.openSwipeablePane.Completed -= OnOpenSwipeablePaneCompleted;
                 }
 
-                openSwipeablePane = value;
+                this.openSwipeablePane = value;
 
-                if (openSwipeablePane != null) {
-                    openSwipeablePane.Completed += OnOpenSwipeablePaneCompleted;
+                if (this.openSwipeablePane != null) {
+                    this.openSwipeablePane.Completed += OnOpenSwipeablePaneCompleted;
                 }
             }
         }
 
         // safely subscribe/unsubscribe animation completed events here
         internal Storyboard CloseSwipeablePaneAnimation {
-            get { return closeSwipeablePane; }
+            get { return this.closeSwipeablePane; }
             set {
-                if (closeSwipeablePane != null) {
-                    closeSwipeablePane.Completed -= OnCloseSwipeablePaneCompleted;
+                if (this.closeSwipeablePane != null) {
+                    this.closeSwipeablePane.Completed -= OnCloseSwipeablePaneCompleted;
                 }
 
-                closeSwipeablePane = value;
+                this.closeSwipeablePane = value;
 
-                if (closeSwipeablePane != null) {
-                    closeSwipeablePane.Completed += OnCloseSwipeablePaneCompleted;
+                if (this.closeSwipeablePane != null) {
+                    this.closeSwipeablePane.Completed += OnCloseSwipeablePaneCompleted;
                 }
             }
         }
@@ -195,11 +195,11 @@ namespace Win2ch.Controls {
             base.OnApplyTemplate();
 
             PaneRoot = GetTemplateChild<Grid>("PaneRoot");
-            overlayRoot = GetTemplateChild<Grid>("OverlayRoot");
+            this.overlayRoot = GetTemplateChild<Grid>("OverlayRoot");
             PanArea = GetTemplateChild<Rectangle>("PanArea");
             DismissLayer = GetTemplateChild<Rectangle>("DismissLayer");
 
-            var rootGrid = paneRoot.GetParent<Grid>();
+            var rootGrid = this.paneRoot.GetParent<Grid>();
 
             OpenSwipeablePaneAnimation = rootGrid.GetStoryboard("OpenSwipeablePane");
             CloseSwipeablePaneAnimation = rootGrid.GetStoryboard("CloseSwipeablePane");
@@ -223,16 +223,16 @@ namespace Win2ch.Controls {
                 case SplitViewDisplayMode.CompactOverlay:
                 case SplitViewDisplayMode.CompactInline:
                     PanAreaInitialTranslateX = 0d;
-                    overlayRoot.Visibility = Visibility.Collapsed;
+                    this.overlayRoot.Visibility = Visibility.Collapsed;
                     break;
 
                 case SplitViewDisplayMode.Overlay:
                     PanAreaInitialTranslateX = OpenPaneLength * -1;
-                    overlayRoot.Visibility = Visibility.Visible;
+                    this.overlayRoot.Visibility = Visibility.Visible;
                     break;
             }
 
-            ((CompositeTransform)paneRoot.RenderTransform).TranslateX = PanAreaInitialTranslateX;
+            ((CompositeTransform) this.paneRoot.RenderTransform).TranslateX = PanAreaInitialTranslateX;
         }
 
         #endregion
@@ -240,34 +240,34 @@ namespace Win2ch.Controls {
         #region manipulation event handlers
 
         private void OnManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) {
-            panAreaTransform = PanArea.GetCompositeTransform();
-            paneRootTransform = PaneRoot.GetCompositeTransform();
+            this.panAreaTransform = PanArea.GetCompositeTransform();
+            this.paneRootTransform = PaneRoot.GetCompositeTransform();
         }
 
         private void OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e) {
-            var x = panAreaTransform.TranslateX + e.Delta.Translation.X;
+            var x = this.panAreaTransform.TranslateX + e.Delta.Translation.X;
 
             // keep the pan within the bountry
             if (x < PanAreaInitialTranslateX || x > 0) return;
 
             // while we are panning the PanArea on X axis, let's sync the PaneRoot's position X too
-            paneRootTransform.TranslateX = panAreaTransform.TranslateX = x;
+            this.paneRootTransform.TranslateX = this.panAreaTransform.TranslateX = x;
 
-            if (sender == paneRoot && IsPanSelectorEnabled) {
+            if (sender == this.paneRoot && IsPanSelectorEnabled) {
                 // un-highlight everything first
-                foreach (var item in menuItems) {
+                foreach (var item in this.menuItems) {
                     VisualStateManager.GoToState(item, "Normal", true);
                 }
 
-                toBeSelectedIndex = (int)Math.Round((e.Cumulative.Translation.Y + startingDistance) / distancePerItem, MidpointRounding.AwayFromZero);
-                if (toBeSelectedIndex < 0) {
-                    toBeSelectedIndex = 0;
-                } else if (toBeSelectedIndex >= menuItems.Count) {
-                    toBeSelectedIndex = menuItems.Count - 1;
+                this.toBeSelectedIndex = (int)Math.Round((e.Cumulative.Translation.Y + this.startingDistance) /this.distancePerItem, MidpointRounding.AwayFromZero);
+                if (this.toBeSelectedIndex < 0) {
+                    this.toBeSelectedIndex = 0;
+                } else if (this.toBeSelectedIndex >= this.menuItems.Count) {
+                    this.toBeSelectedIndex = this.menuItems.Count - 1;
                 }
 
                 // highlight the item that's going to be selected
-                var itemContainer = menuItems[toBeSelectedIndex];
+                var itemContainer = this.menuItems[this.toBeSelectedIndex];
                 VisualStateManager.GoToState(itemContainer, "PointerOver", true);
             }
         }
@@ -279,7 +279,7 @@ namespace Win2ch.Controls {
             if (x <= -0.1) {
                 CloseSwipeablePane();
             } else if (x > -0.1 && x < 0.1) {
-                if (Math.Abs(panAreaTransform.TranslateX) > Math.Abs(PanAreaInitialTranslateX) / 2) {
+                if (Math.Abs(this.panAreaTransform.TranslateX) > Math.Abs(PanAreaInitialTranslateX) / 2) {
                     CloseSwipeablePane();
                 } else {
                     OpenSwipeablePane();
@@ -289,12 +289,12 @@ namespace Win2ch.Controls {
             }
 
             if (IsPanSelectorEnabled) {
-                if (sender == paneRoot) {
+                if (sender == this.paneRoot) {
                     // if it's a flick, meaning the user wants to cancel the action, so we remove all the highlights;
                     // or it's intended to be a horizontal gesture, we also remove all the highlights
                     if (Math.Abs(e.Velocities.Linear.Y) >= 2 ||
                         Math.Abs(e.Cumulative.Translation.X) > Math.Abs(e.Cumulative.Translation.Y)) {
-                        foreach (var item in menuItems) {
+                        foreach (var item in this.menuItems) {
                             VisualStateManager.GoToState(item, "Normal", true);
                         }
 
@@ -302,20 +302,20 @@ namespace Win2ch.Controls {
                     }
 
                     // un-highlight everything first
-                    foreach (var item in menuItems) {
+                    foreach (var item in this.menuItems) {
                         VisualStateManager.GoToState(item, "Unselected", true);
                     }
 
                     // highlight the item that's going to be selected
-                    var itemContainer = menuItems[toBeSelectedIndex];
+                    var itemContainer = this.menuItems[this.toBeSelectedIndex];
                     VisualStateManager.GoToState(itemContainer, "Selected", true);
 
                     // do a selection after a short delay to allow visual effect takes place first
                     await Task.Delay(250);
-                    menuHost.SelectedIndex = toBeSelectedIndex;
+                    this.menuHost.SelectedIndex = this.toBeSelectedIndex;
                 } else {
                     // recalculate the starting distance
-                    startingDistance = distancePerItem * menuHost.SelectedIndex;
+                    this.startingDistance = this.distancePerItem *this.menuHost.SelectedIndex;
                 }
             }
         }
@@ -348,17 +348,17 @@ namespace Win2ch.Controls {
             // fill the local menu items collection for later use
             if (IsPanSelectorEnabled) {
                 var border = (Border)PaneRoot.Children[0];
-                menuHost = border.GetChild<Selector>("For the bottom panning to work, the Pane's Child needs to be of type Selector.");
+                this.menuHost = border.GetChild<Selector>("For the bottom panning to work, the Pane's Child needs to be of type Selector.");
 
-                foreach (var item in menuHost.Items) {
-                    var container = (SelectorItem)menuHost.ContainerFromItem(item);
-                    menuItems.Add(container);
+                foreach (var item in this.menuHost.Items) {
+                    var container = (SelectorItem) this.menuHost.ContainerFromItem(item);
+                    this.menuItems.Add(container);
                 }
 
-                distancePerItem = _totalPanningDistance / menuItems.Count;
+                this.distancePerItem = _totalPanningDistance /this.menuItems.Count;
 
                 // calculate the initial starting distance
-                startingDistance = distancePerItem * menuHost.SelectedIndex;
+                this.startingDistance = this.distancePerItem *this.menuHost.SelectedIndex;
             }
         }
 

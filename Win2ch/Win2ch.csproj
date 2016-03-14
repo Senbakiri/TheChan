@@ -97,6 +97,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\LoadingInfo.cs" />
+    <Compile Include="Common\LoadingState.cs" />
     <Compile Include="Controls\SwipeableSplitView.cs" />
     <Compile Include="Converters\CaseConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />

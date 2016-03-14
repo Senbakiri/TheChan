@@ -8,8 +8,14 @@
     xmlns:micro="using:Caliburn.Micro"
     xmlns:controls="using:Win2ch.Controls"
     xmlns:common="using:Win2ch.Common"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance viewModels:ShellViewModel}">
+    d:DataContext="{d:DesignInstance viewModels:ShellViewModel}"
+    Loaded="ShellView_OnLoaded"
+    Loading="ShellView_OnLoading">
+
+
 
     <Page.Resources>
         <Style x:Key="CloseButtonStyle" TargetType="Button">
@@ -85,6 +91,67 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <DataTemplate x:Key="LoadingProgressTemplate"
+                      x:DataType="viewModels:ShellViewModel">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ProgressRing Width="20"
+                              Height="20"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              IsActive="True"/>
+                <TextBlock Text="{x:Bind LoadingInfo.Message, Mode=OneWay}"
+                           VerticalAlignment="Center"
+                           Grid.Column="1"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="LoadingSuccessTemplate"
+                      x:DataType="viewModels:ShellViewModel">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock FontFamily="Segoe MDL2 Assets"
+                           Text="&#xE8FB;"
+                           FontSize="20"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="{x:Bind LoadingInfo.Message, Mode=OneWay}"
+                           VerticalAlignment="Center"
+                           Grid.Column="1"/>
+            </Grid>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="LoadingErrorTemplate"
+                      x:DataType="viewModels:ShellViewModel">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock FontFamily="Segoe MDL2 Assets"
+                           Text="&#xE711;"
+                           FontSize="20"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="{x:Bind LoadingInfo.Message, Mode=OneWay}"
+                           VerticalAlignment="Center"
+                           Grid.Column="1"/>
+                <Button Margin="20 0 0 0"
+                        Grid.Column="2"
+                        x:Uid="Shell/TryAgain"
+                        VerticalAlignment="Center"
+                        Visibility="{x:Bind LoadingInfo.IsTryingAgainEnabled, Converter={StaticResource TrueToVisible}}"
+                        Click="{x:Bind LoadingInfo.TryAgain}"/>
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -118,6 +185,43 @@
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+
+            <VisualStateGroup x:Name="CommonLoadingStates">
+
+                <VisualState x:Name="Idle">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoadingInfoPanel"
+                                                       Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0"
+                                                    Value="Visible"/>
+                            <DiscreteObjectKeyFrame KeyTime="0:0:2"
+                                                    Value="Collapsed"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Loading">
+                    <VisualState.Setters>
+                        <Setter Target="LoadingInfoPanel.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="ConcreteLoadingStates">
+                <VisualState x:Name="Progress">
+                    <VisualState.Setters>
+                        <Setter Target="LoadingInfoPanel.ContentTemplate" Value="{StaticResource LoadingProgressTemplate}"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Success">
+                    <VisualState.Setters>
+                        <Setter Target="LoadingInfoPanel.ContentTemplate" Value="{StaticResource LoadingSuccessTemplate}"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Error">
+                    <VisualState.Setters>
+                        <Setter Target="LoadingInfoPanel.ContentTemplate" Value="{StaticResource LoadingErrorTemplate}"/>
+                    </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
@@ -189,30 +293,20 @@
                         VerticalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
                         VerticalContentAlignment="Stretch"/>
-
-                    <Grid Height="50"
-                          Visibility="{x:Bind ViewModel.LoadingInfo.IsLoading, Mode=OneWay, Converter={StaticResource TrueToVisible}}"
-                          VerticalAlignment="Top"
-                          HorizontalAlignment="Stretch">
-                        <Grid.Background>
-                            <SolidColorBrush Color="{ThemeResource PageBackgroundColor}"
-                                             Opacity="0.7"/>
-                        </Grid.Background>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <ProgressRing Margin="20 0"
-                                      Width="20"
-                                      Height="20"
-                                      IsActive="{x:Bind ViewModel.LoadingInfo.IsLoading, Mode=OneWay}"
-                                      VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="1"
-                                   Text="{x:Bind ViewModel.LoadingInfo.LoadingText, Mode=OneWay}"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
+                    <ContentPresenter x:Name="LoadingInfoPanel"
+                                      Height="50"
+                                      VerticalAlignment="Top"
+                                      HorizontalAlignment="Stretch"
+                                      Visibility="Collapsed"
+                                      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                        <ContentPresenter.ContentTransitions>
+                            <TransitionCollection>
+                                <EdgeUIThemeTransition/>
+                            </TransitionCollection>
+                        </ContentPresenter.ContentTransitions>
+                    </ContentPresenter>
                 </Grid>
-                
+
             </controls:SwipeableSplitView.Content>
         </controls:SwipeableSplitView>
     </Grid>
