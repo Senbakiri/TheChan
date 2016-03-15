@@ -135,7 +135,7 @@ namespace Win2ch.Common {
         /// Deactivates this instance.
         /// </summary>
         /// <param name="close">Indicates whether or not this instance is being closed.</param>
-        void IDeactivate.Deactivate(bool close) {
+        public void Deactivate(bool close) {
             if (IsActive || (IsInitialized && close)) {
                 AttemptingDeactivation?.Invoke(this, new DeactivationEventArgs {
                     WasClosed = close
@@ -171,7 +171,7 @@ namespace Win2ch.Common {
         /// Also provides an opportunity to pass a dialog result to it's corresponding view.
         /// </summary>
         /// <param name="dialogResult">The dialog result.</param>
-        void IClose.TryClose(bool? dialogResult) {
+        public void TryClose(bool? dialogResult) {
             PlatformProvider.Current.GetViewCloseAction(this, Views.Values, dialogResult).OnUIThread();
         }
 
@@ -184,10 +184,13 @@ namespace Win2ch.Common {
         }
 
         protected string GetLocalizationString(string id) {
-            string currentTypeName = GetType().Name;
-            string baseId = currentTypeName;
-            if (currentTypeName.Contains("ViewModel"))
-                baseId = currentTypeName.Remove(currentTypeName.IndexOf("ViewModel", StringComparison.Ordinal));
+            return GetLocalizationStringForView(GetType().Name, id);
+        }
+
+        protected string GetLocalizationStringForView(string viewName, string id) {
+            string baseId = viewName;
+            if (viewName.Contains("ViewModel"))
+                baseId = viewName.Remove(viewName.IndexOf("ViewModel", StringComparison.Ordinal));
             baseId += $"/{id.Replace('.', '/')}";
             return this.resourceLoader.GetString(baseId);
         }

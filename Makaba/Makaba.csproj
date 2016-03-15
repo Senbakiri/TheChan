@@ -37,8 +37,15 @@
     <Compile Include="Board.cs" />
     <Compile Include="BoardOperations.cs" />
     <Compile Include="Converters\CategoriesConverter.cs" />
-    <Compile Include="Entities\BoardCategoryEntity.cs" />
-    <Compile Include="Entities\BoardEntity.cs" />
+    <Compile Include="Entities\AttachmentEntity.cs" />
+    <Compile Include="Entities\BoardsCategoryEntity.cs" />
+    <Compile Include="Entities\BoardIconEntity.cs" />
+    <Compile Include="Entities\BoardNewsEntity.cs" />
+    <Compile Include="Entities\BoardPageEntity.cs" />
+    <Compile Include="Entities\BoardPostEntity.cs" />
+    <Compile Include="Entities\BoardThreadEntity.cs" />
+    <Compile Include="Entities\BoardTopItemEntity.cs" />
+    <Compile Include="Entities\BriefBoardEntity.cs" />
     <Compile Include="Entities\IconEntity.cs" />
     <Compile Include="MakabaModule.cs" />
     <Compile Include="Operations\BoardsReceivingOperation.cs" />

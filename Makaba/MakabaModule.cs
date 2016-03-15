@@ -13,8 +13,8 @@ namespace Makaba {
     public class MakabaModule : NinjectModule {
         public override void Load() {
             Bind<IUrlService>().To<UrlService>();
-            Bind<IConverter<BoardCategoryEntity, BoardsCategory>>().To<CategoriesConverter>();
-            Bind<IConverter<IList<BoardCategoryEntity>, IList<BoardsCategory>>>().To<CategoriesConverter>();
+            Bind<IConverter<BoardsCategoryEntity, BoardsCategory>>().To<CategoriesConverter>();
+            Bind<IConverter<IList<BoardsCategoryEntity>, IList<BoardsCategory>>>().To<CategoriesConverter>();
             Bind<IHttpOperation<IList<BoardsCategory>>>().To<BoardsReceivingOperation>();
             Bind<IBoardOperations>().To<BoardOperations>();
         }

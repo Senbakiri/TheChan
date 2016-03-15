@@ -7,15 +7,15 @@ using Makaba.Entities;
 using Makaba.Services.Url;
 
 namespace Makaba.Converters {
-    public class CategoriesConverter : IConverter<IList<BoardCategoryEntity>, IList<BoardsCategory>>,
-                                       IConverter<BoardCategoryEntity, BoardsCategory> {
+    public class CategoriesConverter : IConverter<IList<BoardsCategoryEntity>, IList<BoardsCategory>>,
+                                       IConverter<BoardsCategoryEntity, BoardsCategory> {
         private IUrlService UrlService { get; }
 
         public CategoriesConverter(IUrlService urlService) {
             UrlService = urlService;
         }
 
-        BoardsCategory IConverter<BoardCategoryEntity, BoardsCategory>.Convert(BoardCategoryEntity source) {
+        public BoardsCategory Convert(BoardsCategoryEntity source) {
             IEnumerable<BriefBoardInfo> boards = source.Boards.Select(entity =>
                 new BriefBoardInfo(
                     entity.BumpLimit,
@@ -31,9 +31,9 @@ namespace Makaba.Converters {
             return new BoardsCategory(source.Name, boards.ToList());
         }
 
-        public IList<BoardsCategory> Convert(IList<BoardCategoryEntity> source) {
-            var convert = new Func<BoardCategoryEntity, BoardsCategory>((this as IConverter<BoardCategoryEntity, BoardsCategory>).Convert);
-            return source.Select(c => convert(c)).ToList();
+        public IList<BoardsCategory> Convert(IList<BoardsCategoryEntity> source) {
+            var convertFunc = new Func<BoardsCategoryEntity, BoardsCategory>((this as IConverter<BoardsCategoryEntity, BoardsCategory>).Convert);
+            return source.Select(c => convertFunc(c)).ToList();
         }
     }
 }

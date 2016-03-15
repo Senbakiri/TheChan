@@ -3,12 +3,12 @@
 namespace Makaba.Entities {
 
     [DataContract]
-    public class BoardCategoryEntity {
+    public class BoardsCategoryEntity {
 
         [DataMember]
         public string Name { get; set; }
 
         [DataMember]
-        public BoardEntity[] Boards { get; set; }
+        public BriefBoardEntity[] Boards { get; set; }
     }
 }

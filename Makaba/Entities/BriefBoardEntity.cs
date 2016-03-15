@@ -3,7 +3,7 @@
 namespace Makaba.Entities {
 
     [DataContract]
-    public class BoardEntity {
+    public class BriefBoardEntity {
 
         [DataMember(Name = "bump_limit")]
         public int BumpLimit { get; set; }
