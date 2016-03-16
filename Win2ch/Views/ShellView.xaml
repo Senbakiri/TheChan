@@ -174,7 +174,7 @@
                         <Setter Target="SwipeableSplitView.OpenPaneLength" Value="200"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720"/>
+                        <AdaptiveTrigger MinWindowWidth="1024"/>
                     </VisualState.StateTriggers>
                 </VisualState>
                 <VisualState>
@@ -196,7 +196,7 @@
                                                        Storyboard.TargetProperty="Visibility">
                             <DiscreteObjectKeyFrame KeyTime="0:0:0"
                                                     Value="Visible"/>
-                            <DiscreteObjectKeyFrame KeyTime="0:0:2"
+                            <DiscreteObjectKeyFrame KeyTime="0:0:3"
                                                     Value="Collapsed"/>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
@@ -233,7 +233,8 @@
                           SelectedItem="{Binding ActiveItem, Mode=TwoWay}"
                           ItemContainerStyle="{StaticResource TabItemStyle}"
                           CanDragItems="True"
-                          CanDrag="True">
+                          CanDrag="True"
+                          AllowDrop="True">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel>
@@ -247,14 +248,16 @@
                     </ListView.ItemsPanel>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="common:Tab">
-                            <Grid Height="35">
+                            <Grid Height="{StaticResource TabHeightAndWidth}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{x:Bind DisplayName}"
+                                <TextBlock Text="{x:Bind DisplayName, Converter={StaticResource ToUpper}, Mode=OneWay}"
+                                           FontWeight="SemiBold"
+                                           FontSize="13"
                                            VerticalAlignment="Center"
                                            Padding="10 0"
                                            TextTrimming="CharacterEllipsis"/>
@@ -273,8 +276,8 @@
                                 <Button Grid.Column="3"
                                         Style="{StaticResource CloseButtonStyle}"
                                         micro:Message.Attach="CloseTab($dataContext)"
-                                        Width="35"
-                                        Height="35"
+                                        Width="{StaticResource TabHeightAndWidth}"
+                                        Height="{StaticResource TabHeightAndWidth}"
                                         Visibility="{x:Bind IsCloseable, Converter={StaticResource TrueToVisible}, Mode=OneWay}">
                                     <TextBlock FontFamily="Segoe MDL2 Assets"
                                                Text="&#xE711;"

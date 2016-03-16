@@ -14,16 +14,21 @@
             <converters:StringToVisibilityConverter x:Key="EmptyStringToCollapsed"/>
             <converters:CaseConverter x:Key="ToLower" Casing="LowerCase"/>
             <converters:CaseConverter x:Key="ToUpper" Casing="UpperCase"/>
+            <x:Double x:Key="TabHeightAndWidth">40</x:Double>
             
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Dark">
                     <Color x:Key="PageBackgroundColor">#191919</Color>
                     <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource PageBackgroundColor}"/>
+                    <Color x:Key="GrayForegroundColor">#F1F1F1</Color>
+                    <SolidColorBrush x:Key="GrayForegroundBrush" Color="{StaticResource GrayForegroundColor}"/>
                 </ResourceDictionary>
 
                 <ResourceDictionary x:Key="Light">
                     <Color x:Key="PageBackgroundColor">#F1F1F1</Color>
                     <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource PageBackgroundColor}"/>
+                    <Color x:Key="GrayForegroundColor">#191919</Color>
+                    <SolidColorBrush x:Key="GrayForegroundBrush" Color="{StaticResource GrayForegroundColor}"/>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>

@@ -29,7 +29,7 @@
                         <DataTemplate x:DataType="ICollectionViewGroup">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{Binding Group.Name, Converter={StaticResource ToUpper}}"
-                                       Foreground="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                                       Foreground="{ThemeResource GrayForegroundBrush}"
                                        FontWeight="SemiBold"/>
                                 <ItemsControl Margin="2 0 0 0"
                                               ItemsSource="{x:Bind GroupItems}">
@@ -55,7 +55,9 @@
             <SemanticZoom.ZoomedInView>
                 <ListView ItemsSource="{Binding Source={StaticResource CategoriesCvs}}"
                           ScrollViewer.IsVerticalScrollChainingEnabled="False"
-                          SelectionMode="None">
+                          SelectionMode="None"
+                          IsItemClickEnabled="True"
+                          ItemClick="BoardsListView_OnItemClick">
                     <ListView.GroupStyle>
                         <GroupStyle>
                             <GroupStyle.HeaderContainerStyle>
@@ -66,7 +68,7 @@
                                     <Setter Property="UseSystemFocusVisuals" Value="True" />
                                     <Setter Property="MinHeight" Value="0"/>
                                     <Setter Property="Margin" Value="0"/>
-                                    <Setter Property="Height" Value="35"/>
+                                    <Setter Property="Height" Value="{StaticResource TabHeightAndWidth}"/>
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ListViewHeaderItem">
@@ -84,7 +86,7 @@
                                 <DataTemplate>
                                     <Grid Padding="12 0">
                                         <TextBlock Text="{Binding Name, Converter={StaticResource ToUpper}}"
-                                                   Foreground="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                                                   Foreground="{ThemeResource GrayForegroundBrush}"
                                                    FontSize="16"
                                                    FontWeight="SemiBold"
                                                    VerticalAlignment="Center"/>

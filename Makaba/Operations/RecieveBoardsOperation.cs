@@ -8,12 +8,12 @@ using Makaba.Entities;
 using Makaba.Services.Url;
 
 namespace Makaba.Operations {
-    public class BoardsReceivingOperation : HttpGetJsonCollectionOperationBase<BoardsCategoryEntity, BoardsCategory> {
+    public class RecieveBoardsOperation : HttpGetJsonCollectionOperationBase<BoardsCategoryEntity, BoardsCategory> {
         private IUrlService UrlService { get; }
-        public override Uri Uri { get; }
+        public sealed override Uri Uri { get; protected set; }
         protected override IConverter<IList<BoardsCategoryEntity>, IList<BoardsCategory>> ResultConverter { get; }
 
-        public BoardsReceivingOperation(
+        public RecieveBoardsOperation(
             IUrlService urlService,
             IConverter<IList<BoardsCategoryEntity>, IList<BoardsCategory>> resultConverter) {
 

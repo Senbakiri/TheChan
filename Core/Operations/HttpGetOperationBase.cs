@@ -6,10 +6,11 @@ using Core.Converters;
 
 namespace Core.Operations {
     public abstract class HttpGetOperationBase<TEntity, TResult> : IHttpOperation<TResult> {
-        public abstract Uri Uri { get; }
 
         protected abstract IConverter<string, TEntity> EntityConverter { get; }
         protected abstract IConverter<TEntity, TResult> ResultConverter { get; }
+
+        public abstract Uri Uri { get; protected set; }
 
         public virtual async Task<TResult> ExecuteAsync() {
             HttpClient client = CreateHttpClient();

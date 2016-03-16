@@ -48,7 +48,7 @@ namespace Makaba.Entities {
         public int PostsCount { get; set; }
 
         [DataMember(Name = "sticky")]
-        public bool IsSticky { get; set; }
+        public int Sticky { get; set; }
 
         [DataMember(Name = "subject")]
         public string Subject { get; set; }

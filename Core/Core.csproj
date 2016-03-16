@@ -38,20 +38,24 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\IBoard.cs" />
-    <Compile Include="Common\IBoardOperations.cs" />
+    <Compile Include="Common\DateUtils.cs" />
     <Compile Include="Converters\IConverter.cs" />
     <Compile Include="Converters\JsonConverter.cs" />
+    <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\BoardPage.cs" />
     <Compile Include="Models\BoardsCategory.cs" />
+    <Compile Include="Models\BoardThread.cs" />
     <Compile Include="Models\BriefBoardInfo.cs" />
     <Compile Include="Models\Icon.cs" />
+    <Compile Include="Models\Post.cs" />
     <Compile Include="Operations\HttpGetJsonCollectionOperationBase.cs" />
     <Compile Include="Operations\HttpGetJsonOperationBase.cs" />
     <Compile Include="Operations\HttpGetOperationBase.cs" />
     <Compile Include="Operations\IHttpOperation.cs" />
+    <Compile Include="Operations\ILoadBoardOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Core.Common;
 using Core.Converters;
 using Core.Models;
 using Core.Operations;
@@ -15,8 +14,9 @@ namespace Makaba {
             Bind<IUrlService>().To<UrlService>();
             Bind<IConverter<BoardsCategoryEntity, BoardsCategory>>().To<CategoriesConverter>();
             Bind<IConverter<IList<BoardsCategoryEntity>, IList<BoardsCategory>>>().To<CategoriesConverter>();
-            Bind<IHttpOperation<IList<BoardsCategory>>>().To<BoardsReceivingOperation>();
-            Bind<IBoardOperations>().To<BoardOperations>();
+            Bind<IConverter<BoardPageEntity, BoardPage>>().To<BoardConverter>();
+            Bind<IHttpOperation<IList<BoardsCategory>>>().To<RecieveBoardsOperation>();
+            Bind<ILoadBoardOperation>().To<LoadBoardOperation>();
         }
     }
 }

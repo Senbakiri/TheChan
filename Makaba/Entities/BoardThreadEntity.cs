@@ -14,6 +14,6 @@ namespace Makaba.Entities {
         public int PostsCount { get; set; }
 
         [DataMember(Name = "thread_num")]
-        public string ThreadNum { get; set; }
+        public long ThreadNum { get; set; }
     }
 }
