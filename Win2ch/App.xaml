@@ -15,7 +15,6 @@
             <converters:CaseConverter x:Key="ToLower" Casing="LowerCase"/>
             <converters:CaseConverter x:Key="ToUpper" Casing="UpperCase"/>
             <x:Double x:Key="TabHeightAndWidth">40</x:Double>
-            <SolidColorBrush x:Key="BoardThreadBackgroundBrush" Color="{ThemeResource SystemChromeLowColor}"/>
             
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Dark">
@@ -25,6 +24,7 @@
                     <SolidColorBrush x:Key="GrayForegroundBrush" Color="{ThemeResource GrayForegroundColor}"/>
                     <SolidColorBrush x:Key="SpoilerForegroundBrush" Color="#40FFFFFF"/>
                     <SolidColorBrush x:Key="ReplyForegroundBrush">#57c209</SolidColorBrush>
+                    <SolidColorBrush x:Key="BoardThreadBackgroundBrush" Color="{ThemeResource SystemBaseLowColor}"/>
                 </ResourceDictionary>
 
                 <ResourceDictionary x:Key="Light">
@@ -34,6 +34,7 @@
                     <SolidColorBrush x:Key="GrayForegroundBrush" Color="{ThemeResource GrayForegroundColor}"/>
                     <SolidColorBrush x:Key="SpoilerForegroundBrush" Color="#40000000"/>
                     <SolidColorBrush x:Key="ReplyForegroundBrush">#48a207</SolidColorBrush>
+                    <SolidColorBrush x:Key="BoardThreadBackgroundBrush" Color="#FAFAFA"/>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
