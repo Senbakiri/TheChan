@@ -10,8 +10,18 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <ListView ItemsSource="{x:Bind ViewModel.Threads}"
-                  ScrollViewer.VerticalScrollBarVisibility="Auto"> 
+                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Vertical"
+                                            VirtualizationMode="Recycling"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
             <ListView.Header>
                 <StackPanel Padding="10">
                     <TextBlock TextWrapping="Wrap"
@@ -28,6 +38,7 @@
                                     HorizontalContentAlignment="Stretch"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
+
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
@@ -343,6 +354,26 @@
                     </Setter>
                 </Style>
             </ListView.ItemContainerStyle>
+        </ListView>
+        <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollMode="Enabled"                  
+                  ScrollViewer.VerticalScrollMode="Disabled"
+                  ItemsSource="{x:Bind ViewModel.Pages}"
+                  SelectedIndex="{x:Bind ViewModel.CurrentPageNumber, Mode=TwoWay}"
+                  Grid.Row="1">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="MinWidth" Value="0"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="Width" Value="50"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Background="Transparent" Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
         </ListView>
     </Grid>
 </Page>

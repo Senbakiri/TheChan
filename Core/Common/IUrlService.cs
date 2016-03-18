@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Makaba.Services.Url {
+namespace Core.Common {
     public interface IUrlService {
         Uri GetBoardsListUrl();
         Uri GetFullUrl(string relativeUrl);

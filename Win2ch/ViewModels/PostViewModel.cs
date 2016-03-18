@@ -11,7 +11,6 @@ namespace Win2ch.ViewModels {
         private int position;
         private PostForeground foreground;
         private string foregroundString;
-        private double maxThumbnailWidth;
 
         public Post Post {
             get { return this.post; }

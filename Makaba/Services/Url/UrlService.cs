@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.Common;
 
 namespace Makaba.Services.Url {
     public class UrlService : IUrlService {

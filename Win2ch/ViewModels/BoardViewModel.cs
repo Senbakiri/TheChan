@@ -1,24 +1,32 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
 using Caliburn.Micro;
+using Core.Common;
 using Win2ch.Common;
 using Core.Models;
 using Core.Operations;
+using Makaba.Operations;
 
 namespace Win2ch.ViewModels {
     public class BoardViewModel : Tab {
         private BoardPage currentPage;
+        private int currentPageNumber = -1;
 
-        public BoardViewModel(IShell shell, ILoadBoardOperation loadBoardOperation) {
+        public BoardViewModel(IShell shell, IBoard board) {
             Shell = shell;
-            LoadBoardOperation = loadBoardOperation;
-            Threads = new BindableCollection<BoardThreadViewModel>();
+            Board = board;
+            Threads = new ObservableCollection<BoardThreadViewModel>();
+            LoadBoardOperation = board.Operations.LoadBoard();
+            Pages = new BindableCollection<int>();
         }
 
         private IShell Shell { get; }
+        private IBoard Board { get; }
         private ILoadBoardOperation LoadBoardOperation { get; }
-        public BindableCollection<BoardThreadViewModel> Threads { get; }
+        public ObservableCollection<BoardThreadViewModel> Threads { get; }
+        public BindableCollection<int> Pages { get; } 
 
         public BoardPage CurrentPage {
             get { return this.currentPage; }
@@ -30,21 +38,20 @@ namespace Win2ch.ViewModels {
             }
         }
 
-        protected override async void OnActivate(object parameter = null) {
-            var boardInfo = parameter as BriefBoardInfo;
-            if (string.IsNullOrWhiteSpace(boardInfo?.Id))
-                return;
+        public int CurrentPageNumber {
+            get { return this.currentPageNumber; }
+            set {
+                if (value == this.currentPageNumber || value < 0)
+                    return;
+                this.currentPageNumber = value;
+                NotifyOfPropertyChange();
+                ChangePage();
+            }
+        }
 
-            DisplayName = boardInfo.Name ?? $"/{boardInfo.Id}/";
-            LoadBoardOperation.Id = boardInfo.Id;
-            LoadBoardOperation.Page = 0;
+        private async void ChangePage() {
             try {
-                Shell.LoadingInfo.InProgress(GetLocalizationString("Loading"));
-                IsLoading = true;
-                CurrentPage = await LoadBoardOperation.ExecuteAsync();
-                DisplayName = CurrentPage.BoardName;
-                FillThreads();
-                Shell.LoadingInfo.Success(GetLocalizationString("Success"));
+                await Load(CurrentPageNumber);
             } catch (Exception) {
                 Shell.LoadingInfo.Error(GetLocalizationString("Error"));
             }
@@ -52,8 +59,39 @@ namespace Win2ch.ViewModels {
             IsLoading = false;
         }
 
-        private void FillThreads() {
+        protected override async void OnActivate(object parameter = null) {
+            var boardInfo = parameter as BriefBoardInfo;
+            if (string.IsNullOrWhiteSpace(boardInfo?.Id))
+                return;
+
+            DisplayName = boardInfo.Name ?? $"/{boardInfo.Id}/";
+            LoadBoardOperation.Id = boardInfo.Id;
+
+            try {
+                await Load(0);
+            } catch (Exception) {
+                Shell.LoadingInfo.Error(GetLocalizationString("Error"));
+            }
+
+            IsLoading = false;
+        }
+
+        private async Task Load(int pageNum) {
+            Shell.LoadingInfo.InProgress(GetLocalizationString("Loading"));
+            IsLoading = true;
+            LoadBoardOperation.Page = pageNum;
             Threads.Clear();
+            BoardPage page = await LoadBoardOperation.ExecuteAsync();
+            if (Pages.Count == 0)
+                Pages.AddRange(page.Pages);
+            CurrentPageNumber = page.Number;
+            CurrentPage = page;
+            DisplayName = CurrentPage.BoardName;
+            FillThreads();
+            Shell.LoadingInfo.Success(GetLocalizationString("Success"));
+        }
+
+        private void FillThreads() {
             foreach (BoardThread thread in CurrentPage.Threads) {
                 Threads.Add(new BoardThreadViewModel(thread));
             }

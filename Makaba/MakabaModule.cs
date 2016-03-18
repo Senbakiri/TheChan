@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Core.Common;
 using Core.Converters;
 using Core.Models;
 using Core.Operations;
@@ -12,6 +13,7 @@ namespace Makaba {
     public class MakabaModule : NinjectModule {
         public override void Load() {
             Bind<IUrlService>().To<UrlService>();
+            Bind<IBoardOperations>().To<BoardOperations>();
             Bind<IConverter<BoardsCategoryEntity, BoardsCategory>>().To<CategoriesConverter>();
             Bind<IConverter<IList<BoardsCategoryEntity>, IList<BoardsCategory>>>().To<CategoriesConverter>();
             Bind<IConverter<BoardPageEntity, BoardPage>>().To<BoardConverter>();

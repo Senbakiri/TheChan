@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Core.Common;
 using Core.Models;
 using Core.Operations;
 using Win2ch.Common;
@@ -11,16 +12,16 @@ using Win2ch.Extensions;
 namespace Win2ch.ViewModels {
     internal sealed class HomeViewModel : Tab {
 
-        public HomeViewModel(IShell shell, IHttpOperation<IList<BoardsCategory>> loadBoardsOperation) {
+        public HomeViewModel(IShell shell, IBoard board) {
             IsCloseable = false;
             DisplayName = GetLocalizationString("Name");
             Shell = shell;
-            LoadBoardsOperation = loadBoardsOperation;
+            Board = board;
             Categories = new BindableCollection<BoardsCategory>();
         }
 
         private IShell Shell { get; }
-        private IHttpOperation<IList<BoardsCategory>> LoadBoardsOperation { get; }
+        private IBoard Board { get; }
         public ObservableCollection<BoardsCategory> Categories { get; } 
 
         protected override async void OnActivate(object parameter = null) {
@@ -36,7 +37,7 @@ namespace Win2ch.ViewModels {
             LoadingInfo loadingInfo = Shell.LoadingInfo;
             try {
                 loadingInfo.InProgress(GetLocalizationString("ReceivingBoards"));
-                IList<BoardsCategory> categories = await LoadBoardsOperation.ExecuteAsync();
+                IList<BoardsCategory> categories = await Board.Operations.LoadBoards().ExecuteAsync();
                 Categories.Clear();
                 Categories.AddRange(categories);
                 loadingInfo.Success(GetLocalizationString("BoardsLoaded"));

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using Windows.ApplicationModel.Activation;
 using Caliburn.Micro;
+using Core.Common;
 using Ninject;
 using Win2ch.Common;
 using Win2ch.ViewModels;
+using Makaba;
 
 namespace Win2ch
 {
@@ -18,9 +20,10 @@ namespace Win2ch
         }
 
         protected override void Configure() {
-            this.kernel = new StandardKernel(new Makaba.MakabaModule());
+            this.kernel = new StandardKernel(new MakabaModule());
             this.kernel.Bind<IShell>().To<ShellViewModel>().InSingletonScope();
             this.kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
+            this.kernel.Bind<IBoard>().To<MakabaBoard>().InSingletonScope();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args) {
