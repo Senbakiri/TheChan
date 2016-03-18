@@ -123,6 +123,12 @@
   <data name="Board.Loading" xml:space="preserve">
     <value>Loading the board...</value>
   </data>
+  <data name="Board.SkippedPosts.Text" xml:space="preserve">
+    <value>Skipped posts</value>
+  </data>
+  <data name="Board.SkippedPostsWithFiles.Text" xml:space="preserve">
+    <value>With files</value>
+  </data>
   <data name="Board.Success" xml:space="preserve">
     <value>The board loaded successfully</value>
   </data>

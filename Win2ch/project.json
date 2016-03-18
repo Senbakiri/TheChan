@@ -1,6 +1,7 @@
 ﻿{
   "dependencies": {
     "Caliburn.Micro": "3.0.0",
+    "HtmlAgilityPack": "1.4.9",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
     "Portable.Ninject": "3.3.1",
     "SwipeListView": "1.2.0",

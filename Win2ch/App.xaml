@@ -5,7 +5,7 @@
     xmlns:local="using:Win2ch"
     xmlns:micro="using:Caliburn.Micro"
     xmlns:toolkitConverters="using:WinRTXamlToolkit.Converters"
-    RequestedTheme="Dark "
+    RequestedTheme="Light"
     xmlns:converters="using:Win2ch.Converters">
     <Application.Resources>
         <ResourceDictionary>
@@ -15,20 +15,25 @@
             <converters:CaseConverter x:Key="ToLower" Casing="LowerCase"/>
             <converters:CaseConverter x:Key="ToUpper" Casing="UpperCase"/>
             <x:Double x:Key="TabHeightAndWidth">40</x:Double>
+            <SolidColorBrush x:Key="BoardThreadBackgroundBrush" Color="{ThemeResource SystemChromeLowColor}"/>
             
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Dark">
-                    <Color x:Key="PageBackgroundColor">#191919</Color>
+                    <Color x:Key="PageBackgroundColor">Black</Color>
                     <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource PageBackgroundColor}"/>
                     <Color x:Key="GrayForegroundColor">#F1F1F1</Color>
-                    <SolidColorBrush x:Key="GrayForegroundBrush" Color="{StaticResource GrayForegroundColor}"/>
+                    <SolidColorBrush x:Key="GrayForegroundBrush" Color="{ThemeResource GrayForegroundColor}"/>
+                    <SolidColorBrush x:Key="SpoilerForegroundBrush" Color="#40FFFFFF"/>
+                    <SolidColorBrush x:Key="ReplyForegroundBrush">#57c209</SolidColorBrush>
                 </ResourceDictionary>
 
                 <ResourceDictionary x:Key="Light">
-                    <Color x:Key="PageBackgroundColor">#F1F1F1</Color>
+                    <Color x:Key="PageBackgroundColor">White</Color>
                     <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource PageBackgroundColor}"/>
-                    <Color x:Key="GrayForegroundColor">#191919</Color>
-                    <SolidColorBrush x:Key="GrayForegroundBrush" Color="{StaticResource GrayForegroundColor}"/>
+                    <Color x:Key="GrayForegroundColor">#404040</Color>
+                    <SolidColorBrush x:Key="GrayForegroundBrush" Color="{ThemeResource GrayForegroundColor}"/>
+                    <SolidColorBrush x:Key="SpoilerForegroundBrush" Color="#40000000"/>
+                    <SolidColorBrush x:Key="ReplyForegroundBrush">#48a207</SolidColorBrush>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>

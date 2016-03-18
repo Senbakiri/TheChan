@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Core.Models;
 using Core.Operations;
@@ -23,6 +24,15 @@ namespace Win2ch.ViewModels {
         public ObservableCollection<BoardsCategory> Categories { get; } 
 
         protected override async void OnActivate(object parameter = null) {
+           if (Categories.Count == 0)
+                await LoadCategories();
+        }
+
+        protected override async void OnInitialize() {
+            await LoadCategories();
+        }
+
+        private async Task LoadCategories() {
             LoadingInfo loadingInfo = Shell.LoadingInfo;
             try {
                 loadingInfo.InProgress(GetLocalizationString("ReceivingBoards"));

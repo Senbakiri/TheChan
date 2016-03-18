@@ -1,0 +1,68 @@
+﻿<Page
+    x:Class="Win2ch.Views.PostView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Win2ch.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:Win2ch.ViewModels"
+    xmlns:controls="using:WinRTXamlToolkit.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:Win2ch.Behaviors"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:common="using:Win2ch.Common"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance viewModels:PostViewModel}"
+    x:Name="This">
+
+    <interactivity:Interaction.Behaviors>
+        <core:DataTriggerBehavior Binding="{x:Bind ViewModel.ForegroundString, Mode=OneWay}"
+                                  Value="Contrast">
+            <core:ChangePropertyAction PropertyName="PostForeground"
+                                       Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+        </core:DataTriggerBehavior>
+        <core:DataTriggerBehavior Binding="{x:Bind ViewModel.ForegroundString, Mode=OneWay}"
+                                  Value="Gray">
+            <core:ChangePropertyAction PropertyName="PostForeground"
+                                       Value="{ThemeResource GrayForegroundBrush}"/>
+        </core:DataTriggerBehavior>
+    </interactivity:Interaction.Behaviors>
+    <StackPanel>
+        <TextBlock TextWrapping="Wrap"
+                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                   FontWeight="SemiBold"
+                   Text="{x:Bind ViewModel.Post.Subject}"
+                   Visibility="{x:Bind ViewModel.Post.Subject, Converter={StaticResource EmptyStringToCollapsed}}"/>
+        <controls:WrapPanel>
+            <TextBlock Text="{x:Bind ViewModel.Position}"
+                       Visibility="{x:Bind ViewModel.ShowPostPosition, Converter={StaticResource TrueToVisible}}"
+                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                       Margin="0 0 5 0"
+                       FontWeight="SemiBold"/>
+            <TextBlock Text="{x:Bind ViewModel.Post.Name}"
+                       Margin="0 0 5 0"
+                       FontWeight="SemiBold"
+                       Foreground="{x:Bind PostForeground, Mode=OneWay}"/>
+            <TextBlock Margin="0 0 5 0"
+                       FontWeight="SemiBold"
+                       Foreground="{x:Bind PostForeground, Mode=OneWay}">
+                #<Run Text="{x:Bind ViewModel.Post.Number}"/>
+            </TextBlock>
+            <TextBlock Text="{x:Bind ViewModel.Post.Email}"
+                       FontWeight="SemiBold"
+                       Foreground="{x:Bind PostForeground, Mode=OneWay}"/>
+        </controls:WrapPanel>
+        <TextBlock TextWrapping="Wrap"
+                   Foreground="{x:Bind PostForeground, Mode=OneWay}">
+            <interactivity:Interaction.Behaviors>
+                <behaviors:HtmlBehavior Html="{x:Bind ViewModel.Post.Text}"
+                                        SpoilerForeground="{ThemeResource SpoilerForegroundBrush}"
+                                        ReplyForeground="{ThemeResource ReplyForegroundBrush}"/>
+            </interactivity:Interaction.Behaviors>
+        </TextBlock>
+        <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                   Text="{x:Bind ViewModel.Post.Date}"
+                   FontSize="13"
+                   Margin="0 5 0 0"/>
+    </StackPanel>
+</Page>

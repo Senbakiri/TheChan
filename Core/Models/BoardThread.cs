@@ -3,17 +3,17 @@
 namespace Core.Models {
     public class BoardThread {
         public BoardThread(long number,
-                           IList<Post> posts,
+                           Post post,
                            int skippedPosts, 
                            int skippedPostsWithFiles) {
             Number = number;
-            Posts = posts;
+            Post = post;
             SkippedPosts = skippedPosts;
             SkippedPostsWithFiles = skippedPostsWithFiles;
         }
 
         public long Number { get; }
-        public IList<Post> Posts { get; } 
+        public Post Post { get; } 
         public int SkippedPosts { get; }
         public int SkippedPostsWithFiles { get; }
     }

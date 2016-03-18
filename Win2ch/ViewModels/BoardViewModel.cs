@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using Caliburn.Micro;
 using Win2ch.Common;
 using Core.Models;
 using Core.Operations;
@@ -10,10 +13,12 @@ namespace Win2ch.ViewModels {
         public BoardViewModel(IShell shell, ILoadBoardOperation loadBoardOperation) {
             Shell = shell;
             LoadBoardOperation = loadBoardOperation;
+            Threads = new BindableCollection<BoardThreadViewModel>();
         }
 
         private IShell Shell { get; }
         private ILoadBoardOperation LoadBoardOperation { get; }
+        public BindableCollection<BoardThreadViewModel> Threads { get; }
 
         public BoardPage CurrentPage {
             get { return this.currentPage; }
@@ -29,7 +34,8 @@ namespace Win2ch.ViewModels {
             var boardInfo = parameter as BriefBoardInfo;
             if (string.IsNullOrWhiteSpace(boardInfo?.Id))
                 return;
-            
+
+            DisplayName = boardInfo.Name ?? $"/{boardInfo.Id}/";
             LoadBoardOperation.Id = boardInfo.Id;
             LoadBoardOperation.Page = 0;
             try {
@@ -37,12 +43,20 @@ namespace Win2ch.ViewModels {
                 IsLoading = true;
                 CurrentPage = await LoadBoardOperation.ExecuteAsync();
                 DisplayName = CurrentPage.BoardName;
+                FillThreads();
                 Shell.LoadingInfo.Success(GetLocalizationString("Success"));
             } catch (Exception) {
                 Shell.LoadingInfo.Error(GetLocalizationString("Error"));
             }
 
             IsLoading = false;
+        }
+
+        private void FillThreads() {
+            Threads.Clear();
+            foreach (BoardThread thread in CurrentPage.Threads) {
+                Threads.Add(new BoardThreadViewModel(thread));
+            }
         }
     }
 }

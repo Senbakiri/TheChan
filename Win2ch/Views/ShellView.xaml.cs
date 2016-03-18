@@ -62,9 +62,5 @@ namespace Win2ch.Views {
                     titleBar.ButtonInactiveBackgroundColor =
                         titleBar.InactiveBackgroundColor = bg.Color;
         }
-
-        private void ShellView_OnLoaded(object sender, RoutedEventArgs e) {}
-
-        private void ShellView_OnLoading(FrameworkElement sender, object args) {}
     }
 }

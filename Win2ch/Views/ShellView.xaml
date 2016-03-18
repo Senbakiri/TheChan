@@ -11,11 +11,7 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance viewModels:ShellViewModel}"
-    Loaded="ShellView_OnLoaded"
-    Loading="ShellView_OnLoading">
-
-
+    d:DataContext="{d:DesignInstance viewModels:ShellViewModel}">
 
     <Page.Resources>
         <Style x:Key="CloseButtonStyle" TargetType="Button">
@@ -160,8 +156,9 @@
                 <VisualState>
                     <VisualState.Setters>
                         <Setter Target="SwipeableSplitView.OpenPaneLength" Value="300"/>
-                        <Setter Target="SwipeableSplitView.IsPaneOpen" Value="True"/>
                         <Setter Target="SwipeableSplitView.DisplayMode" Value="Inline"/>
+                        <Setter Target="SwipeableSplitView.IsPaneOpen" Value="True"/>
+                        <Setter Target="SwipeableSplitView.IsSwipeablePaneOpen" Value="True"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="1440"/>
@@ -169,9 +166,10 @@
                 </VisualState>
                 <VisualState>
                     <VisualState.Setters>
-                        <Setter Target="SwipeableSplitView.IsPaneOpen" Value="True"/>
                         <Setter Target="SwipeableSplitView.DisplayMode" Value="Inline"/>
                         <Setter Target="SwipeableSplitView.OpenPaneLength" Value="200"/>
+                        <Setter Target="SwipeableSplitView.IsPaneOpen" Value="True"/>
+                        <Setter Target="SwipeableSplitView.IsSwipeablePaneOpen" Value="True"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="1024"/>
@@ -232,8 +230,7 @@
                 <ListView ItemsSource="{x:Bind ViewModel.Items}"
                           SelectedItem="{Binding ActiveItem, Mode=TwoWay}"
                           ItemContainerStyle="{StaticResource TabItemStyle}"
-                          CanDragItems="True"
-                          CanDrag="True"
+                          CanReorderItems="True"
                           AllowDrop="True">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
