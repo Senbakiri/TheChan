@@ -42,6 +42,7 @@
     <Compile Include="Converters\IConverter.cs" />
     <Compile Include="Converters\JsonConverter.cs" />
     <Compile Include="Models\Attachment.cs" />
+    <Compile Include="Models\AttachmentType.cs" />
     <Compile Include="Models\BoardPage.cs" />
     <Compile Include="Models\BoardsCategory.cs" />
     <Compile Include="Models\BoardThread.cs" />

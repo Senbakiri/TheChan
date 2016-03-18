@@ -4,6 +4,7 @@ namespace Makaba.Services.Url {
     public interface IUrlService {
         Uri GetBoardsListUrl();
         Uri GetFullUrl(string relativeUrl);
-        Uri GetBoardUrl(string id, int page = 0);
+        Uri GetBoardPageUrl(string id, int page = 0);
+        Uri GetFileUrl(string boardId, string path);
     }
 }

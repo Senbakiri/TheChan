@@ -14,9 +14,13 @@ namespace Makaba.Services.Url {
             return new Uri(BaseUri, relativeUrl);
         }
 
-        public Uri GetBoardUrl(string id, int page = 0) {
+        public Uri GetBoardPageUrl(string id, int page = 0) {
             string pageText = page == 0 ? "index" : page.ToString();
             return new Uri(BaseUri, $"/{id}/{pageText}.json");
+        }
+
+        public Uri GetFileUrl(string boardId, string path) {
+            return new Uri(BaseUri, $"/{boardId}/{path}");
         }
     }
 }

@@ -12,13 +12,14 @@ namespace Win2ch.Converters {
         public CharacterCasing Casing { get; set; }
 
         public object Convert(object value, Type targetType, object parameter, string language) {
+            var str = value.ToString();
             switch (Casing) {
                 case CharacterCasing.LowerCase:
-                    return value.ToString().ToLower();
+                    return str.ToLower();
                 case CharacterCasing.UpperCase:
-                    return value.ToString().ToUpper();
+                    return str.ToUpper();
                 default:
-                    return value;
+                    return str;
             }
         }
 

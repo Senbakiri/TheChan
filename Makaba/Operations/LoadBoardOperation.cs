@@ -36,7 +36,7 @@ namespace Makaba.Operations {
         }
 
         private void UpdateUri() {
-            Uri = UrlService.GetBoardUrl(Id, Page);
+            Uri = UrlService.GetBoardPageUrl(Id, Page);
         }
     }
 }

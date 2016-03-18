@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System.Linq;
+using Caliburn.Micro;
 using Core.Models;
 using Win2ch.Common;
 
@@ -10,6 +11,7 @@ namespace Win2ch.ViewModels {
         private int position;
         private PostForeground foreground;
         private string foregroundString;
+        private double maxThumbnailWidth;
 
         public Post Post {
             get { return this.post; }

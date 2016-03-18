@@ -11,6 +11,7 @@
     xmlns:behaviors="using:Win2ch.Behaviors"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:common="using:Win2ch.Common"
+    xmlns:models="using:Core.Models"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance viewModels:PostViewModel}"
     x:Name="This">
@@ -52,6 +53,34 @@
                        FontWeight="SemiBold"
                        Foreground="{x:Bind PostForeground, Mode=OneWay}"/>
         </controls:WrapPanel>
+        <ItemsControl ItemsSource="{x:Bind ViewModel.Post.Attachments}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <controls:WrapPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="models:Attachment">
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 5 5 0">
+                        <Image Height="100"
+                               MaxWidth="300"
+                               Stretch="Uniform"
+                               Source="{x:Bind ThumbnailUri.AbsoluteUri}"
+                               HorizontalAlignment="Center"/>
+                        <TextBlock VerticalAlignment="Center"
+                                   Margin="5 0 0 0"
+                                   Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}">
+                            <Run Text="{x:Bind Type, Converter={StaticResource ToUpper}}"/>
+                            <LineBreak/>
+                            <Run Text="{x:Bind Width}"/>x<Run Text="{x:Bind Height}"/>
+                            <LineBreak/>
+                            <Run Text="{x:Bind Size}"/> KB
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         <TextBlock TextWrapping="Wrap"
                    Foreground="{x:Bind PostForeground, Mode=OneWay}">
             <interactivity:Interaction.Behaviors>

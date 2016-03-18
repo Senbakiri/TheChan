@@ -1,12 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Core.Common;
 using Core.Converters;
 using Core.Models;
 using Makaba.Entities;
+using Makaba.Services.Url;
 
 namespace Makaba.Converters {
     public class BoardConverter : IConverter<BoardPageEntity, BoardPage> {
+        public BoardConverter(IUrlService urlService) {
+            UrlService = urlService;
+        }
+
+        private IUrlService UrlService { get; }
+
         public BoardPage Convert(BoardPageEntity source) {
             return new BoardPage(
                 source.BoardId,
@@ -14,16 +22,16 @@ namespace Makaba.Converters {
                 source.BoardInfo,
                 source.CurrentPage,
                 source.Pages,
-                source.Threads.Select(CreateThread).ToList());
+                source.Threads.Select(t => CreateThread(source, t)).ToList());
         }
 
-        private BoardThread CreateThread(BoardThreadEntity entity) {
-            IList<BoardPostEntity> additionalPosts = entity.Posts.Skip(1).ToList();
-            int skippedPosts = entity.PostsCount + additionalPosts.Count;
-            int skippedPostsWithFiles = entity.FilesCount + additionalPosts.Count(e => e.Files.Count > 0);
-            BoardPostEntity post = entity.Posts.First();
+        private BoardThread CreateThread(BoardPageEntity boardPage, BoardThreadEntity thread) {
+            IList<BoardPostEntity> additionalPosts = thread.Posts.Skip(1).ToList();
+            int skippedPosts = thread.PostsCount + additionalPosts.Count;
+            int skippedPostsWithFiles = thread.FilesCount + additionalPosts.Count(e => e.Files.Count > 0);
+            BoardPostEntity post = thread.Posts.First();
             return new BoardThread(
-                entity.ThreadNum,
+                thread.ThreadNum,
                  new Post(
                     post.Num,
                     post.Parent,
@@ -36,7 +44,19 @@ namespace Makaba.Converters {
                     post.IsBanned,
                     post.IsClosed,
                     post.Sticky != 0,
-                    post.Files.Select(f => new Attachment()).ToList(),
+                    post.Files.Select(f =>
+                        new Attachment(
+                            f.Name,
+                            f.Path,
+                            UrlService.GetFileUrl(boardPage.BoardId, f.Path),
+                            f.Size,
+                            f.Width,
+                            f.Height,
+                            f.Thumbnail,
+                            UrlService.GetFileUrl(boardPage.BoardId, f.Thumbnail),
+                            f.ThumbnailWidth,
+                            f.ThumbnailHeight,
+                            (AttachmentType)f.Type)).ToList(),
                     DateUtils.TimestampToDateTime(post.Timestamp)),
                 skippedPosts,
                 skippedPostsWithFiles);

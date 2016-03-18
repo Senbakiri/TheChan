@@ -14,7 +14,7 @@ namespace Win2ch.Views {
             DataContextChanged += (s, e) => ViewModel = DataContext as PostViewModel;
         }
 
-        private PostViewModel ViewModel { get; set; }
+        public PostViewModel ViewModel { get; private set; }
 
         public Brush PostForeground {
             get { return this.postForeground; }
