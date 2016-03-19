@@ -23,5 +23,10 @@ namespace Makaba.Services.Url {
         public Uri GetFileUrl(string boardId, string path) {
             return new Uri(BaseUri, $"/{boardId}/{path}");
         }
+
+        public Uri GetThreadUrl(string boardId, long threadNum, int position = 0) {
+            return new Uri(BaseUri,
+                $"/makaba/mobile.fcgi?task=get_thread&board={boardId}&thread={threadNum}&post={position}");
+        }
     }
 }

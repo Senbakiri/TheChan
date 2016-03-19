@@ -15,7 +15,10 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <ListView ItemsSource="{x:Bind ViewModel.Threads}"
-                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  SelectionMode="None"
+                  IsItemClickEnabled="True"
+                  micro:Message.Attach="[Event ItemClick] = [Action NavigateToThread($eventArgs)]">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel Orientation="Vertical"

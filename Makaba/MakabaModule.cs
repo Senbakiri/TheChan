@@ -14,11 +14,15 @@ namespace Makaba {
         public override void Load() {
             Bind<IUrlService>().To<UrlService>();
             Bind<IBoardOperations>().To<BoardOperations>();
+
             Bind<IConverter<BoardsCategoryEntity, BoardsCategory>>().To<CategoriesConverter>();
             Bind<IConverter<IList<BoardsCategoryEntity>, IList<BoardsCategory>>>().To<CategoriesConverter>();
             Bind<IConverter<BoardPageEntity, BoardPage>>().To<BoardConverter>();
+            Bind<IConverter<ThreadEntity, Thread>>().To<ThreadConverter>();
+
             Bind<IHttpOperation<IList<BoardsCategory>>>().To<RecieveBoardsOperation>();
             Bind<ILoadBoardOperation>().To<LoadBoardOperation>();
+            Bind<ILoadThreadOperation>().To<LoadThreadOperation>();
         }
     }
 }

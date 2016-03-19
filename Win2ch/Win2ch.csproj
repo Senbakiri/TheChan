@@ -97,11 +97,13 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviors\HtmlBehavior.cs" />
+    <Compile Include="Common\DeviceUtils.cs" />
     <Compile Include="Common\Html\HtmlConverter.cs" />
     <Compile Include="Common\Html\InlineWrapper.cs" />
     <Compile Include="Common\Html\Selector.cs" />
     <Compile Include="Common\LoadingInfo.cs" />
     <Compile Include="Common\LoadingState.cs" />
+    <Compile Include="Common\ThreadNavigation.cs" />
     <Compile Include="Controls\SwipeableSplitView.cs" />
     <Compile Include="Converters\CaseConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
@@ -120,6 +122,7 @@
     <Compile Include="Common\PostForeground.cs" />
     <Compile Include="ViewModels\PostViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\ThreadViewModel.cs" />
     <Compile Include="Views\BoardThreadView.xaml.cs">
       <DependentUpon>BoardThreadView.xaml</DependentUpon>
     </Compile>
@@ -134,6 +137,9 @@
     </Compile>
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ThreadView.xaml.cs">
+      <DependentUpon>ThreadView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +227,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ThreadView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

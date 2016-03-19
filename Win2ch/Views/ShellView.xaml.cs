@@ -11,6 +11,9 @@ namespace Win2ch.Views {
             InitializeComponent();
             DataContextChanged += OnDataContextChanged;
             SetupTitleBar();
+            if (DeviceUtils.GetDeviceFamily() == DeviceFamily.Mobile) {
+                ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+            }
         }
 
         private void OnDataContextChanged(FrameworkElement s, DataContextChangedEventArgs e) {

@@ -5,7 +5,7 @@
     xmlns:local="using:Win2ch"
     xmlns:micro="using:Caliburn.Micro"
     xmlns:toolkitConverters="using:WinRTXamlToolkit.Converters"
-    RequestedTheme="Light"
+    RequestedTheme="Dark"
     xmlns:converters="using:Win2ch.Converters">
     <Application.Resources>
         <ResourceDictionary>
@@ -20,11 +20,11 @@
                 <ResourceDictionary x:Key="Dark">
                     <Color x:Key="PageBackgroundColor">Black</Color>
                     <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource PageBackgroundColor}"/>
-                    <Color x:Key="GrayForegroundColor">#F1F1F1</Color>
+                    <Color x:Key="GrayForegroundColor">#D1D1D1</Color>
                     <SolidColorBrush x:Key="GrayForegroundBrush" Color="{ThemeResource GrayForegroundColor}"/>
                     <SolidColorBrush x:Key="SpoilerForegroundBrush" Color="#40FFFFFF"/>
                     <SolidColorBrush x:Key="ReplyForegroundBrush">#57c209</SolidColorBrush>
-                    <SolidColorBrush x:Key="BoardThreadBackgroundBrush" Color="{ThemeResource SystemBaseLowColor}"/>
+                    <SolidColorBrush x:Key="BoardThreadBackgroundBrush" Color="#101010"/>
                 </ResourceDictionary>
 
                 <ResourceDictionary x:Key="Light">

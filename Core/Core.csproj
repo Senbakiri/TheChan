@@ -52,11 +52,13 @@
     <Compile Include="Models\BriefBoardInfo.cs" />
     <Compile Include="Models\Icon.cs" />
     <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\Thread.cs" />
     <Compile Include="Operations\HttpGetJsonCollectionOperationBase.cs" />
     <Compile Include="Operations\HttpGetJsonOperationBase.cs" />
     <Compile Include="Operations\HttpGetOperationBase.cs" />
     <Compile Include="Operations\IHttpOperation.cs" />
     <Compile Include="Operations\ILoadBoardOperation.cs" />
+    <Compile Include="Operations\ILoadThreadOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

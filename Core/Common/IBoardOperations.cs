@@ -6,5 +6,6 @@ namespace Core.Common {
     public interface IBoardOperations {
         IHttpOperation<IList<BoardsCategory>> LoadBoards();
         ILoadBoardOperation LoadBoard();
+        ILoadThreadOperation LoadThread();
     }
 }

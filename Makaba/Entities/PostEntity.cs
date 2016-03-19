@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Makaba.Entities {
 
     [DataContract]
-    public class BoardPostEntity {
+    public class PostEntity {
         [DataMember(Name = "banned")]
         public bool IsBanned { get; set; }
 

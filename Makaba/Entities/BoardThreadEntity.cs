@@ -8,7 +8,7 @@ namespace Makaba.Entities {
         public int FilesCount { get; set; }
 
         [DataMember(Name = "posts")]
-        public IList<BoardPostEntity> Posts { get; set; }
+        public IList<PostEntity> Posts { get; set; }
 
         [DataMember(Name = "posts_count")]
         public int PostsCount { get; set; }

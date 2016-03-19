@@ -20,5 +20,9 @@ namespace Makaba.Operations {
         public ILoadBoardOperation LoadBoard() {
             return Kernel.Get<ILoadBoardOperation>();
         }
+
+        public ILoadThreadOperation LoadThread() {
+            return Kernel.Get<ILoadThreadOperation>();
+        }
     }
 }

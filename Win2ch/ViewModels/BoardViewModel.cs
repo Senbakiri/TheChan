@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
 using Caliburn.Micro;
 using Core.Common;
 using Win2ch.Common;
@@ -95,6 +96,14 @@ namespace Win2ch.ViewModels {
             foreach (BoardThread thread in CurrentPage.Threads) {
                 Threads.Add(new BoardThreadViewModel(thread));
             }
+        }
+
+        public void NavigateToThread(ItemClickEventArgs args) {
+            var boardThread = (BoardThreadViewModel) args.ClickedItem;
+            ThreadNavigation navigation =
+                ThreadNavigation.NavigateToThread(CurrentPage.BoardId,
+                                                  boardThread.ThreadInfo.Number);
+            Shell.Navigate<ThreadViewModel>(navigation);
         }
     }
 }
