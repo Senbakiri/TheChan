@@ -13,6 +13,9 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <controls:SwipeListView ItemsSource="{x:Bind ViewModel.Posts}"
                                 ItemLeftBackground="{ThemeResource SystemControlBackgroundAccentBrush}"
+                                ItemRightBackground="Orange"
+                                ItemLeftBehavior="Collapse"
+                                ItemRightBehavior="Collapse"
                                 SelectionMode="None"
                                 Margin="0 -1.5 0 0">
             <controls:SwipeListView.ItemLeftContentTemplate>
@@ -21,16 +24,31 @@
                                 VerticalAlignment="Center">
                         <TextBlock x:Uid="Thread/Reply"
                                    Style="{ThemeResource BodyTextBlockStyle}"
-                                   Foreground="White"/>
+                                   Foreground="White"
+                                   Margin="10 0"/>
                         <SymbolIcon Symbol="Back"
                                     Foreground="White"/>
                     </StackPanel>
                 </DataTemplate>
             </controls:SwipeListView.ItemLeftContentTemplate>
+            <controls:SwipeListView.ItemRightContentTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center">
+                        <TextBlock Text="Favorite"
+                                   Style="{ThemeResource BodyTextBlockStyle}"
+                                   Foreground="White"
+                                   Margin="10 0"/>
+                        <SymbolIcon Symbol="Favorite"
+                                    Foreground="White"/>
+                    </StackPanel>
+                </DataTemplate>
+            </controls:SwipeListView.ItemRightContentTemplate>
             <controls:SwipeListView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:PostViewModel">
                     <Border BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
-                            BorderThickness="0 1.5 0 0">
+                            BorderThickness="0 1.5 0 0"
+                            Margin="5 0">
                         <ContentControl micro:View.Model="{x:Bind}"
                                     Padding="0 10"/>
                     </Border>
@@ -39,14 +57,8 @@
             </controls:SwipeListView.ItemTemplate>
             <controls:SwipeListView.ItemContainerStyle>
                 <Style TargetType="controls:SwipeListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="ListViewItem">
-                                <ListViewItemPresenter SelectionCheckMarkVisualEnabled="False"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Padding" Value="0"/>
                 </Style>
             </controls:SwipeListView.ItemContainerStyle>
         </controls:SwipeListView>
