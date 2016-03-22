@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Core.Common;
 using Core.Models;
 using Core.Operations;
@@ -35,18 +36,18 @@ namespace Win2ch.ViewModels {
             DisplayName = $"/{navigation.BoardId}/ - {navigation.ThreadNumber}";
 
             IsLoading = true;
-            Shell.LoadingInfo.InProgress(null);
+            Shell.LoadingInfo.InProgress(GetLocalizationString("Loading"));
             try {
                 Thread thread = await Operation.ExecuteAsync();
                 DisplayName = GetDisplayName(thread);
                 Posts.Clear();
                 FillPosts(thread.Posts);
-                IsLoading = false;
-                Shell.LoadingInfo.Success(null);
+                Shell.LoadingInfo.Success(GetLocalizationString("Loaded"));
             } catch (Exception) {
-                Shell.LoadingInfo.Error(null, true, () => OnActivate(navigation));
+                Shell.LoadingInfo.Error(GetLocalizationString("NotLoaded"), true, () => OnActivate(navigation));
             }
-            
+
+            IsLoading = false;
         }
 
         private static string GetDisplayName(Thread thread) {
@@ -54,16 +55,68 @@ namespace Win2ch.ViewModels {
             return string.IsNullOrWhiteSpace(first.Subject) ? first.Text : first.Subject;
         }
 
-        private void FillPosts(IList<Post> posts) {
-            int offset = Posts.Count + 1;
-            for (var i = 0; i < posts.Count; i++) {
-                Post post = posts[i];
-                Posts.Add(new PostViewModel {
-                    Foreground = PostForeground.Gray,
-                    Position = offset + i,
-                    Post = post
-                });
+        public async void RefreshThread() {
+            if (string.IsNullOrEmpty(Operation.BoardId))
+                return;
+
+            Operation.FromPosition = Posts.Count + 1;
+            IsLoading = true;
+            Shell.LoadingInfo.InProgress(GetLocalizationString("Refreshing"));
+            try {
+                Thread thread = await Operation.ExecuteAsync();
+                FillPosts(thread.Posts);
+                if (thread.Posts.Count > 0) {
+                    Shell.LoadingInfo.Success(GetLocalizationString("Refreshed.NewPosts") +
+                                              $": {thread.Posts.Count}");
+                } else {
+                    Shell.LoadingInfo.Success(GetLocalizationString("Refreshed.NoNewPosts"));
+                }
+            } catch (Exception) {
+                Shell.LoadingInfo.Error(GetLocalizationString("NotRefreshed"));
             }
+
+            IsLoading = false;
+        }
+
+        private void FillPosts(IEnumerable<Post> posts) {
+            var newPosts = new List<PostViewModel>();
+            int offset = Posts.Count + 1;
+            newPosts.AddRange(posts.Select((post, i) => new PostViewModel {
+                Foreground = PostForeground.Gray,
+                Position = offset + i,
+                Post = post,
+                IsTextSelectionEnabled = true
+            }));
+
+            ProcessAnswers(Posts, newPosts);
+            Posts.AddRange(newPosts);
+        }
+
+        private static void ProcessAnswers(IEnumerable<PostViewModel> existingPosts, IList<PostViewModel> newPosts) {
+            Dictionary<long, IList<PostViewModel>> repliedPosts = FindRepliedPosts(newPosts);
+            IList<PostViewModel> searchSource = existingPosts.Concat(newPosts).ToList();
+            foreach (KeyValuePair<long, IList<PostViewModel>> reply in repliedPosts) {
+                long postNumber = reply.Key;
+                IList<PostViewModel> replies = reply.Value;
+                PostViewModel post = searchSource.FirstOrDefault(p => p.Post.Number == postNumber);
+                post?.Replies.AddRange(replies);
+            }
+        }
+
+        private static Dictionary<long, IList<PostViewModel>> FindRepliedPosts(IEnumerable<PostViewModel> posts) {
+            var result = new Dictionary<long, IList<PostViewModel>>();
+            var replyRegex = new Regex(@">>(\d+)");
+            foreach (PostViewModel post in posts) {
+                MatchCollection matches = replyRegex.Matches(post.Post.Text);
+                foreach (Match match in matches) {
+                    long postNumber = Convert.ToInt64(match.Groups[1].Captures[0].Value);
+                    if (!result.ContainsKey(postNumber))
+                        result.Add(postNumber, new List<PostViewModel>());
+                    result[postNumber].Add(post);
+                }
+            }
+
+            return result;
         }
     }
 }
