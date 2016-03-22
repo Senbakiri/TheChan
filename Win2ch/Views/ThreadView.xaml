@@ -8,8 +8,7 @@
     xmlns:controls="using:Universal.UI.Xaml.Controls"
     xmlns:viewModels="using:Win2ch.ViewModels"
     xmlns:micro="using:Caliburn.Micro"
-    mc:Ignorable="d"
-    Loaded="">
+    mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <controls:SwipeListView ItemsSource="{x:Bind ViewModel.Posts}"
