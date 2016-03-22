@@ -1,4 +1,5 @@
-﻿using Windows.Devices.Input;
+﻿using System.Linq;
+using Windows.UI.Xaml.Controls;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Views {
@@ -9,5 +10,17 @@ namespace Win2ch.Views {
         }
 
         public ThreadViewModel ViewModel { get; private set; }
+
+        public void Up() {
+            PostViewModel firstPost = ViewModel?.Posts.FirstOrDefault();
+            if (firstPost != null)
+                this.Posts.ScrollIntoView(firstPost, ScrollIntoViewAlignment.Leading);
+        }
+
+        public void Down() {
+            PostViewModel lastPost = ViewModel?.Posts.LastOrDefault();
+            if (lastPost != null)
+                this.Posts.ScrollIntoView(lastPost, ScrollIntoViewAlignment.Leading);
+        }
     }
 }

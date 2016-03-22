@@ -153,6 +153,9 @@
   <data name="Shell.TryAgain.Content" xml:space="preserve">
     <value>Попробовать снова</value>
   </data>
+  <data name="Thread.Down.Label" xml:space="preserve">
+    <value>Вниз</value>
+  </data>
   <data name="Thread.Loaded" xml:space="preserve">
     <value>Тред успешно загружен</value>
   </data>
@@ -179,5 +182,8 @@
   </data>
   <data name="Thread.Reply.Text" xml:space="preserve">
     <value>Ответить</value>
+  </data>
+  <data name="Thread.Up.Label" xml:space="preserve">
+    <value>Вверх</value>
   </data>
 </root>

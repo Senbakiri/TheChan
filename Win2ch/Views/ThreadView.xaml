@@ -8,7 +8,8 @@
     xmlns:controls="using:Universal.UI.Xaml.Controls"
     xmlns:viewModels="using:Win2ch.ViewModels"
     xmlns:micro="using:Caliburn.Micro"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Loaded="">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <controls:SwipeListView ItemsSource="{x:Bind ViewModel.Posts}"
@@ -18,7 +19,8 @@
                                 ItemRightBehavior="Collapse"
                                 SelectionMode="None"
                                 Margin="0 -1.5 0 0"
-                                Padding="0 0 0 48">
+                                Padding="0 0 0 48"
+                                x:Name="Posts">
             <controls:SwipeListView.ItemLeftContentTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal"
@@ -68,6 +70,18 @@
             <CommandBar.Background>
                 <SolidColorBrush Color="{ThemeResource SystemAltHighColor}" Opacity="0.6"/>
             </CommandBar.Background>
+            <AppBarButton x:Uid="Thread/Up"
+                          Click="{x:Bind Up}">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE74A;"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton x:Uid="Thread/Down"
+                          Click="{x:Bind Down}">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE74B;"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
             <AppBarButton Icon="Refresh"
                           x:Uid="Thread/Refresh"
                           micro:Message.Attach="RefreshThread()"
