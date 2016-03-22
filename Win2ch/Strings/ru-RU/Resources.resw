@@ -153,6 +153,30 @@
   <data name="Shell.TryAgain.Content" xml:space="preserve">
     <value>Попробовать снова</value>
   </data>
+  <data name="Thread.Loaded" xml:space="preserve">
+    <value>Тред успешно загружен</value>
+  </data>
+  <data name="Thread.Loading" xml:space="preserve">
+    <value>Загрузка треда...</value>
+  </data>
+  <data name="Thread.NotLoaded" xml:space="preserve">
+    <value>Не удалось загрузить тред</value>
+  </data>
+  <data name="Thread.NotRefreshed" xml:space="preserve">
+    <value>Не удалось обновить тред</value>
+  </data>
+  <data name="Thread.Refresh.Label" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="Thread.Refreshed.NewPosts" xml:space="preserve">
+    <value>Тред успешно обновлен. Новых постов</value>
+  </data>
+  <data name="Thread.Refreshed.NoNewPosts" xml:space="preserve">
+    <value>Тред успешно обновлен. Нет новых постов</value>
+  </data>
+  <data name="Thread.Refreshing" xml:space="preserve">
+    <value>Обновление треда...</value>
+  </data>
   <data name="Thread.Reply.Text" xml:space="preserve">
     <value>Ответить</value>
   </data>

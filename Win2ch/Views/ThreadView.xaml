@@ -47,13 +47,14 @@
             </controls:SwipeListView.ItemRightContentTemplate>
             <controls:SwipeListView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:PostViewModel">
-                    <Border BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
-                            BorderThickness="0 1.5 0 0"
-                            Margin="5 0">
-                        <ContentControl micro:View.Model="{x:Bind}"
-                                    Padding="0 10"/>
+                    <Border>
+                        <Border BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                                BorderThickness="0 1.5 0 0"
+                                Margin="10 0">
+                            <ContentControl micro:View.Model="{x:Bind}"
+                                        Padding="0 10"/>
+                        </Border>
                     </Border>
-                    
                 </DataTemplate>
             </controls:SwipeListView.ItemTemplate>
             <controls:SwipeListView.ItemContainerStyle>

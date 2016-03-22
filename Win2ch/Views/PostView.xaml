@@ -106,8 +106,9 @@
         </TextBlock>
         <StackPanel Visibility="{x:Bind ViewModel.AreRepliesVisible, Converter={StaticResource TrueToVisible}, Mode=OneWay}">
             <Button Background="Transparent"
-                      Visibility="{x:Bind ShowRepliesAsRibbon, Converter={StaticResource TrueToVisible}}"
-                    FontWeight="SemiBold">
+                    Visibility="{x:Bind ShowRepliesAsRibbon, Converter={StaticResource TrueToVisible}}"
+                    FontWeight="SemiBold"
+                    HorizontalAlignment="Stretch">
                 <TextBlock Padding="0 5">
                     <Run x:Uid="Post/RepliesCount"/>: <Run Text="{x:Bind ViewModel.RepliesCount, Mode=OneWay}"/> 
                 </TextBlock>
@@ -130,35 +131,27 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <GridView ItemsSource="{x:Bind ViewModel.Replies}"
-                      Visibility="{x:Bind ShowRepliesAsRibbon, Converter={StaticResource TrueToCollaped}}"
-                      SelectionMode="None">
-                <GridView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VariableSizedWrapGrid Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </GridView.ItemsPanel>
-                <GridView.Header>
-                    <TextBlock FontWeight="SemiBold"
-                           x:Uid="Post/Replies"
+            <StackPanel Visibility="{x:Bind ShowRepliesAsRibbon, Converter={StaticResource TrueToCollaped}}">
+                <TextBlock x:Uid="Post/Replies"
                            FontSize="13"/>
-                </GridView.Header>
-                <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="viewModels:PostViewModel">
-                        <TextBlock Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                               FontWeight="SemiBold"
-                               FontSize="13">
+                <ItemsControl ItemsSource="{x:Bind ViewModel.Replies}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapGrid Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="viewModels:PostViewModel">
+                            <TextBlock Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                       FontWeight="SemiBold"
+                                       FontSize="13"
+                                       Margin="0 0 5 0">
                         >><Run Text="{x:Bind Post.Number}"/>
-                        </TextBlock>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-                <GridView.ItemContainerStyle>
-                    <Style TargetType="GridViewItem">
-                        <Setter Property="MinWidth" Value="0"/>
-                        <Setter Property="MinHeight" Value="0"/>
-                    </Style>
-                </GridView.ItemContainerStyle>
-            </GridView>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
         </StackPanel>
         <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
                    Text="{x:Bind ViewModel.Post.Date}"
