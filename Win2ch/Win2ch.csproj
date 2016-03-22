@@ -106,6 +106,7 @@
     <Compile Include="Common\ThreadNavigation.cs" />
     <Compile Include="Controls\SwipeableSplitView.cs" />
     <Compile Include="Converters\CaseConverter.cs" />
+    <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Common\ActivationWithParameterEventArgs.cs" />
     <Compile Include="Common\Extensions.cs" />

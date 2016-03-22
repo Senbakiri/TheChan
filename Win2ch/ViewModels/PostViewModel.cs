@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using Caliburn.Micro;
 using Core.Models;
 using Win2ch.Common;
@@ -11,6 +12,13 @@ namespace Win2ch.ViewModels {
         private int position;
         private PostForeground foreground;
         private string foregroundString;
+        private int repliesCount;
+        private bool areRepliesVisible;
+        private bool isTextSelectionEnabled;
+
+        public PostViewModel() {
+            Replies.CollectionChanged += (s, e) => RepliesCount = Replies.Count;
+        }
 
         public Post Post {
             get { return this.post; }
@@ -39,6 +47,7 @@ namespace Win2ch.ViewModels {
                     return;
                 this.showReplies = value;
                 NotifyOfPropertyChange();
+                AreRepliesVisible = ShowReplies && RepliesCount > 0;
             }
         }
 
@@ -70,5 +79,38 @@ namespace Win2ch.ViewModels {
                 NotifyOfPropertyChange();
             }
         }
+
+        public int RepliesCount {
+            get { return this.repliesCount; }
+            private set {
+                if (value == this.repliesCount)
+                    return;
+                this.repliesCount = value;
+                NotifyOfPropertyChange();
+                AreRepliesVisible = ShowReplies && RepliesCount > 0;
+            }
+        }
+
+        public bool AreRepliesVisible {
+            get { return this.areRepliesVisible; }
+            private set {
+                if (value == this.areRepliesVisible)
+                    return;
+                this.areRepliesVisible = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsTextSelectionEnabled {
+            get { return this.isTextSelectionEnabled; }
+            set {
+                if (value == this.isTextSelectionEnabled)
+                    return;
+                this.isTextSelectionEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public ObservableCollection<PostViewModel> Replies { get; } = new ObservableCollection<PostViewModel>(); 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Windows.Devices.Input;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Win2ch.Annotations;
@@ -12,9 +13,12 @@ namespace Win2ch.Views {
         public PostView() {
             InitializeComponent();
             DataContextChanged += (s, e) => ViewModel = DataContext as PostViewModel;
+            ShowRepliesAsRibbon = new MouseCapabilities().MousePresent == 0;
         }
 
         public PostViewModel ViewModel { get; private set; }
+
+        public bool ShowRepliesAsRibbon { get; private set; }
 
         public Brush PostForeground {
             get { return this.postForeground; }

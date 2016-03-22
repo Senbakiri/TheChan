@@ -42,7 +42,7 @@
                        FontWeight="SemiBold"/>
             <TextBlock Margin="0 0 5 0"
                        FontWeight="SemiBold"
-                       Foreground="{x:Bind PostForeground, Mode=OneWay}">
+                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}">
                 #<Run Text="{x:Bind ViewModel.Post.Number}"/>
             </TextBlock>
             <TextBlock Text="{x:Bind ViewModel.Post.Name}"
@@ -63,37 +63,105 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="models:Attachment">
-                    <StackPanel Orientation="Horizontal"
-                                Margin="0 5 5 0">
-                        <Image Height="100"
-                               MaxWidth="300"
-                               Stretch="Uniform"
-                               Source="{x:Bind ThumbnailUri.AbsoluteUri}"
-                               HorizontalAlignment="Center"/>
-                        <TextBlock VerticalAlignment="Center"
-                                   Margin="5 0 0 0"
-                                   Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}">
-                            <Run Text="{x:Bind Type, Converter={StaticResource ToUpper}}"/>
-                            <LineBreak/>
-                            <Run Text="{x:Bind Width}"/>x<Run Text="{x:Bind Height}"/>
-                            <LineBreak/>
-                            <Run Text="{x:Bind Size}"/> KB
-                        </TextBlock>
-                    </StackPanel>
+                    <UserControl>
+                        <Grid Margin="0 5 5 0">
+                            <Image Height="100"
+                                   Width="200"
+                                   Stretch="Uniform"
+                                   Source="{x:Bind ThumbnailUri.AbsoluteUri}"
+                                   HorizontalAlignment="Center"/>
+                            <Rectangle Fill="Black"
+                                       Opacity="0.5"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch"
+                                       x:Name="Overlay"/>
+                            <TextBlock VerticalAlignment="Center"
+                                       TextAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       Opacity="0.9"
+                                       Padding="5"
+                                       Foreground="White"
+                                       x:Name="Info">
+                                <Run Text="{x:Bind Type, Converter={StaticResource ToUpper}}"/>
+                                <LineBreak/>
+                                <Run Text="{x:Bind Width}"/>x<Run Text="{x:Bind Height}"/>
+                                <LineBreak/>
+                                <Run Text="{x:Bind Size}"/> KB
+                            </TextBlock>
+                        </Grid>
+                    </UserControl>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         <TextBlock TextWrapping="Wrap"
-                   Foreground="{x:Bind PostForeground, Mode=OneWay}">
+                   Foreground="{x:Bind PostForeground, Mode=OneWay}"
+                   MaxWidth="960"
+                   HorizontalAlignment="Left"
+                   IsTextSelectionEnabled="{x:Bind ViewModel.IsTextSelectionEnabled}">
             <interactivity:Interaction.Behaviors>
                 <behaviors:HtmlBehavior Html="{x:Bind ViewModel.Post.Text}"
                                         SpoilerForeground="{ThemeResource SpoilerForegroundBrush}"
                                         ReplyForeground="{ThemeResource ReplyForegroundBrush}"/>
             </interactivity:Interaction.Behaviors>
         </TextBlock>
+        <StackPanel Visibility="{x:Bind ViewModel.AreRepliesVisible, Converter={StaticResource TrueToVisible}, Mode=OneWay}">
+            <Button Background="Transparent"
+                      Visibility="{x:Bind ShowRepliesAsRibbon, Converter={StaticResource TrueToVisible}}"
+                    FontWeight="SemiBold">
+                <TextBlock Padding="0 5">
+                    <Run x:Uid="Post/RepliesCount"/>: <Run Text="{x:Bind ViewModel.RepliesCount, Mode=OneWay}"/> 
+                </TextBlock>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="Root"
+                              Background="{TemplateBinding Background}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="Content.Foreground" Value="{ThemeResource SystemChromeAltLowColor}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter x:Name="Content" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <GridView ItemsSource="{x:Bind ViewModel.Replies}"
+                      Visibility="{x:Bind ShowRepliesAsRibbon, Converter={StaticResource TrueToCollaped}}"
+                      SelectionMode="None">
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VariableSizedWrapGrid Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+                <GridView.Header>
+                    <TextBlock FontWeight="SemiBold"
+                           x:Uid="Post/Replies"
+                           FontSize="13"/>
+                </GridView.Header>
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="viewModels:PostViewModel">
+                        <TextBlock Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                               FontWeight="SemiBold"
+                               FontSize="13">
+                        >><Run Text="{x:Bind Post.Number}"/>
+                        </TextBlock>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+                <GridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="MinWidth" Value="0"/>
+                        <Setter Property="MinHeight" Value="0"/>
+                    </Style>
+                </GridView.ItemContainerStyle>
+            </GridView>
+        </StackPanel>
         <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
                    Text="{x:Bind ViewModel.Post.Date}"
-                   FontSize="13"
-                   Margin="0 5 0 0"/>
+                   FontSize="13"/>
     </StackPanel>
 </Page>

@@ -144,8 +144,38 @@
   <data name="Home.ReceivingBoards" xml:space="preserve">
     <value>Loading boards...</value>
   </data>
+  <data name="Post.Replies.Text" xml:space="preserve">
+    <value>Replies:</value>
+  </data>
+  <data name="Post.RepliesCount.Text" xml:space="preserve">
+    <value>REPLIES</value>
+  </data>
   <data name="Shell.TryAgain.Content" xml:space="preserve">
     <value>Try again</value>
+  </data>
+  <data name="Thread.Loaded" xml:space="preserve">
+    <value>The thread loaded successfully</value>
+  </data>
+  <data name="Thread.Loading" xml:space="preserve">
+    <value>Loading the thread...</value>
+  </data>
+  <data name="Thread.NotLoaded" xml:space="preserve">
+    <value>Unable to load the thread</value>
+  </data>
+  <data name="Thread.NotRefreshed" xml:space="preserve">
+    <value>Unable to refresh the thread</value>
+  </data>
+  <data name="Thread.Refresh.Label" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Thread.Refreshed.NewPosts" xml:space="preserve">
+    <value>The thread refreshed successfully. New posts</value>
+  </data>
+  <data name="Thread.Refreshed.NoNewPosts" xml:space="preserve">
+    <value>The thread refreshed successfully. No new posts</value>
+  </data>
+  <data name="Thread.Refreshing" xml:space="preserve">
+    <value>Refreshing the thread...</value>
   </data>
   <data name="Thread.Reply.Text" xml:space="preserve">
     <value>Reply</value>

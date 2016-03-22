@@ -1,4 +1,4 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.Devices.Input;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Views {

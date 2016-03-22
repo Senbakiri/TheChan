@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Core.Common;
 using Core.Converters;
@@ -15,21 +16,26 @@ namespace Makaba.Converters {
         public string BoardId { get; set; }
 
         public Post Convert(PostEntity source) {
-            IList<Attachment> files = GetFiles(source);
             return new Post(
                 source.Num,
                 source.Parent,
                 source.Subject,
                 source.Name,
                 source.Trip,
-                source.Email,
+                GetEmail(source.Email),
                 source.Comment,
                 source.IsOp,
                 source.IsBanned,
                 source.IsClosed,
                 source.Sticky != 0,
-                files,
+                GetFiles(source),
                 DateUtils.TimestampToDateTime(source.Timestamp));
+        }
+
+        private string GetEmail(string email) {
+            const string garbage = "mailto:";
+            int index = email.IndexOf(garbage, StringComparison.OrdinalIgnoreCase);
+            return index != -1 ? email.Substring(garbage.Length).Trim() : email;
         }
 
         private IList<Attachment> GetFiles(PostEntity source) {

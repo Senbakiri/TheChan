@@ -144,7 +144,16 @@
   <data name="Home.ReceivingBoards" xml:space="preserve">
     <value>Загрузка досок...</value>
   </data>
+  <data name="Post.Replies.Text" xml:space="preserve">
+    <value>Ответы:</value>
+  </data>
+  <data name="Post.RepliesCount.Text" xml:space="preserve">
+    <value>ОТВЕТОВ</value>
+  </data>
   <data name="Shell.TryAgain.Content" xml:space="preserve">
     <value>Попробовать снова</value>
+  </data>
+  <data name="Thread.Reply.Text" xml:space="preserve">
+    <value>Ответить</value>
   </data>
 </root>
