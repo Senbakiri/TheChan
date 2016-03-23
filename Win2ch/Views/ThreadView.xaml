@@ -8,7 +8,11 @@
     xmlns:controls="using:Universal.UI.Xaml.Controls"
     xmlns:viewModels="using:Win2ch.ViewModels"
     xmlns:micro="using:Caliburn.Micro"
-    mc:Ignorable="d">
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:Win2ch.Behaviors"
+    mc:Ignorable="d"
+    Loaded="ThreadView_OnLoaded"
+    x:Name="This">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <controls:SwipeListView ItemsSource="{x:Bind ViewModel.Posts}"
@@ -53,8 +57,20 @@
                                 BorderThickness="0 1.5 0 0"
                                 Margin="10 0">
                             <ContentControl micro:View.Model="{x:Bind}"
-                                        Padding="0 10"/>
+                                        Padding="0 10">/
+                            </ContentControl>
                         </Border>
+
+                        <interactivity:Interaction.Behaviors>
+                            <behaviors:HighlightBehavior Highlight="{Binding ElementName=This, Path=ViewModel.IsHighlighting}"
+                                                         HightlightingStart="{Binding ElementName=This, Path=ViewModel.HighlightingStart}"
+                                                         CurrentPosition="{x:Bind Position}">
+                                <behaviors:HighlightBehavior.Background>
+                                    <SolidColorBrush Color="{ThemeResource SystemAccentColor}"
+                                                     Opacity="0.2"/>
+                                </behaviors:HighlightBehavior.Background>
+                            </behaviors:HighlightBehavior>
+                        </interactivity:Interaction.Behaviors>
                     </Border>
                 </DataTemplate>
             </controls:SwipeListView.ItemTemplate>

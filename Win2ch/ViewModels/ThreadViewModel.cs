@@ -11,6 +11,8 @@ using Win2ch.Extensions;
 
 namespace Win2ch.ViewModels {
     public class ThreadViewModel : Tab {
+        private bool isHighlighting;
+        private int highlightingStart;
 
         public ThreadViewModel(IBoard board, IShell shell) {
             Board = board;
@@ -22,7 +24,29 @@ namespace Win2ch.ViewModels {
         private IShell Shell { get; }
         private IBoard Board { get; }
         private ILoadThreadOperation Operation { get; }
-        public ObservableCollection<PostViewModel> Posts { get; } 
+        public ObservableCollection<PostViewModel> Posts { get; }
+
+        public bool IsHighlighting {
+            get { return this.isHighlighting; }
+            private set {
+                if (value == this.isHighlighting)
+                    return;
+                this.isHighlighting = value;
+                NotifyOfPropertyChange();
+                UpdateBadge();
+            }
+        }
+
+        public int HighlightingStart {
+            get { return this.highlightingStart; }
+            set {
+                if (value == this.highlightingStart)
+                    return;
+                this.highlightingStart = value;
+                NotifyOfPropertyChange();
+                UpdateBadge();
+            }
+        }
 
         protected override async void OnActivate(object parameter = null) {
             if (parameter == null)
@@ -64,10 +88,14 @@ namespace Win2ch.ViewModels {
             Shell.LoadingInfo.InProgress(GetLocalizationString("Refreshing"));
             try {
                 Thread thread = await Operation.ExecuteAsync();
+                int count = Posts.Count;
                 FillPosts(thread.Posts);
+                if (HighlightingStart == 0)
+                    HighlightingStart = count + 1;
                 if (thread.Posts.Count > 0) {
                     Shell.LoadingInfo.Success(GetLocalizationString("Refreshed.NewPosts") +
                                               $": {thread.Posts.Count}");
+                    IsHighlighting = true;
                 } else {
                     Shell.LoadingInfo.Success(GetLocalizationString("Refreshed.NoNewPosts"));
                 }
@@ -75,6 +103,7 @@ namespace Win2ch.ViewModels {
                 Shell.LoadingInfo.Error(GetLocalizationString("NotRefreshed"));
             }
 
+            UpdateBadge();
             IsLoading = false;
         }
 
@@ -117,6 +146,12 @@ namespace Win2ch.ViewModels {
             }
 
             return result;
+        }
+
+        private void UpdateBadge() {
+            BadgeContent = IsHighlighting && HighlightingStart <= Posts.Count
+                ? $"+{Posts.Count - HighlightingStart + 1}"
+                : "";
         }
     }
 }
