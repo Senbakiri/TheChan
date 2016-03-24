@@ -138,6 +138,9 @@
   <data name="Home.BoardsNotLoaded" xml:space="preserve">
     <value>Unable to load boards</value>
   </data>
+  <data name="Home.FastNavigation.PlaceholderText" xml:space="preserve">
+    <value>Fast navigation</value>
+  </data>
   <data name="Home.Name" xml:space="preserve">
     <value>Home</value>
   </data>

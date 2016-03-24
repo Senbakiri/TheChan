@@ -138,6 +138,9 @@
   <data name="Home.BoardsNotLoaded" xml:space="preserve">
     <value>Не удалось загрузить доски</value>
   </data>
+  <data name="Home.FastNavigation.PlaceholderText" xml:space="preserve">
+    <value>Быстрый переход</value>
+  </data>
   <data name="Home.Name" xml:space="preserve">
     <value>Домашняя страница</value>
   </data>

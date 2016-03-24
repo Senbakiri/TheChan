@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Core.Common;
@@ -11,6 +12,7 @@ using Win2ch.Extensions;
 
 namespace Win2ch.ViewModels {
     internal sealed class HomeViewModel : Tab {
+        private string filter;
 
         public HomeViewModel(IShell shell, IBoard board) {
             IsCloseable = false;
@@ -22,8 +24,8 @@ namespace Win2ch.ViewModels {
 
         private IShell Shell { get; }
         private IBoard Board { get; }
-        public ObservableCollection<BoardsCategory> Categories { get; } 
-
+        public ObservableCollection<BoardsCategory> Categories { get; }
+        
         protected override async void OnActivate(object parameter = null) {
            if (Categories.Count == 0)
                 await LoadCategories();
@@ -44,6 +46,13 @@ namespace Win2ch.ViewModels {
             } catch (Exception) {
                 loadingInfo.Error(GetLocalizationString("BoardsNotLoaded"), true, () => OnActivate());
             }
+        }
+
+        public IList<BoardsCategory> FilterItems(string filter) {
+            return
+                Categories.Select(c => new BoardsCategory(c.Name,
+                    c.Boards.Where(b => b.Name.Contains(filter) || b.Id.Contains(filter)).ToList()))
+                          .ToList();
         }
 
         public void NavigateToBoard(BriefBoardInfo briefBoardInfo) {

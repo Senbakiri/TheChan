@@ -14,5 +14,9 @@ namespace Win2ch.Views {
         private void BoardsListView_OnItemClick(object sender, ItemClickEventArgs e) {
             ViewModel.NavigateToBoard(e.ClickedItem as BriefBoardInfo);
         }
+
+        private void FastNavigationTextBox_OnTextChanged(object sender, TextChangedEventArgs e) {
+            this.CategoriesCvs.Source = ViewModel.FilterItems(this.FastNavigation.Text);
+        }
     }
 }
