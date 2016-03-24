@@ -66,7 +66,7 @@
                     <UserControl>
                         <Grid Margin="0 5 5 0">
                             <Image Height="100"
-                                   Width="200"
+                                   Width="150"
                                    Stretch="Uniform"
                                    Source="{x:Bind ThumbnailUri.AbsoluteUri}"
                                    HorizontalAlignment="Center"/>

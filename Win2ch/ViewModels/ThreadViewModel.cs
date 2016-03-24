@@ -93,8 +93,7 @@ namespace Win2ch.ViewModels {
                 if (HighlightingStart == 0)
                     HighlightingStart = count + 1;
                 if (thread.Posts.Count > 0) {
-                    Shell.LoadingInfo.Success(GetLocalizationString("Refreshed.NewPosts") +
-                                              $": {thread.Posts.Count}");
+                    Shell.LoadingInfo.Success($"{GetLocalizationString("Refreshed.NewPosts")}: {thread.Posts.Count}");
                     IsHighlighting = true;
                 } else {
                     Shell.LoadingInfo.Success(GetLocalizationString("Refreshed.NoNewPosts"));
