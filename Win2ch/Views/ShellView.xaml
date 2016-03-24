@@ -292,7 +292,13 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch"/>
+                        VerticalContentAlignment="Stretch">
+                        <ContentControl.ContentTransitions>
+                            <TransitionCollection>
+                                <ContentThemeTransition/>
+                            </TransitionCollection>
+                        </ContentControl.ContentTransitions>
+                    </ContentControl>
                     <ContentPresenter x:Name="LoadingInfoPanel"
                                       Height="50"
                                       VerticalAlignment="Top"
@@ -301,7 +307,7 @@
                                       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                         <ContentPresenter.ContentTransitions>
                             <TransitionCollection>
-                                <EdgeUIThemeTransition/>
+                                <ContentThemeTransition/>
                             </TransitionCollection>
                         </ContentPresenter.ContentTransitions>
                     </ContentPresenter>
