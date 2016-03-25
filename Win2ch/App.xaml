@@ -5,7 +5,8 @@
     xmlns:local="using:Win2ch"
     xmlns:micro="using:Caliburn.Micro"
     xmlns:toolkitConverters="using:WinRTXamlToolkit.Converters"
-    xmlns:converters="using:Win2ch.Converters">
+    xmlns:converters="using:Win2ch.Converters"
+    RequestedTheme="Dark">
     <Application.Resources>
         <ResourceDictionary>
             <micro:BooleanToVisibilityConverter x:Key="TrueToVisible"/>

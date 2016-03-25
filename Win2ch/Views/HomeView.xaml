@@ -117,23 +117,11 @@
                                     </VisualState>
                                     <VisualState x:Name="Focused">
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="PlaceholderTextContentPresenter">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlPageTextChromeBlackMediumLowBrush}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="BackgroundElement">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"/>
-                                            </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackgroundElement">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundFocusedOpacity}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="BorderElement">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentElement">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundChromeBlackHighBrush}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="RequestedTheme" Storyboard.TargetName="ContentElement">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Light"/>
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
@@ -180,13 +168,14 @@
                  Padding="12 0"
                  Style="{StaticResource CenteredTextBlockStyle}"
                  TextChanged="FastNavigationTextBox_OnTextChanged"
-                 x:Name="FastNavigation"/>
+                 x:Name="FastNavigation"
+                 KeyUp="FastNavigationTextBox_OnKeyUp"/>
 
         <ListView ItemsSource="{Binding Source={StaticResource CategoriesCvs}}"
-                          ScrollViewer.IsVerticalScrollChainingEnabled="False"
-                          SelectionMode="None"
-                          IsItemClickEnabled="True"
-                          ItemClick="BoardsListView_OnItemClick"
+                  ScrollViewer.IsVerticalScrollChainingEnabled="False"
+                  SelectionMode="None"
+                  IsItemClickEnabled="True"
+                  ItemClick="BoardsListView_OnItemClick"
                   Grid.Row="1">
             <ListView.GroupStyle>
                 <GroupStyle>
@@ -203,10 +192,10 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListViewHeaderItem">
                                         <ContentPresenter x:Name="ContentPresenter"
-                                                                  Content="{TemplateBinding Content}"
-                                                                  ContentTransitions="{TemplateBinding ContentTransitions}"
-                                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                                  VerticalContentAlignment="Stretch"/>
+                                                          Content="{TemplateBinding Content}"
+                                                          ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalContentAlignment="Stretch"/>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
@@ -216,10 +205,10 @@
                         <DataTemplate>
                             <Grid Padding="12 0">
                                 <TextBlock Text="{Binding Name, Converter={StaticResource ToUpper}}"
-                                                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                                                   FontSize="16"
-                                                   FontWeight="SemiBold"
-                                                   VerticalAlignment="Center"/>
+                                           Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
                             </Grid>
                         </DataTemplate>
                     </GroupStyle.HeaderTemplate>
@@ -229,8 +218,8 @@
                 <DataTemplate x:DataType="models:BriefBoardInfo">
                     <StackPanel>
                         <TextBlock Text="{x:Bind Id}"
-                                           Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                                           FontWeight="SemiBold"/>
+                                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                   FontWeight="SemiBold"/>
                         <TextBlock Text="{x:Bind Name}"/>
                     </StackPanel>
                 </DataTemplate>
