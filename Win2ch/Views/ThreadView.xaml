@@ -433,7 +433,8 @@
                                 SelectionMode="None"
                                 Margin="0 -1.5 0 0"
                                 Padding="0 0 0 48"
-                                x:Name="Posts">
+                                x:Name="Posts"
+                                ShowsScrollingPlaceholders="False">
             <controls:SwipeListView.ItemLeftContentTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal"

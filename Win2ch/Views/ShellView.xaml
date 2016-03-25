@@ -295,7 +295,6 @@
                         VerticalContentAlignment="Stretch">
                         <ContentControl.ContentTransitions>
                             <TransitionCollection>
-                                <ContentThemeTransition/>
                             </TransitionCollection>
                         </ContentControl.ContentTransitions>
                     </ContentControl>

@@ -5,7 +5,6 @@
     xmlns:local="using:Win2ch"
     xmlns:micro="using:Caliburn.Micro"
     xmlns:toolkitConverters="using:WinRTXamlToolkit.Converters"
-    RequestedTheme="Dark"
     xmlns:converters="using:Win2ch.Converters">
     <Application.Resources>
         <ResourceDictionary>
