@@ -5,5 +5,9 @@
         }
 
         public long PostNumber { get; }
+
+        public override string GetUrl() {
+            return base.GetUrl() + $"#{PostNumber}";
+        }
     }
 }

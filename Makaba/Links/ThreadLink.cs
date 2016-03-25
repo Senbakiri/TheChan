@@ -7,5 +7,9 @@ namespace Makaba.Links {
         }
 
         public long ThreadNumber { get; }
+
+        public override string GetUrl() {
+            return base.GetUrl() + $"res/{ThreadNumber}.html";
+        }
     }
 }

@@ -7,5 +7,9 @@ namespace Makaba.Links {
         }
 
         public string BoardId { get; }
+
+        public override string GetUrl() {
+            return $"https://2ch.hk/{BoardId}/";
+        }
     }
 }

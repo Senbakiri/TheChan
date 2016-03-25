@@ -156,6 +156,9 @@
   <data name="Shell.TryAgain.Content" xml:space="preserve">
     <value>Попробовать снова</value>
   </data>
+  <data name="Thread.CopyLink.Label" xml:space="preserve">
+    <value>Скопировать ссылку</value>
+  </data>
   <data name="Thread.Down.Label" xml:space="preserve">
     <value>Вниз</value>
   </data>

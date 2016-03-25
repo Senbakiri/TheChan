@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Windows.ApplicationModel.DataTransfer;
 using Core.Common;
 using Core.Models;
 using Core.Operations;
+using Makaba.Links;
 using Win2ch.Common;
 using Win2ch.Extensions;
 
@@ -25,6 +27,7 @@ namespace Win2ch.ViewModels {
         private IBoard Board { get; }
         private ILoadThreadOperation Operation { get; }
         public ObservableCollection<PostViewModel> Posts { get; }
+        private ThreadLink Link { get; set; }
 
         public bool IsHighlighting {
             get { return this.isHighlighting; }
@@ -57,6 +60,7 @@ namespace Win2ch.ViewModels {
 
             Operation.BoardId = navigation.BoardId;
             Operation.ThreadNumber = navigation.ThreadNumber;
+            Link = new ThreadLink(navigation.BoardId, navigation.ThreadNumber);
             DisplayName = $"/{navigation.BoardId}/ - {navigation.ThreadNumber}";
 
             IsLoading = true;
@@ -151,6 +155,12 @@ namespace Win2ch.ViewModels {
             BadgeContent = IsHighlighting && HighlightingStart <= Posts.Count
                 ? $"+{Posts.Count - HighlightingStart + 1}"
                 : "";
+        }
+
+        public void CopyLink() {
+            var dataPackage = new DataPackage();
+            dataPackage.SetText(Link.GetUrl());
+            Clipboard.SetContent(dataPackage);
         }
     }
 }

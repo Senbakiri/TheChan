@@ -55,7 +55,10 @@ namespace Makaba.Services.Url {
                 case 2:
                     return LinkType.Board;
                 case 4:
-                    return uri.Fragment.Length > 0 ? LinkType.Post : LinkType.Thread;
+                    long foo;
+                    return uri.Fragment.Length > 0 && long.TryParse(uri.Fragment, out foo)
+                        ? LinkType.Post
+                        : LinkType.Thread;
                 default:
                     return LinkType.Unknown;
             }
@@ -73,11 +76,11 @@ namespace Makaba.Services.Url {
             Uri uri = Uri.IsWellFormedUriString(clearUrl, UriKind.Absolute) ? new Uri(clearUrl) : new Uri(BaseUri, clearUrl);
 
             string[] segments = uri.Segments;
-            if (type == LinkType.Board) {
-                return new BoardLink(segments[1].Trim('/'));
-            }
 
             string boardId = segments[1].Trim('/');
+
+            if (type == LinkType.Board)
+                return new BoardLink(boardId);
             string rawThreadNum = segments[3];
             long threadNum;
             int extensionIndex = rawThreadNum.IndexOf(".html", StringComparison.Ordinal);
