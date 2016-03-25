@@ -13,7 +13,7 @@ namespace Win2ch.Common {
         private Image icon;
         private string badgeContent;
         private bool isLoading;
-        private readonly ResourceLoader resourceLoader = new ResourceLoader();
+        private static readonly ResourceLoader ResourceLoader = new ResourceLoader();
 
         protected Tab() {
             DisplayName = GetType().FullName;
@@ -187,12 +187,12 @@ namespace Win2ch.Common {
             return GetLocalizationStringForView(GetType().Name, id);
         }
 
-        protected string GetLocalizationStringForView(string viewName, string id) {
+        public static string GetLocalizationStringForView(string viewName, string id) {
             string baseId = viewName;
             if (viewName.Contains("ViewModel"))
                 baseId = viewName.Remove(viewName.IndexOf("ViewModel", StringComparison.Ordinal));
             baseId += $"/{id.Replace('.', '/')}";
-            return this.resourceLoader.GetString(baseId);
+            return ResourceLoader.GetString(baseId);
         }
     }
 }

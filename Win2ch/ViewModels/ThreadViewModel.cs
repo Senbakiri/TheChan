@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Core.Common;
 using Core.Models;
@@ -108,6 +109,25 @@ namespace Win2ch.ViewModels {
 
             UpdateBadge();
             IsLoading = false;
+        }
+
+        public async Task<bool> Update() {
+            if (string.IsNullOrEmpty(Operation.BoardId))
+                return false;
+
+            Operation.FromPosition = Posts.Count + 1;
+            IsLoading = true;
+            Thread thread = await Operation.ExecuteAsync();
+            IsLoading = false;
+            int count = Posts.Count;
+            FillPosts(thread.Posts);
+
+            if (HighlightingStart == 0)
+                HighlightingStart = count + 1;
+
+            IsHighlighting = thread.Posts.Count > 0;
+            UpdateBadge();
+            return thread.Posts.Count > 0;
         }
 
         private void FillPosts(IEnumerable<Post> posts) {

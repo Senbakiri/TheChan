@@ -153,8 +153,14 @@
   <data name="Post.RepliesCount.Text" xml:space="preserve">
     <value>ОТВЕТОВ</value>
   </data>
+  <data name="Shell.ThreadsWithNewPosts" xml:space="preserve">
+    <value>Тредов с новыми постами</value>
+  </data>
   <data name="Shell.TryAgain.Content" xml:space="preserve">
     <value>Попробовать снова</value>
+  </data>
+  <data name="Shell.UpdatingThread" xml:space="preserve">
+    <value>Обновление треда</value>
   </data>
   <data name="Thread.CopyLink.Label" xml:space="preserve">
     <value>Скопировать ссылку</value>

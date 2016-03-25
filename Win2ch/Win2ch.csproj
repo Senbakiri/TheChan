@@ -118,6 +118,8 @@
     <Compile Include="Extensions\CommonExtensions.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Toast\IToastService.cs" />
+    <Compile Include="Services\Toast\ToastService.cs" />
     <Compile Include="ViewModels\BoardThreadViewModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />

@@ -1,10 +1,31 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Windows.UI.Core;
+using Windows.UI.Notifications;
+using Windows.UI.Xaml;
+using Caliburn.Micro;
+using NotificationsExtensions.Toasts;
 using Win2ch.Common;
+using Win2ch.Services.Toast;
+using WinRTXamlToolkit.Tools;
 
 namespace Win2ch.ViewModels {
     internal sealed class ShellViewModel : Conductor<Tab>.Collection.OneActive, IShell {
+        private bool isUpdated = true;
+        private CoreDispatcher dispatcher;
+
+        public ShellViewModel(IToastService toastService) {
+            ToastService = toastService;
+            this.threadsUpdateTimer.Interval = TimeSpan.FromMinutes(1);
+            this.threadsUpdateTimer.Tick += ThreadsUpdateTimerOnTick;
+            this.threadsUpdateTimer.Start();
+            this.dispatcher = Window.Current.Dispatcher;
+        }
 
         public LoadingInfo LoadingInfo { get; } = new LoadingInfo();
+        private readonly BackgroundTimer threadsUpdateTimer = new BackgroundTimer();
+        private IToastService ToastService { get; }
 
         protected override void OnInitialize() {
             Navigate<HomeViewModel>();
@@ -30,6 +51,40 @@ namespace Win2ch.ViewModels {
             }
 
             ChangeActiveItem(item, false);
+        }
+
+        private async void ThreadsUpdateTimerOnTick(object sender, object o) {
+            if (!this.isUpdated)
+                return;
+
+            this.isUpdated = false;
+            IList<ThreadViewModel> threads = Items.OfType<ThreadViewModel>().ToList();
+            if (threads.Count == 0)
+                return;
+
+            var i = 0;
+            var threadsWithNewPosts = 0;
+            string text = Tab.GetLocalizationStringForView("Shell", "ThreadsWithNewPosts");
+            foreach (ThreadViewModel thread in threads) {
+                LoadingInfo.InProgress($"{text} {++i}/{threads.Count}");
+                try {
+                    bool hasNewPosts = await thread.Update();
+                    if (hasNewPosts)
+                        threadsWithNewPosts++;
+                } catch {
+                    // OK
+                }
+            }
+
+            string title = Tab.GetLocalizationStringForView("Shell", "ThreadsWithNewPosts");
+            LoadingInfo.Success($"{title}: {threadsWithNewPosts}");
+            this.isUpdated = true;
+            await this.dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
+                if ((Window.Current == null || !Window.Current.Visible) && threadsWithNewPosts != 0) {
+                    ToastService.ShowSimpleToast($"{title}: {threadsWithNewPosts}");
+                }
+            });
+
         }
     }
 }

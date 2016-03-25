@@ -7,6 +7,7 @@ using Ninject;
 using Win2ch.Common;
 using Win2ch.ViewModels;
 using Makaba;
+using Win2ch.Services.Toast;
 
 namespace Win2ch
 {
@@ -24,6 +25,7 @@ namespace Win2ch
             this.kernel.Bind<IShell>().To<ShellViewModel>().InSingletonScope();
             this.kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
             this.kernel.Bind<IBoard>().To<MakabaBoard>().InSingletonScope();
+            this.kernel.Bind<IToastService>().To<ToastService>();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args) {
