@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
+using Core.Common;
 using Core.Models;
 using Win2ch.Common;
 

@@ -49,6 +49,9 @@
     <Compile Include="Entities\BriefBoardEntity.cs" />
     <Compile Include="Entities\IconEntity.cs" />
     <Compile Include="Entities\ThreadEntity.cs" />
+    <Compile Include="Links\BoardLink.cs" />
+    <Compile Include="Links\PostLink.cs" />
+    <Compile Include="Links\ThreadLink.cs" />
     <Compile Include="MakabaBoard.cs" />
     <Compile Include="MakabaModule.cs" />
     <Compile Include="Operations\BoardOperations.cs" />

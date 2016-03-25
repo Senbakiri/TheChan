@@ -4,10 +4,15 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
+using Core.Common;
 using HtmlAgilityPack;
+using Makaba.Links;
 using Microsoft.Xaml.Interactivity;
+using Win2ch.Common;
 using Win2ch.Common.Html;
 using Win2ch.Extensions;
+using Win2ch.ViewModels;
+using LinkType = Core.Common.LinkType;
 
 namespace Win2ch.Behaviors {
     internal class HtmlBehavior : Behavior<TextBlock> {
@@ -24,22 +29,41 @@ namespace Win2ch.Behaviors {
             }
         }
 
-        public static readonly DependencyProperty SpoilerForegroundProperty = DependencyProperty.Register(
-                                                        "SpoilerForeground", typeof (Brush), typeof (HtmlBehavior),
-                                                        new PropertyMetadata(default(Brush), PropertyChangedCallback));
+        public static readonly DependencyProperty SpoilerForegroundProperty =
+            DependencyProperty.Register("SpoilerForeground",
+                typeof (Brush), typeof (HtmlBehavior),
+                new PropertyMetadata(default(Brush), PropertyChangedCallback));
 
         public Brush SpoilerForeground {
             get { return (Brush) GetValue(SpoilerForegroundProperty); }
             set { SetValue(SpoilerForegroundProperty, value); }
         }
 
-        public static readonly DependencyProperty ReplyForegroundProperty = DependencyProperty.Register(
-                                                        "ReplyForeground", typeof (Brush), typeof (HtmlBehavior),
-                                                        new PropertyMetadata(default(Brush), PropertyChangedCallback));
+        public static readonly DependencyProperty ReplyForegroundProperty =
+            DependencyProperty.Register("ReplyForeground",
+                typeof (Brush), typeof (HtmlBehavior),
+                new PropertyMetadata(default(Brush), PropertyChangedCallback));
 
         public Brush ReplyForeground {
             get { return (Brush) GetValue(ReplyForegroundProperty); }
             set { SetValue(ReplyForegroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty UrlServiceProperty = DependencyProperty.Register("UrlService",
+            typeof (IUrlService), typeof (HtmlBehavior),
+            new PropertyMetadata(default(IUrlService), PropertyChangedCallback));
+
+        public IUrlService UrlService {
+            get { return (IUrlService) GetValue(UrlServiceProperty); }
+            set { SetValue(UrlServiceProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShellProperty = DependencyProperty.Register(
+            "Shell", typeof (IShell), typeof (HtmlBehavior), new PropertyMetadata(default(IShell), PropertyChangedCallback));
+
+        public IShell Shell {
+            get { return (IShell) GetValue(ShellProperty); }
+            set { SetValue(ShellProperty, value); }
         }
 
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e) {
@@ -64,16 +88,16 @@ namespace Win2ch.Behaviors {
                     (node, b) => b.Style(i => i.Foreground = SpoilerForeground))
                 .AddMatch(IsRegularLink, (node, b) => b.SetConverter(
                     CreateRegularLinkConverter(node.GetAttributeValue("href", null))))
-                .AddMatch(IsPostLink, (node, b) => b.SetConverter(
-                    CreatePostLinkConverter(node)));
+                .AddMatch(IsBoardLink, (node, b) => b.SetConverter(
+                    CreateBoardLinkConverter(node)));
         }
 
 
-        public event Action<int, int> PostNumClicked = delegate { };
+        public event Action<long, long> PostNumClicked = delegate { };
 
         private void RenderHtml() {
             var block = AssociatedObject;
-            if (block == null)
+            if (block == null || UrlService == null || Shell == null)
                 return;
 
             var inlines = this.converter.Convert(Html);
@@ -83,18 +107,18 @@ namespace Win2ch.Behaviors {
             }
         }
 
-        private static bool IsRegularLink(HtmlNode node) {
-            var href = node.GetAttributeValue("href", null);
+        private bool IsRegularLink(HtmlNode node) {
+            string href = node.GetAttributeValue("href", null);
+            LinkType type = UrlService.DetermineLinkType(href);
             return node.Name.EqualsNc("a")
-                && !string.IsNullOrWhiteSpace(href)
-                && !href.StartsWith("/");
+                   && type == LinkType.Unknown;
         }
 
-        private static bool IsPostLink(HtmlNode node) {
-            var href = node.GetAttributeValue("href", null);
+        private bool IsBoardLink(HtmlNode node) {
+            string href = node.GetAttributeValue("href", null);
+            LinkType type = UrlService.DetermineLinkType(href);
             return node.Name.EqualsNc("a")
-                   && !string.IsNullOrWhiteSpace(href)
-                   && node.GetAttributeValue("class", "").Contains("post-reply-link");
+                   && (type == LinkType.Board || type == LinkType.Post || type == LinkType.Thread);
         }
 
         private static Func<InlineWrapper, Inline> CreateRegularLinkConverter(string url) {
@@ -109,20 +133,44 @@ namespace Win2ch.Behaviors {
             };
         }
 
-        private Func<InlineWrapper, Inline> CreatePostLinkConverter(HtmlNode node) {
-            int postNum = node.GetAttributeValue("data-num", 0);
-            int threadNum = node.GetAttributeValue("data-thread", 0);
+        private Func<InlineWrapper, Inline> CreateBoardLinkConverter(HtmlNode node) {
+            string href = node.GetAttributeValue("href", null);
+            LinkType type = UrlService.DetermineLinkType(href);
+            LinkBase link = UrlService.GetLink(href);
+
             return wrapper => {
-                var link = new Hyperlink {
+                var hyperlink = new Hyperlink {
                     Foreground = (SolidColorBrush)Application.Current.Resources["SystemControlForegroundAccentBrush"],
                     UnderlineStyle = UnderlineStyle.None,
                     FontWeight = FontWeights.SemiBold,
                 };
-                link.Click += (s, e) => PostNumClicked(postNum, threadNum);
-                link.Inlines.Add(InlineWrapper.StandartConverter(wrapper));
-                return link;
+
+                if (type == LinkType.Post) {
+                    var postLink = (PostLink) link;
+                    hyperlink.Click += (s, e) => PostNumClicked(postLink.ThreadNumber, postLink.PostNumber);
+                } else {
+                    hyperlink.Click += (s, e) => NavigateByLink(type, link);
+                }
+
+                hyperlink.Inlines.Add(InlineWrapper.StandartConverter(wrapper));
+                return hyperlink;
             };
         }
+
+        private void NavigateByLink(LinkType type, LinkBase link) {
+            switch (type) {
+                case LinkType.Board:
+                    Shell.Navigate<BoardViewModel>(((BoardLink)link).BoardId);
+                    break;
+                case LinkType.Thread:
+                case LinkType.Post:
+                    var threadLink = (ThreadLink)link;
+                    Shell.Navigate<ThreadViewModel>(
+                        ThreadNavigation.NavigateToThread(threadLink.BoardId, threadLink.ThreadNumber));
+                    break;
+            }
+        }
+
 
         private static Inline ConvertToUnderline(InlineWrapper wrapper) {
             return new Underline {

@@ -61,12 +61,17 @@ namespace Win2ch.ViewModels {
         }
 
         protected override async void OnActivate(object parameter = null) {
+            string id;
             var boardInfo = parameter as BriefBoardInfo;
-            if (string.IsNullOrWhiteSpace(boardInfo?.Id))
+            if (!string.IsNullOrWhiteSpace(boardInfo?.Id))
+                id = boardInfo.Id;
+            else if (parameter is string)
+                id = (string) parameter;
+            else
                 return;
 
-            DisplayName = boardInfo.Name ?? $"/{boardInfo.Id}/";
-            LoadBoardOperation.Id = boardInfo.Id;
+            DisplayName = boardInfo?.Name ?? $"/{id}/";
+            LoadBoardOperation.Id = id;
 
             try {
                 await Load(0);

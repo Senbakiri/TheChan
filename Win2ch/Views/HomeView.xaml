@@ -180,7 +180,8 @@
                  Padding="12 0"
                  Style="{StaticResource CenteredTextBlockStyle}"
                  TextChanged="FastNavigationTextBox_OnTextChanged"
-                 x:Name="FastNavigation"/>
+                 x:Name="FastNavigation"
+                 KeyUp="FastNavigationTextBox_OnKeyUp"/>
         <SemanticZoom Grid.Row="1">
             <SemanticZoom.ZoomedOutView>
                 <ListView ItemsSource="{Binding Source={StaticResource CategoriesCvs}, Path=CollectionGroups}"
@@ -227,36 +228,10 @@
                           ItemClick="BoardsListView_OnItemClick">
                     <ListView.GroupStyle>
                         <GroupStyle HidesIfEmpty="True">
-                            <GroupStyle.HeaderContainerStyle>
-                                <Style TargetType="ListViewHeaderItem">
-                                    <Setter Property="Background" Value="Transparent" />
-                                    <Setter Property="HorizontalContentAlignment" Value="Left" />
-                                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                                    <Setter Property="UseSystemFocusVisuals" Value="True" />
-                                    <Setter Property="MinHeight" Value="0"/>
-                                    <Setter Property="Margin" Value="0"/>
-                                    <Setter Property="Height" Value="{StaticResource TabHeightAndWidth}"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="ListViewHeaderItem">
-                                                <ContentPresenter x:Name="ContentPresenter"
-                                                                  Content="{TemplateBinding Content}"
-                                                                  ContentTransitions="{TemplateBinding ContentTransitions}"
-                                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                                  VerticalContentAlignment="Stretch"/>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </GroupStyle.HeaderContainerStyle>
                             <GroupStyle.HeaderTemplate>
                                 <DataTemplate>
-                                    <Grid Padding="12 0">
-                                        <TextBlock Text="{Binding Name, Converter={StaticResource ToUpper}}"
-                                                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                                                   FontSize="16"
-                                                   FontWeight="SemiBold"
-                                                   VerticalAlignment="Center"/>
+                                    <Grid>
+                                        <TextBlock Text="{Binding Name}"/>
                                     </Grid>
                                 </DataTemplate>
                             </GroupStyle.HeaderTemplate>

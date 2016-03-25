@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.System;
 using Caliburn.Micro;
 using Core.Common;
 using Core.Models;
 using Core.Operations;
+using Makaba.Links;
 using Win2ch.Common;
 using Win2ch.Extensions;
 
@@ -57,6 +59,38 @@ namespace Win2ch.ViewModels {
 
         public void NavigateToBoard(BriefBoardInfo briefBoardInfo) {
             Shell.Navigate<BoardViewModel>(briefBoardInfo);
+        }
+
+        private void NavigateToBoard(string id) {
+            Shell.Navigate<BoardViewModel>(id);
+        }
+
+        private void NavigateToThread(string boardId, long num) {
+            Shell.Navigate<ThreadViewModel>(ThreadNavigation.NavigateToThread(boardId, num));
+        }
+
+        public async void NavigateByString(string text) {
+            LinkType type = Board.UrlService.DetermineLinkType(text);
+            LinkBase link = Board.UrlService.GetLink(text);
+
+            switch (type) {
+                case LinkType.None:
+                    NavigateToBoard(text);
+                    break;
+                case LinkType.Unknown:
+                    await Launcher.LaunchUriAsync(new Uri(text));
+                    break;
+                case LinkType.Board:
+                    NavigateToBoard(((BoardLink) link).BoardId);
+                    break;
+                case LinkType.Thread:
+                case LinkType.Post:
+                    var threadLink = (ThreadLink)link;
+                    NavigateToThread(threadLink.BoardId, threadLink.ThreadNumber);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

@@ -101,7 +101,9 @@
             <interactivity:Interaction.Behaviors>
                 <behaviors:HtmlBehavior Html="{x:Bind ViewModel.Post.Text}"
                                         SpoilerForeground="{ThemeResource SpoilerForegroundBrush}"
-                                        ReplyForeground="{ThemeResource ReplyForegroundBrush}"/>
+                                        ReplyForeground="{ThemeResource ReplyForegroundBrush}"
+                                        UrlService="{x:Bind Board.UrlService}"
+                                        Shell="{x:Bind Shell}"/>
             </interactivity:Interaction.Behaviors>
         </TextBlock>
         <StackPanel Visibility="{x:Bind ViewModel.AreRepliesVisible, Converter={StaticResource TrueToVisible}, Mode=OneWay}">
