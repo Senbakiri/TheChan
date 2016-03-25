@@ -125,7 +125,8 @@ namespace Win2ch.ViewModels {
             if (HighlightingStart == 0)
                 HighlightingStart = count + 1;
 
-            IsHighlighting = thread.Posts.Count > 0;
+            if (thread.Posts.Count > 0)
+                IsHighlighting = true;
             UpdateBadge();
             return thread.Posts.Count > 0;
         }
