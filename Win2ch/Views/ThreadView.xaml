@@ -22,7 +22,7 @@
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
             <Setter Property="TabNavigation" Value="Local"/>
             <Setter Property="IsHoldingEnabled" Value="True"/>
-            <Setter Property="Padding" Value="12,0,12,0"/>
+            <Setter Property="Padding" Value="0"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
@@ -468,7 +468,9 @@
                                 BorderThickness="0 1.5 0 0"
                                 Margin="10 0">
                             <ContentControl micro:View.Model="{x:Bind}"
-                                        Padding="0 10">/
+                                            Padding="0 10"
+                                            HorizontalContentAlignment="Stretch"
+                                            HorizontalAlignment="Stretch">
                             </ContentControl>
                         </Border>
 

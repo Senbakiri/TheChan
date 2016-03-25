@@ -178,7 +178,7 @@
                   ItemClick="BoardsListView_OnItemClick"
                   Grid.Row="1">
             <ListView.GroupStyle>
-                <GroupStyle>
+                <GroupStyle HidesIfEmpty="True">
                     <GroupStyle.HeaderContainerStyle>
                         <Style TargetType="ListViewHeaderItem">
                             <Setter Property="Background" Value="Transparent" />
