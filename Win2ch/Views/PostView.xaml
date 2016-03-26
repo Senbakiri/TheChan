@@ -64,31 +64,21 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="models:Attachment">
                     <UserControl>
-                        <Grid Margin="0 5 5 0">
+                        <StackPanel Margin="0 5 5 0"
+                                    Width="150">
                             <Image Height="100"
-                                   Width="150"
                                    Stretch="Uniform"
                                    Source="{x:Bind ThumbnailUri.AbsoluteUri}"
                                    HorizontalAlignment="Center"/>
-                            <Rectangle Fill="Black"
-                                       Opacity="0.5"
-                                       HorizontalAlignment="Stretch"
-                                       VerticalAlignment="Stretch"
-                                       x:Name="Overlay"/>
-                            <TextBlock VerticalAlignment="Center"
-                                       TextAlignment="Center"
+                            <TextBlock FontSize="10"
+                                       x:Name="Info"
                                        HorizontalAlignment="Center"
-                                       Opacity="0.9"
-                                       Padding="5"
-                                       Foreground="White"
-                                       x:Name="Info">
+                                       TextAlignment="Center">
                                 <Run Text="{x:Bind Type, Converter={StaticResource ToUpper}}"/>
-                                <LineBreak/>
                                 <Run Text="{x:Bind Width}"/>x<Run Text="{x:Bind Height}"/>
-                                <LineBreak/>
                                 <Run Text="{x:Bind Size}"/> KB
                             </TextBlock>
-                        </Grid>
+                        </StackPanel>
                     </UserControl>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
