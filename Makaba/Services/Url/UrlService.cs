@@ -56,7 +56,7 @@ namespace Makaba.Services.Url {
                     return LinkType.Board;
                 case 4:
                     long foo;
-                    return uri.Fragment.Length > 0 && long.TryParse(uri.Fragment, out foo)
+                    return uri.Fragment.Length > 0 && long.TryParse(uri.Fragment.Trim('#'), out foo)
                         ? LinkType.Post
                         : LinkType.Thread;
                 default:
