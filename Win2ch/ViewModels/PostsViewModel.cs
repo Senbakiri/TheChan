@@ -5,6 +5,7 @@ using System.Linq;
 using Caliburn.Micro;
 using Core.Models;
 using Win2ch.Common;
+using Win2ch.Extensions;
 
 namespace Win2ch.ViewModels {
     public class PostsViewModel : PropertyChangedBase {
@@ -35,9 +36,10 @@ namespace Win2ch.ViewModels {
                 Position = old.Position,
                 Foreground = PostForeground.Contrast,
                 IsTextSelectionEnabled = true,
-                Post = old.Post
+                Post = old.Post,
             };
 
+            postViewModel.Replies.AddRange(old.Replies);
             postViewModel.RepliesDisplayRequested += PostViewModelOnRepliesDisplayRequested;
             return postViewModel;
         }

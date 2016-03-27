@@ -144,7 +144,9 @@ namespace Win2ch.ViewModels {
                 Foreground = PostForeground.Gray,
                 Position = position,
                 Post = post,
-                IsTextSelectionEnabled = true
+                IsTextSelectionEnabled = true,
+                ShowReplies = true,
+                ShowPostPosition = true,
             };
 
             postViewModel.RepliesDisplayRequested += PostViewModelOnRepliesDisplayRequested;

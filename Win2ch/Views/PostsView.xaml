@@ -15,9 +15,9 @@
               Tapped="Underlay_OnTapped"
               Background="Transparent"/>
         <ScrollViewer MaxWidth="800"
-                      VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{x:Bind ViewModel.Posts}"
-                          VerticalAlignment="Center">
+                      VerticalScrollBarVisibility="Auto"
+                      VerticalAlignment="Center">
+            <ItemsControl ItemsSource="{x:Bind ViewModel.Posts}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="viewModels:PostViewModel">
                         <Border Padding="10"
