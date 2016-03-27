@@ -24,5 +24,9 @@ namespace Makaba.Operations {
         public ILoadThreadOperation LoadThread() {
             return Kernel.Get<ILoadThreadOperation>();
         }
+
+        public IGetPostOperation GetPost() {
+            return Kernel.Get<IGetPostOperation>();
+        }
     }
 }

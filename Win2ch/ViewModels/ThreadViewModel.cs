@@ -28,7 +28,7 @@ namespace Win2ch.ViewModels {
         private IBoard Board { get; }
         private ILoadThreadOperation Operation { get; }
         public ObservableCollection<PostViewModel> Posts { get; }
-        private ThreadLink Link { get; set; }
+        public ThreadLink Link { get; set; }
 
         public bool IsHighlighting {
             get { return this.isHighlighting; }
@@ -150,13 +150,19 @@ namespace Win2ch.ViewModels {
             };
 
             postViewModel.RepliesDisplayRequested += PostViewModelOnRepliesDisplayRequested;
+            postViewModel.PostDisplayRequested += PostViewModelOnPostDisplayRequested;
             return postViewModel;
         }
 
         private void PostViewModelOnRepliesDisplayRequested(object sender, EventArgs eventArgs) {
             var post = (PostViewModel) sender;
             var viewModel = new PostsViewModel(post.Replies);
-            viewModel.Close += (s, e) => Shell.HidePopup();
+            viewModel.Close += (s, e) => Shell.HidePopup();Shell.ShowPopup(viewModel);
+        }
+
+        private void PostViewModelOnPostDisplayRequested(object sender, PostDisplayRequestedEventArgs e) {
+            var viewModel = new PostsViewModel(Shell, Board, this, e.PostNumber);
+            viewModel.Close += (s, _) => Shell.HidePopup();
             Shell.ShowPopup(viewModel);
         }
 

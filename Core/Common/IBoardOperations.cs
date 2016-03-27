@@ -7,5 +7,6 @@ namespace Core.Common {
         IHttpOperation<IList<BoardsCategory>> LoadBoards();
         ILoadBoardOperation LoadBoard();
         ILoadThreadOperation LoadThread();
+        IGetPostOperation GetPost();
     }
 }

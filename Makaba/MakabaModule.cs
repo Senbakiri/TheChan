@@ -23,6 +23,7 @@ namespace Makaba {
             Bind<IHttpOperation<IList<BoardsCategory>>>().To<RecieveBoardsOperation>();
             Bind<ILoadBoardOperation>().To<LoadBoardOperation>();
             Bind<ILoadThreadOperation>().To<LoadThreadOperation>();
+            Bind<IGetPostOperation>().To<GetPostOperation>();
         }
     }
 }

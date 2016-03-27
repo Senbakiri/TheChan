@@ -46,5 +46,9 @@ namespace Win2ch.Views {
         private void NotifyOfPropertyChange([CallerMemberName] string propertyName = null) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private void HtmlBehavior_OnPostNumClicked(long threadNum, long postNum) {
+            ViewModel.DisplayPost(threadNum, postNum);
+        }
     }
 }

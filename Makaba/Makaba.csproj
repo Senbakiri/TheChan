@@ -55,6 +55,7 @@
     <Compile Include="MakabaBoard.cs" />
     <Compile Include="MakabaModule.cs" />
     <Compile Include="Operations\BoardOperations.cs" />
+    <Compile Include="Operations\GetPostOperation.cs" />
     <Compile Include="Operations\LoadBoardOperation.cs" />
     <Compile Include="Operations\LoadThreadOperation.cs" />
     <Compile Include="Operations\RecieveBoardsOperation.cs" />

@@ -57,6 +57,7 @@
     <Compile Include="Operations\HttpGetJsonCollectionOperationBase.cs" />
     <Compile Include="Operations\HttpGetJsonOperationBase.cs" />
     <Compile Include="Operations\HttpGetOperationBase.cs" />
+    <Compile Include="Operations\IGetPostOperation.cs" />
     <Compile Include="Operations\IHttpOperation.cs" />
     <Compile Include="Operations\ILoadBoardOperation.cs" />
     <Compile Include="Operations\ILoadThreadOperation.cs" />

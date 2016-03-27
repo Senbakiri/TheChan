@@ -113,12 +113,27 @@ namespace Win2ch.ViewModels {
             }
         }
 
-        public event EventHandler RepliesDisplayRequested; 
+        public event EventHandler RepliesDisplayRequested;
+        public event EventHandler<PostDisplayRequestedEventArgs> PostDisplayRequested;
 
         public ObservableCollection<PostViewModel> Replies { get; } = new ObservableCollection<PostViewModel>();
 
         public void DisplayReplies() {
             RepliesDisplayRequested?.Invoke(this, EventArgs.Empty);
         }
+
+        public void DisplayPost(long threadNum, long postNum) {
+            PostDisplayRequested?.Invoke(this, new PostDisplayRequestedEventArgs(threadNum, postNum));
+        }
+    }
+
+    public class PostDisplayRequestedEventArgs : EventArgs {
+        public PostDisplayRequestedEventArgs(long threadNumber, long postNumber) {
+            ThreadNumber = threadNumber;
+            PostNumber = postNumber;
+        }
+
+        public long ThreadNumber { get; }
+        public long PostNumber { get; }
     }
 }
