@@ -23,7 +23,18 @@ namespace Win2ch.ViewModels {
 
         public LoadingInfo LoadingInfo { get; } = new LoadingInfo();
         private readonly BackgroundTimer threadsUpdateTimer = new BackgroundTimer();
+        private object popupContent;
         private IToastService ToastService { get; }
+
+        public object PopupContent {
+            get { return this.popupContent; }
+            private set {
+                if (Equals(value, this.popupContent))
+                    return;
+                this.popupContent = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         protected override void OnInitialize() {
             Navigate<HomeViewModel>();
@@ -36,6 +47,14 @@ namespace Win2ch.ViewModels {
         public void Navigate<T>(object parameter = null) where T : Tab {
             var item = IoC.Get<T>();
             ActivateItem(item, parameter);
+        }
+
+        public void ShowPopup(object content) {
+            PopupContent = content;
+        }
+
+        public void HidePopup() {
+            PopupContent = null;
         }
 
         public override void ActivateItem(Tab item) {

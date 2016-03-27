@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.Devices.Input;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Core.Common;
 using Win2ch.Annotations;
@@ -16,7 +18,7 @@ namespace Win2ch.Views {
             Board = board;
             InitializeComponent();
             DataContextChanged += (s, e) => ViewModel = DataContext as PostViewModel;
-            ShowRepliesAsRibbon = new MouseCapabilities().MousePresent == 0;
+            ShowRepliesAsRibbon = new MouseCapabilities().MousePresent != 0;
         }
 
         public PostViewModel ViewModel { get; private set; }

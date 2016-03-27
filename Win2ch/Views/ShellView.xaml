@@ -295,6 +295,19 @@
                         VerticalContentAlignment="Stretch">
                         <ContentControl.ContentTransitions>
                             <TransitionCollection>
+                                <EntranceThemeTransition/>
+                            </TransitionCollection>
+                        </ContentControl.ContentTransitions>
+                    </ContentControl>
+                    <ContentControl x:Name="PopupContent"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch">
+
+                        <ContentControl.ContentTransitions>
+                            <TransitionCollection>
+                                <EntranceThemeTransition/>
                             </TransitionCollection>
                         </ContentControl.ContentTransitions>
                     </ContentControl>

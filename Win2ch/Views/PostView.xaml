@@ -12,6 +12,7 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:common="using:Win2ch.Common"
     xmlns:models="using:Core.Models"
+    xmlns:micro="using:Caliburn.Micro"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance viewModels:PostViewModel}"
     x:Name="This">
@@ -100,7 +101,8 @@
             <Button Background="Transparent"
                     Visibility="{x:Bind ShowRepliesAsRibbon, Converter={StaticResource TrueToVisible}}"
                     FontWeight="SemiBold"
-                    HorizontalAlignment="Stretch">
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind ViewModel.DisplayReplies}">
                 <TextBlock Padding="0 5">
                     <Run x:Uid="Post/RepliesCount"/>: <Run Text="{x:Bind ViewModel.RepliesCount, Mode=OneWay}"/> 
                 </TextBlock>
@@ -138,7 +140,7 @@
                                        FontWeight="SemiBold"
                                        FontSize="13"
                                        Margin="0 0 5 0">
-                        >><Run Text="{x:Bind Post.Number}"/>
+                                >><Run Text="{x:Bind Post.Number}"/>
                             </TextBlock>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

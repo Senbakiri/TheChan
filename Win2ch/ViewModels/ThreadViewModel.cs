@@ -134,15 +134,28 @@ namespace Win2ch.ViewModels {
         private void FillPosts(IEnumerable<Post> posts) {
             var newPosts = new List<PostViewModel>();
             int offset = Posts.Count + 1;
-            newPosts.AddRange(posts.Select((post, i) => new PostViewModel {
-                Foreground = PostForeground.Gray,
-                Position = offset + i,
-                Post = post,
-                IsTextSelectionEnabled = true
-            }));
-
+            newPosts.AddRange(posts.Select((post, i) => CreatePostViewModel(post, offset + i)));
             ProcessAnswers(Posts, newPosts);
             Posts.AddRange(newPosts);
+        }
+
+        private PostViewModel CreatePostViewModel(Post post, int position) {
+            var postViewModel = new PostViewModel {
+                Foreground = PostForeground.Gray,
+                Position = position,
+                Post = post,
+                IsTextSelectionEnabled = true
+            };
+
+            postViewModel.RepliesDisplayRequested += PostViewModelOnRepliesDisplayRequested;
+            return postViewModel;
+        }
+
+        private void PostViewModelOnRepliesDisplayRequested(object sender, EventArgs eventArgs) {
+            var post = (PostViewModel) sender;
+            var viewModel = new PostsViewModel(post.Replies);
+            viewModel.Close += (s, e) => Shell.HidePopup();
+            Shell.ShowPopup(viewModel);
         }
 
         private static void ProcessAnswers(IEnumerable<PostViewModel> existingPosts, IList<PostViewModel> newPosts) {

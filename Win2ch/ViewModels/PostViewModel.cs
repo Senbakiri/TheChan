@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
 using Core.Common;
@@ -112,6 +113,12 @@ namespace Win2ch.ViewModels {
             }
         }
 
-        public ObservableCollection<PostViewModel> Replies { get; } = new ObservableCollection<PostViewModel>(); 
+        public event EventHandler RepliesDisplayRequested; 
+
+        public ObservableCollection<PostViewModel> Replies { get; } = new ObservableCollection<PostViewModel>();
+
+        public void DisplayReplies() {
+            RepliesDisplayRequested?.Invoke(this, EventArgs.Empty);
+        }
     }
 }
