@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Core;
-using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Caliburn.Micro;
-using NotificationsExtensions.Toasts;
 using Win2ch.Common;
 using Win2ch.Services.Toast;
 using WinRTXamlToolkit.Tools;
@@ -13,7 +11,7 @@ using WinRTXamlToolkit.Tools;
 namespace Win2ch.ViewModels {
     internal sealed class ShellViewModel : Conductor<Tab>.Collection.OneActive, IShell {
         private bool isUpdated = true;
-        private CoreDispatcher dispatcher;
+        private readonly CoreDispatcher dispatcher;
 
         public ShellViewModel(IToastService toastService) {
             ToastService = toastService;
@@ -58,13 +56,13 @@ namespace Win2ch.ViewModels {
                 return;
 
             this.isUpdated = false;
-            IList<ThreadViewModel> threads = Items.OfType<ThreadViewModel>().ToList();
+            var threads = Items.OfType<ThreadViewModel>().ToList();
             if (threads.Count == 0)
                 return;
 
             var i = 0;
             var threadsWithNewPosts = 0;
-            string text = Tab.GetLocalizationStringForView("Shell", "ThreadsWithNewPosts");
+            string text = Tab.GetLocalizationStringForView("Shell", "UpdatingThread");
             foreach (ThreadViewModel thread in threads) {
                 LoadingInfo.InProgress($"{text} {++i}/{threads.Count}");
                 try {

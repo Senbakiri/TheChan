@@ -133,10 +133,10 @@
     <value>The board loaded successfully</value>
   </data>
   <data name="Home.BoardsLoaded" xml:space="preserve">
-    <value>Boards loaded successfully!</value>
+    <value>The boards loaded successfully!</value>
   </data>
   <data name="Home.BoardsNotLoaded" xml:space="preserve">
-    <value>Unable to load boards</value>
+    <value>Unable to load the boards</value>
   </data>
   <data name="Home.FastNavigation.PlaceholderText" xml:space="preserve">
     <value>Fast navigation</value>
@@ -145,7 +145,7 @@
     <value>Home</value>
   </data>
   <data name="Home.ReceivingBoards" xml:space="preserve">
-    <value>Loading boards...</value>
+    <value>Loading the boards...</value>
   </data>
   <data name="Post.Replies.Text" xml:space="preserve">
     <value>Replies:</value>
@@ -163,7 +163,7 @@
     <value>Updating thread</value>
   </data>
   <data name="Thread.CopyLink.Label" xml:space="preserve">
-    <value>Copy link</value>
+    <value>Copy a link</value>
   </data>
   <data name="Thread.Down.Label" xml:space="preserve">
     <value>Down</value>

@@ -25,7 +25,7 @@ namespace Win2ch
             this.kernel.Bind<IShell>().To<ShellViewModel>().InSingletonScope();
             this.kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
             this.kernel.Bind<IBoard>().To<MakabaBoard>().InSingletonScope();
-            this.kernel.Bind<IToastService>().To<ToastService>();
+            this.kernel.Bind<IToastService>().To<ToastService>().InSingletonScope();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args) {
