@@ -316,7 +316,8 @@
                                       VerticalAlignment="Top"
                                       HorizontalAlignment="Stretch"
                                       Visibility="Collapsed"
-                                      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                                      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                      Padding="0 0 5 0">
                         <ContentPresenter.ContentTransitions>
                             <TransitionCollection>
                                 <ContentThemeTransition/>

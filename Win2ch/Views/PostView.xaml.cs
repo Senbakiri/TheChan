@@ -18,7 +18,7 @@ namespace Win2ch.Views {
             Board = board;
             InitializeComponent();
             DataContextChanged += (s, e) => ViewModel = DataContext as PostViewModel;
-            ShowRepliesAsRibbon = new MouseCapabilities().MousePresent != 0;
+            ShowRepliesAsRibbon = true;
         }
 
         public PostViewModel ViewModel { get; private set; }
