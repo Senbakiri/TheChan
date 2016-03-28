@@ -42,7 +42,10 @@
     <Compile Include="Common\IBoard.cs" />
     <Compile Include="Common\IBoardOperations.cs" />
     <Compile Include="Common\IUrlService.cs" />
-    <Compile Include="Common\LinkBase.cs" />
+    <Compile Include="Common\Links\LinkBase.cs" />
+    <Compile Include="Common\Links\BoardLink.cs" />
+    <Compile Include="Common\Links\PostLink.cs" />
+    <Compile Include="Common\Links\ThreadLink.cs" />
     <Compile Include="Converters\IConverter.cs" />
     <Compile Include="Converters\JsonConverter.cs" />
     <Compile Include="Models\Attachment.cs" />

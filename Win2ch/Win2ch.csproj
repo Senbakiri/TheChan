@@ -102,6 +102,7 @@
     <Compile Include="Common\Html\HtmlConverter.cs" />
     <Compile Include="Common\Html\InlineWrapper.cs" />
     <Compile Include="Common\Html\Selector.cs" />
+    <Compile Include="Common\ICanScrollToItem.cs" />
     <Compile Include="Common\LoadingInfo.cs" />
     <Compile Include="Common\LoadingState.cs" />
     <Compile Include="Common\ThreadNavigation.cs" />

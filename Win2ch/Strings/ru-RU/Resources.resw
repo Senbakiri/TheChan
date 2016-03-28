@@ -153,6 +153,12 @@
   <data name="Post.RepliesCount.Text" xml:space="preserve">
     <value>ОТВЕТОВ</value>
   </data>
+  <data name="Posts.GoToPost.Content" xml:space="preserve">
+    <value>ПЕРЕЙТИ К ПОСТУ</value>
+  </data>
+  <data name="Posts.GoToThread.Content" xml:space="preserve">
+    <value>ПЕРЕЙТИ В ТРЕД</value>
+  </data>
   <data name="Shell.ThreadsWithNewPosts" xml:space="preserve">
     <value>Тредов с новыми постами</value>
   </data>

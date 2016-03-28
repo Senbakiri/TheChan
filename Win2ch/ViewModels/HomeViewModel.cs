@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Windows.System;
 using Caliburn.Micro;
 using Core.Common;
+using Core.Common.Links;
 using Core.Models;
 using Core.Operations;
-using Makaba.Links;
 using Win2ch.Common;
 using Win2ch.Extensions;
 

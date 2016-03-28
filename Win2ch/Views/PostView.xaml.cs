@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Core.Common;
 using Win2ch.Annotations;
+using Win2ch.Behaviors;
 using Win2ch.Common;
 using Win2ch.ViewModels;
 
@@ -47,8 +48,8 @@ namespace Win2ch.Views {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void HtmlBehavior_OnPostNumClicked(long threadNum, long postNum) {
-            ViewModel.DisplayPost(threadNum, postNum);
+        private void HtmlBehaviorOnPostClick(object sender, PostClickEventArgs e) {
+            ViewModel.DisplayPost(e.Link);
         }
     }
 }

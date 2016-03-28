@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
 using Core.Common;
+using Core.Common.Links;
 using Core.Models;
 using Win2ch.Common;
 
@@ -122,18 +123,16 @@ namespace Win2ch.ViewModels {
             RepliesDisplayRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        public void DisplayPost(long threadNum, long postNum) {
-            PostDisplayRequested?.Invoke(this, new PostDisplayRequestedEventArgs(threadNum, postNum));
+        public void DisplayPost(PostLink link) {
+            PostDisplayRequested?.Invoke(this, new PostDisplayRequestedEventArgs(link));
         }
     }
 
     public class PostDisplayRequestedEventArgs : EventArgs {
-        public PostDisplayRequestedEventArgs(long threadNumber, long postNumber) {
-            ThreadNumber = threadNumber;
-            PostNumber = postNumber;
+        public PostDisplayRequestedEventArgs(PostLink link) {
+            Link = link;
         }
 
-        public long ThreadNumber { get; }
-        public long PostNumber { get; }
+        public PostLink Link { get; }
     }
 }

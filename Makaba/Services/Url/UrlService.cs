@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using Core.Common;
+using Core.Common.Links;
 using HtmlAgilityPack;
-using Makaba.Links;
 
 namespace Makaba.Services.Url {
     public class UrlService : IUrlService {
@@ -99,6 +100,25 @@ namespace Makaba.Services.Url {
                 return new ThreadLink(boardId, threadNum);
 
             return type == LinkType.Post ? new PostLink(boardId, threadNum, postNum) : null;
+        }
+
+        public Uri GetUrlForLink(LinkBase link) {
+            var builder = new StringBuilder();
+            var boardLink = link as BoardLink;
+            if (boardLink == null)
+                return null;
+
+            builder.Append($"/{boardLink.BoardId}");
+            var threadLink = link as ThreadLink;
+            if (threadLink == null)
+                return new Uri(BaseUri, builder.ToString());
+            builder.Append($"/res/{threadLink.ThreadNumber}.html");
+
+            var postLink = link as PostLink;
+            if (postLink == null)
+                return new Uri(BaseUri, builder.ToString());
+            builder.Append($"#{postLink.PostNumber}");
+            return new Uri(BaseUri, builder.ToString());
         }
     }
 }

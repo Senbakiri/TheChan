@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.Common.Links;
 
 namespace Core.Common {
     public enum LinkType {
@@ -14,5 +15,6 @@ namespace Core.Common {
         Uri GetPostUrl(string boardId, long postNum);
         LinkType DetermineLinkType(string url);
         LinkBase GetLink(string url);
+        Uri GetUrlForLink(LinkBase link);
     }
 }

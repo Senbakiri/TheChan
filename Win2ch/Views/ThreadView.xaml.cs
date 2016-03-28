@@ -3,11 +3,12 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Win2ch.Common;
 using Win2ch.ViewModels;
 using WinRTXamlToolkit.Controls.Extensions;
 
 namespace Win2ch.Views {
-    public sealed partial class ThreadView {
+    public sealed partial class ThreadView : ICanScrollToItem<PostViewModel> {
         private ScrollViewer postsScrollViewer;
 
         public ThreadView() {
@@ -48,6 +49,11 @@ namespace Win2ch.Views {
         private static ScrollViewer GetScrollViewer(ListView listView) {
             var border = (Border)VisualTreeHelper.GetChild(listView, 0);
             return VisualTreeHelper.GetChild(border, 0) as ScrollViewer;
+        }
+
+        public void ScrollToItem(PostViewModel item) {
+            if (item != null)
+                this.Posts.ScrollIntoView(item, ScrollIntoViewAlignment.Leading);
         }
     }
 }

@@ -6,9 +6,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Core.Common;
+using Core.Common.Links;
 using Core.Models;
 using Core.Operations;
-using Makaba.Links;
 using Win2ch.Common;
 using Win2ch.Extensions;
 
@@ -27,6 +27,7 @@ namespace Win2ch.ViewModels {
         private IShell Shell { get; }
         private IBoard Board { get; }
         private ILoadThreadOperation Operation { get; }
+        private ICanScrollToItem<PostViewModel> PostScroll { get; set; } 
         public ObservableCollection<PostViewModel> Posts { get; }
         public ThreadLink Link { get; set; }
 
@@ -52,6 +53,12 @@ namespace Win2ch.ViewModels {
             }
         }
 
+        protected override void OnViewAttached(object view, object context) {
+            var postScroll = view as ICanScrollToItem<PostViewModel>;
+            if (postScroll != null)
+                PostScroll = postScroll;
+        }
+
         protected override async void OnActivate(object parameter = null) {
             if (parameter == null)
                 return;
@@ -72,6 +79,9 @@ namespace Win2ch.ViewModels {
                 Posts.Clear();
                 FillPosts(thread.Posts);
                 Shell.LoadingInfo.Success(GetLocalizationString("Loaded"));
+                if (navigation.IsScrollingToPostNeeded) {
+                    PostScroll?.ScrollToItem(Posts.FirstOrDefault(p => p.Post.Number == navigation.PostNumber));
+                }
             } catch (Exception) {
                 Shell.LoadingInfo.Error(GetLocalizationString("NotLoaded"), true, () => OnActivate(navigation));
             }
@@ -156,14 +166,38 @@ namespace Win2ch.ViewModels {
 
         private void PostViewModelOnRepliesDisplayRequested(object sender, EventArgs eventArgs) {
             var post = (PostViewModel) sender;
-            var viewModel = new PostsViewModel(post.Replies);
-            viewModel.Close += (s, e) => Shell.HidePopup();Shell.ShowPopup(viewModel);
+            var viewModel = new PostsViewModel(Shell, Board, Link.BoardId, Posts.ToList().AsReadOnly(), post.Replies);
+            viewModel.Close += (s, e) => Shell.HidePopup();
+            viewModel.NavigateToPost += PostsViewModelOnNavigateToPost;
+            viewModel.NavigateToThread += PostsViewModelOnNavigateToThread;
+            Shell.ShowPopup(viewModel);
         }
 
         private void PostViewModelOnPostDisplayRequested(object sender, PostDisplayRequestedEventArgs e) {
-            var viewModel = new PostsViewModel(Shell, Board, this, e.PostNumber);
+            var viewModel = new PostsViewModel(Shell, Board, e.Link.BoardId, Posts.ToList().AsReadOnly(), e.Link.PostNumber);
             viewModel.Close += (s, _) => Shell.HidePopup();
+            viewModel.NavigateToPost += PostsViewModelOnNavigateToPost;
+            viewModel.NavigateToThread += PostsViewModelOnNavigateToThread;
             Shell.ShowPopup(viewModel);
+        }
+
+        private void PostsViewModelOnNavigateToThread(object sender, NavigateToThreadEventArgs e) {
+            if (e.Link.BoardId != Link.BoardId || e.Link.ThreadNumber != Link.ThreadNumber) {
+                Shell.HidePopup();
+                Shell.Navigate<ThreadViewModel>(ThreadNavigation.NavigateToThread(e.Link.BoardId, e.Link.ThreadNumber));
+            }
+        }
+
+        private void PostsViewModelOnNavigateToPost(object sender, NavigateToPostEventArgs e) {
+            Shell.HidePopup();
+            if (e.Link.BoardId != Link.BoardId || e.Link.ThreadNumber != Link.ThreadNumber) {
+                Shell.Navigate<ThreadViewModel>(
+                    ThreadNavigation
+                        .NavigateToThread(e.Link.BoardId, e.Link.ThreadNumber)
+                        .ScrollToPost(e.Link.PostNumber));
+            } else {
+                PostScroll?.ScrollToItem(Posts.FirstOrDefault(p => p.Post.Number == e.Link.PostNumber));
+            }
         }
 
         private static void ProcessAnswers(IEnumerable<PostViewModel> existingPosts, IList<PostViewModel> newPosts) {
@@ -201,7 +235,7 @@ namespace Win2ch.ViewModels {
 
         public void CopyLink() {
             var dataPackage = new DataPackage();
-            dataPackage.SetText(Link.GetUrl());
+            dataPackage.SetText(Board.UrlService.GetUrlForLink(Link).AbsoluteUri);
             Clipboard.SetContent(dataPackage);
         }
     }

@@ -5,8 +5,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
 using Core.Common;
+using Core.Common.Links;
 using HtmlAgilityPack;
-using Makaba.Links;
 using Microsoft.Xaml.Interactivity;
 using Win2ch.Common;
 using Win2ch.Common.Html;
@@ -93,7 +93,7 @@ namespace Win2ch.Behaviors {
         }
 
 
-        public event Action<long, long> PostNumClicked = delegate { };
+        public event EventHandler<PostClickEventArgs> PostClick = delegate { };
 
         private void RenderHtml() {
             var block = AssociatedObject;
@@ -147,7 +147,7 @@ namespace Win2ch.Behaviors {
 
                 if (type == LinkType.Post) {
                     var postLink = (PostLink) link;
-                    hyperlink.Click += (s, e) => PostNumClicked(postLink.ThreadNumber, postLink.PostNumber);
+                    hyperlink.Click += (s, e) => PostClick(this, new PostClickEventArgs(postLink));
                 } else {
                     hyperlink.Click += (s, e) => NavigateByLink(type, link);
                 }
@@ -187,5 +187,13 @@ namespace Win2ch.Behaviors {
         private static Func<HtmlNode, bool> CreateNodeNameCondition(string nodeName) {
             return n => nodeName.EqualsNc(n.Name);
         }
+    }
+
+    public class PostClickEventArgs : EventArgs {
+        public PostClickEventArgs(PostLink link) {
+            Link = link;
+        }
+
+        public PostLink Link { get; }
     }
 }

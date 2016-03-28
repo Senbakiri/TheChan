@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
 using Core.Common;
+using Core.Common.Links;
 using Core.Models;
 using Core.Operations;
 using Win2ch.Common;
@@ -15,22 +16,36 @@ namespace Win2ch.ViewModels {
         private bool canGoToPost;
         private bool canGoToThread;
 
-        public PostsViewModel(IEnumerable<PostViewModel> posts) {
+        public PostsViewModel(IShell shell, IBoard board, string boardId, IList<PostViewModel> threadPosts, IEnumerable<PostViewModel> posts) {
             Posts = new ObservableCollection<PostViewModel>(posts.Select(CreatePostViewModel));
+            BoardId = boardId;
+            Board = board;
+            ThreadPosts = threadPosts;
+            Shell = shell;
         }
 
-        public PostsViewModel(IShell shell, IBoard board, ThreadViewModel source, long postNumber) {
+        public PostsViewModel(IShell shell, IBoard board, string boardId, IList<PostViewModel> threadPosts, long postNumber) {
             Posts = new ObservableCollection<PostViewModel>();
             Board = board;
             Shell = shell;
-            LoadPost(source, postNumber);
+            BoardId = boardId;
+            ThreadPosts = threadPosts;
+            LoadPost(postNumber);
         }
+
+        private string BoardId { get; }
 
         private IBoard Board { get; }
 
         private IShell Shell { get; }
 
+        private IList<PostViewModel> ThreadPosts { get; } 
+
         public ObservableCollection<PostViewModel> Posts { get; }
+
+        public event EventHandler<NavigateToPostEventArgs> NavigateToPost;
+
+        public event EventHandler<NavigateToThreadEventArgs> NavigateToThread; 
 
         public bool CanGoToPost {
             get { return this.canGoToPost; }
@@ -76,11 +91,12 @@ namespace Win2ch.ViewModels {
 
             postViewModel.Replies.AddRange(old.Replies);
             postViewModel.RepliesDisplayRequested += PostViewModelOnRepliesDisplayRequested;
+            postViewModel.PostDisplayRequested += PostViewModelOnPostDisplayRequested;
             return postViewModel;
         }
 
-        private async void LoadPost(ThreadViewModel source, long postNumber) {
-            PostViewModel existingPost = source.Posts.FirstOrDefault(p => p.Post.Number == postNumber);
+        private async void LoadPost(long postNumber) {
+            PostViewModel existingPost = ThreadPosts.FirstOrDefault(p => p.Post.Number == postNumber);
             if (existingPost != null) {
                 CanGoToPost = true;
                 Posts.Add(CreatePostViewModel(existingPost));
@@ -88,18 +104,19 @@ namespace Win2ch.ViewModels {
             }
 
             IGetPostOperation operation = Board.Operations.GetPost();
-            operation.BoardId = source.Link.BoardId;
+            operation.BoardId = BoardId;
             operation.PostNumber = postNumber;
             try {
-                Shell.LoadingInfo.InProgress(null);
+                Shell.LoadingInfo.InProgress("");
                 Post post = await operation.ExecuteAsync();
                 PostViewModel viewModel = CreateViewModelForPost(post);
                 Posts.Add(viewModel);
                 CanGoToPost = true;
                 CanGoToThread = true;
-                Shell.LoadingInfo.Success(null);
+                Shell.LoadingInfo.Success("");
             } catch {
-                Shell.LoadingInfo.Error(null);
+                Shell.LoadingInfo.Error("");
+                CloseDown();
             }
             
         }
@@ -113,17 +130,56 @@ namespace Win2ch.ViewModels {
                 Foreground = PostForeground.Gray,
             };
 
+            viewModel.PostDisplayRequested += PostViewModelOnPostDisplayRequested;
             return viewModel;
         }
 
         private void PostViewModelOnRepliesDisplayRequested(object sender, EventArgs eventArgs) {
-            var viewModel = new PostsViewModel(((PostViewModel) sender).Replies);
+            var viewModel = new PostsViewModel(Shell, Board, BoardId, ThreadPosts, ((PostViewModel) sender).Replies);
             viewModel.Close += (s, e) => PopupContent = null;
+            viewModel.NavigateToPost += NavigateToPost;
+            viewModel.NavigateToThread += NavigateToThread;
+            PopupContent = viewModel;
+        }
+
+        private void PostViewModelOnPostDisplayRequested(object sender, PostDisplayRequestedEventArgs e) {
+            var viewModel = new PostsViewModel(Shell, Board, e.Link.BoardId, ThreadPosts, e.Link.PostNumber);
+            viewModel.Close += (s, _) => PopupContent = null;
+            viewModel.NavigateToPost += NavigateToPost;
+            viewModel.NavigateToThread += NavigateToThread;
             PopupContent = viewModel;
         }
 
         internal void CloseDown() {
             Close?.Invoke(this, EventArgs.Empty);
         }
+
+        public void GoToPost() {
+            Post post = Posts.First().Post;
+            NavigateToPost?.Invoke(this, new NavigateToPostEventArgs(new PostLink(BoardId, post.ParentNumber, post.Number)));
+        }
+
+        public void GoToThread() {
+            Post post = Posts.First().Post;
+            long num = post.ParentNumber == 0 ? post.Number : post.ParentNumber;
+            NavigateToThread?.Invoke(this, new NavigateToThreadEventArgs(new ThreadLink(BoardId, num)));
+
+        }
+    }
+
+    public class NavigateToThreadEventArgs : EventArgs {
+        public NavigateToThreadEventArgs(ThreadLink link) {
+            Link = link;
+        }
+
+        public ThreadLink Link { get; }
+    }
+
+    public class NavigateToPostEventArgs : EventArgs {
+        public NavigateToPostEventArgs(PostLink link) {
+            Link = link;
+        }
+
+        public PostLink Link { get; }
     }
 }

@@ -14,23 +14,52 @@
               HorizontalAlignment="Stretch"
               Tapped="Underlay_OnTapped"
               Background="Transparent"/>
-        <ScrollViewer MaxWidth="800"
-                      VerticalScrollBarVisibility="Auto"
-                      VerticalAlignment="Center">
-            <ItemsControl ItemsSource="{x:Bind ViewModel.Posts}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate x:DataType="viewModels:PostViewModel">
-                        <Border Padding="10"
-                                Margin="5"
-                                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                            <ContentControl micro:View.Model="{x:Bind}"
-                                            HorizontalContentAlignment="Stretch"
-                                            HorizontalAlignment="Stretch"/>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+        <StackPanel MaxWidth="800"
+                    VerticalAlignment="Center"
+                    Margin="5 0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{x:Bind ViewModel.Posts}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="viewModels:PostViewModel">
+                            <Border Padding="10"
+                                    Margin="0 2"
+                                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                                <ContentControl micro:View.Model="{x:Bind}"
+                                                HorizontalContentAlignment="Stretch"
+                                                HorizontalAlignment="Stretch"/>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <Grid Margin="0 4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="GoToPostButton"
+                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                        HorizontalAlignment="Stretch"
+                        FontWeight="SemiBold"
+                        Padding="0 10"
+                        Margin="0 0 2 0"
+                        Visibility="{x:Bind ViewModel.CanGoToPost, Mode=OneWay, Converter={StaticResource TrueToVisible}}"
+                        Click="{x:Bind ViewModel.GoToPost}"
+                        x:Uid="Posts/GoToPost">
+                </Button>
+                <Button x:Name="GoToThreadButton"
+                        Grid.Column="1"
+                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                        HorizontalAlignment="Stretch"
+                        FontWeight="SemiBold"
+                        Padding="0 10"
+                        Margin="2 0 0 0"
+                        Visibility="{x:Bind ViewModel.CanGoToThread, Mode=OneWay, Converter={StaticResource TrueToVisible}}"
+                        Click="{x:Bind ViewModel.GoToThread}"
+                        x:Uid="Posts/GoToThread"/>
+            </Grid>
+        </StackPanel>
+        
         <ContentControl x:Name="PopupContent"
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"

@@ -9,8 +9,18 @@
             };
         }
 
+        public ThreadNavigation ScrollToPost(long postNumber) {
+            IsScrollingToPostNeeded = true;
+            PostNumber = postNumber;
+            return this;
+        }
+
         public string BoardId { get; private set; }
 
         public long ThreadNumber { get; private set; }
+
+        public bool IsScrollingToPostNeeded { get; private set; }
+
+        public long PostNumber { get; private set; }
     }
 }

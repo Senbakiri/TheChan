@@ -95,7 +95,7 @@
                                         ReplyForeground="{ThemeResource ReplyForegroundBrush}"
                                         UrlService="{x:Bind Board.UrlService}"
                                         Shell="{x:Bind Shell}"
-                                        PostNumClicked="HtmlBehavior_OnPostNumClicked"/>
+                                        PostClick="HtmlBehaviorOnPostClick"/>
             </interactivity:Interaction.Behaviors>
         </TextBlock>
         <StackPanel Visibility="{x:Bind ViewModel.AreRepliesVisible, Converter={StaticResource TrueToVisible}, Mode=OneWay}">
