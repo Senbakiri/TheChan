@@ -10,6 +10,7 @@ using WinRTXamlToolkit.Controls.Extensions;
 namespace Win2ch.Views {
     public sealed partial class ThreadView : ICanScrollToItem<PostViewModel> {
         private ScrollViewer postsScrollViewer;
+        private VirtualizingStackPanel stackPanel;
 
         public ThreadView() {
             InitializeComponent();
@@ -33,14 +34,18 @@ namespace Win2ch.Views {
         private void ThreadView_OnLoaded(object sender, RoutedEventArgs e) {
             this.postsScrollViewer = GetScrollViewer(this.Posts);
             this.postsScrollViewer.ViewChanged += PostsScrollViewerOnViewChanged;
+            this.stackPanel = this.Posts.ItemsPanelRoot as VirtualizingStackPanel;
         }
 
         private void PostsScrollViewerOnViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
+            if (this.stackPanel == null)
+                return;
+
             double offset = this.postsScrollViewer.VerticalOffset;
             if (offset >= this.postsScrollViewer.ScrollableHeight) {
                 ViewModel.HighlightingStart = ViewModel.Posts.Count + 1;
             } else {
-                int index = this.Posts.GetFirstVisibleIndex() + 1;
+                int index = (int)this.stackPanel.VerticalOffset + 1;
                 if (index > ViewModel.HighlightingStart)
                     ViewModel.HighlightingStart = index;
             }

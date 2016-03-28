@@ -69,6 +69,10 @@ namespace Win2ch.ViewModels {
             Shell.Navigate<ThreadViewModel>(ThreadNavigation.NavigateToThread(boardId, num));
         }
 
+        private void NavigateToPost(string boardId, long threadNum, long postNum) {
+            Shell.Navigate<ThreadViewModel>(ThreadNavigation.NavigateToThread(boardId, threadNum).ScrollToPost(postNum));
+        }
+
         public async void NavigateByString(string text) {
             LinkType type = Board.UrlService.DetermineLinkType(text);
             LinkBase link = Board.UrlService.GetLink(text);
@@ -84,9 +88,12 @@ namespace Win2ch.ViewModels {
                     NavigateToBoard(((BoardLink) link).BoardId);
                     break;
                 case LinkType.Thread:
-                case LinkType.Post:
                     var threadLink = (ThreadLink)link;
                     NavigateToThread(threadLink.BoardId, threadLink.ThreadNumber);
+                    break;
+                case LinkType.Post:
+                    var postLink = (PostLink)link;
+                    NavigateToPost(postLink.BoardId, postLink.ThreadNumber, postLink.PostNumber);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
