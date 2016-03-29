@@ -144,7 +144,7 @@ namespace Win2ch.ViewModels {
             var newPosts = new List<PostViewModel>();
             int offset = Posts.Count + 1;
             newPosts.AddRange(posts.Select((post, i) => CreatePostViewModel(post, offset + i)));
-            ProcessAnswers(Posts, newPosts);
+            ProcessReplies(Posts, newPosts);
             Posts.AddRange(newPosts);
         }
 
@@ -199,7 +199,7 @@ namespace Win2ch.ViewModels {
             }
         }
 
-        private static void ProcessAnswers(IEnumerable<PostViewModel> existingPosts, IList<PostViewModel> newPosts) {
+        private static void ProcessReplies(IEnumerable<PostViewModel> existingPosts, IList<PostViewModel> newPosts) {
             Dictionary<long, IList<PostViewModel>> repliedPosts = FindRepliedPosts(newPosts);
             IList<PostViewModel> searchSource = existingPosts.Concat(newPosts).ToList();
             foreach (KeyValuePair<long, IList<PostViewModel>> reply in repliedPosts) {
