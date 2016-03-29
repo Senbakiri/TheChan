@@ -17,14 +17,17 @@
         <ListView ItemsSource="{x:Bind ViewModel.Posts}"
                   MaxWidth="800"
                   VerticalAlignment="Center"
-                  Padding="5">
+                  Padding="5"
+                  x:Name="List">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:PostViewModel">
                     <Border Padding="10"
                             Margin="0 2"
                             Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                            ManipulationMode ="TranslateX"
-                            x:Name="Post">
+                            ManipulationMode="TranslateX, System"
+                            x:Name="Post"
+                            ManipulationDelta="Post_OnManipulationDelta"
+                            ManipulationCompleted="Post_OnManipulationCompleted">
                         <ContentControl micro:View.Model="{x:Bind}"
                                         HorizontalContentAlignment="Stretch"
                                         HorizontalAlignment="Stretch"/>
