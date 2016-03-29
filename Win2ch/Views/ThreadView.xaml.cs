@@ -11,6 +11,8 @@ namespace Win2ch.Views {
     public sealed partial class ThreadView : ICanScrollToItem<PostViewModel> {
         private ScrollViewer postsScrollViewer;
         private VirtualizingStackPanel stackPanel;
+        private bool dontMarkAsRead;
+        private double prevOffset;
 
         public ThreadView() {
             InitializeComponent();
@@ -27,8 +29,10 @@ namespace Win2ch.Views {
 
         public void Down() {
             PostViewModel lastPost = ViewModel?.Posts.LastOrDefault();
-            if (lastPost != null)
+            if (lastPost != null) {
+                this.dontMarkAsRead = true;
                 this.Posts.ScrollIntoView(lastPost, ScrollIntoViewAlignment.Leading);
+            }
         }
 
         private void ThreadView_OnLoaded(object sender, RoutedEventArgs e) {
@@ -38,17 +42,22 @@ namespace Win2ch.Views {
         }
 
         private void PostsScrollViewerOnViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
-            if (this.stackPanel == null)
+            if (this.stackPanel == null) {
                 return;
-
+            }
             double offset = this.postsScrollViewer.VerticalOffset;
+            double delta = offset - this.prevOffset;
             if (offset >= this.postsScrollViewer.ScrollableHeight) {
-                ViewModel.HighlightingStart = ViewModel.Posts.Count + 1;
-            } else {
+                if (!this.dontMarkAsRead)
+                    ViewModel.HighlightingStart = ViewModel.Posts.Count + 1;
+            } else if (!this.dontMarkAsRead || delta > 0) {
                 int index = (int)this.stackPanel.VerticalOffset + 1;
                 if (index > ViewModel.HighlightingStart)
                     ViewModel.HighlightingStart = index;
+                this.dontMarkAsRead = false;
             }
+
+            this.prevOffset = offset;
         }
 
         private static ScrollViewer GetScrollViewer(ListView listView) {

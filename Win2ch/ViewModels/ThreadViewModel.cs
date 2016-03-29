@@ -70,8 +70,6 @@ namespace Win2ch.ViewModels {
             Operation.ThreadNumber = navigation.ThreadNumber;
             Link = new ThreadLink(navigation.BoardId, navigation.ThreadNumber);
             DisplayName = $"/{navigation.BoardId}/ - {navigation.ThreadNumber}";
-            HighlightingStart = 0;
-            IsHighlighting = true;
             IsLoading = true;
             Shell.LoadingInfo.InProgress(GetLocalizationString("Loading"));
             try {
