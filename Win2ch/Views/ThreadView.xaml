@@ -451,10 +451,10 @@
                                 VerticalAlignment="Center">
                         <TextBlock x:Uid="Thread/Reply"
                                    Style="{ThemeResource BodyTextBlockStyle}"
-                                   Foreground="White"
-                                   Margin="10 0"/>
+                                   Foreground="White"/>
                         <SymbolIcon Symbol="Back"
-                                    Foreground="White"/>
+                                    Foreground="White"
+                                    Margin="10 0"/>
                     </StackPanel>
                 </DataTemplate>
             </controls:SwipeListView.ItemLeftContentTemplate>

@@ -84,7 +84,7 @@ namespace Win2ch.ViewModels {
                 ShowReplies = true,
                 ShowPostPosition = true,
                 Position = old.Position,
-                Foreground = PostForeground.Contrast,
+                Foreground = PostForeground.Gray,
                 IsTextSelectionEnabled = true,
                 Post = old.Post,
             };

@@ -14,8 +14,6 @@ using Win2ch.Extensions;
 
 namespace Win2ch.ViewModels {
     internal sealed class HomeViewModel : Tab {
-        private string filter;
-
         public HomeViewModel(IShell shell, IBoard board) {
             IsCloseable = false;
             DisplayName = GetLocalizationString("Name");
@@ -51,9 +49,10 @@ namespace Win2ch.ViewModels {
         }
 
         public IList<BoardsCategory> FilterItems(string filter) {
+            filter = filter?.ToUpper() ?? "";
             return
                 Categories.Select(c => new BoardsCategory(c.Name,
-                    c.Boards.Where(b => b.Name.Contains(filter) || b.Id.Contains(filter)).ToList()))
+                    c.Boards.Where(b => b.Name.ToUpper().Contains(filter) || b.Id.ToUpper().Contains(filter)).ToList()))
                           .ToList();
         }
 

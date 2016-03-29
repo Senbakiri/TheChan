@@ -154,10 +154,10 @@
     <value>REPLIES</value>
   </data>
   <data name="Posts.GoToPost.Content" xml:space="preserve">
-    <value>Go to the post</value>
+    <value>GO TO THE POST</value>
   </data>
   <data name="Posts.GoToThread.Content" xml:space="preserve">
-    <value>Go to the thread</value>
+    <value>GO TO THE THREAD</value>
   </data>
   <data name="Shell.ThreadsWithNewPosts" xml:space="preserve">
     <value>Threads with new posts</value>
