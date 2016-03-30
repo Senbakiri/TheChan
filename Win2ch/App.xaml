@@ -16,6 +16,44 @@
             <converters:InverseBoolConverter x:Key="Inverse"/>
             <x:Double x:Key="TabHeightAndWidth">40</x:Double>
             
+            <Style x:Key="CloseButtonStyle" TargetType="Button">
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid Width="{TemplateBinding Width}"
+                              Height="{TemplateBinding Height}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup>
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Target="Content.Foreground" Value="#e82b39"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Target="Border.Background" Value="#e82b39"/>
+                                                <Setter Target="Content.Foreground" Value="White"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border x:Name="Border"
+                                    Background="{TemplateBinding Background}">
+                                    <ContentPresenter Content="{TemplateBinding Content}"
+                                                  x:Name="Content"
+                                                  VerticalAlignment="Stretch"
+                                                  HorizontalAlignment="Stretch"
+                                                  HorizontalContentAlignment="Center"
+                                                  VerticalContentAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Dark">
                     <Color x:Key="PageBackgroundColor">Black</Color>

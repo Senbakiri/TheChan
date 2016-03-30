@@ -14,44 +14,6 @@
     d:DataContext="{d:DesignInstance viewModels:ShellViewModel}">
 
     <Page.Resources>
-        <Style x:Key="CloseButtonStyle" TargetType="Button">
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid Width="{TemplateBinding Width}"
-                              Height="{TemplateBinding Height}">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup>
-                                    <VisualState x:Name="Normal"/>
-                                    <VisualState x:Name="PointerOver">
-                                        <VisualState.Setters>
-                                            <Setter Target="Content.Foreground" Value="#e82b39"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <VisualState.Setters>
-                                            <Setter Target="Border.Background" Value="#e82b39"/>
-                                            <Setter Target="Content.Foreground" Value="White"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <Border x:Name="Border"
-                                    Background="Transparent">
-                                <ContentPresenter Content="{TemplateBinding Content}"
-                                                  x:Name="Content"
-                                                  VerticalAlignment="Stretch"
-                                                  HorizontalAlignment="Stretch"
-                                                  HorizontalContentAlignment="Center"
-                                                  VerticalContentAlignment="Center"/>
-                            </Border>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
         <Style TargetType="ListViewItem"
                x:Key="TabItemStyle">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -275,7 +237,8 @@
                                         micro:Message.Attach="CloseTab($dataContext)"
                                         Width="{StaticResource TabHeightAndWidth}"
                                         Height="{StaticResource TabHeightAndWidth}"
-                                        Visibility="{x:Bind IsCloseable, Converter={StaticResource TrueToVisible}, Mode=OneWay}">
+                                        Visibility="{x:Bind IsCloseable, Converter={StaticResource TrueToVisible}, Mode=OneWay}"
+                                        Background="Transparent">
                                     <TextBlock FontFamily="Segoe MDL2 Assets"
                                                Text="&#xE711;"
                                                TextAlignment="Center"

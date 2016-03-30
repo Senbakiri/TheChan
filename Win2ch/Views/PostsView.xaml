@@ -15,7 +15,6 @@
               Tapped="Underlay_OnTapped"
               Background="Transparent"/>
         <ListView ItemsSource="{x:Bind ViewModel.Posts}"
-                  MaxWidth="800"
                   VerticalAlignment="Center"
                   Padding="5"
                   x:Name="List">
@@ -26,6 +25,7 @@
                             Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                             ManipulationMode="TranslateX, System"
                             x:Name="Post"
+                            MaxWidth="800"
                             ManipulationDelta="Post_OnManipulationDelta"
                             ManipulationCompleted="Post_OnManipulationCompleted">
                         <ContentControl micro:View.Model="{x:Bind}"
@@ -77,6 +77,20 @@
             </ListView.ItemContainerStyle>
         </ListView>
 
+        <Button Style="{StaticResource CloseButtonStyle}"
+                Width="50"
+                Height="50"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Right"
+                Click="{x:Bind ViewModel.CloseDown}"
+                Visibility="{x:Bind ShowCloseButton, Converter={StaticResource TrueToVisible}}"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                               Text="&#xE711;"
+                                               TextAlignment="Center"
+                                               FontSize="16"/>
+        </Button>
+        
         <ContentControl x:Name="PopupContent"
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"

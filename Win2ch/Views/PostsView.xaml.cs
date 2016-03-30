@@ -4,6 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Win2ch.Common;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Views {
@@ -13,9 +14,11 @@ namespace Win2ch.Views {
         public PostsView() {
             InitializeComponent();
             DataContextChanged += (s, e) => ViewModel = DataContext as PostsViewModel;
+            ShowCloseButton = DeviceUtils.GetDeviceFamily() == DeviceFamily.Desktop;
         }
 
         public PostsViewModel ViewModel { get; private set; }
+        private bool ShowCloseButton { get; }
 
         private void Underlay_OnTapped(object sender, TappedRoutedEventArgs e) {
             ViewModel.CloseDown();
