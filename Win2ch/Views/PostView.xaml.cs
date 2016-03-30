@@ -11,8 +11,7 @@ using Win2ch.Common;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Views {
-    public sealed partial class PostView : INotifyPropertyChanged {
-        private Brush postForeground;
+    public sealed partial class PostView {
 
         public PostView(IShell shell, IBoard board) {
             Shell = shell;
@@ -29,24 +28,7 @@ namespace Win2ch.Views {
         public IShell Shell { get; }
 
         public IBoard Board { get; }
-
-        public Brush PostForeground {
-            get { return this.postForeground; }
-            set {
-                if (Equals(value, this.postForeground))
-                    return;
-
-                this.postForeground = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        private void NotifyOfPropertyChange([CallerMemberName] string propertyName = null) {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        
 
         private void HtmlBehaviorOnPostClick(object sender, PostClickEventArgs e) {
             ViewModel.DisplayPost(e.Link);

@@ -25,7 +25,7 @@
                             Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                             ManipulationMode="TranslateX, System"
                             x:Name="Post"
-                            MaxWidth="800"
+                            MaxWidth="960"
                             ManipulationDelta="Post_OnManipulationDelta"
                             ManipulationCompleted="Post_OnManipulationCompleted">
                         <ContentControl micro:View.Model="{x:Bind}"
@@ -35,7 +35,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.Footer>
-                <Grid Margin="0 4">
+                <Grid Margin="0 4"
+                      MaxWidth="960">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>

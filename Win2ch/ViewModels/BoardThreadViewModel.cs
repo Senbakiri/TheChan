@@ -11,7 +11,6 @@ namespace Win2ch.ViewModels {
                 Post = thread.Post,
                 ShowReplies = false,
                 ShowPostPosition = false,
-                Foreground = PostForeground.Contrast
             };
 
             ThreadInfo = thread;

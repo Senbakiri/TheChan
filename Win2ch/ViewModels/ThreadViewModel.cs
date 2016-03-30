@@ -150,7 +150,6 @@ namespace Win2ch.ViewModels {
 
         private PostViewModel CreatePostViewModel(Post post, int position) {
             var postViewModel = new PostViewModel {
-                Foreground = PostForeground.Gray,
                 Position = position,
                 Post = post,
                 IsTextSelectionEnabled = true,

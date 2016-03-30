@@ -124,7 +124,6 @@
     <Compile Include="ViewModels\BoardThreadViewModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
-    <Compile Include="Common\PostForeground.cs" />
     <Compile Include="ViewModels\PostsViewModel.cs" />
     <Compile Include="ViewModels\PostViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />

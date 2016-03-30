@@ -16,19 +16,6 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance viewModels:PostViewModel}"
     x:Name="This">
-
-    <interactivity:Interaction.Behaviors>
-        <core:DataTriggerBehavior Binding="{x:Bind ViewModel.ForegroundString, Mode=OneWay}"
-                                  Value="Contrast">
-            <core:ChangePropertyAction PropertyName="PostForeground"
-                                       Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
-        </core:DataTriggerBehavior>
-        <core:DataTriggerBehavior Binding="{x:Bind ViewModel.ForegroundString, Mode=OneWay}"
-                                  Value="Gray">
-            <core:ChangePropertyAction PropertyName="PostForeground"
-                                       Value="{ThemeResource GrayForegroundBrush}"/>
-        </core:DataTriggerBehavior>
-    </interactivity:Interaction.Behaviors>
     <StackPanel>
         <TextBlock TextWrapping="Wrap"
                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
@@ -49,11 +36,9 @@
             <TextBlock Text="{x:Bind ViewModel.Post.Name}"
                        Margin="0 0 5 0"
                        FontWeight="SemiBold"
-                       Foreground="{x:Bind PostForeground, Mode=OneWay}"
                        TextTrimming="CharacterEllipsis"/>
             <TextBlock Text="{x:Bind ViewModel.Post.Email}"
                        FontWeight="SemiBold"
-                       Foreground="{x:Bind PostForeground, Mode=OneWay}"
                        TextTrimming="CharacterEllipsis"/>
         </StackPanel>
         <ItemsControl ItemsSource="{x:Bind ViewModel.Post.Attachments}">
@@ -85,7 +70,6 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         <TextBlock TextWrapping="Wrap"
-                   Foreground="{x:Bind PostForeground, Mode=OneWay}"
                    MaxWidth="960"
                    HorizontalAlignment="Left"
                    IsTextSelectionEnabled="{x:Bind ViewModel.IsTextSelectionEnabled}">
