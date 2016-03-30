@@ -11,6 +11,7 @@ using Core.Models;
 using Core.Operations;
 using Win2ch.Common;
 using Win2ch.Extensions;
+using Win2ch.Views;
 
 namespace Win2ch.ViewModels {
     public class ThreadViewModel : Tab {
@@ -28,6 +29,7 @@ namespace Win2ch.ViewModels {
         private IBoard Board { get; }
         private ILoadThreadOperation Operation { get; }
         private ICanScrollToItem<PostViewModel> PostScroll { get; set; } 
+        private IReplyDisplay ReplyDisplay { get; set; }
         public ObservableCollection<PostViewModel> Posts { get; }
         public ThreadLink Link { get; set; }
 
@@ -57,6 +59,10 @@ namespace Win2ch.ViewModels {
             var postScroll = view as ICanScrollToItem<PostViewModel>;
             if (postScroll != null)
                 PostScroll = postScroll;
+
+            var replyDisplay = view as IReplyDisplay;
+            if (replyDisplay != null)
+                ReplyDisplay = replyDisplay;
         }
 
         protected override async void OnActivate(object parameter = null) {
@@ -157,12 +163,19 @@ namespace Win2ch.ViewModels {
                 ShowPostPosition = true,
             };
 
-            postViewModel.RepliesDisplayRequested += PostViewModelOnRepliesDisplayRequested;
-            postViewModel.PostDisplayRequested += PostViewModelOnPostDisplayRequested;
+            postViewModel.RepliesDisplayingRequested += PostViewModelOnRepliesDisplayingRequested;
+            postViewModel.PostDisplayingRequested += PostViewModelOnPostDisplayingRequested;
+            postViewModel.ReplyDisplayingRequested += PostViewModelOnReplyDisplayingRequested;
             return postViewModel;
         }
 
-        private void PostViewModelOnRepliesDisplayRequested(object sender, EventArgs eventArgs) {
+        public void SetupEventsForPost(PostViewModel post) {
+            post.RepliesDisplayingRequested += PostViewModelOnRepliesDisplayingRequested;
+            post.PostDisplayingRequested += PostViewModelOnPostDisplayingRequested;
+            post.ReplyDisplayingRequested += PostViewModelOnReplyDisplayingRequested;
+        }
+
+        private void PostViewModelOnRepliesDisplayingRequested(object sender, EventArgs eventArgs) {
             var post = (PostViewModel) sender;
             var viewModel = new PostsViewModel(Shell, Board, Link.BoardId, Posts.ToList().AsReadOnly(), post.Replies);
             viewModel.Close += (s, e) => Shell.HidePopup();
@@ -171,12 +184,16 @@ namespace Win2ch.ViewModels {
             Shell.ShowPopup(viewModel);
         }
 
-        private void PostViewModelOnPostDisplayRequested(object sender, PostDisplayRequestedEventArgs e) {
+        private void PostViewModelOnPostDisplayingRequested(object sender, PostDisplayingRequestedEventArgs e) {
             var viewModel = new PostsViewModel(Shell, Board, e.Link.BoardId, Posts.ToList().AsReadOnly(), e.Link.PostNumber);
             viewModel.Close += (s, _) => Shell.HidePopup();
             viewModel.NavigateToPost += PostsViewModelOnNavigateToPost;
             viewModel.NavigateToThread += PostsViewModelOnNavigateToThread;
             Shell.ShowPopup(viewModel);
+        }
+
+        private void PostViewModelOnReplyDisplayingRequested(object sender, ReplyDisplayingEventArgs replyDisplayingEventArgs) {
+            ReplyDisplay?.DisplayReply(replyDisplayingEventArgs);
         }
 
         private void PostsViewModelOnNavigateToThread(object sender, NavigateToThreadEventArgs e) {

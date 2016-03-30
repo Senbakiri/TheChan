@@ -62,6 +62,7 @@ namespace Win2ch.ViewModels {
         }
         
         private void ActivateItem(Tab item, object parameter) {
+            HidePopup();
             if (ActiveItem != item && item != null) {
                 (item as IActivateWithParameter).Activate(parameter);
                 OnActivationProcessed(item, true);

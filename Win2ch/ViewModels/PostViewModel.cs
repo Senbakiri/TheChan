@@ -6,6 +6,7 @@ using Core.Common;
 using Core.Common.Links;
 using Core.Models;
 using Win2ch.Common;
+using Win2ch.Views;
 
 namespace Win2ch.ViewModels { 
     public class PostViewModel : PropertyChangedBase {
@@ -93,22 +94,27 @@ namespace Win2ch.ViewModels {
             }
         }
 
-        public event EventHandler RepliesDisplayRequested;
-        public event EventHandler<PostDisplayRequestedEventArgs> PostDisplayRequested;
+        public event EventHandler RepliesDisplayingRequested;
+        public event EventHandler<PostDisplayingRequestedEventArgs> PostDisplayingRequested;
+        public event EventHandler<ReplyDisplayingEventArgs> ReplyDisplayingRequested;
 
         public ObservableCollection<PostViewModel> Replies { get; } = new ObservableCollection<PostViewModel>();
 
         public void DisplayReplies() {
-            RepliesDisplayRequested?.Invoke(this, EventArgs.Empty);
+            RepliesDisplayingRequested?.Invoke(this, EventArgs.Empty);
         }
 
         public void DisplayPost(PostLink link) {
-            PostDisplayRequested?.Invoke(this, new PostDisplayRequestedEventArgs(link));
+            PostDisplayingRequested?.Invoke(this, new PostDisplayingRequestedEventArgs(link));
+        }
+
+        public void RequestReplyDisplaying(ReplyDisplayingEventArgs replyDisplayingEventArgs) {
+            ReplyDisplayingRequested?.Invoke(this, replyDisplayingEventArgs);
         }
     }
 
-    public class PostDisplayRequestedEventArgs : EventArgs {
-        public PostDisplayRequestedEventArgs(PostLink link) {
+    public class PostDisplayingRequestedEventArgs : EventArgs {
+        public PostDisplayingRequestedEventArgs(PostLink link) {
             Link = link;
         }
 

@@ -89,8 +89,8 @@ namespace Win2ch.ViewModels {
             };
 
             postViewModel.Replies.AddRange(old.Replies);
-            postViewModel.RepliesDisplayRequested += PostViewModelOnRepliesDisplayRequested;
-            postViewModel.PostDisplayRequested += PostViewModelOnPostDisplayRequested;
+            postViewModel.RepliesDisplayingRequested += PostViewModelOnRepliesDisplayingRequested;
+            postViewModel.PostDisplayingRequested += PostViewModelOnPostDisplayingRequested;
             return postViewModel;
         }
 
@@ -128,11 +128,11 @@ namespace Win2ch.ViewModels {
                 IsTextSelectionEnabled = true,
             };
 
-            viewModel.PostDisplayRequested += PostViewModelOnPostDisplayRequested;
+            viewModel.PostDisplayingRequested += PostViewModelOnPostDisplayingRequested;
             return viewModel;
         }
 
-        private void PostViewModelOnRepliesDisplayRequested(object sender, EventArgs eventArgs) {
+        private void PostViewModelOnRepliesDisplayingRequested(object sender, EventArgs eventArgs) {
             var viewModel = new PostsViewModel(Shell, Board, BoardId, ThreadPosts, ((PostViewModel) sender).Replies);
             viewModel.Close += (s, e) => PopupContent = null;
             viewModel.NavigateToPost += NavigateToPost;
@@ -140,7 +140,7 @@ namespace Win2ch.ViewModels {
             PopupContent = viewModel;
         }
 
-        private void PostViewModelOnPostDisplayRequested(object sender, PostDisplayRequestedEventArgs e) {
+        private void PostViewModelOnPostDisplayingRequested(object sender, PostDisplayingRequestedEventArgs e) {
             var viewModel = new PostsViewModel(Shell, Board, e.Link.BoardId, ThreadPosts, e.Link.PostNumber);
             viewModel.Close += (s, _) => PopupContent = null;
             viewModel.NavigateToPost += NavigateToPost;

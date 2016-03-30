@@ -1,4 +1,4 @@
-﻿<Page
+﻿<UserControl
     x:Class="Win2ch.Views.PostsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -104,4 +104,4 @@
             </ContentControl.ContentTransitions>
         </ContentControl>
     </Grid>
-</Page>
+</UserControl>

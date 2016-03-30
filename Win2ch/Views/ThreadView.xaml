@@ -421,7 +421,15 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
+        <Style x:Key="PostPopupStyle" TargetType="local:PostView">
+            <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="MinHeight" Value="100"/>
+            <Setter Property="MinWidth" Value="200"/>
+            <Setter Property="ManipulationMode" Value="TranslateX, TranslateInertia"/>
+        </Style>
     </Page.Resources>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -523,5 +531,9 @@
                               Click="{x:Bind ViewModel.CopyLink}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
+        <Canvas x:Name="RepliesCanvas"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                Canvas.ZIndex="10"/>
     </Grid>
 </Page>
