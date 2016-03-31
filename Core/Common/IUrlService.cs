@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Core.Common.Links;
 
 namespace Core.Common {
@@ -7,6 +8,8 @@ namespace Core.Common {
     }
 
     public interface IUrlService {
+        IEnumerable<string> AvailableDomains { get; }
+        string CurrentDomain { set; }
         Uri GetBoardsListUrl();
         Uri GetFullUrl(string relativeUrl);
         Uri GetBoardPageUrl(string id, int page = 0);

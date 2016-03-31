@@ -219,7 +219,8 @@
                                            FontSize="13"
                                            VerticalAlignment="Center"
                                            Padding="10 0"
-                                           TextTrimming="CharacterEllipsis"/>
+                                           TextTrimming="CharacterEllipsis"
+                                           MaxLines="1"/>
                                 <ProgressRing Grid.Column="2"
                                               IsActive="{x:Bind IsLoading, Mode=OneWay}"
                                               Visibility="{x:Bind IsLoading, Mode=OneWay, Converter={StaticResource TrueToVisible}}"

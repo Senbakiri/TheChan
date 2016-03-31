@@ -4,10 +4,12 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
+using Caliburn.Micro;
 using Core.Common;
 using Core.Common.Links;
 using HtmlAgilityPack;
 using Microsoft.Xaml.Interactivity;
+using Ninject;
 using Win2ch.Common;
 using Win2ch.Common.Html;
 using Win2ch.Extensions;
@@ -48,23 +50,10 @@ namespace Win2ch.Behaviors {
             get { return (Brush) GetValue(ReplyForegroundProperty); }
             set { SetValue(ReplyForegroundProperty, value); }
         }
-
-        public static readonly DependencyProperty UrlServiceProperty = DependencyProperty.Register("UrlService",
-            typeof (IUrlService), typeof (HtmlBehavior),
-            new PropertyMetadata(default(IUrlService), PropertyChangedCallback));
-
-        public IUrlService UrlService {
-            get { return (IUrlService) GetValue(UrlServiceProperty); }
-            set { SetValue(UrlServiceProperty, value); }
-        }
-
-        public static readonly DependencyProperty ShellProperty = DependencyProperty.Register(
-            "Shell", typeof (IShell), typeof (HtmlBehavior), new PropertyMetadata(default(IShell), PropertyChangedCallback));
-
-        public IShell Shell {
-            get { return (IShell) GetValue(ShellProperty); }
-            set { SetValue(ShellProperty, value); }
-        }
+        
+        private IUrlService UrlService { get; set; }
+        
+        private IShell Shell { get; set; }
 
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e) {
             ((HtmlBehavior)dependencyObject).RenderHtml();
@@ -73,6 +62,8 @@ namespace Win2ch.Behaviors {
         private readonly HtmlConverter converter = new HtmlConverter();
 
         public HtmlBehavior() {
+            Shell = IoC.Get<IShell>();
+            UrlService = IoC.Get<IUrlService>();
             this.converter.Selector = Selector<HtmlNode, InlineWrapper>.Begin()
                 .AddMatch(CreateNodeNameCondition("strong"),
                     (node, b) => b.Style(i => i.FontWeight = FontWeights.SemiBold))

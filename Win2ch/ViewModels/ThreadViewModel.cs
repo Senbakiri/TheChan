@@ -9,6 +9,7 @@ using Core.Common;
 using Core.Common.Links;
 using Core.Models;
 using Core.Operations;
+using HtmlAgilityPack;
 using Win2ch.Common;
 using Win2ch.Extensions;
 using Win2ch.Views;
@@ -96,7 +97,10 @@ namespace Win2ch.ViewModels {
 
         private static string GetDisplayName(Thread thread) {
             Post first = thread.Posts.First();
-            return string.IsNullOrWhiteSpace(first.Subject) ? first.Text : first.Subject;
+            string text = string.IsNullOrWhiteSpace(first.Subject) ? first.Text : first.Subject;
+            var document = new HtmlDocument();
+            document.LoadHtml(text.Replace("<br>", "\n"));
+            return document.DocumentNode.InnerText.Split('\n')[0];
         }
 
         public async void RefreshThread() {

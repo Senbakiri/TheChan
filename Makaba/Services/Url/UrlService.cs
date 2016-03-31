@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Core.Common;
@@ -7,14 +8,33 @@ using HtmlAgilityPack;
 
 namespace Makaba.Services.Url {
     public class UrlService : IUrlService {
-        private static readonly string[] Domains = new[]
-        {"2ch.hk", "2ch.pm", "2ch.re", "2ch.tf", "2ch.wf", "2ch.yt", "2-ch.so"}; 
-        private const string BaseUrl = "https://2ch.hk";
-        private static Uri BaseUri { get; } = new Uri(BaseUrl);
-        private const string BoardsListUrl = "/makaba/mobile.fcgi?task=get_boards";
+        private string currentDomain;
+        private static string BaseUrl { get; set; }
+        private static Uri BaseUri { get; set; } = new Uri(BaseUrl);
+
+        public UrlService() {
+            AvailableDomains = new[] {
+                "2ch.hk", "2ch.pm", "2ch.re", "2ch.tf", "2ch.wf", "2ch.yt", "2-ch.so"
+            };
+
+            CurrentDomain = AvailableDomains.First();
+        }
+
+        public IEnumerable<string> AvailableDomains { get; }
+
+        public string CurrentDomain {
+            get { return this.currentDomain; }
+            set {
+                if (!AvailableDomains.Contains(value))
+                    throw new ArgumentException();
+                this.currentDomain = value;
+                BaseUrl = $"https://{value}";
+                BaseUri = new Uri(BaseUrl);
+            }
+        }
 
         public Uri GetBoardsListUrl() {
-            return new Uri(BaseUrl + BoardsListUrl);
+            return new Uri(BaseUri, "/makaba/mobile.fcgi?task=get_boards");
         }
 
         public Uri GetFullUrl(string relativeUrl) {
@@ -53,7 +73,7 @@ namespace Makaba.Services.Url {
             else
                 return LinkType.None;
 
-            if (!Domains.Contains(uri.Host))
+            if (!AvailableDomains.Contains(uri.Host))
                 return LinkType.Unknown;
 
             switch (uri.Segments.Length) {
