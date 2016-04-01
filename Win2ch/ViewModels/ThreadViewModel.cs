@@ -167,9 +167,7 @@ namespace Win2ch.ViewModels {
                 ShowPostPosition = true,
             };
 
-            postViewModel.RepliesDisplayingRequested += PostViewModelOnRepliesDisplayingRequested;
-            postViewModel.PostDisplayingRequested += PostViewModelOnPostDisplayingRequested;
-            postViewModel.ReplyDisplayingRequested += PostViewModelOnReplyDisplayingRequested;
+            SetupEventsForPost(postViewModel);
             return postViewModel;
         }
 
