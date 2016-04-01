@@ -12,6 +12,7 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:common="using:Win2ch.Common"
     xmlns:models="using:Core.Models"
+    xmlns:ff="using:FFImageLoading"
     xmlns:micro="using:Caliburn.Micro"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance viewModels:PostViewModel}"
@@ -55,10 +56,13 @@
                     <UserControl>
                         <StackPanel Margin="0 5 5 0"
                                     Width="150">
-                            <Image Height="100"
-                                   Stretch="Uniform"
-                                   Source="{x:Bind ThumbnailUri.AbsoluteUri}"
-                                   HorizontalAlignment="Center"/>
+                            <ff:FFImage Height="100"
+                                        Stretch="Uniform"
+                                        Source="{x:Bind ThumbnailUri.AbsoluteUri}"
+                                        HorizontalAlignment="Center"
+                                        DownsampleToViewSize="True"
+                                        DownsampleMode="Default"
+                                        CacheDuration="30"/>
                             <TextBlock FontSize="10"
                                        x:Name="Info"
                                        HorizontalAlignment="Center"
