@@ -9,8 +9,8 @@ using HtmlAgilityPack;
 namespace Makaba.Services.Url {
     public class UrlService : IUrlService {
         private string currentDomain;
-        private static string BaseUrl { get; set; }
-        private static Uri BaseUri { get; set; } = new Uri(BaseUrl);
+        private string BaseUrl { get; set; }
+        private Uri BaseUri { get; set; }
 
         public UrlService() {
             AvailableDomains = new[] {
