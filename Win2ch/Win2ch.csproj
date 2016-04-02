@@ -98,10 +98,12 @@
     </Compile>
     <Compile Include="Behaviors\HighlightBehavior.cs" />
     <Compile Include="Behaviors\HtmlBehavior.cs" />
+    <Compile Include="Common\AttachmentViewer.cs" />
     <Compile Include="Common\DeviceUtils.cs" />
     <Compile Include="Common\Html\HtmlConverter.cs" />
     <Compile Include="Common\Html\InlineWrapper.cs" />
     <Compile Include="Common\Html\Selector.cs" />
+    <Compile Include="Common\IAttachmentViewer.cs" />
     <Compile Include="Common\ICanScrollToItem.cs" />
     <Compile Include="Common\IReplyDisplay.cs" />
     <Compile Include="Common\LoadingInfo.cs" />
