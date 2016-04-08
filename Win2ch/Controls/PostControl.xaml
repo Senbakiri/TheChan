@@ -93,7 +93,8 @@
             </GridView.ItemContainerStyle>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="models:Attachment">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal"
+                                Width="150">
                         <Image Source="{x:Bind ThumbnailUrl}"
                                Height="100"
                                MaxWidth="400"
