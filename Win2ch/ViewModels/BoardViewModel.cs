@@ -46,7 +46,8 @@ namespace Win2ch.ViewModels {
                     return;
                 this.currentPageNumber = value;
                 NotifyOfPropertyChange();
-                ChangePage();
+                if (value != CurrentPage.Number)
+                    ChangePage();
             }
         }
 
@@ -90,8 +91,8 @@ namespace Win2ch.ViewModels {
             BoardPage page = await LoadBoardOperation.ExecuteAsync();
             if (Pages.Count == 0)
                 Pages.AddRange(page.Pages);
-            CurrentPageNumber = page.Number;
             CurrentPage = page;
+            CurrentPageNumber = page.Number;
             DisplayName = CurrentPage.BoardName;
             FillThreads();
             Shell.LoadingInfo.Success(GetLocalizationString("Success"));
