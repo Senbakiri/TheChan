@@ -185,9 +185,7 @@
                             <Setter Property="HorizontalContentAlignment" Value="Left" />
                             <Setter Property="VerticalContentAlignment" Value="Stretch" />
                             <Setter Property="UseSystemFocusVisuals" Value="True" />
-                            <Setter Property="MinHeight" Value="0"/>
                             <Setter Property="Margin" Value="0"/>
-                            <Setter Property="Height" Value="{StaticResource TabHeightAndWidth}"/>
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListViewHeaderItem">
@@ -204,10 +202,9 @@
                     <GroupStyle.HeaderTemplate>
                         <DataTemplate>
                             <Grid Padding="12 0">
-                                <TextBlock Text="{Binding Name, Converter={StaticResource ToUpper}}"
+                                <TextBlock Text="{Binding Name}"
                                            Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                                           FontSize="16"
-                                           FontWeight="SemiBold"
+                                           Style="{StaticResource TitleTextBlockStyle}"
                                            VerticalAlignment="Center"/>
                             </Grid>
                         </DataTemplate>
@@ -218,8 +215,7 @@
                 <DataTemplate x:DataType="models:BriefBoardInfo">
                     <StackPanel>
                         <TextBlock Text="{x:Bind Id}"
-                                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                                   FontWeight="SemiBold"/>
+                                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
                         <TextBlock Text="{x:Bind Name}"/>
                     </StackPanel>
                 </DataTemplate>
