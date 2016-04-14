@@ -19,15 +19,17 @@ namespace Win2ch.ViewModels {
         private bool isHighlighting;
         private int highlightingStart;
 
-        public ThreadViewModel(IBoard board, IShell shell) {
+        public ThreadViewModel(IBoard board, IShell shell, IAttachmentViewer attachmentViewer) {
             Board = board;
             Shell = shell;
+            AttachmentViewer = attachmentViewer;
             Operation = Board.Operations.LoadThread();
             Posts = new ObservableCollection<PostViewModel>();
         }
 
         private IShell Shell { get; }
         private IBoard Board { get; }
+        private IAttachmentViewer AttachmentViewer { get; }
         private ILoadThreadOperation Operation { get; }
         private ICanScrollToItem<PostViewModel> PostScroll { get; set; } 
         private IReplyDisplay ReplyDisplay { get; set; }
@@ -175,6 +177,11 @@ namespace Win2ch.ViewModels {
             post.RepliesDisplayingRequested += PostViewModelOnRepliesDisplayingRequested;
             post.PostDisplayingRequested += PostViewModelOnPostDisplayingRequested;
             post.ReplyDisplayingRequested += PostViewModelOnReplyDisplayingRequested;
+            post.AttachmentOpeningRequested += PostOnAttachmentOpeningRequested;
+        }
+
+        private void PostOnAttachmentOpeningRequested(object sender, AttachmentOpeningRequestedEventArgs e) {
+            AttachmentViewer.View(e.Attachment, Posts.SelectMany(vm => vm.Post.Attachments));
         }
 
         private void PostViewModelOnRepliesDisplayingRequested(object sender, EventArgs eventArgs) {

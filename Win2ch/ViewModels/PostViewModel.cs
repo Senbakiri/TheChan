@@ -97,6 +97,7 @@ namespace Win2ch.ViewModels {
         public event EventHandler RepliesDisplayingRequested;
         public event EventHandler<PostDisplayingRequestedEventArgs> PostDisplayingRequested;
         public event EventHandler<ReplyDisplayingEventArgs> ReplyDisplayingRequested;
+        public event EventHandler<AttachmentOpeningRequestedEventArgs> AttachmentOpeningRequested; 
 
         public ObservableCollection<PostViewModel> Replies { get; } = new ObservableCollection<PostViewModel>();
 
@@ -111,6 +112,10 @@ namespace Win2ch.ViewModels {
         public void RequestReplyDisplaying(ReplyDisplayingEventArgs replyDisplayingEventArgs) {
             ReplyDisplayingRequested?.Invoke(this, replyDisplayingEventArgs);
         }
+
+        public void OpenAttachment(Attachment attachment) {
+            AttachmentOpeningRequested?.Invoke(this, new AttachmentOpeningRequestedEventArgs(attachment));
+        }
     }
 
     public class PostDisplayingRequestedEventArgs : EventArgs {
@@ -119,5 +124,13 @@ namespace Win2ch.ViewModels {
         }
 
         public PostLink Link { get; }
+    }
+
+    public class AttachmentOpeningRequestedEventArgs : EventArgs {
+        public AttachmentOpeningRequestedEventArgs(Attachment attachment) {
+            Attachment = attachment;
+        }
+
+        public Attachment Attachment { get; }
     }
 }

@@ -26,6 +26,7 @@ namespace Win2ch
             this.kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
             this.kernel.Bind<IBoard>().To<MakabaBoard>().InSingletonScope();
             this.kernel.Bind<IToastService>().To<ToastService>().InSingletonScope();
+            this.kernel.Bind<IAttachmentViewer>().To<AttachmentViewer>();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args) {

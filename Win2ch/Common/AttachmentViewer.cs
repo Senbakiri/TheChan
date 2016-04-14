@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Models;
+using Win2ch.ViewModels;
 
 namespace Win2ch.Common {
     public class AttachmentViewer : IAttachmentViewer {
@@ -23,7 +24,7 @@ namespace Win2ch.Common {
         }
 
         private void OpenImage() {
-            throw new NotImplementedException();
+            Shell.ShowPopup(new ImagesViewModel(CurrentAttachment, AllAttachments));
         }
     }
 }

@@ -38,8 +38,22 @@
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:BoardThreadViewModel">
-                    <ContentControl micro:View.Model="{x:Bind}"
-                                    HorizontalContentAlignment="Stretch"/>
+                    <StackPanel Background="{ThemeResource BoardThreadBackgroundBrush}"
+                                HorizontalAlignment="Stretch"
+                                Margin="10 0 10 10"
+                                Padding="10">
+                        <ContentControl HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Stretch"
+                                        micro:View.Model="{x:Bind PostViewModel}"/>
+                        <TextBlock Margin="0 5 0 0"
+                                   FontWeight="SemiBold">
+                            <Run x:Uid="Board/SkippedPosts"/>: <Run Text="{x:Bind ThreadInfo.SkippedPosts}"/>
+                        </TextBlock>
+                        <TextBlock Margin="0 5 0 0"
+                                   FontWeight="SemiBold">
+                            <Run x:Uid="Board/SkippedPostsWithFiles"/>: <Run Text="{x:Bind ThreadInfo.SkippedPostsWithFiles}"/>
+                        </TextBlock>
+                    </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
 

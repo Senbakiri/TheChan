@@ -7,7 +7,7 @@ using Win2ch.Common;
 namespace Win2ch.ViewModels {
     public class BoardThreadViewModel {
         public BoardThreadViewModel(BoardThread thread) {
-            Post = new PostViewModel {
+            PostViewModel = new PostViewModel {
                 Post = thread.Post,
                 ShowReplies = false,
                 ShowPostPosition = false,
@@ -16,7 +16,7 @@ namespace Win2ch.ViewModels {
             ThreadInfo = thread;
         }
 
-        public PostViewModel Post { get; }
+        public PostViewModel PostViewModel { get; }
 
         public BoardThread ThreadInfo { get; }
     }

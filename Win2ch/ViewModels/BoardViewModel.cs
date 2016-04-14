@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Caliburn.Micro;
@@ -15,9 +16,10 @@ namespace Win2ch.ViewModels {
         private BoardPage currentPage;
         private int currentPageNumber = -1;
 
-        public BoardViewModel(IShell shell, IBoard board) {
+        public BoardViewModel(IShell shell, IBoard board, IAttachmentViewer attachmentViewer) {
             Shell = shell;
             Board = board;
+            AttachmentViewer = attachmentViewer;
             Threads = new ObservableCollection<BoardThreadViewModel>();
             LoadBoardOperation = board.Operations.LoadBoard();
             Pages = new BindableCollection<int>();
@@ -25,6 +27,7 @@ namespace Win2ch.ViewModels {
 
         private IShell Shell { get; }
         private IBoard Board { get; }
+        private IAttachmentViewer AttachmentViewer { get; }
         private ILoadBoardOperation LoadBoardOperation { get; }
         public ObservableCollection<BoardThreadViewModel> Threads { get; }
         public BindableCollection<int> Pages { get; } 
@@ -100,8 +103,14 @@ namespace Win2ch.ViewModels {
 
         private void FillThreads() {
             foreach (BoardThread thread in CurrentPage.Threads) {
-                Threads.Add(new BoardThreadViewModel(thread));
+                var viewModel = new BoardThreadViewModel(thread);
+                viewModel.PostViewModel.AttachmentOpeningRequested += PostOnAttachmentOpeningRequested;
+                Threads.Add(viewModel);
             }
+        }
+
+        private void PostOnAttachmentOpeningRequested(object sender, AttachmentOpeningRequestedEventArgs e) {
+            AttachmentViewer.View(e.Attachment, Threads.SelectMany(t => t.PostViewModel.Post.Attachments));
         }
 
         public void NavigateToThread(ItemClickEventArgs args) {

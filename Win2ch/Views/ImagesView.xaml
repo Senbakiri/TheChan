@@ -1,0 +1,30 @@
+﻿<Page
+    x:Class="Win2ch.Views.ImagesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Win2ch.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Core.Models"
+    xmlns:ffImageLoading="using:FFImageLoading"
+    mc:Ignorable="d"
+    SizeChanged="OnSizeChanged">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <FlipView ItemsSource="{x:Bind ViewModel.Attachments}"
+                  SelectedIndex="{x:Bind ViewModel.CurrentAttachmentIndex}"
+                  Background="Transparent"
+                  x:Name="FlipView"
+                  SelectionChanged="FlipView_OnSelectionChanged">
+            <FlipView.ItemTemplate>
+                <DataTemplate x:DataType="models:Attachment">
+                    <ScrollViewer ZoomMode="Enabled"
+                                  VerticalScrollBarVisibility="Auto">
+                        <ffImageLoading:FFImage Source="{x:Bind Uri.AbsoluteUri}"
+                                                Stretch="Uniform"/>
+                    </ScrollViewer>
+                </DataTemplate>
+            </FlipView.ItemTemplate>
+        </FlipView>
+    </Grid>
+</Page>

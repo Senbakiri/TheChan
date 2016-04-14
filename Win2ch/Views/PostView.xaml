@@ -55,7 +55,8 @@
                 <DataTemplate x:DataType="models:Attachment">
                     <UserControl>
                         <StackPanel Margin="0 5 5 0"
-                                    Width="150">
+                                    Width="150"
+                                    micro:Message.Attach="[Event Tapped] = [Action OpenAttachment($dataContext)]">
                             <ff:FFImage Height="100"
                                         Stretch="Uniform"
                                         Source="{x:Bind ThumbnailUri.AbsoluteUri}"
