@@ -24,7 +24,7 @@ namespace Win2ch.ViewModels {
 
         public int CurrentAttachmentIndex {
             get { return this.currentAttachmentIndex; }
-            private set {
+            set {
                 if (value == this.currentAttachmentIndex)
                     return;
                 this.currentAttachmentIndex = value;

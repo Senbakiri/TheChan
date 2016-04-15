@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Media;
 using Caliburn.Micro;
 using Win2ch.Common;
 using Win2ch.ViewModels;
+using Windows.System;
 
 namespace Win2ch.Views {
     public sealed partial class ThreadView : ICanScrollToItem<PostViewModel>, IReplyDisplay {
@@ -104,7 +105,7 @@ namespace Win2ch.Views {
             if (post.Equals(this.lastReply))
                 return;
 
-            var view = (FrameworkElement) ViewLocator.LocateForModel(post, null, null);
+            var view = (FrameworkElement)ViewLocator.LocateForModel(post, null, null);
             view.Style = style;
             ViewModelBinder.Bind(post, view, null);
 
@@ -211,6 +212,20 @@ namespace Win2ch.Views {
         private void StartTimer() {
             if (this.isMouseConnected)
                 this.closeRepliesTimer.Start();
+        }
+
+        private void ThreadView_OnKeyDown(object sender, KeyRoutedEventArgs e) {
+            switch (e.Key) {
+                case VirtualKey.F5:
+                    ViewModel.RefreshThread();
+                    break;
+                case VirtualKey.Home:
+                    Up();
+                    break;
+                case VirtualKey.End:
+                    Down();
+                    break;
+            }
         }
     }
 }

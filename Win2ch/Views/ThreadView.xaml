@@ -12,7 +12,8 @@
     xmlns:behaviors="using:Win2ch.Behaviors"
     mc:Ignorable="d"
     Loaded="ThreadView_OnLoaded"
-    x:Name="This">
+    x:Name="This"
+    KeyDown="ThreadView_OnKeyDown">
 
     <Page.Resources>
         <Style TargetType="controls:SwipeListViewItem">
@@ -510,13 +511,15 @@
                     CommandBarOverflowPresenterStyle="{StaticResource OverflowPresenterStyle}"
                     Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
             <AppBarButton x:Uid="Thread/Up"
-                          Click="{x:Bind Up}">
+                          Click="{x:Bind Up}"
+                          ToolTipService.ToolTip="Home">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE74A;"/>
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton x:Uid="Thread/Down"
-                          Click="{x:Bind Down}">
+                          Click="{x:Bind Down}"
+                          ToolTipService.ToolTip="End">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE74B;"/>
                 </AppBarButton.Icon>
@@ -524,7 +527,8 @@
             <AppBarButton Icon="Refresh"
                           x:Uid="Thread/Refresh"
                           micro:Message.Attach="RefreshThread()"
-                          IsEnabled="{x:Bind ViewModel.IsLoading, Converter={StaticResource Inverse}, Mode=OneWay}"/>
+                          IsEnabled="{x:Bind ViewModel.IsLoading, Converter={StaticResource Inverse}, Mode=OneWay}"
+                          ToolTipService.ToolTip="F5"/>
             
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="Thread/CopyLink"

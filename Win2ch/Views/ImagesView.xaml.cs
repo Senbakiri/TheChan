@@ -1,20 +1,33 @@
 ﻿using System;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Core.Models;
 using FFImageLoading.Args;
+using Win2ch.Common;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Views {
     public sealed partial class ImagesView {
+        private bool isInfoPanelVisible;
+
         public ImagesView() {
             InitializeComponent();
             DataContextChanged += (s, e) => ViewModel = DataContext as ImagesViewModel;
+            ShowCloseButton = DeviceUtils.GetDeviceFamily() == DeviceFamily.Desktop;
         }
 
         public ImagesViewModel ViewModel { get; private set; }
+        private bool ShowCloseButton { get; }
+
+        public bool IsInfoPanelVisible {
+            get { return this.isInfoPanelVisible; }
+            private set {
+                this.isInfoPanelVisible = value;
+                VisualStateManager.GoToState(this, value ? "Visible" : "Hidden", true);
+            }
+        }
 
         private T FindFirstElementInVisualTree<T>(DependencyObject parentElement) where T : DependencyObject {
             if (parentElement == null) return null;
@@ -121,6 +134,19 @@ namespace Win2ch.Views {
 
         private void Image_OnError(object sender, ErrorEventArgs e) {
             // TODO: Implement error message
+        }
+
+        private void ImagesView_OnKeyUp(object sender, KeyRoutedEventArgs e) {
+            if (e.Key == VirtualKey.Escape)
+                ViewModel.RequestClosing();
+        }
+
+        private void ImagesView_OnTapped(object sender, TappedRoutedEventArgs e) {
+            IsInfoPanelVisible = !IsInfoPanelVisible;
+        }
+
+        private async void OpenInBrowser_OnClick(object sender, RoutedEventArgs e) {
+            await Launcher.LaunchUriAsync(ViewModel.CurrentAttachment.Uri);
         }
     }
 
