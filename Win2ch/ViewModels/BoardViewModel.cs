@@ -103,15 +103,10 @@ namespace Win2ch.ViewModels {
 
         private void FillThreads() {
             foreach (BoardThread thread in CurrentPage.Threads) {
-                var viewModel = new BoardThreadViewModel(thread);
-                viewModel.PostViewModel.AttachmentOpeningRequested += PostOnAttachmentOpeningRequested;
-                Threads.Add(viewModel);
+                Threads.Add(new BoardThreadViewModel(thread));
             }
         }
-
-        private void PostOnAttachmentOpeningRequested(object sender, AttachmentOpeningRequestedEventArgs e) {
-            AttachmentViewer.View(e.Attachment, Threads.SelectMany(t => t.PostViewModel.Post.Attachments));
-        }
+        
 
         public void NavigateToThread(ItemClickEventArgs args) {
             var boardThread = (BoardThreadViewModel) args.ClickedItem;

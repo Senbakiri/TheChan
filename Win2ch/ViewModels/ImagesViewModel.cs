@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Caliburn.Micro;
 using Core.Models;
@@ -8,6 +9,7 @@ namespace Win2ch.ViewModels {
         private Attachment currentAttachment;
         private int currentAttachmentIndex = -1;
         public ObservableCollection<Attachment> Attachments { get; }
+        public event EventHandler<ImagesViewClosingRequestedEventArgs> ClosingRequested;
 
         public Attachment CurrentAttachment {
             get { return this.currentAttachment; }
@@ -35,5 +37,18 @@ namespace Win2ch.ViewModels {
             Attachments = new ObservableCollection<Attachment>(allAttachments);
             CurrentAttachment = currentAttachment;
         }
+
+
+        public void RequestClosing() {
+            ClosingRequested?.Invoke(this, new ImagesViewClosingRequestedEventArgs(CurrentAttachment));
+        }
+    }
+
+    public class ImagesViewClosingRequestedEventArgs : EventArgs {
+        public ImagesViewClosingRequestedEventArgs(Attachment lastAttachment) {
+            LastAttachment = lastAttachment;
+        }
+
+        public Attachment LastAttachment { get; }
     }
 }

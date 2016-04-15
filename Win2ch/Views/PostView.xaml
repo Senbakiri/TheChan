@@ -16,7 +16,9 @@
     xmlns:micro="using:Caliburn.Micro"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance viewModels:PostViewModel}"
-    x:Name="This">
+    x:Name="This"
+    d:DesignWidth="600"
+    d:DesignHeight="150">
     <StackPanel Padding="{x:Bind Padding, Mode=OneWay}"
                 Background="{x:Bind Background, Mode=OneWay}"
                 BorderThickness="{x:Bind BorderThickness, Mode=OneWay}"

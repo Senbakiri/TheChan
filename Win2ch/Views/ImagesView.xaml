@@ -10,7 +10,9 @@
     mc:Ignorable="d"
     SizeChanged="OnSizeChanged">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+              x:Name="Underlay"/>
         <FlipView ItemsSource="{x:Bind ViewModel.Attachments}"
                   SelectedIndex="{x:Bind ViewModel.CurrentAttachmentIndex}"
                   Background="Transparent"
@@ -19,9 +21,17 @@
             <FlipView.ItemTemplate>
                 <DataTemplate x:DataType="models:Attachment">
                     <ScrollViewer ZoomMode="Enabled"
-                                  VerticalScrollBarVisibility="Auto">
+                                  VerticalScrollMode="Enabled"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Auto"
+                                  ViewChanged="ScrollViewer_OnViewChanged">
                         <ffImageLoading:FFImage Source="{x:Bind Uri.AbsoluteUri}"
-                                                Stretch="Uniform"/>
+                                                x:Name="Image"
+                                                Stretch="Uniform"
+                                                ManipulationMode="System, TranslateY, TranslateInertia"
+                                                ManipulationDelta="Image_OnManipulationDelta"
+                                                ManipulationCompleted="Image_OnManipulationCompleted"
+                                                Error="Image_OnError"/>
                     </ScrollViewer>
                 </DataTemplate>
             </FlipView.ItemTemplate>

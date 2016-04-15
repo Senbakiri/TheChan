@@ -1,6 +1,10 @@
-﻿using Windows.UI.Xaml;
+﻿using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Core.Models;
+using FFImageLoading.Args;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Views {
@@ -65,7 +69,59 @@ namespace Win2ch.Views {
             imageItem.MaxHeight = ActualHeight;
             imageItem.MaxWidth = ActualWidth;
             scrollViewItem.ChangeView(0, 0, 1.0f, true);
-            
+
+        }
+
+        private void ScrollViewer_OnViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
+            var scrollViewer = (ScrollViewer)sender;
+            var item = (FrameworkElement)scrollViewer.Content;
+            if (item == null)
+                return;
+
+            if (scrollViewer.ZoomFactor > 1) {
+                item.ManipulationMode = ManipulationModes.System;
+            } else {
+                item.ManipulationMode = ManipulationModes.System |
+                                        ManipulationModes.TranslateY |
+                                        ManipulationModes.TranslateInertia;
+            }
+        }
+
+        private void Image_OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e) {
+            var elem = (FrameworkElement)sender;
+            double total = e.Cumulative.Translation.Y;
+            var translate = elem.RenderTransform as TranslateTransform;
+            if (translate == null)
+                elem.RenderTransform = translate = new TranslateTransform();
+
+            if (e.IsInertial && Math.Abs(total) > 500) {
+                e.Complete();
+                return;
+            }
+
+            translate.Y = e.Cumulative.Translation.Y;
+
+            this.Underlay.Opacity = 1 - Math.Abs(total) / 300;
+        }
+
+        private void Image_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) {
+            var elem = (FrameworkElement)sender;
+
+            var transform = elem.RenderTransform as TranslateTransform;
+            if (transform != null) {
+                transform.X = 0;
+                transform.Y = 0;
+            }
+
+            elem.Opacity = this.Underlay.Opacity = 1;
+            if (Math.Abs(e.Cumulative.Translation.Y) > 150)
+                ViewModel.RequestClosing();
+        }
+
+
+        private void Image_OnError(object sender, ErrorEventArgs e) {
+            // TODO: Implement error message
         }
     }
+
 }

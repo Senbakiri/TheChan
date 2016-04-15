@@ -49,7 +49,7 @@
                         Margin="0 0 2 0"
                         Visibility="{x:Bind ViewModel.CanGoToPost, Mode=OneWay, Converter={StaticResource TrueToVisible}}"
                         Click="{x:Bind ViewModel.GoToPost}"
-                        x:Uid="Posts/GoToPostViewModel">
+                        x:Uid="Posts/GoToPost">
                     </Button>
                     <Button x:Name="GoToThreadButton"
                         Grid.Column="1"

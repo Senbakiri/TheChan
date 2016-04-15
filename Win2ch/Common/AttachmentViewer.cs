@@ -24,7 +24,9 @@ namespace Win2ch.Common {
         }
 
         private void OpenImage() {
-            Shell.ShowPopup(new ImagesViewModel(CurrentAttachment, AllAttachments));
+            var view = new ImagesViewModel(CurrentAttachment, AllAttachments);
+            view.ClosingRequested += (s, e) => Shell.HidePopup();
+            Shell.ShowPopup(view);
         }
     }
 }
