@@ -141,11 +141,23 @@
   <data name="Home.FastNavigation.PlaceholderText" xml:space="preserve">
     <value>Fast navigation</value>
   </data>
+  <data name="Home.Favorites.Label" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="Home.Home.Label" xml:space="preserve">
+    <value>Home</value>
+  </data>
   <data name="Home.Name" xml:space="preserve">
     <value>Home</value>
   </data>
   <data name="Home.ReceivingBoards" xml:space="preserve">
     <value>Loading the boards...</value>
+  </data>
+  <data name="Home.RecentThreads.Label" xml:space="preserve">
+    <value>Recent Threads</value>
+  </data>
+  <data name="Home.Settings.Label" xml:space="preserve">
+    <value>Settings</value>
   </data>
   <data name="Post.Replies.Text" xml:space="preserve">
     <value>Replies:</value>
