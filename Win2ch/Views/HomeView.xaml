@@ -635,7 +635,6 @@
                          TextChanged="FastNavigationTextBox_OnTextChanged"
                          x:Name="FastNavigation"
                          KeyUp="FastNavigationTextBox_OnKeyUp"/>
-
                 <ListView ItemsSource="{Binding Source={StaticResource CategoriesCvs}}"
                           ScrollViewer.IsVerticalScrollChainingEnabled="False"
                           SelectionMode="None"
@@ -646,19 +645,21 @@
                         <GroupStyle HidesIfEmpty="True">
                             <GroupStyle.HeaderContainerStyle>
                                 <Style TargetType="ListViewHeaderItem">
-                                    <Setter Property="Background" Value="Transparent" />
-                                    <Setter Property="HorizontalContentAlignment" Value="Left" />
-                                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                                    <Setter Property="UseSystemFocusVisuals" Value="True" />
-                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+                                    <Setter Property="FontSize" Value="{ThemeResource ListViewHeaderItemThemeFontSize}"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Margin" Value="0,0,0,4"/>
+                                    <Setter Property="Padding" Value="12,8,12,0"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                    <Setter Property="VerticalContentAlignment" Value="Top"/>
+                                    <Setter Property="UseSystemFocusVisuals" Value="True"/>
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ListViewHeaderItem">
-                                                <ContentPresenter x:Name="ContentPresenter"
-                                                                  Content="{TemplateBinding Content}"
-                                                                  ContentTransitions="{TemplateBinding ContentTransitions}"
-                                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                                  VerticalContentAlignment="Stretch"/>
+                                                <StackPanel BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter x:Name="ContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                    <Rectangle HorizontalAlignment="Stretch" Height="1" Margin="12,8,12,0" Stroke="{ThemeResource SystemControlForegroundBaseLowBrush}" StrokeThickness="0.5" VerticalAlignment="Bottom"/>
+                                                </StackPanel>
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
@@ -666,11 +667,11 @@
                             </GroupStyle.HeaderContainerStyle>
                             <GroupStyle.HeaderTemplate>
                                 <DataTemplate>
-                                    <Grid Padding="12 0">
+                                    <Grid>
                                         <TextBlock Text="{Binding Name}"
-                                                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                                                   Style="{StaticResource SubtitleTextBlockStyle}"
-                                                   VerticalAlignment="Center"/>
+                    						Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                    						Style="{StaticResource SubtitleTextBlockStyle}"
+                    						VerticalAlignment="Center"/>
                                     </Grid>
                                 </DataTemplate>
                             </GroupStyle.HeaderTemplate>
@@ -680,7 +681,7 @@
                         <DataTemplate x:DataType="models:BriefBoardInfo">
                             <StackPanel>
                                 <TextBlock Text="{x:Bind Id}"
-                                           Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                        			Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
                                 <TextBlock Text="{x:Bind Name}"/>
                             </StackPanel>
                         </DataTemplate>
