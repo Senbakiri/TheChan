@@ -10,6 +10,8 @@ using Core.Common.Links;
 using Core.Models;
 using Core.Operations;
 using Win2ch.Common;
+using Win2ch.Common.Core;
+using Win2ch.Common.UI;
 using Win2ch.Extensions;
 
 namespace Win2ch.ViewModels {

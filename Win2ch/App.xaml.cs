@@ -7,6 +7,7 @@ using Ninject;
 using Win2ch.Common;
 using Win2ch.ViewModels;
 using Makaba;
+using Win2ch.Common.UI;
 using Win2ch.Services.Toast;
 
 namespace Win2ch

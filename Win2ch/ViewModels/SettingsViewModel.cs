@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using Win2ch.Common;
+using Win2ch.Common.UI;
 
 namespace Win2ch.ViewModels {
     public class SettingsViewModel : PropertyChangedBase {

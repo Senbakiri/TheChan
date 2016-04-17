@@ -3,7 +3,7 @@ using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml.Controls;
 using Caliburn.Micro;
 
-namespace Win2ch.Common {
+namespace Win2ch.Common.Core {
     public class Tab : ViewAware, IHaveDisplayName, IActivateWithParameter, IDeactivate, IGuardClose, IChild {
         private bool isActive;
         private bool isInitialized;

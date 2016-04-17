@@ -11,6 +11,7 @@ using Caliburn.Micro;
 using Win2ch.Common;
 using Win2ch.ViewModels;
 using Windows.System;
+using Win2ch.Common.UI;
 
 namespace Win2ch.Views {
     public sealed partial class ThreadView : ICanScrollToItem<PostViewModel>, IReplyDisplay {

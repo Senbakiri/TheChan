@@ -1,8 +1,7 @@
 ﻿using Caliburn.Micro;
-using System;
 using Action = System.Action;
 
-namespace Win2ch.Common {
+namespace Win2ch.Common.UI {
     public class LoadingInfo : PropertyChangedBase {
         private string message;
         private LoadingState state;

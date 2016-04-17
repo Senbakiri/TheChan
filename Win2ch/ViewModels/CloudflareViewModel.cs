@@ -1,6 +1,7 @@
 ﻿using System;
 using Core.Common;
 using Win2ch.Common;
+using Win2ch.Common.Core;
 
 namespace Win2ch.ViewModels {
     public class CloudflareViewModel : Tab {

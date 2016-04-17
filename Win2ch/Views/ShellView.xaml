@@ -10,6 +10,7 @@
     xmlns:common="using:Win2ch.Common"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:core1="using:Win2ch.Common.Core"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance viewModels:ShellViewModel}">
 
@@ -206,7 +207,7 @@
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="common:Tab">
+                        <DataTemplate x:DataType="core1:Tab">
                             <Grid Height="{StaticResource TabHeightAndWidth}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>

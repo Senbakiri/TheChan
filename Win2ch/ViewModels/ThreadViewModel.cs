@@ -11,6 +11,8 @@ using Core.Models;
 using Core.Operations;
 using HtmlAgilityPack;
 using Win2ch.Common;
+using Win2ch.Common.Core;
+using Win2ch.Common.UI;
 using Win2ch.Extensions;
 using Win2ch.Views;
 

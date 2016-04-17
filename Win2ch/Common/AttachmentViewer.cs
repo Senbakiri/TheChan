@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Models;
+using Win2ch.Common.UI;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Common {

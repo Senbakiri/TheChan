@@ -6,9 +6,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Core.Common;
-using Win2ch.Annotations;
 using Win2ch.Behaviors;
 using Win2ch.Common;
+using Win2ch.Common.UI;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Views {

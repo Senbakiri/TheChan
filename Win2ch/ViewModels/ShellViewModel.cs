@@ -5,6 +5,8 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Caliburn.Micro;
 using Win2ch.Common;
+using Win2ch.Common.Core;
+using Win2ch.Common.UI;
 using Win2ch.Services.Toast;
 using WinRTXamlToolkit.Tools;
 

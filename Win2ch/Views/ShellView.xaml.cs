@@ -4,6 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Win2ch.Common;
+using Win2ch.Common.UI;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Views {

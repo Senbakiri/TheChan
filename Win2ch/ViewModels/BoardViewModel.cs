@@ -10,6 +10,8 @@ using Win2ch.Common;
 using Core.Models;
 using Core.Operations;
 using Makaba.Operations;
+using Win2ch.Common.Core;
+using Win2ch.Common.UI;
 
 namespace Win2ch.ViewModels {
     public class BoardViewModel : Tab {
