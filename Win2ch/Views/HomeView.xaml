@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:Core.Models"
     xmlns:controls="using:Win2ch.Views.Controls"
+    xmlns:views="using:Win2ch.Views"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -708,13 +709,7 @@
                 <controls:TabHeader Glyph="&#xE713;"
                                     x:Uid="Home/Settings"/>
             </PivotItem.Header>
-            <StackPanel Orientation="Vertical">
-                <TextBlock Style="{StaticResource TitleTextBlockStyle}"
-                           x:Uid="Settings/Other"
-                           Margin="0 5"/>
-                <Button x:Uid="Settings/Cloudflare"
-                        Click="{x:Bind SettingsViewModel.RunCloudflareAuthorization}"/>
-            </StackPanel>
+            <views:SettingsView DataContext="{x:Bind SettingsViewModel}"/>
         </PivotItem>
     </Pivot>
 
