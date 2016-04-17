@@ -12,11 +12,7 @@ namespace Win2ch.Services.Storage {
             if (file == null)
                 return default(T);
 
-            string text;
-            using (IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read))
-            using (var reader = new StreamReader(stream.AsStreamForRead()))
-                text = reader.ReadToEnd();
-
+            string text = await FileIO.ReadTextAsync(file);
             return Deserialize(text);
         }
 
