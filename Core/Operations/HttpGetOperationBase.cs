@@ -13,7 +13,7 @@ namespace Core.Operations {
         public abstract Uri Uri { get; protected set; }
 
         public virtual async Task<TResult> ExecuteAsync() {
-            var filter = new HttpBaseProtocolFilter();
+            IHttpFilter filter = GetHttpFilter();
             var client = new HttpClient(filter);
             SetupClient(client, filter);
             string response = await client.GetStringAsync(Uri);
@@ -26,6 +26,12 @@ namespace Core.Operations {
 
         protected virtual TResult ConvertToResult(TEntity entity) {
             return ResultConverter != null ? ResultConverter.Convert(entity) : default(TResult);
+        }
+
+        protected virtual IHttpFilter GetHttpFilter() {
+            var filter = new HttpBaseProtocolFilter();
+            filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
+            return filter;
         }
 
         protected virtual void SetupClient(HttpClient client, IHttpFilter filter) {
