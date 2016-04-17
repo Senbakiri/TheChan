@@ -132,6 +132,9 @@
   <data name="Board.Success" xml:space="preserve">
     <value>The board loaded successfully</value>
   </data>
+  <data name="Cloudflare.Name" xml:space="preserve">
+    <value>CloudFlare</value>
+  </data>
   <data name="Home.BoardsLoaded" xml:space="preserve">
     <value>The boards loaded successfully!</value>
   </data>
@@ -170,6 +173,12 @@
   </data>
   <data name="Posts.GoToThread.Content" xml:space="preserve">
     <value>GO TO THE THREAD</value>
+  </data>
+  <data name="Settings.Cloudflare.Content" xml:space="preserve">
+    <value>CloudFlare</value>
+  </data>
+  <data name="Settings.Other.Text" xml:space="preserve">
+    <value>Other</value>
   </data>
   <data name="Shell.ThreadsWithNewPosts" xml:space="preserve">
     <value>Threads with new posts</value>

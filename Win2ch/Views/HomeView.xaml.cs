@@ -6,12 +6,14 @@ using Win2ch.ViewModels;
 
 namespace Win2ch.Views {
     public sealed partial class HomeView {
-        public HomeView() {
+        public HomeView(SettingsViewModel settingsViewModel) {
             InitializeComponent();
             DataContextChanged += (s, e) => ViewModel = DataContext as HomeViewModel;
+            SettingsViewModel = settingsViewModel;
         }
 
         private HomeViewModel ViewModel { get; set; }
+        public SettingsViewModel SettingsViewModel { get; }
 
         private void BoardsListView_OnItemClick(object sender, ItemClickEventArgs e) {
             ViewModel.NavigateToBoard(e.ClickedItem as BriefBoardInfo);

@@ -703,16 +703,17 @@
                                     x:Uid="Home/RecentThreads"/>
             </PivotItem.Header>
         </PivotItem>
-        <PivotItem Margin="0">
+        <PivotItem>
             <PivotItem.Header>
                 <controls:TabHeader Glyph="&#xE713;"
                                     x:Uid="Home/Settings"/>
             </PivotItem.Header>
             <StackPanel Orientation="Vertical">
                 <TextBlock Style="{StaticResource TitleTextBlockStyle}"
-                           Text="Other"/>
-                <Button Content="Cloudflare"
-                                Click="{x:Bind ViewModel.RunCloudflareAuthorization}"/>
+                           x:Uid="Settings/Other"
+                           Margin="0 5"/>
+                <Button x:Uid="Settings/Cloudflare"
+                        Click="{x:Bind SettingsViewModel.RunCloudflareAuthorization}"/>
             </StackPanel>
         </PivotItem>
     </Pivot>

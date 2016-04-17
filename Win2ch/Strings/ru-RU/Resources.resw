@@ -132,6 +132,9 @@
   <data name="Board.Success" xml:space="preserve">
     <value>Доска успешно загружена!</value>
   </data>
+  <data name="Cloudflare.Name" xml:space="preserve">
+    <value>CloudFlare</value>
+  </data>
   <data name="Home.BoardsLoaded" xml:space="preserve">
     <value>Доски успешно загружены!</value>
   </data>
@@ -170,6 +173,12 @@
   </data>
   <data name="Posts.GoToThread.Content" xml:space="preserve">
     <value>ПЕРЕЙТИ В ТРЕД</value>
+  </data>
+  <data name="Settings.Cloudflare.Content" xml:space="preserve">
+    <value>Авторизация CloudFlare</value>
+  </data>
+  <data name="Settings.Other.Text" xml:space="preserve">
+    <value>Дополнительно</value>
   </data>
   <data name="Shell.ThreadsWithNewPosts" xml:space="preserve">
     <value>Тредов с новыми постами</value>
