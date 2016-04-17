@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 using Core.Common;
 using Core.Converters;
 using Core.Models;
 using Core.Operations;
 using Makaba.Entities;
 using Makaba.Services.Url;
+using Makaba.Utils;
 
 namespace Makaba.Operations {
     public class RecieveBoardsOperation : HttpGetJsonCollectionOperationBase<BoardsCategoryEntity, BoardsCategory> {
@@ -31,6 +34,10 @@ namespace Makaba.Operations {
                 Boards = kv.Value
             }).ToList();
         }
-        
+
+        protected override void SetupClient(HttpClient client, IHttpFilter filter) {
+            base.SetupClient(client, filter);
+            HttpClientUtils.SetupClient(UrlService, client, filter);
+        }
     }
 }

@@ -13,7 +13,9 @@ namespace Core.Operations {
         public abstract Uri Uri { get; protected set; }
 
         public virtual async Task<TResult> ExecuteAsync() {
-            HttpClient client = CreateHttpClient();
+            var filter = new HttpBaseProtocolFilter();
+            var client = new HttpClient(filter);
+            SetupClient(client, filter);
             string response = await client.GetStringAsync(Uri);
             return ConvertToResult(ConvertEntity(response));
         }
@@ -26,12 +28,15 @@ namespace Core.Operations {
             return ResultConverter != null ? ResultConverter.Convert(entity) : default(TResult);
         }
 
-        protected virtual HttpClient CreateHttpClient() {
-            return new HttpClient(new HttpBaseProtocolFilter {
-                CacheControl = {
-                    ReadBehavior = HttpCacheReadBehavior.MostRecent
-                }
-            });
+        protected virtual void SetupClient(HttpClient client, IHttpFilter filter) {
+            client.DefaultRequestHeaders.TryAppendWithoutValidation(
+                "Accept", "text/html,application/xhtml+xml,application/xml");
+            client.DefaultRequestHeaders.TryAppendWithoutValidation(
+                "Accept-Encoding", "gzip, deflate");
+            client.DefaultRequestHeaders.TryAppendWithoutValidation(
+                "User-Agent", "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:19.0) Gecko/20100101 Firefox/19.0");
+            client.DefaultRequestHeaders.TryAppendWithoutValidation(
+                "Accept-Charset", "ISO-8859-1");
         }
     }
 }

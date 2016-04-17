@@ -281,7 +281,8 @@
                                       HorizontalAlignment="Stretch"
                                       Visibility="Collapsed"
                                       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                                      Padding="0 0 5 0">
+                                      Padding="0 0 5 0"
+                                      Tapped="LoadingInfoPanel_OnTapped">
                         <ContentPresenter.ContentTransitions>
                             <TransitionCollection>
                                 <ContentThemeTransition/>

@@ -126,6 +126,7 @@
     <Compile Include="Services\Toast\ToastService.cs" />
     <Compile Include="ViewModels\BoardThreadViewModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
+    <Compile Include="ViewModels\CloudflareViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\ImagesViewModel.cs" />
     <Compile Include="ViewModels\PostsViewModel.cs" />
@@ -134,6 +135,9 @@
     <Compile Include="ViewModels\ThreadViewModel.cs" />
     <Compile Include="Views\BoardView.xaml.cs">
       <DependentUpon>BoardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CloudflareView.xaml.cs">
+      <DependentUpon>CloudflareView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controls\TabHeader.xaml.cs">
       <DependentUpon>TabHeader.xaml</DependentUpon>
@@ -226,6 +230,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Views\BoardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CloudflareView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 using Core.Common;
 using Core.Converters;
 using Core.Models;
 using Core.Operations;
 using Makaba.Entities;
+using Makaba.Utils;
 
 namespace Makaba.Operations {
     public class LoadThreadOperation : HttpGetJsonOperationBase<ThreadEntity, Thread>, ILoadThreadOperation {
@@ -33,6 +36,11 @@ namespace Makaba.Operations {
                 BoardId = BoardId,
                 Posts = postsConverter.Convert(response)
             };
+        }
+
+        protected override void SetupClient(HttpClient client, IHttpFilter filter) {
+            base.SetupClient(client, filter);
+            HttpClientUtils.SetupClient(UrlService, client, filter);
         }
     }
 }

@@ -708,6 +708,12 @@
                 <controls:TabHeader Glyph="&#xE713;"
                                     x:Uid="Home/Settings"/>
             </PivotItem.Header>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                           Text="Other"/>
+                <Button Content="Cloudflare"
+                                Click="{x:Bind ViewModel.RunCloudflareAuthorization}"/>
+            </StackPanel>
         </PivotItem>
     </Pivot>
 

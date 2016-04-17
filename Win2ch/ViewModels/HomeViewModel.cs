@@ -98,5 +98,9 @@ namespace Win2ch.ViewModels {
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        public void RunCloudflareAuthorization() {
+            Shell.Navigate<CloudflareViewModel>();
+        }
     }
 }

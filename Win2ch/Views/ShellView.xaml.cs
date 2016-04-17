@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Win2ch.Common;
 using Win2ch.ViewModels;
@@ -64,6 +65,10 @@ namespace Win2ch.Views {
                 titleBar.ButtonBackgroundColor =
                     titleBar.ButtonInactiveBackgroundColor =
                         titleBar.InactiveBackgroundColor = bg.Color;
+        }
+
+        private void LoadingInfoPanel_OnTapped(object sender, TappedRoutedEventArgs e) {
+            VisualStateManager.GoToState(this, "Idle", false);
         }
     }
 }

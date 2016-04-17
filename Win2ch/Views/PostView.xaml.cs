@@ -40,6 +40,7 @@ namespace Win2ch.Views {
             var elem = (FrameworkElement)e.OriginalSource;
             var post = (PostViewModel)elem.DataContext;
             ViewModel.RequestReplyDisplaying(new ReplyDisplayingEventArgs(ViewModel, post, e, (FrameworkElement) sender));
+            e.Handled = true;
         }
     }
 

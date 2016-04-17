@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 using Core.Common;
 using Core.Converters;
 using Core.Models;
 using Core.Operations;
 using Makaba.Converters;
 using Makaba.Entities;
+using Makaba.Utils;
 
 namespace Makaba.Operations {
     public class GetPostOperation : HttpGetJsonOperationBase<IList<PostEntity>, Post>, IGetPostOperation {
@@ -33,5 +36,9 @@ namespace Makaba.Operations {
             return base.ExecuteAsync();
         }
 
+        protected override void SetupClient(HttpClient client, IHttpFilter filter) {
+            base.SetupClient(client, filter);
+            HttpClientUtils.SetupClient(UrlService, client, filter);
+        }
     }
 }

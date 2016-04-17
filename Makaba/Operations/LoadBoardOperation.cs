@@ -1,10 +1,13 @@
 ﻿using System;
+using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 using Core.Common;
 using Core.Converters;
 using Core.Models;
 using Core.Operations;
 using Makaba.Entities;
 using Makaba.Services.Url;
+using Makaba.Utils;
 
 namespace Makaba.Operations {
     public class LoadBoardOperation : HttpGetJsonOperationBase<BoardPageEntity, BoardPage>, ILoadBoardOperation {
@@ -38,6 +41,11 @@ namespace Makaba.Operations {
 
         private void UpdateUri() {
             Uri = UrlService.GetBoardPageUrl(Id, Page);
+        }
+
+        protected override void SetupClient(HttpClient client, IHttpFilter filter) {
+            base.SetupClient(client, filter);
+            HttpClientUtils.SetupClient(UrlService, client, filter);
         }
     }
 }
