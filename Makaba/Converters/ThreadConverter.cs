@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Core.Converters;
 using Core.Models;
 using Makaba.Entities;
@@ -13,7 +14,8 @@ namespace Makaba.Converters {
 
         public Thread Convert(ThreadEntity source) {
             PostConverter.BoardId = source.BoardId;
-            return new Thread(source.Posts.Select(p => PostConverter.Convert(p)).ToList());
+            List<Post> posts = source.Posts.Select(p => PostConverter.Convert(p)).ToList();
+            return new Thread(posts, source.BoardId, posts[0].Number);
         }
     }
 }
