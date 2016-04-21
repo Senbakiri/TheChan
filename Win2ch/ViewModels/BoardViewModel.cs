@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Caliburn.Micro;
 using Core.Common;
+using Core.Common.Links;
 using Win2ch.Common;
 using Core.Models;
-using Core.Operations;
-using Makaba.Operations;
 using Win2ch.Common.Core;
 using Win2ch.Common.UI;
 
@@ -23,14 +20,13 @@ namespace Win2ch.ViewModels {
             Board = board;
             AttachmentViewer = attachmentViewer;
             Threads = new ObservableCollection<BoardThreadViewModel>();
-            LoadBoardOperation = board.Operations.LoadBoard();
             Pages = new BindableCollection<int>();
         }
 
         private IShell Shell { get; }
         private IBoard Board { get; }
         private IAttachmentViewer AttachmentViewer { get; }
-        private ILoadBoardOperation LoadBoardOperation { get; }
+        private BoardLink Link { get; set; }
         public ObservableCollection<BoardThreadViewModel> Threads { get; }
         public BindableCollection<int> Pages { get; } 
 
@@ -77,7 +73,7 @@ namespace Win2ch.ViewModels {
                 return;
 
             DisplayName = boardInfo?.Name ?? $"/{id}/";
-            LoadBoardOperation.Id = id;
+            Link = new BoardLink(id);
 
             try {
                 await Load(0);
@@ -91,9 +87,9 @@ namespace Win2ch.ViewModels {
         private async Task Load(int pageNum) {
             Shell.LoadingInfo.InProgress(GetLocalizationString("Loading"));
             IsLoading = true;
-            LoadBoardOperation.Page = pageNum;
             Threads.Clear();
-            BoardPage page = await LoadBoardOperation.ExecuteAsync();
+            BoardPage page = await Board.LoadBoardPageAsync(Link.BoardId, pageNum);
+
             if (Pages.Count == 0)
                 Pages.AddRange(page.Pages);
             CurrentPage = page;

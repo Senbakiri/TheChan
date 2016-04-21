@@ -8,7 +8,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Core.Common;
 using Core.Common.Links;
 using Core.Models;
-using Core.Operations;
 using HtmlAgilityPack;
 using Win2ch.Common;
 using Win2ch.Common.Core;
@@ -25,18 +24,16 @@ namespace Win2ch.ViewModels {
             Board = board;
             Shell = shell;
             AttachmentViewer = attachmentViewer;
-            Operation = Board.Operations.LoadThread();
             Posts = new ObservableCollection<PostViewModel>();
         }
 
         private IShell Shell { get; }
         private IBoard Board { get; }
         private IAttachmentViewer AttachmentViewer { get; }
-        private ILoadThreadOperation Operation { get; }
         private ICanScrollToItem<PostViewModel> PostScroll { get; set; } 
         private IReplyDisplay ReplyDisplay { get; set; }
         public ObservableCollection<PostViewModel> Posts { get; }
-        public ThreadLink Link { get; set; }
+        private ThreadLink Link { get; set; }
 
         public bool IsHighlighting {
             get { return this.isHighlighting; }
@@ -76,15 +73,13 @@ namespace Win2ch.ViewModels {
             var navigation = (ThreadNavigation) parameter;
             if (string.IsNullOrWhiteSpace(navigation.BoardId))
                 throw new ArgumentException();
-
-            Operation.BoardId = navigation.BoardId;
-            Operation.ThreadNumber = navigation.ThreadNumber;
+            
             Link = new ThreadLink(navigation.BoardId, navigation.ThreadNumber);
             DisplayName = $"/{navigation.BoardId}/ - {navigation.ThreadNumber}";
             IsLoading = true;
             Shell.LoadingInfo.InProgress(GetLocalizationString("Loading"));
             try {
-                Thread thread = await Operation.ExecuteAsync();
+                Thread thread = await Board.LoadThreadAsync(Link);
                 DisplayName = GetDisplayName(thread);
                 Posts.Clear();
                 FillPosts(thread.Posts);
@@ -108,14 +103,13 @@ namespace Win2ch.ViewModels {
         }
 
         public async void RefreshThread() {
-            if (string.IsNullOrEmpty(Operation.BoardId))
+            if (string.IsNullOrEmpty(Link.BoardId))
                 return;
-
-            Operation.FromPosition = Posts.Count + 1;
+            
             IsLoading = true;
             Shell.LoadingInfo.InProgress(GetLocalizationString("Refreshing"));
             try {
-                Thread thread = await Operation.ExecuteAsync();
+                Thread thread = await Board.LoadThreadAsync(Link, Posts.Count + 1);
                 int count = Posts.Count;
                 FillPosts(thread.Posts);
                 if (HighlightingStart == 0)
@@ -135,12 +129,11 @@ namespace Win2ch.ViewModels {
         }
 
         public async Task<bool> Update() {
-            if (string.IsNullOrEmpty(Operation.BoardId))
+            if (string.IsNullOrEmpty(Link.BoardId))
                 return false;
-
-            Operation.FromPosition = Posts.Count + 1;
+            
             IsLoading = true;
-            Thread thread = await Operation.ExecuteAsync();
+            Thread thread = await Board.LoadThreadAsync(Link, Posts.Count + 1);
             IsLoading = false;
             int count = Posts.Count;
             FillPosts(thread.Posts);

@@ -6,8 +6,6 @@ using Caliburn.Micro;
 using Core.Common;
 using Core.Common.Links;
 using Core.Models;
-using Core.Operations;
-using Win2ch.Common;
 using Win2ch.Common.UI;
 using Win2ch.Extensions;
 
@@ -102,13 +100,10 @@ namespace Win2ch.ViewModels {
                 Posts.Add(CreatePostViewModel(existingPost));
                 return;
             }
-
-            IGetPostOperation operation = Board.Operations.GetPost();
-            operation.BoardId = BoardId;
-            operation.PostNumber = postNumber;
+            
             try {
                 Shell.LoadingInfo.InProgress("");
-                Post post = await operation.ExecuteAsync();
+                Post post = await Board.LoadPostAsync(BoardId, postNumber);
                 PostViewModel viewModel = CreateViewModelForPost(post);
                 Posts.Add(viewModel);
                 CanGoToPost = true;

@@ -24,6 +24,7 @@ namespace Makaba {
             Bind<ILoadBoardOperation>().To<LoadBoardOperation>();
             Bind<ILoadThreadOperation>().To<LoadThreadOperation>();
             Bind<IGetPostOperation>().To<GetPostOperation>();
+            Bind<IThreadConverter>().To<ThreadConverter>();
         }
     }
 }

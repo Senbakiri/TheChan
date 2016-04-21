@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Converters\BoardConverter.cs" />
     <Compile Include="Converters\CategoriesConverter.cs" />
+    <Compile Include="Converters\IThreadConverter.cs" />
     <Compile Include="Converters\PostConverter.cs" />
     <Compile Include="Converters\ThreadConverter.cs" />
     <Compile Include="Entities\AttachmentEntity.cs" />

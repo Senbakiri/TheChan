@@ -41,7 +41,7 @@ namespace Win2ch.ViewModels {
             LoadingInfo loadingInfo = Shell.LoadingInfo;
             try {
                 loadingInfo.InProgress(GetLocalizationString("ReceivingBoards"));
-                IList<BoardsCategory> categories = await Board.Operations.LoadBoards().ExecuteAsync();
+                IList<BoardsCategory> categories = await Board.LoadBoardsAsync();
                 Categories.Clear();
                 Categories.AddRange(categories);
                 loadingInfo.Success(GetLocalizationString("BoardsLoaded"));
