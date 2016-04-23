@@ -1,12 +1,16 @@
 ﻿using System;
-using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.Storage.Streams;
-using Newtonsoft.Json;
+using Template10.Services.SerializationService;
 
 namespace Win2ch.Services.Storage {
-    public class JsonStorageService<T> : IStorageService<T>   {
+    public class SerializationStorageService<T> : IStorageService<T> {
+        public SerializationStorageService(ISerializationService serializationService) {
+            this.SerializationService = serializationService;
+        }
+
+        private ISerializationService SerializationService { get; }
+
         public async Task<T> Load(StorageFolder root, string fileName) {
             var file = await root.TryGetItemAsync(fileName) as IStorageFile;
             if (file == null)
@@ -17,12 +21,13 @@ namespace Win2ch.Services.Storage {
         }
 
         protected virtual T Deserialize(string source) {
-            return JsonConvert.DeserializeObject<T>(source);
+            return SerializationService.Deserialize<T>(source);
         }
 
         protected virtual string Serialize(T source) {
-            return JsonConvert.SerializeObject(source);
+            return SerializationService.Serialize(source);
         }
+
 
         public async Task Save(StorageFolder root, string fileName, T content) {
             StorageFile file = await root.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);

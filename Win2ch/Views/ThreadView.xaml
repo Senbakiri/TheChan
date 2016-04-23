@@ -514,7 +514,8 @@
                 <interactivity:Interaction.Behaviors>
                     <behaviors:BooleanBasedIconSelectorBehavior Value="{x:Bind ViewModel.IsInFavorites, Mode=OneWay}"
                                                                 TrueIcon="Unfavorite"
-                                                                FalseIcon="OutlineStar"/>
+                                                                FalseIcon="OutlineStar"
+                                                                x:Uid="Thread/Favorite"/>
                 </interactivity:Interaction.Behaviors>
             </AppBarButton>
             <AppBarButton x:Uid="Thread/Up"

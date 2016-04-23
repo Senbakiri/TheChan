@@ -614,7 +614,8 @@
         </Style>
     </Page.Resources>
 
-    <Pivot>
+    <Pivot x:Name="Pivot"
+           SelectionChanged="Pivot_OnSelectionChanged">
         <PivotItem Margin="0">
             <PivotItem.Header>
                 <controls:TabHeader Glyph="&#xE80F;"
@@ -692,11 +693,12 @@
             </Grid>
         </PivotItem>
 
-        <PivotItem Margin="0">
+        <PivotItem>
             <PivotItem.Header>
                 <controls:TabHeader Glyph="&#xE734;"
                                     x:Uid="Home/Favorites"/>
             </PivotItem.Header>
+            <views:FavoritesView DataContext="{x:Bind FavoritesViewModel}"/>
         </PivotItem>
         <PivotItem Margin="0">
             <PivotItem.Header>

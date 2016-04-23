@@ -9,6 +9,7 @@ using Ninject;
 using Win2ch.Common;
 using Win2ch.ViewModels;
 using Makaba;
+using Template10.Services.SerializationService;
 using Win2ch.Common.UI;
 using Win2ch.Services.Storage;
 using Win2ch.Services.Toast;
@@ -24,7 +25,7 @@ namespace Win2ch
             InitializeComponent();
         }
 
-        protected override void Configure() {
+        protected override async void Configure() {
             this.kernel = new StandardKernel(new MakabaModule());
             IKernel k = this.kernel;
             k.Bind<IShell>().To<ShellViewModel>().InSingletonScope();
@@ -32,11 +33,17 @@ namespace Win2ch
             k.Bind<IBoard>().To<MakabaBoard>().InSingletonScope();
             k.Bind<IToastService>().To<ToastService>().InSingletonScope();
             k.Bind<IAttachmentViewer>().To<AttachmentViewer>();
-            k.Bind<IStorageService<IList<ThreadInfo>>>().To<JsonStorageService<IList<ThreadInfo>>>();
-            k.Bind<IStorageService<IList<Post>>>().To<JsonStorageService<IList<Post>>>();
-            k.Bind<FavoriteThreadsService>().ToSelf().InSingletonScope().OnActivation(async s => await s.Load());
-            k.Bind<RecentThreadsService>().ToSelf().InSingletonScope().OnActivation(async s => await s.Load());
-            k.Bind<FavoritePostsService>().ToSelf().InSingletonScope().OnActivation(async s => await s.Load());
+            k.Bind<ISerializationService>().ToConstant(SerializationService.Json);
+            k.Bind<IStorageService<ICollection<ThreadInfo>>>().To<SerializationStorageService<ICollection<ThreadInfo>>>();
+            k.Bind<IStorageService<ICollection<Post>>>().To<SerializationStorageService<ICollection<Post>>>();
+
+            k.Bind<FavoriteThreadsService>().ToSelf().InSingletonScope();
+            k.Bind<RecentThreadsService>().ToSelf().InSingletonScope();
+            k.Bind<FavoritePostsService>().ToSelf().InSingletonScope();
+
+            await k.Get<FavoriteThreadsService>().Load();
+            await k.Get<RecentThreadsService>().Load();
+            await k.Get<FavoritePostsService>().Load();
         }
         
 

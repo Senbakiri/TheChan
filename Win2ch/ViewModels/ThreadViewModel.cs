@@ -268,8 +268,8 @@ namespace Win2ch.ViewModels {
 
         private void UpdateBadge() {
             BadgeContent = IsHighlighting && HighlightingStart <= Posts.Count
-                ? $"+{Posts.Count - HighlightingStart + 1}"
-                : "";
+                           ? $"+{Posts.Count - HighlightingStart + 1}"
+                           : "";
         }
 
         public void CopyLink() {

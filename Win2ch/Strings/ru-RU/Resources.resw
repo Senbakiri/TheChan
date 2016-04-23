@@ -198,6 +198,12 @@
   <data name="Thread.Down.Label" xml:space="preserve">
     <value>Вниз</value>
   </data>
+  <data name="Thread.Favorite.FalseText" xml:space="preserve">
+    <value>В избранное</value>
+  </data>
+  <data name="Thread.Favorite.TrueText" xml:space="preserve">
+    <value>Удалить из избранного</value>
+  </data>
   <data name="Thread.Loaded" xml:space="preserve">
     <value>Тред успешно загружен</value>
   </data>

@@ -110,6 +110,7 @@
     <Compile Include="Common\UI\LoadingInfo.cs" />
     <Compile Include="Common\UI\LoadingState.cs" />
     <Compile Include="Common\ThreadNavigation.cs" />
+    <Compile Include="Controls\AdaptiveGridView.cs" />
     <Compile Include="Controls\SwipeableSplitView.cs" />
     <Compile Include="Converters\CaseConverter.cs" />
     <Compile Include="Converters\InverseBoolConverter.cs" />
@@ -129,7 +130,7 @@
     <Compile Include="Services\Storage\IStorageService.cs" />
     <Compile Include="Services\Storage\ItemsRepositoryServiceBase.cs" />
     <Compile Include="Services\Storage\IThreadsRepositoryService.cs" />
-    <Compile Include="Services\Storage\JsonStorageService.cs" />
+    <Compile Include="Services\Storage\SerializationStorageService.cs" />
     <Compile Include="Services\Storage\RecentThreadsService.cs" />
     <Compile Include="Services\Storage\ThreadsRepositoryServiceBase.cs" />
     <Compile Include="Services\Toast\IToastService.cs" />
@@ -137,12 +138,14 @@
     <Compile Include="ViewModels\BoardThreadViewModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="ViewModels\CloudflareViewModel.cs" />
+    <Compile Include="ViewModels\FavoritesViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\ImagesViewModel.cs" />
     <Compile Include="ViewModels\PostsViewModel.cs" />
     <Compile Include="ViewModels\PostViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\ThreadInfoViewModel.cs" />
     <Compile Include="ViewModels\ThreadViewModel.cs" />
     <Compile Include="Views\BoardView.xaml.cs">
       <DependentUpon>BoardView.xaml</DependentUpon>
@@ -152,6 +155,9 @@
     </Compile>
     <Compile Include="Views\Controls\TabHeader.xaml.cs">
       <DependentUpon>TabHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FavoritesView.xaml.cs">
+      <DependentUpon>FavoritesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
@@ -252,6 +258,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Controls\TabHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FavoritesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -4,7 +4,7 @@ using Core.Models;
 
 namespace Win2ch.Services.Storage {
     public class FavoriteThreadsService : ThreadsRepositoryServiceBase {
-        public FavoriteThreadsService(IStorageService<IList<ThreadInfo>> storageService)
+        public FavoriteThreadsService(IStorageService<ICollection<ThreadInfo>> storageService)
             : base(storageService, ApplicationData.Current.RoamingFolder, "fvthreads.json") {}
     }
 }

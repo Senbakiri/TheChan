@@ -198,6 +198,12 @@
   <data name="Thread.Down.Label" xml:space="preserve">
     <value>Down</value>
   </data>
+  <data name="Thread.Favorite.FalseText" xml:space="preserve">
+    <value>Favorite</value>
+  </data>
+  <data name="Thread.Favorite.TrueText" xml:space="preserve">
+    <value>Unfavorite</value>
+  </data>
   <data name="Thread.Loaded" xml:space="preserve">
     <value>The thread loaded successfully</value>
   </data>

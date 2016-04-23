@@ -29,12 +29,10 @@ namespace Core.Models {
 
         protected bool Equals(ThreadInfo other) {
             return
-                   string.Equals(BoardId, other.BoardId)
+                string.Equals(BoardId, other.BoardId)
                 && Number == other.Number
                 && string.Equals(Description, other.Description)
-                && Equals(ThumbnailUri, other.ThumbnailUri)
-                && LastReadPostPosition == other.LastReadPostPosition
-                && UnreadPosts == other.UnreadPosts;
+                && Equals(ThumbnailUri, other.ThumbnailUri);
         }
 
         public override bool Equals(object obj) {

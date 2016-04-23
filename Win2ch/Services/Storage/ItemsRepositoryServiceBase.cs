@@ -4,27 +4,31 @@ using Windows.Storage;
 
 namespace Win2ch.Services.Storage {
     public abstract class ItemsRepositoryServiceBase<T> : IItemsRepositoryService<T> {
-        protected ItemsRepositoryServiceBase(IStorageService<IList<T>> storageService,
+        protected ItemsRepositoryServiceBase(IStorageService<ICollection<T>> storageService,
                                              StorageFolder baseFolder,
                                              string fileName) {
             StorageService = storageService;
             BaseFolder = baseFolder;
             FileName = fileName;
-            Items = new List<T>();
+            Items = new HashSet<T>();
         }
 
-        protected virtual IStorageService<IList<T>> StorageService { get; }
+        protected virtual IStorageService<ICollection<T>> StorageService { get; }
         protected virtual StorageFolder BaseFolder { get; }
         protected virtual string FileName { get; }
 
-        public IList<T> Items { get; protected set; }
+        public ICollection<T> Items { get; protected set; }
 
         public async Task Load() {
-            Items = await StorageService.Load(BaseFolder, FileName) ?? new List<T>();
+            Items = await StorageService.Load(BaseFolder, FileName) ?? CreateCollection();
         }
 
         public async Task Save() {
             await StorageService.Save(BaseFolder, FileName, Items);
         }
+
+        protected virtual ICollection<T> CreateCollection() {
+            return new HashSet<T>();
+        } 
     }
 }
