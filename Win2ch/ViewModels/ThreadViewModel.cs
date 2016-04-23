@@ -103,7 +103,7 @@ namespace Win2ch.ViewModels {
         }
 
         public async void RefreshThread() {
-            if (string.IsNullOrEmpty(Link.BoardId))
+            if (string.IsNullOrEmpty(Link?.BoardId))
                 return;
             
             IsLoading = true;
@@ -129,7 +129,7 @@ namespace Win2ch.ViewModels {
         }
 
         public async Task<bool> Update() {
-            if (string.IsNullOrEmpty(Link.BoardId))
+            if (string.IsNullOrEmpty(Link?.BoardId))
                 return false;
             
             IsLoading = true;
