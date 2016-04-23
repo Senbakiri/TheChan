@@ -510,6 +510,13 @@
         <CommandBar VerticalAlignment="Bottom"
                     CommandBarOverflowPresenterStyle="{StaticResource OverflowPresenterStyle}"
                     Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
+            <AppBarButton micro:Message.Attach="Favorite()">
+                <interactivity:Interaction.Behaviors>
+                    <behaviors:BooleanBasedIconSelectorBehavior Value="{x:Bind ViewModel.IsInFavorites, Mode=OneWay}"
+                                                                TrueIcon="Unfavorite"
+                                                                FalseIcon="OutlineStar"/>
+                </interactivity:Interaction.Behaviors>
+            </AppBarButton>
             <AppBarButton x:Uid="Thread/Up"
                           Click="{x:Bind Up}"
                           ToolTipService.ToolTip="Home">

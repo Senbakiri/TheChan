@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Core.Models;
 
 namespace Win2ch.Services.Storage {
     public abstract class ItemsRepositoryServiceBase<T> : IItemsRepositoryService<T> {
@@ -21,7 +20,7 @@ namespace Win2ch.Services.Storage {
         public IList<T> Items { get; protected set; }
 
         public async Task Load() {
-            Items = await StorageService.Load(BaseFolder, FileName);
+            Items = await StorageService.Load(BaseFolder, FileName) ?? new List<T>();
         }
 
         public async Task Save() {

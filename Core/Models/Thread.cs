@@ -25,6 +25,8 @@ namespace Core.Models {
                 cleanText = Html.RemoveHtml(firstPost.Text);
 
             string description = string.IsNullOrWhiteSpace(cleanSubject) ? cleanText : cleanSubject;
+            if (description.Length > 50)
+                description = description.Substring(0, 50) + "...";
 
             return new ThreadInfo(BoardId,
                                   Number,

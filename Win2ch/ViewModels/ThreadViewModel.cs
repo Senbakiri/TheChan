@@ -13,27 +13,35 @@ using Win2ch.Common;
 using Win2ch.Common.Core;
 using Win2ch.Common.UI;
 using Win2ch.Extensions;
+using Win2ch.Services.Storage;
 using Win2ch.Views;
 
 namespace Win2ch.ViewModels {
     public class ThreadViewModel : Tab {
         private bool isHighlighting;
         private int highlightingStart;
+        private bool isInFavorites;
 
-        public ThreadViewModel(IBoard board, IShell shell, IAttachmentViewer attachmentViewer) {
+        public ThreadViewModel(IBoard board,
+                               IShell shell,
+                               IAttachmentViewer attachmentViewer,
+                               FavoriteThreadsService favoriteThreadsService) {
             Board = board;
             Shell = shell;
             AttachmentViewer = attachmentViewer;
+            FavoriteThreadsService = favoriteThreadsService;
             Posts = new ObservableCollection<PostViewModel>();
         }
 
         private IShell Shell { get; }
         private IBoard Board { get; }
         private IAttachmentViewer AttachmentViewer { get; }
+        private FavoriteThreadsService FavoriteThreadsService { get; }
         private ICanScrollToItem<PostViewModel> PostScroll { get; set; } 
         private IReplyDisplay ReplyDisplay { get; set; }
         public ObservableCollection<PostViewModel> Posts { get; }
         private ThreadLink Link { get; set; }
+        private ThreadInfo ThreadInfo { get; set; }
 
         public bool IsHighlighting {
             get { return this.isHighlighting; }
@@ -54,6 +62,16 @@ namespace Win2ch.ViewModels {
                 this.highlightingStart = value;
                 NotifyOfPropertyChange();
                 UpdateBadge();
+            }
+        }
+
+        public bool IsInFavorites {
+            get { return this.isInFavorites; }
+            private set {
+                if (value == this.isInFavorites)
+                    return;
+                this.isInFavorites = value;
+                NotifyOfPropertyChange();
             }
         }
 
@@ -80,6 +98,8 @@ namespace Win2ch.ViewModels {
             Shell.LoadingInfo.InProgress(GetLocalizationString("Loading"));
             try {
                 Thread thread = await Board.LoadThreadAsync(Link);
+                ThreadInfo = thread.GetThreadInfo();
+                IsInFavorites = FavoriteThreadsService.Items.Contains(ThreadInfo);
                 DisplayName = GetDisplayName(thread);
                 Posts.Clear();
                 FillPosts(thread.Posts);
@@ -256,6 +276,17 @@ namespace Win2ch.ViewModels {
             var dataPackage = new DataPackage();
             dataPackage.SetText(Board.UrlService.GetUrlForLink(Link).AbsoluteUri);
             Clipboard.SetContent(dataPackage);
+        }
+
+        public async void Favorite() {
+            bool isThreadInFavorites = FavoriteThreadsService.Items.Contains(ThreadInfo);
+            if (isThreadInFavorites)
+                FavoriteThreadsService.Items.Remove(ThreadInfo);
+            else
+                FavoriteThreadsService.Items.Add(ThreadInfo);
+
+            IsInFavorites = !isThreadInFavorites;
+            await FavoriteThreadsService.Save();
         }
     }
 }

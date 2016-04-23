@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Caliburn.Micro;
 using Core.Common;
@@ -33,10 +34,11 @@ namespace Win2ch
             k.Bind<IAttachmentViewer>().To<AttachmentViewer>();
             k.Bind<IStorageService<IList<ThreadInfo>>>().To<JsonStorageService<IList<ThreadInfo>>>();
             k.Bind<IStorageService<IList<Post>>>().To<JsonStorageService<IList<Post>>>();
-            k.Bind<FavoriteThreadsService>().ToSelf().InSingletonScope();
-            k.Bind<RecentThreadsService>().ToSelf().InSingletonScope();
-            k.Bind<FavoritePostsService>().ToSelf().InSingletonScope();
+            k.Bind<FavoriteThreadsService>().ToSelf().InSingletonScope().OnActivation(async s => await s.Load());
+            k.Bind<RecentThreadsService>().ToSelf().InSingletonScope().OnActivation(async s => await s.Load());
+            k.Bind<FavoritePostsService>().ToSelf().InSingletonScope().OnActivation(async s => await s.Load());
         }
+        
 
         protected override void OnLaunched(LaunchActivatedEventArgs args) {
             DisplayRootViewFor<IShell>();
