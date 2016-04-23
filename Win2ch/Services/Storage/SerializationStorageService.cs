@@ -6,7 +6,7 @@ using Template10.Services.SerializationService;
 namespace Win2ch.Services.Storage {
     public class SerializationStorageService<T> : IStorageService<T> {
         public SerializationStorageService(ISerializationService serializationService) {
-            this.SerializationService = serializationService;
+            SerializationService = serializationService;
         }
 
         private ISerializationService SerializationService { get; }

@@ -29,7 +29,8 @@
                               Grid.RowSpan="3">
                             <ffImageLoading:FFImage Source="{x:Bind ThreadInfo.ThumbnailUri.AbsoluteUri, Mode=OneWay}"
                                                     Stretch="UniformToFill"/>
-                            <Border Background="{ThemeResource SystemControlBackgroundAltMediumHighBrush}"/>
+                            <Border Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+                                    Opacity="0.85"/>
                         </Grid>
                         <TextBlock Grid.Row="0"
                                    Text="{x:Bind ThreadInfo.BoardId}"
