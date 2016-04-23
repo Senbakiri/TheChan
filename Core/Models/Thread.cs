@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Core.Common.Links;
 using Core.Utils;
 
 namespace Core.Models {
@@ -30,6 +31,10 @@ namespace Core.Models {
                                   description,
                                   firstPost.Attachments.FirstOrDefault()?.ThumbnailUri,
                                   Posts.Count);
+        }
+
+        public ThreadLink GetLink() {
+            return new ThreadLink(BoardId, Number);
         }
     }
 }

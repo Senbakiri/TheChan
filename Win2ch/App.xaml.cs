@@ -25,13 +25,17 @@ namespace Win2ch
 
         protected override void Configure() {
             this.kernel = new StandardKernel(new MakabaModule());
-            this.kernel.Bind<IShell>().To<ShellViewModel>().InSingletonScope();
-            this.kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
-            this.kernel.Bind<IBoard>().To<MakabaBoard>().InSingletonScope();
-            this.kernel.Bind<IToastService>().To<ToastService>().InSingletonScope();
-            this.kernel.Bind<IAttachmentViewer>().To<AttachmentViewer>();
-            this.kernel.Bind<IStorageService<IList<ThreadInfo>>>().To<JsonStorageService<IList<ThreadInfo>>>();
-            this.kernel.Bind<IStorageService<IList<Post>>>().To<JsonStorageService<IList<Post>>>();
+            IKernel k = this.kernel;
+            k.Bind<IShell>().To<ShellViewModel>().InSingletonScope();
+            k.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
+            k.Bind<IBoard>().To<MakabaBoard>().InSingletonScope();
+            k.Bind<IToastService>().To<ToastService>().InSingletonScope();
+            k.Bind<IAttachmentViewer>().To<AttachmentViewer>();
+            k.Bind<IStorageService<IList<ThreadInfo>>>().To<JsonStorageService<IList<ThreadInfo>>>();
+            k.Bind<IStorageService<IList<Post>>>().To<JsonStorageService<IList<Post>>>();
+            k.Bind<FavoriteThreadsService>().ToSelf().InSingletonScope();
+            k.Bind<RecentThreadsService>().ToSelf().InSingletonScope();
+            k.Bind<FavoritePostsService>().ToSelf().InSingletonScope();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args) {

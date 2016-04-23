@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Core.Common.Links;
 using Core.Models;
@@ -18,6 +17,15 @@ namespace Win2ch.Services.Storage {
         public ThreadInfo GetThreadInfo(ThreadLink threadLink) {
             return
                 Items.FirstOrDefault(t => t.BoardId.EqualsNc(threadLink.BoardId) && t.Number == threadLink.ThreadNumber);
+        }
+
+        public ThreadInfo GetThreadInfoOrCreate(Thread thread) {
+            ThreadInfo threadInfo = GetThreadInfo(thread.GetLink());
+            if (threadInfo != null)
+                return threadInfo;
+            threadInfo = thread.GetThreadInfo();
+            Items.Add(threadInfo);
+            return threadInfo;
         }
     }
 }
