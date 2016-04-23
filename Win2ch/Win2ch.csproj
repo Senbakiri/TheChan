@@ -122,8 +122,15 @@
     <Compile Include="Extensions\CommonExtensions.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Storage\FavoritePostsService.cs" />
+    <Compile Include="Services\Storage\FavoriteThreadsService.cs" />
+    <Compile Include="Services\Storage\IItemsRepositoryService.cs" />
     <Compile Include="Services\Storage\IStorageService.cs" />
+    <Compile Include="Services\Storage\ItemsRepositoryServiceBase.cs" />
+    <Compile Include="Services\Storage\IThreadsRepositoryService.cs" />
     <Compile Include="Services\Storage\JsonStorageService.cs" />
+    <Compile Include="Services\Storage\RecentThreadsService.cs" />
+    <Compile Include="Services\Storage\ThreadsRepositoryServiceBase.cs" />
     <Compile Include="Services\Toast\IToastService.cs" />
     <Compile Include="Services\Toast\ToastService.cs" />
     <Compile Include="ViewModels\BoardThreadViewModel.cs" />

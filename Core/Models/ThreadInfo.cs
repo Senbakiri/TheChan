@@ -10,13 +10,13 @@ namespace Core.Models {
                           long number,
                           string description,
                           Uri thumbnailUri,
-                          int lastReadedPostPosition = 0,
+                          int lastReadPostPosition = 0,
                           int unreadPosts = 0) {
             BoardId = boardId;
             Number = number;
             Description = description;
             ThumbnailUri = thumbnailUri;
-            LastReadedPostPosition = lastReadedPostPosition;
+            LastReadPostPosition = lastReadPostPosition;
             UnreadPosts = unreadPosts;
         }
 
@@ -24,7 +24,7 @@ namespace Core.Models {
         public long Number { get; }
         public string Description { get; }
         public Uri ThumbnailUri { get; }
-        public int LastReadedPostPosition { get; set; }
+        public int LastReadPostPosition { get; set; }
         public int UnreadPosts { get; set; }
     }
 }

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using Windows.ApplicationModel.Activation;
 using Caliburn.Micro;
 using Core.Common;
+using Core.Models;
 using Ninject;
 using Win2ch.Common;
 using Win2ch.ViewModels;
 using Makaba;
 using Win2ch.Common.UI;
+using Win2ch.Services.Storage;
 using Win2ch.Services.Toast;
 
 namespace Win2ch
@@ -28,6 +30,8 @@ namespace Win2ch
             this.kernel.Bind<IBoard>().To<MakabaBoard>().InSingletonScope();
             this.kernel.Bind<IToastService>().To<ToastService>().InSingletonScope();
             this.kernel.Bind<IAttachmentViewer>().To<AttachmentViewer>();
+            this.kernel.Bind<IStorageService<IList<ThreadInfo>>>().To<JsonStorageService<IList<ThreadInfo>>>();
+            this.kernel.Bind<IStorageService<IList<Post>>>().To<JsonStorageService<IList<Post>>>();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args) {
