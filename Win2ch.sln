@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B0A226D8-0B77-4351-AE5A-77C94AD6D97D}"
 	ProjectSection(SolutionItems) = preProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Makaba", "Makaba\Makaba.csproj", "{040550A7-82D3-4985-A7C9-F39E6DA17A21}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{63C4DE70-8C04-4341-8B90-CFDD580755E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakabaTests", "MakabaTests\MakabaTests.csproj", "{4089B999-662A-4FA3-B740-B0556BFDF023}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +81,26 @@ Global
 		{63C4DE70-8C04-4341-8B90-CFDD580755E6}.Release|x64.Build.0 = Release|Any CPU
 		{63C4DE70-8C04-4341-8B90-CFDD580755E6}.Release|x86.ActiveCfg = Release|Any CPU
 		{63C4DE70-8C04-4341-8B90-CFDD580755E6}.Release|x86.Build.0 = Release|Any CPU
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Debug|ARM.ActiveCfg = Debug|ARM
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Debug|ARM.Build.0 = Debug|ARM
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Debug|ARM.Deploy.0 = Debug|ARM
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Debug|x64.ActiveCfg = Debug|x64
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Debug|x64.Build.0 = Debug|x64
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Debug|x64.Deploy.0 = Debug|x64
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Debug|x86.ActiveCfg = Debug|x86
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Debug|x86.Build.0 = Debug|x86
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Debug|x86.Deploy.0 = Debug|x86
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Release|Any CPU.ActiveCfg = Release|x86
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Release|ARM.ActiveCfg = Release|ARM
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Release|ARM.Build.0 = Release|ARM
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Release|ARM.Deploy.0 = Release|ARM
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Release|x64.ActiveCfg = Release|x64
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Release|x64.Build.0 = Release|x64
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Release|x64.Deploy.0 = Release|x64
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Release|x86.ActiveCfg = Release|x86
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Release|x86.Build.0 = Release|x86
+		{4089B999-662A-4FA3-B740-B0556BFDF023}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
