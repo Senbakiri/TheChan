@@ -693,7 +693,7 @@
             </Grid>
         </PivotItem>
 
-        <PivotItem>
+        <PivotItem Margin="10 10 10 0">
             <PivotItem.Header>
                 <controls:TabHeader Glyph="&#xE734;"
                                     x:Uid="Home/Favorites"/>
