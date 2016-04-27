@@ -17,7 +17,7 @@ namespace Win2ch.Views {
     public sealed partial class ThreadView : ICanScrollToItem<PostViewModel>, IReplyDisplay {
         private ScrollViewer postsScrollViewer;
         private VirtualizingStackPanel stackPanel;
-        private bool dontMarkAsRead;
+        private bool dontMarkAsRead = true;
         private double prevOffset;
         private PostViewModel lastReply, replyUnderMouse;
         private Dictionary<PostViewModel, int> ReplyLevel { get; } = new Dictionary<PostViewModel, int>();

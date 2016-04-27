@@ -32,6 +32,7 @@ namespace Core.Models {
                                   Number,
                                   description,
                                   firstPost.Attachments.FirstOrDefault()?.ThumbnailUri,
+                                  Posts.Count,
                                   Posts.Count);
         }
 

@@ -19,7 +19,7 @@ namespace Win2ch.ViewModels {
             ToastService = toastService;
             this.threadsUpdateTimer.Interval = TimeSpan.FromMinutes(1);
             this.threadsUpdateTimer.Tick += ThreadsUpdateTimerOnTick;
-            this.threadsUpdateTimer.Start();
+            //this.threadsUpdateTimer.Start();
             this.dispatcher = Window.Current.Dispatcher;
         }
 

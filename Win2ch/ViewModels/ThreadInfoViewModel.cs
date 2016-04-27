@@ -3,6 +3,8 @@ using Core.Models;
 
 namespace Win2ch.ViewModels {
     public class ThreadInfoViewModel : PropertyChangedBase {
+        private bool isLoading;
+
         public ThreadInfoViewModel(ThreadInfo threadInfo) {
             ThreadInfo = threadInfo;
         }
@@ -25,6 +27,16 @@ namespace Win2ch.ViewModels {
                 if (value == ThreadInfo.UnreadPosts)
                     return;
                 ThreadInfo.UnreadPosts = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsLoading {
+            get { return this.isLoading; }
+            set {
+                if (value == this.isLoading)
+                    return;
+                this.isLoading = value;
                 NotifyOfPropertyChange();
             }
         }

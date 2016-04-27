@@ -135,6 +135,12 @@
   <data name="Cloudflare.Name" xml:space="preserve">
     <value>CloudFlare</value>
   </data>
+  <data name="Favorites.NewPosts.Text" xml:space="preserve">
+    <value>NEW POSTS:</value>
+  </data>
+  <data name="Favorites.Refresh.Content" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
   <data name="Home.BoardsLoaded" xml:space="preserve">
     <value>The boards loaded successfully!</value>
   </data>

@@ -7,6 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:Win2ch.ViewModels"
     xmlns:micro="using:Caliburn.Micro"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:Win2ch.Behaviors"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -31,9 +33,13 @@
                                Style="{StaticResource TitleTextBlockStyle}"
                                Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                Text="{x:Bind ViewModel.CurrentPage.BoardName, Mode=OneWay}"/>
-                    <TextBlock Text="{x:Bind ViewModel.CurrentPage.BoardInfo, Mode=OneWay}"
-                               TextWrapping="Wrap"
-                               Margin="0 5 0 0"/>
+                    <TextBlock TextWrapping="Wrap"
+                               Margin="0 5 0 0"
+                               Visibility="{x:Bind ViewModel.CurrentPage.BoardInfo, Converter={StaticResource EmptyStringToCollapsed}}">
+                        <interactivity:Interaction.Behaviors>
+                            <behaviors:HtmlBehavior Html="{x:Bind ViewModel.CurrentPage.BoardInfo, Mode=OneWay}"/>
+                        </interactivity:Interaction.Behaviors>
+                    </TextBlock>
                 </StackPanel>
             </ListView.Header>
             <ListView.ItemTemplate>

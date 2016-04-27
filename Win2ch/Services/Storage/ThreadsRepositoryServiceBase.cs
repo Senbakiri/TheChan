@@ -24,7 +24,6 @@ namespace Win2ch.Services.Storage {
             if (threadInfo != null)
                 return threadInfo;
             threadInfo = thread.GetThreadInfo();
-            Items.Add(threadInfo);
             return threadInfo;
         }
     }

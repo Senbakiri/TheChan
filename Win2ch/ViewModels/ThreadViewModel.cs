@@ -62,6 +62,11 @@ namespace Win2ch.ViewModels {
                 this.highlightingStart = value;
                 NotifyOfPropertyChange();
                 UpdateBadge();
+
+                if (ThreadInfo != null) {
+                    ThreadInfo.LastReadPostPosition = HighlightingStart - 1;
+                    ThreadInfo.UnreadPosts = ThreadInfo.LastLoadedPostPosition - ThreadInfo.LastReadPostPosition;
+                }
             }
         }
 
@@ -88,27 +93,36 @@ namespace Win2ch.ViewModels {
         protected override async void OnActivate(object parameter = null) {
             if (parameter == null)
                 return;
-            var navigation = (ThreadNavigation) parameter;
-            if (string.IsNullOrWhiteSpace(navigation.BoardId))
+            var nav = (ThreadNavigation) parameter;
+            if (string.IsNullOrWhiteSpace(nav.BoardId)) 
                 throw new ArgumentException();
             
-            Link = new ThreadLink(navigation.BoardId, navigation.ThreadNumber);
-            DisplayName = $"/{navigation.BoardId}/ - {navigation.ThreadNumber}";
+            Link = new ThreadLink(nav.BoardId, nav.ThreadNumber);
+            DisplayName = $"/{nav.BoardId}/ - {nav.ThreadNumber}";
             IsLoading = true;
             Shell.LoadingInfo.InProgress(GetLocalizationString("Loading"));
             try {
                 Thread thread = await Board.LoadThreadAsync(Link);
-                ThreadInfo = thread.GetThreadInfo();
+                ThreadInfo = FavoriteThreadsService.GetThreadInfoOrCreate(thread);
                 IsInFavorites = FavoriteThreadsService.Items.Contains(ThreadInfo);
                 DisplayName = GetDisplayName(thread);
                 Posts.Clear();
                 FillPosts(thread.Posts);
                 Shell.LoadingInfo.Success(GetLocalizationString("Loaded"));
-                if (navigation.IsScrollingToPostNeeded) {
-                    PostScroll?.ScrollToItem(Posts.FirstOrDefault(p => p.Post.Number == navigation.PostNumber));
+                if (nav.IsScrollingToPostNeeded) {
+                    if (nav.PostPosition == 0)
+                        PostScroll?.ScrollToItem(Posts.FirstOrDefault(p => p.Post.Number == nav.PostNumber));
+                    else if (nav.PostNumber == 0)
+                        PostScroll?.ScrollToItem(Posts.FirstOrDefault(p => p.Position == nav.PostPosition));
                 }
+
+                if (nav.IsHighlightingNeeded) {
+                    IsHighlighting = true;
+                    HighlightingStart = nav.HighlightingStart;
+                }
+
             } catch (Exception) {
-                Shell.LoadingInfo.Error(GetLocalizationString("NotLoaded"), true, () => OnActivate(navigation));
+                Shell.LoadingInfo.Error(GetLocalizationString("NotLoaded"), true, () => OnActivate(nav));
             }
 
             IsLoading = false;
@@ -287,6 +301,11 @@ namespace Win2ch.ViewModels {
 
             IsInFavorites = !isThreadInFavorites;
             await FavoriteThreadsService.Save();
+        }
+
+        protected override async void OnDeactivate(bool close) {
+            if (close)
+                await FavoriteThreadsService.Save();
         }
     }
 }

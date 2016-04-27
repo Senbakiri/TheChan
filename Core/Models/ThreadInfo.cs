@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.Common.Links;
 
 namespace Core.Models {
 
@@ -11,12 +12,14 @@ namespace Core.Models {
                           string description,
                           Uri thumbnailUri,
                           int lastReadPostPosition = 0,
+                          int lastLoadedPostPosition = 0,
                           int unreadPosts = 0) {
             BoardId = boardId;
             Number = number;
             Description = description;
             ThumbnailUri = thumbnailUri;
             LastReadPostPosition = lastReadPostPosition;
+            LastLoadedPostPosition = lastLoadedPostPosition;
             UnreadPosts = unreadPosts;
         }
 
@@ -26,6 +29,7 @@ namespace Core.Models {
         public Uri ThumbnailUri { get; }
         public int LastReadPostPosition { get; set; }
         public int UnreadPosts { get; set; }
+        public int LastLoadedPostPosition { get; set; }
 
         protected bool Equals(ThreadInfo other) {
             return
@@ -53,6 +57,10 @@ namespace Core.Models {
                 hashCode = (hashCode * 397) ^ (ThumbnailUri?.GetHashCode() ?? 0);
                 return hashCode;
             }
+        }
+
+        public ThreadLink GetLink() {
+            return new ThreadLink(BoardId, Number);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Views {
@@ -9,5 +10,9 @@ namespace Win2ch.Views {
         }
 
         private FavoritesViewModel ViewModel { get; set; }
+
+        private void Threads_OnItemClick(object sender, ItemClickEventArgs e) {
+            ViewModel.NavigateToThread((ThreadInfoViewModel) e.ClickedItem);
+        }
     }
 }
