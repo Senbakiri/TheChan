@@ -143,9 +143,11 @@
     <Compile Include="ViewModels\ImagesViewModel.cs" />
     <Compile Include="ViewModels\PostsViewModel.cs" />
     <Compile Include="ViewModels\PostViewModel.cs" />
+    <Compile Include="ViewModels\RecentThreadsViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\ThreadInfoViewModel.cs" />
+    <Compile Include="ViewModels\ThreadsRepositoryViewModelBase.cs" />
     <Compile Include="ViewModels\ThreadViewModel.cs" />
     <Compile Include="Views\BoardView.xaml.cs">
       <DependentUpon>BoardView.xaml</DependentUpon>
@@ -170,6 +172,9 @@
     </Compile>
     <Compile Include="Views\PostView.xaml.cs">
       <DependentUpon>PostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecentThreadsView.xaml.cs">
+      <DependentUpon>RecentThreadsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -278,6 +283,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PostView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecentThreadsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

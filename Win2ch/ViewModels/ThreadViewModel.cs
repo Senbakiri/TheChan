@@ -25,11 +25,13 @@ namespace Win2ch.ViewModels {
         public ThreadViewModel(IBoard board,
                                IShell shell,
                                IAttachmentViewer attachmentViewer,
-                               FavoriteThreadsService favoriteThreadsService) {
+                               FavoriteThreadsService favoriteThreadsService,
+                               RecentThreadsService recentThreadsService) {
             Board = board;
             Shell = shell;
             AttachmentViewer = attachmentViewer;
             FavoriteThreadsService = favoriteThreadsService;
+            RecentThreadsService = recentThreadsService;
             Posts = new ObservableCollection<PostViewModel>();
         }
 
@@ -37,6 +39,7 @@ namespace Win2ch.ViewModels {
         private IBoard Board { get; }
         private IAttachmentViewer AttachmentViewer { get; }
         private FavoriteThreadsService FavoriteThreadsService { get; }
+        private RecentThreadsService RecentThreadsService { get; }
         private ICanScrollToItem<PostViewModel> PostScroll { get; set; } 
         private IReplyDisplay ReplyDisplay { get; set; }
         public ObservableCollection<PostViewModel> Posts { get; }
@@ -105,27 +108,39 @@ namespace Win2ch.ViewModels {
                 Thread thread = await Board.LoadThreadAsync(Link);
                 ThreadInfo = FavoriteThreadsService.GetThreadInfoOrCreate(thread);
                 IsInFavorites = FavoriteThreadsService.Items.Contains(ThreadInfo);
+                await SaveThreadToRecentThreads();
                 DisplayName = GetDisplayName(thread);
                 Posts.Clear();
                 FillPosts(thread.Posts);
                 Shell.LoadingInfo.Success(GetLocalizationString("Loaded"));
-                if (nav.IsScrollingToPostNeeded) {
-                    if (nav.PostPosition == 0)
-                        PostScroll?.ScrollToItem(Posts.FirstOrDefault(p => p.Post.Number == nav.PostNumber));
-                    else if (nav.PostNumber == 0)
-                        PostScroll?.ScrollToItem(Posts.FirstOrDefault(p => p.Position == nav.PostPosition));
-                }
-
-                if (nav.IsHighlightingNeeded) {
-                    IsHighlighting = true;
-                    HighlightingStart = nav.HighlightingStart;
-                }
-
+                HandleScrolling(nav);
+                HandleHighlighting(nav);
             } catch (Exception) {
                 Shell.LoadingInfo.Error(GetLocalizationString("NotLoaded"), true, () => OnActivate(nav));
             }
 
             IsLoading = false;
+        }
+
+        private void HandleHighlighting(ThreadNavigation nav) {
+            if (!nav.IsHighlightingNeeded)
+                return;
+            IsHighlighting = true;
+            HighlightingStart = nav.HighlightingStart;
+        }
+
+        private void HandleScrolling(ThreadNavigation nav) {
+            if (!nav.IsScrollingToPostNeeded)
+                return;
+            if (nav.PostPosition == 0)
+                PostScroll?.ScrollToItem(Posts.FirstOrDefault(p => p.Post.Number == nav.PostNumber));
+            else if (nav.PostNumber == 0)
+                PostScroll?.ScrollToItem(Posts.FirstOrDefault(p => p.Position == nav.PostPosition));
+        }
+
+        private async Task SaveThreadToRecentThreads() {
+            RecentThreadsService.Items.Add(ThreadInfo);
+            await RecentThreadsService.Save();
         }
 
         private static string GetDisplayName(Thread thread) {

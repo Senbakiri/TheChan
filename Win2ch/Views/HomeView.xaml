@@ -693,18 +693,19 @@
             </Grid>
         </PivotItem>
 
-        <PivotItem Margin="10 10 10 0">
+        <PivotItem Margin="10">
             <PivotItem.Header>
                 <controls:TabHeader Glyph="&#xE734;"
                                     x:Uid="Home/Favorites"/>
             </PivotItem.Header>
             <views:FavoritesView DataContext="{x:Bind FavoritesViewModel}"/>
         </PivotItem>
-        <PivotItem Margin="0">
+        <PivotItem Margin="10">
             <PivotItem.Header>
                 <controls:TabHeader Glyph="&#xEA37;"
                                     x:Uid="Home/RecentThreads"/>
             </PivotItem.Header>
+            <views:RecentThreadsView DataContext="{x:Bind RecentThreadsViewModel}"/>
         </PivotItem>
         <PivotItem>
             <PivotItem.Header>

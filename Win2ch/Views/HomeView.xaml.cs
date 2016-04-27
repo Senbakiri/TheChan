@@ -6,16 +6,20 @@ using Win2ch.ViewModels;
 
 namespace Win2ch.Views {
     public sealed partial class HomeView {
-        public HomeView(SettingsViewModel settingsViewModel, FavoritesViewModel favoritesViewModel) {
+        public HomeView(SettingsViewModel settingsViewModel,
+                        FavoritesViewModel favoritesViewModel,
+                        RecentThreadsViewModel recentThreadsViewModel) {
             InitializeComponent();
             DataContextChanged += (s, e) => ViewModel = DataContext as HomeViewModel;
             SettingsViewModel = settingsViewModel;
             FavoritesViewModel = favoritesViewModel;
+            RecentThreadsViewModel = recentThreadsViewModel;
         }
 
         private HomeViewModel ViewModel { get; set; }
         private SettingsViewModel SettingsViewModel { get; }
         private FavoritesViewModel FavoritesViewModel { get; }
+        private RecentThreadsViewModel RecentThreadsViewModel { get; }
 
         private void BoardsListView_OnItemClick(object sender, ItemClickEventArgs e) {
             ViewModel.NavigateToBoard(e.ClickedItem as BriefBoardInfo);
@@ -34,6 +38,9 @@ namespace Win2ch.Views {
             switch (this.Pivot.SelectedIndex) {
                 case 1:
                     FavoritesViewModel.Load();
+                    break;
+                case 2:
+                    RecentThreadsViewModel.Load();
                     break;
             }
         }
