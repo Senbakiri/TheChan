@@ -139,6 +139,8 @@ namespace Win2ch.ViewModels {
         }
 
         private async Task SaveThreadToRecentThreads() {
+            if (RecentThreadsService.Items.Contains(ThreadInfo))
+                RecentThreadsService.Items.Remove(ThreadInfo);
             RecentThreadsService.Items.Add(ThreadInfo);
             await RecentThreadsService.Save();
         }
