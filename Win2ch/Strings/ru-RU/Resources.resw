@@ -135,6 +135,33 @@
   <data name="Cloudflare.Name" xml:space="preserve">
     <value>CloudFlare</value>
   </data>
+  <data name="ExtendedPosting.Add.Text" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="ExtendedPosting.Additional.Text" xml:space="preserve">
+    <value>Дополнительно</value>
+  </data>
+  <data name="ExtendedPosting.Attachments.Text" xml:space="preserve">
+    <value>Прикрепления</value>
+  </data>
+  <data name="ExtendedPosting.EMail.Header" xml:space="preserve">
+    <value>E-Mail</value>
+  </data>
+  <data name="ExtendedPosting.IsOp.Content" xml:space="preserve">
+    <value>ОП</value>
+  </data>
+  <data name="ExtendedPosting.IsSage.Content" xml:space="preserve">
+    <value>Sage</value>
+  </data>
+  <data name="ExtendedPosting.Name.Header" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="ExtendedPosting.Subject.Header" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="ExtendedPosting.Title.Text" xml:space="preserve">
+    <value>Создание поста</value>
+  </data>
   <data name="Favorites.NewPosts.Text" xml:space="preserve">
     <value>НОВЫХ ПОСТОВ:</value>
   </data>
@@ -186,8 +213,17 @@
   <data name="Settings.Cloudflare.Content" xml:space="preserve">
     <value>Авторизация CloudFlare</value>
   </data>
+  <data name="Settings.Interface.Text" xml:space="preserve">
+    <value>Интерфейс</value>
+  </data>
+  <data name="Settings.Language.Header" xml:space="preserve">
+    <value>Язык</value>
+  </data>
   <data name="Settings.Other.Text" xml:space="preserve">
     <value>Дополнительно</value>
+  </data>
+  <data name="Settings.RestartNeeded.Text" xml:space="preserve">
+    <value>Изменения вступят в силу после перезапуска приложения</value>
   </data>
   <data name="Shell.ThreadsWithNewPosts" xml:space="preserve">
     <value>Тредов с новыми постами</value>

@@ -1,0 +1,100 @@
+﻿<Page
+    x:Class="Win2ch.Views.ExtendedPostingView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Win2ch.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Loaded="ExtendedPostingView_OnLoaded">
+
+    <Grid >
+        <Rectangle Fill="#80000000"
+                   Tapped="Underlay_OnTapped"/>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+              VerticalAlignment="Stretch"
+              HorizontalAlignment="Stretch"
+              MaxWidth="960"
+              x:Name="Window">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                       Text="[PostCreation]"
+                       x:Uid="ExtendedPosting/Title"
+                       Padding="10"/>
+            <ListView Grid.Row="1">
+                <ListView.Header>
+                    <StackPanel>
+                        <TextBox AcceptsReturn="True"
+                                 MinHeight="100"
+                                 BorderThickness="0 2"
+                                 TextWrapping="Wrap"
+                                 Text="{x:Bind ViewModel.PostText, Mode=TwoWay}"/>
+                        <StackPanel Padding="10">
+                            <TextBlock Text="[Additional]"
+                                       x:Uid="ExtendedPosting/Additional"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Margin="0 5"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBox Header="[Name]"
+                                         x:Uid="ExtendedPosting/Name"
+                                         Grid.Column="0"
+                                         Grid.Row="0"
+                                         Margin="0 5"/>
+                                <CheckBox Grid.Column="1"
+                                          Grid.Row="0"
+                                          VerticalAlignment="Bottom"
+                                          Margin="10 5"
+                                          Content="[IsOp]"
+                                          x:Uid="ExtendedPosting/IsOp"/>
+                                <TextBox Header="[EMail]"
+                                         x:Uid="ExtendedPosting/EMail"
+                                         Grid.Column="0"
+                                         Grid.Row="1"
+                                         Margin="0 5"/>
+                                <CheckBox Grid.Column="1"
+                                          Grid.Row="1"
+                                          VerticalAlignment="Bottom"
+                                          Margin="10 5"
+                                          Content="[IsSage]"
+                                          x:Uid="ExtendedPosting/IsSage"/>
+                                <TextBox Header="[Subject]"
+                                         x:Uid="ExtendedPosting/Subject"
+                                         Grid.Column="0"
+                                         Grid.Row="2"
+                                         Grid.ColumnSpan="2"
+                                         Margin="0 5"/>
+                            </Grid>
+                            <TextBlock Style="{ThemeResource TitleTextBlockStyle}"
+                                       Text="[Attachments]"
+                                       x:Uid="ExtendedPosting/Attachments"
+                                       Margin="0 5"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ListView.Header>
+                <ListView.Footer>
+                    <Button Margin="10">
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon Symbol="Add"/>
+                            <TextBlock Text="[Add]"
+                                       x:Uid="ExtendedPosting/Add"
+                                       Margin="7 0 0 0"/>
+                        </StackPanel>
+                    </Button>
+                </ListView.Footer>
+            </ListView>
+        </Grid>
+    </Grid>
+</Page>

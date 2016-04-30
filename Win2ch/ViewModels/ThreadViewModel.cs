@@ -21,6 +21,7 @@ namespace Win2ch.ViewModels {
         private bool isHighlighting;
         private int highlightingStart;
         private bool isInFavorites;
+        private string postText;
 
         public ThreadViewModel(IBoard board,
                                IShell shell,
@@ -33,6 +34,7 @@ namespace Win2ch.ViewModels {
             FavoriteThreadsService = favoriteThreadsService;
             RecentThreadsService = recentThreadsService;
             Posts = new ObservableCollection<PostViewModel>();
+            PostInfo = new PostInfo();
         }
 
         private IShell Shell { get; }
@@ -42,9 +44,10 @@ namespace Win2ch.ViewModels {
         private RecentThreadsService RecentThreadsService { get; }
         private ICanScrollToItem<PostViewModel> PostScroll { get; set; } 
         private IReplyDisplay ReplyDisplay { get; set; }
-        public ObservableCollection<PostViewModel> Posts { get; }
         private ThreadLink Link { get; set; }
         private ThreadInfo ThreadInfo { get; set; }
+        private PostInfo PostInfo { get; }
+        public ObservableCollection<PostViewModel> Posts { get; }
 
         public bool IsHighlighting {
             get { return this.isHighlighting; }
@@ -79,6 +82,17 @@ namespace Win2ch.ViewModels {
                 if (value == this.isInFavorites)
                     return;
                 this.isInFavorites = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public string PostText {
+            get { return this.postText; }
+            set {
+                if (value == this.postText)
+                    return;
+                this.postText = value;
+                PostInfo.Text = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -323,6 +337,17 @@ namespace Win2ch.ViewModels {
         protected override async void OnDeactivate(bool close) {
             if (close)
                 await FavoriteThreadsService.Save();
+        }
+
+        public void ShowExtendedPostingPopup() {
+            var viewModel = new ExtendedPostingViewModel(PostInfo);
+            viewModel.PostInfoChanged += ExtendedPostingViewModelOnPostInfoChanged;
+            Shell.ShowPopup(viewModel);
+        }
+
+        private void ExtendedPostingViewModelOnPostInfoChanged(object sender, PostInfoChangedEventArgs e) {
+            PostInfo pi = e.PostInfo;
+            PostText = pi.Text;
         }
     }
 }

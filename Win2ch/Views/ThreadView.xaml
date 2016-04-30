@@ -434,13 +434,18 @@
     </Page.Resources>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <controls:SwipeListView ItemsSource="{x:Bind ViewModel.Posts}"
                                 ItemLeftBackground="{ThemeResource SystemControlBackgroundAccentBrush}"
                                 ItemRightBackground="Orange"
                                 ItemLeftBehavior="Collapse"
                                 ItemRightBehavior="Collapse"
                                 SelectionMode="None"
-                                Margin="0 -1.5 0 48"
+                                Margin="0 -1.5 0 0"
                                 x:Name="Posts"
                                 ShowsScrollingPlaceholders="True"
                                 VirtualizingStackPanel.VirtualizationMode="Recycling">
@@ -507,9 +512,41 @@
                 </DataTemplate>
             </controls:SwipeListView.ItemTemplate>
         </controls:SwipeListView>
+
+        <Grid Grid.Row="1">
+            <Grid.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="VerticalAlignment" Value="Stretch"/>
+                    <Setter Property="Width" Value="48"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="ExtendedPostingButton"
+                    Click="{x:Bind ViewModel.ShowExtendedPostingPopup}">
+                <SymbolIcon Symbol="More"/>
+            </Button>
+            <Button Grid.Column="1">
+                <SymbolIcon Symbol="Send"/>
+            </Button>
+            <TextBox BorderThickness="0"
+                     HorizontalAlignment="Stretch"
+                     Grid.Column="2"
+                     Padding="10"
+                     AcceptsReturn="True"
+                     x:Uid="Thread/FastReply"
+                     MaxHeight="300"
+                     Text="{x:Bind ViewModel.PostText, Mode=TwoWay}"/>
+        </Grid>
         <CommandBar VerticalAlignment="Bottom"
                     CommandBarOverflowPresenterStyle="{StaticResource OverflowPresenterStyle}"
-                    Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
+                    Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+                    Grid.Row="2">
             <AppBarButton micro:Message.Attach="Favorite()">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:BooleanBasedIconSelectorBehavior Value="{x:Bind ViewModel.IsInFavorites, Mode=OneWay}"
@@ -546,6 +583,9 @@
         <Canvas x:Name="RepliesCanvas"
                 VerticalAlignment="Stretch"
                 HorizontalAlignment="Stretch"
-                Canvas.ZIndex="10"/>
+                Canvas.ZIndex="10"
+                Grid.Row="0"
+                Grid.RowSpan="3"/>
     </Grid>
 </Page>
+

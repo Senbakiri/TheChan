@@ -442,7 +442,7 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <!--the actual element for panning, manipulations happen here-->
-                            <Rectangle x:Name="PanArea" Fill="Transparent" ManipulationMode="TranslateX, System" Width="{Binding PanAreaThreshold, RelativeSource={RelativeSource Mode=TemplatedParent}}" Grid.Column="1">
+                            <Rectangle x:Name="PanArea" Fill="Transparent" ManipulationMode="TranslateX, System" Width="10" Grid.Column="1">
                                 <Rectangle.RenderTransform>
                                     <CompositeTransform TranslateX="{Binding PanAreaInitialTranslateX, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                                 </Rectangle.RenderTransform>

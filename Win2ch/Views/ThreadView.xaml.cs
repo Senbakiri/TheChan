@@ -8,7 +8,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Caliburn.Micro;
-using Win2ch.Common;
 using Win2ch.ViewModels;
 using Windows.System;
 using Win2ch.Common.UI;
@@ -30,7 +29,7 @@ namespace Win2ch.Views {
             this.closeRepliesTimer.Interval = TimeSpan.FromSeconds(3);
             this.closeRepliesTimer.Tick += CloseRepliesTimerOnTick;
         }
-
+        
         public ThreadViewModel ViewModel { get; private set; }
 
         public void Up() {
