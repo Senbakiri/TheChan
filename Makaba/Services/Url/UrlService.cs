@@ -59,6 +59,10 @@ namespace Makaba.Services.Url {
             return new Uri(BaseUri, $"/makaba/mobile.fcgi?task=get_post&board={boardId}&post={postNum}");
         }
 
+        public Uri GetPostingUrl() {
+            return GetFullUrl("/makaba/posting.fcgi");
+        }
+
         public LinkType DetermineLinkType(string url) {
             if (url == null)
                 return LinkType.None;

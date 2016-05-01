@@ -16,6 +16,7 @@ namespace Core.Common {
         Uri GetFileUrl(string boardId, string path);
         Uri GetThreadUrl(string boardId, long threadNum, int position = 0);
         Uri GetPostUrl(string boardId, long postNum);
+        Uri GetPostingUrl();
         LinkType DetermineLinkType(string url);
         LinkBase GetLink(string url);
         Uri GetUrlForLink(LinkBase link);

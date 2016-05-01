@@ -8,5 +8,6 @@ namespace Core.Common {
         ILoadBoardOperation LoadBoard();
         ILoadThreadOperation LoadThread();
         IGetPostOperation GetPost();
+        IPostOperation Post();
     }
 }

@@ -21,9 +21,5 @@ namespace Win2ch.Views {
                 this.Window.VerticalAlignment = VerticalAlignment.Center;
             }
         }
-
-        private void Close() {
-            Shell.HidePopup();
-        }
     }
 }

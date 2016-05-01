@@ -513,7 +513,8 @@
             </controls:SwipeListView.ItemTemplate>
         </controls:SwipeListView>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1"
+              Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource TrueToCollaped}}">
             <Grid.Resources>
                 <Style TargetType="Button">
                     <Setter Property="Background" Value="Transparent"/>
@@ -531,7 +532,8 @@
                     Click="{x:Bind ViewModel.ShowExtendedPostingPopup}">
                 <SymbolIcon Symbol="More"/>
             </Button>
-            <Button Grid.Column="1">
+            <Button Grid.Column="1"
+                    Click="{x:Bind ViewModel.SendPost}">
                 <SymbolIcon Symbol="Send"/>
             </Button>
             <TextBox BorderThickness="0"

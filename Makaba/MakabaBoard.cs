@@ -40,5 +40,13 @@ namespace Makaba {
             operation.PostNumber = number;
             return operation.ExecuteAsync();
         }
+
+        public Task<PostingResult> PostAsync(PostInfo postInfo, string boardId, long parent = 0) {
+            IPostOperation operation = Operations.Post();
+            operation.PostInfo = postInfo;
+            operation.BoardId = boardId;
+            operation.Parent = parent;
+            return operation.ExecuteAsync();
+        }
     }
 }

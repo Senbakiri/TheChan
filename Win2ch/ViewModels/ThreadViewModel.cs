@@ -340,7 +340,7 @@ namespace Win2ch.ViewModels {
         }
 
         public void ShowExtendedPostingPopup() {
-            var viewModel = new ExtendedPostingViewModel(PostInfo);
+            var viewModel = new ExtendedPostingViewModel(Shell, Board, PostInfo, Link);
             viewModel.PostInfoChanged += ExtendedPostingViewModelOnPostInfoChanged;
             Shell.ShowPopup(viewModel);
         }
@@ -348,6 +348,24 @@ namespace Win2ch.ViewModels {
         private void ExtendedPostingViewModelOnPostInfoChanged(object sender, PostInfoChangedEventArgs e) {
             PostInfo pi = PostInfo; // we could also use e.PostInfo, but it is the same thing because of passing it by reference
             PostText = pi.Text;
+        }
+
+        public async void SendPost() {
+            IsLoading = true;
+            Shell.LoadingInfo.InProgress("[Posting]");
+            PostInfo postInfo = PostInfo.Clone();
+            try {
+                PostingResult result = await Board.PostAsync(postInfo, Link.BoardId, Link.ThreadNumber);
+                if (!result.IsSuccessful)
+                    throw new Exception(result.Error);
+                Shell.LoadingInfo.Success("[Posted]");
+                PostInfo.Clear();
+                RefreshThread();
+            }
+            catch (Exception e) {
+                Shell.LoadingInfo.Error(e.Message);
+            }
+            IsLoading = false;
         }
     }
 }

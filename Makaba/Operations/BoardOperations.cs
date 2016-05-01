@@ -28,5 +28,9 @@ namespace Makaba.Operations {
         public IGetPostOperation GetPost() {
             return Kernel.Get<IGetPostOperation>();
         }
+
+        public IPostOperation Post() {
+            return Kernel.Get<IPostOperation>();
+        }
     }
 }

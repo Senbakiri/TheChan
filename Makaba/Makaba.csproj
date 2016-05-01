@@ -38,6 +38,7 @@
     <Compile Include="Converters\CategoriesConverter.cs" />
     <Compile Include="Converters\IThreadConverter.cs" />
     <Compile Include="Converters\PostConverter.cs" />
+    <Compile Include="Converters\PostingResultConverter.cs" />
     <Compile Include="Converters\ThreadConverter.cs" />
     <Compile Include="Entities\AttachmentEntity.cs" />
     <Compile Include="Entities\BoardsCategoryEntity.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Entities\BoardTopItemEntity.cs" />
     <Compile Include="Entities\BriefBoardEntity.cs" />
     <Compile Include="Entities\IconEntity.cs" />
+    <Compile Include="Entities\PostingResultEntity.cs" />
     <Compile Include="Entities\ThreadEntity.cs" />
     <Compile Include="MakabaBoard.cs" />
     <Compile Include="MakabaModule.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="Operations\GetPostOperation.cs" />
     <Compile Include="Operations\LoadBoardOperation.cs" />
     <Compile Include="Operations\LoadThreadOperation.cs" />
+    <Compile Include="Operations\PostOperation.cs" />
     <Compile Include="Operations\RecieveBoardsOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Url\UrlService.cs" />

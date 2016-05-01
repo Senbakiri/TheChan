@@ -35,7 +35,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Rectangle Fill="#80000000"
-                   Tapped="{x:Bind Close}"/>
+                   Tapped="{x:Bind ViewModel.Close}"/>
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
               VerticalAlignment="Stretch"
               HorizontalAlignment="Stretch"
@@ -61,7 +61,7 @@
                         Width="48"
                         Height="48"
                         Background="Transparent"
-                        Click="{x:Bind Close}">
+                        Click="{x:Bind ViewModel.Close}">
                     <TextBlock FontFamily="Segoe MDL2 Assets"
                                Text="&#xE711;"
                                TextAlignment="Center"
@@ -202,7 +202,9 @@
                           Height="48"
                           Width="Auto"
                           Background="Transparent"
-                          Icon="Send">
+                          Icon="Send"
+                          Click="{x:Bind ViewModel.Send}"
+                          IsEnabled="{x:Bind ViewModel.IsWorking, Mode=OneWay, Converter={StaticResource Inverse}}">
             </AppBarButton>
         </Grid>
     </Grid>

@@ -19,12 +19,14 @@ namespace Makaba {
             Bind<IConverter<IList<BoardsCategoryEntity>, IList<BoardsCategory>>>().To<CategoriesConverter>();
             Bind<IConverter<BoardPageEntity, BoardPage>>().To<BoardConverter>();
             Bind<IConverter<ThreadEntity, Thread>>().To<ThreadConverter>();
+            Bind<IThreadConverter>().To<ThreadConverter>();
+            Bind<IConverter<PostingResultEntity, PostingResult>>().To<PostingResultConverter>();
 
             Bind<IHttpOperation<IList<BoardsCategory>>>().To<RecieveBoardsOperation>();
             Bind<ILoadBoardOperation>().To<LoadBoardOperation>();
             Bind<ILoadThreadOperation>().To<LoadThreadOperation>();
             Bind<IGetPostOperation>().To<GetPostOperation>();
-            Bind<IThreadConverter>().To<ThreadConverter>();
+            Bind<IPostOperation>().To<PostOperation>();
         }
     }
 }

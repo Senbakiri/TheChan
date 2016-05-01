@@ -34,5 +34,7 @@ namespace Core.Common {
         /// <param name="number">Post number.</param>
         /// <returns></returns>
         Task<Post> LoadPostAsync(string boardId, long number);
+
+        Task<PostingResult> PostAsync(PostInfo postInfo, string boardId, long parent = 0);
     }
 }

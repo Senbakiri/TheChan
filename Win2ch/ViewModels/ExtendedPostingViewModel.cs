@@ -1,6 +1,9 @@
 using System;
 using Caliburn.Micro;
 using Core.Common;
+using Core.Common.Links;
+using Core.Models;
+using Win2ch.Common.UI;
 using Win2ch.Extensions;
 
 namespace Win2ch.ViewModels {
@@ -13,14 +16,42 @@ namespace Win2ch.ViewModels {
         private string subject;
         private bool isOp;
         private bool isSage;
+        private bool isWorking;
 
-        public ExtendedPostingViewModel(PostInfo postInfo) {
+        public ExtendedPostingViewModel(IShell shell, IBoard board, PostInfo postInfo, ThreadLink threadLink) {
             PostInfo = postInfo;
-            PostText = PostInfo.Text;
+            SetupProperties();
+            Shell = shell;
+            Board = board;
+            BoardId = threadLink.BoardId;
+            Parent = threadLink.ThreadNumber;
         }
-    
+
+        public ExtendedPostingViewModel(IShell shell, IBoard board, PostInfo postInfo, string boardId) {
+            PostInfo = postInfo;
+            SetupProperties();
+            Shell = shell;
+            Board = board;
+            BoardId = boardId;
+            Parent = 0;
+        }
+
         private PostInfo PostInfo { get; }
+        private IShell Shell { get; }
+        private IBoard Board { get; }
+        private string BoardId { get; }
+        private long Parent { get; }
         public event EventHandler<PostInfoChangedEventArgs> PostInfoChanged;
+
+        public bool IsWorking {
+            get { return this.isWorking; }
+            private set {
+                if (value == this.isWorking)
+                    return;
+                this.isWorking = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public string PostText {
             get { return this.postText; }
@@ -122,14 +153,22 @@ namespace Win2ch.ViewModels {
             PostInfoChanged?.Invoke(this, new PostInfoChangedEventArgs(PostInfo));
         }
 
-        private void Insert(string text) {
+        private void SetupProperties() {
+            PostText = PostInfo.Text;
+            Name = PostInfo.Name;
+            EMail = PostInfo.EMail;
+            Subject = PostInfo.Subject;
+            IsOp = PostInfo.IsOp;
+        }
+
+        public void Insert(string text) {
             var selStart = SelectionStart;
             var selLen = SelectionLength;
             PostText = (PostText ?? "").Replace("\r\n", "\n").Insert(selStart, text);
             SelectionStart = selStart + selLen + text.Length;
         }
 
-        private void Tag(string tag) {
+        public void Tag(string tag) {
             var selStart = SelectionStart;
             var selLen = SelectionLength;
             var first = $"[{tag}]";
@@ -139,6 +178,29 @@ namespace Win2ch.ViewModels {
                 .Insert(selStart + selLen, second)
                 .Insert(selStart, first);
             SelectionStart = selStart + selLen + first.Length + second.Length;
+        }
+
+        public async void Send() {
+            IsWorking = true;
+            Shell.LoadingInfo.InProgress("[Posting]");
+            PostInfo postInfo = PostInfo.Clone();
+            try {
+                PostingResult result = await Board.PostAsync(postInfo, BoardId, Parent);
+                if (!result.IsSuccessful)
+                    throw new Exception(result.Error);
+                Shell.LoadingInfo.Success("[Posted]");
+                PostInfo.Clear();
+                Close();
+            } catch (Exception e) {
+                Shell.LoadingInfo.Error(e.Message);
+            }
+
+            IsWorking = false;
+        }
+
+        public void Close() {
+            if (!IsWorking)
+                Shell.HidePopup();
         }
     }
 
