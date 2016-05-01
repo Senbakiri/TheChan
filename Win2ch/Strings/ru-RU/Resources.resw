@@ -201,11 +201,17 @@
   <data name="Post.RepliesCount.Text" xml:space="preserve">
     <value>ОТВЕТОВ</value>
   </data>
+  <data name="Posting.Detach.Content" xml:space="preserve">
+    <value>Открепить</value>
+  </data>
   <data name="Posting.PostSent" xml:space="preserve">
     <value>Пост успешно отправлен</value>
   </data>
   <data name="Posting.SendingPost" xml:space="preserve">
     <value>Отправка поста...</value>
+  </data>
+  <data name="Posting.Untitled" xml:space="preserve">
+    <value>Безымянный</value>
   </data>
   <data name="Posts.GoToPost.Content" xml:space="preserve">
     <value>ПЕРЕЙТИ К ПОСТУ</value>

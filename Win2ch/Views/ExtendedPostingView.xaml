@@ -7,7 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:micro="using:Caliburn.Micro"
-    Loaded="ExtendedPostingView_OnLoaded">
+    xmlns:viewModels="using:Win2ch.ViewModels"
+    Loaded="ExtendedPostingView_OnLoaded"
+    AllowDrop="True"
+    DragOver="ExtendedPostingView_OnDragOver"
+    Drop="ExtendedPostingView_OnDrop">
 
     <Grid>
         <VisualStateManager.VisualStateGroups>
@@ -18,8 +22,8 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="TextBox.BorderThickness" Value="0 2"/>
-                        <Setter Target="TextBox.Margin" Value="0"/>
-                        <Setter Target="FormattingButtons.Margin" Value="0"/>
+                        <Setter Target="TextBox.Margin" Value="-10 0"/>
+                        <Setter Target="FormattingButtons.Margin" Value="-10 0"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -28,8 +32,8 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="TextBox.BorderThickness" Value="2"/>
-                        <Setter Target="TextBox.Margin" Value="10 0"/>
-                        <Setter Target="FormattingButtons.Margin" Value="10 0"/>
+                        <Setter Target="TextBox.Margin" Value="0"/>
+                        <Setter Target="FormattingButtons.Margin" Value="0"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -39,7 +43,7 @@
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
               VerticalAlignment="Stretch"
               HorizontalAlignment="Stretch"
-              MaxWidth="960"
+              MaxWidth="1024"
               x:Name="Window">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -68,8 +72,11 @@
                                FontSize="16"/>
                 </Button>
             </Grid>
-            <ListView Grid.Row="1">
-                <ListView.Header>
+            <GridView Grid.Row="1"
+                      ItemsSource="{x:Bind ViewModel.Attachments}"
+                      SelectionMode="None"
+                      Padding="10 0">
+                <GridView.Header>
                     <StackPanel>
                         <TextBox AcceptsReturn="True"
                                  MinHeight="100"
@@ -79,7 +86,8 @@
                                  SelectionStart="{Binding SelectionStart, Mode=TwoWay}"
                                  SelectionLength="{Binding SelectionLength, Mode=TwoWay}"
                                  x:Name="TextBox"
-                                 FontSize="18"/>
+                                 FontSize="16"
+                                 Paste="TextBox_OnPaste"/>
                         <StackPanel Orientation="Horizontal"
                                     x:Name="FormattingButtons">
                             <StackPanel.Resources>
@@ -130,7 +138,7 @@
                                            FontWeight="SemiBold"/>
                             </Button>
                         </StackPanel>
-                        <StackPanel Padding="10">
+                        <StackPanel Padding="0 10">
                             <TextBlock Text="[Additional]"
                                        x:Uid="ExtendedPosting/Additional"
                                        Style="{StaticResource TitleTextBlockStyle}"
@@ -185,9 +193,31 @@
                                        Margin="0 5"/>
                         </StackPanel>
                     </StackPanel>
-                </ListView.Header>
-                <ListView.Footer>
-                    <Button Margin="10">
+                </GridView.Header>
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="viewModels:AttachmentViewModel">
+                        <StackPanel Orientation="Horizontal">
+                            <Image x:Name="Image"
+                                   Source="{x:Bind Image}"
+                                   Width="100"
+                                   Height="100"
+                                   Stretch="UniformToFill"/>
+                            <StackPanel Margin="10 0"
+                                        VerticalAlignment="Center">
+                                <TextBlock Text="{x:Bind Name}"
+                                           Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                <TextBlock Text="{x:Bind Type}"
+                                           Margin="0 0 0 5"/>
+                                <Button micro:Message.Attach="Detach($dataContext)"
+                                        x:Uid="Posting/Detach"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+                <GridView.Footer>
+                    <Button Margin="10"
+                            Click="{x:Bind ViewModel.PickAndAttach}"
+                            IsEnabled="{x:Bind ViewModel.CanAttach, Mode=OneWay}">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="Add"/>
                             <TextBlock Text="[Add]"
@@ -195,8 +225,8 @@
                                        Margin="7 0 0 0"/>
                         </StackPanel>
                     </Button>
-                </ListView.Footer>
-            </ListView>
+                </GridView.Footer>
+            </GridView>
             <AppBarButton Grid.Row="2"
                           HorizontalAlignment="Stretch"
                           Height="48"

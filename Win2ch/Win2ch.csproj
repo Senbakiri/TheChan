@@ -135,6 +135,7 @@
     <Compile Include="Services\Storage\ThreadsRepositoryServiceBase.cs" />
     <Compile Include="Services\Toast\IToastService.cs" />
     <Compile Include="Services\Toast\ToastService.cs" />
+    <Compile Include="ViewModels\AttachmentViewModel.cs" />
     <Compile Include="ViewModels\BoardThreadViewModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="ViewModels\CloudflareViewModel.cs" />

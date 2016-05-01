@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Core.Common;
 using Core.Common.Links;
@@ -10,10 +11,16 @@ namespace Makaba {
         public MakabaBoard(IBoardOperations operations, IUrlService urlService) {
             Operations = operations;
             UrlService = urlService;
+            AllowedAttachmentFormats = new ReadOnlyCollection<string>(new List<string> {
+                ".jpg", ".png", ".gif", ".webm"
+            });
         }
 
         private IBoardOperations Operations { get; }
         public IUrlService UrlService { get; }
+        public int MaxAttachments { get; } = 4;
+        public IReadOnlyCollection<string> AllowedAttachmentFormats { get; }
+
         public Task<Thread> LoadThreadAsync(ThreadLink link, int startPosition = 0) {
             ILoadThreadOperation operation = Operations.LoadThread();
             operation.Link = link;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Windows.Storage.Streams;
 using Core.Common;
 using Core.Converters;
 using Core.Models;
@@ -20,13 +21,13 @@ namespace Makaba.Operations {
         public string BoardId { get; set; }
         public long Parent { get; set; }
 
-        public override Task<PostingResult> ExecuteAsync() {
+        public override async Task<PostingResult> ExecuteAsync() {
             Uri = UrlService.GetPostingUrl();
-            SetupHeaders();
-            return base.ExecuteAsync();
+            await SetupHeaders();
+            return await base.ExecuteAsync();
         }
 
-        private void SetupHeaders() {
+        private async Task SetupHeaders() {
             AddString("json", 1);
             AddString("task", "post");
             AddString("board", BoardId);
@@ -36,6 +37,12 @@ namespace Makaba.Operations {
             AddString("subject", PostInfo.Subject);
             AddString("op_mark", PostInfo.IsOp ? "1" : "0");
             AddString("comment", PostInfo.Text);
+
+            var imageIndex = 0;
+            foreach (IRandomAccessStreamReference file in PostInfo.Files) {
+                await AddFile(file, $"image{imageIndex}", $"attachedImage{imageIndex}");
+                ++imageIndex;
+            }
         }
     }
 }

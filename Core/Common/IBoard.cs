@@ -5,10 +5,11 @@ using Core.Models;
 
 namespace Core.Common {
     public interface IBoard {
-        //IBoardOperations Operations { get; }
         IUrlService UrlService { get; }
+        int MaxAttachments { get; }
+        IReadOnlyCollection<string> AllowedAttachmentFormats { get; }
 
-        /// <summary>
+            /// <summary>
         /// Loads the specified thread.
         /// </summary>
         Task<Thread> LoadThreadAsync(ThreadLink link, int startPosition = 0);

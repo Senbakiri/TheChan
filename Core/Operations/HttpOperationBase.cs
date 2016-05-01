@@ -7,7 +7,6 @@ using Core.Converters;
 namespace Core.Operations {
     public abstract class HttpOperationBase<TEntity, TResult> : IHttpOperation<TResult> {
 
-
         protected abstract IConverter<string, TEntity> EntityConverter { get; }
         protected abstract IConverter<TEntity, TResult> ResultConverter { get; }
         public abstract Uri Uri { get; protected set; }
