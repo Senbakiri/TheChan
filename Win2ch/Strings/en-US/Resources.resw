@@ -165,8 +165,14 @@
   <data name="Favorites.NewPosts.Text" xml:space="preserve">
     <value>NEW POSTS:</value>
   </data>
+  <data name="Favorites.Posts.Header" xml:space="preserve">
+    <value>posts</value>
+  </data>
   <data name="Favorites.Refresh.Content" xml:space="preserve">
     <value>Refresh</value>
+  </data>
+  <data name="Favorites.Threads.Header" xml:space="preserve">
+    <value>threads</value>
   </data>
   <data name="Home.BoardsLoaded" xml:space="preserve">
     <value>The boards loaded successfully!</value>
@@ -195,11 +201,17 @@
   <data name="Home.Settings.Label" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="Post.Favorite.Text" xml:space="preserve">
+    <value>Favorite</value>
+  </data>
   <data name="Post.Replies.Text" xml:space="preserve">
     <value>Replies:</value>
   </data>
   <data name="Post.RepliesCount.Text" xml:space="preserve">
     <value>REPLIES</value>
+  </data>
+  <data name="Post.Unfavorite.Text" xml:space="preserve">
+    <value>Unfavorite</value>
   </data>
   <data name="Posting.Detach.Content" xml:space="preserve">
     <value>Detach</value>

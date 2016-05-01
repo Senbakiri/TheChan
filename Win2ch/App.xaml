@@ -14,6 +14,7 @@
             <converters:CaseConverter x:Key="ToLower" Casing="LowerCase"/>
             <converters:CaseConverter x:Key="ToUpper" Casing="UpperCase"/>
             <converters:InverseBoolConverter x:Key="Inverse"/>
+            <converters:IsInFavoritesToStringConverter x:Key="IsInFavoritesToStringConverter"/>
             <x:Double x:Key="TabHeightAndWidth">40</x:Double>
 
             <Style x:Key="CloseButtonStyle" TargetType="Button">

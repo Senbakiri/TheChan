@@ -474,10 +474,10 @@
                 </DataTemplate>
             </controls:SwipeListView.ItemLeftContentTemplate>
             <controls:SwipeListView.ItemRightContentTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="viewModels:PostViewModel">
                     <StackPanel Orientation="Horizontal"
                                 VerticalAlignment="Center">
-                        <TextBlock Text="Favorite"
+                        <TextBlock Text="{x:Bind IsInFavorites, Mode=OneWay, Converter={StaticResource IsInFavoritesToStringConverter}}"
                                    Style="{ThemeResource BodyTextBlockStyle}"
                                    Foreground="White"
                                    Margin="10 0"/>
@@ -515,6 +515,10 @@
                                                     Text="[Reply]"
                                                     x:Uid="Thread/Reply"
                                                     Click="ReplyFlyoutItem_OnClick"/>
+                                    <MenuFlyoutItem x:Name="FavoriteFlyoutItem"
+                                                    Text="{x:Bind IsInFavorites, Mode=OneWay, Converter={StaticResource IsInFavoritesToStringConverter}}"
+                                                    micro:Message.Attach="Favorite($dataContext)"
+                                                    micro:Action.TargetWithoutContext="{Binding DataContext, ElementName=This}"/>
                                 </MenuFlyout>
                             </behaviors:ContextMenuBehavior>
                         </interactivity:Interaction.Behaviors>

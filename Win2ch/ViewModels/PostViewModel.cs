@@ -17,6 +17,7 @@ namespace Win2ch.ViewModels {
         private int repliesCount;
         private bool areRepliesVisible;
         private bool isTextSelectionEnabled;
+        private bool isInFavorites;
 
         public PostViewModel() {
             Replies.CollectionChanged += (s, e) => RepliesCount = Replies.Count;
@@ -90,6 +91,16 @@ namespace Win2ch.ViewModels {
                 if (value == this.isTextSelectionEnabled)
                     return;
                 this.isTextSelectionEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsInFavorites {
+            get { return this.isInFavorites; }
+            set {
+                if (value == this.isInFavorites)
+                    return;
+                this.isInFavorites = value;
                 NotifyOfPropertyChange();
             }
         }

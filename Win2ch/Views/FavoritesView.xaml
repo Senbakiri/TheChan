@@ -8,6 +8,9 @@
     xmlns:controls="using:Win2ch.Controls"
     xmlns:ffImageLoading="using:FFImageLoading"
     xmlns:viewModels="using:Win2ch.ViewModels"
+    xmlns:micro="using:Caliburn.Micro"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:Win2ch.Behaviors"
     mc:Ignorable="d">
     <Page.Resources>
         <Style x:Key="RefreshButtonStyle" TargetType="Button">
@@ -78,67 +81,111 @@
         </Style>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <controls:AdaptiveGridView ItemsSource="{x:Bind ViewModel.Threads}"
-                                   x:Name="Threads"
-                                   MinItemWidth="175"
-                                   MinItemHeight="100"
-                                   SelectionMode="None"
-                                   IsItemClickEnabled="True"
-                                   ItemClick="Threads_OnItemClick">
-            <controls:AdaptiveGridView.Header>
-                <Button Background="{ThemeResource SystemControlBackgroundAccentBrush}"
-                        x:Uid="Favorites/Refresh"
-                        Click="{x:Bind ViewModel.RefreshAll}"
-                        Foreground="White"
-                        Margin="0 0 0 10" Style="{StaticResource RefreshButtonStyle}"/>
-            </controls:AdaptiveGridView.Header>
-            <controls:AdaptiveGridView.ItemTemplate>
-                <DataTemplate x:DataType="viewModels:ThreadInfoViewModel">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0"
-                              Grid.RowSpan="3">
-                            <ffImageLoading:FFImage Source="{x:Bind ThreadInfo.ThumbnailUri.AbsoluteUri, Mode=OneWay}"
+        <Pivot>
+            <PivotItem x:Uid="Favorites/Threads">
+                <controls:AdaptiveGridView ItemsSource="{x:Bind ViewModel.Threads}"
+                                           x:Name="Threads"
+                                           MinItemWidth="175"
+                                           MinItemHeight="100"
+                                           SelectionMode="None"
+                                           IsItemClickEnabled="True"
+                                           ItemClick="Threads_OnItemClick"
+                                           Margin="0 10 0 0">
+                    <controls:AdaptiveGridView.Header>
+                        <Button Background="{ThemeResource SystemControlBackgroundAccentBrush}"
+                                x:Uid="Favorites/Refresh"
+                                Click="{x:Bind ViewModel.RefreshAll}"
+                                Foreground="White"
+                                Margin="0 0 0 10" Style="{StaticResource RefreshButtonStyle}"/>
+                    </controls:AdaptiveGridView.Header>
+                    <controls:AdaptiveGridView.ItemTemplate>
+                        <DataTemplate x:DataType="viewModels:ThreadInfoViewModel">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0"
+                                      Grid.RowSpan="3">
+                                    <ffImageLoading:FFImage Source="{x:Bind ThreadInfo.ThumbnailUri.AbsoluteUri, Mode=OneWay}"
                                                     Stretch="UniformToFill"/>
-                            <Border Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
-                                    Opacity="0.85"/>
-                        </Grid>
-                        <TextBlock Grid.Row="0"
-                                   Text="{x:Bind ThreadInfo.BoardId}"
-                                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                                   FontWeight="SemiBold"
-                                   Padding="7 7 0 3"
-                                   FontSize="12"/>
-                        <TextBlock Text="{x:Bind ThreadInfo.Description}"
-                                   TextWrapping="Wrap"
-                                   MaxLines="2"
-                                   Grid.Row="1"
-                                   Padding="7 0 0 7"/>
-                        <TextBlock Grid.Row="2"
-                                   Padding="7"
-                                   FontWeight="SemiBold">
+                                    <Border Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+                                            Opacity="0.85"/>
+                                </Grid>
+                                <TextBlock Grid.Row="0"
+                                           Text="{x:Bind ThreadInfo.BoardId}"
+                                           Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                           FontWeight="SemiBold"
+                                           Padding="7 7 0 3"
+                                           FontSize="12"/>
+                                <TextBlock Text="{x:Bind ThreadInfo.Description}"
+                                           TextWrapping="Wrap"
+                                           MaxLines="2"
+                                           Grid.Row="1"
+                                           Padding="7 0 0 7"/>
+                                <TextBlock Grid.Row="2"
+                                           Padding="7"
+                                           FontWeight="SemiBold">
                             <Run x:Uid="Favorites/NewPosts"/>
                             <Run Text="{x:Bind UnreadPosts, Mode=OneWay}"/>
-                        </TextBlock>
+                                </TextBlock>
 
-                        <Grid Visibility="{x:Bind IsLoading, Mode=OneWay, Converter={StaticResource TrueToVisible}}"
-                              Background="{ThemeResource SystemControlBackgroundAltMediumHighBrush}"
-                              VerticalAlignment="Stretch"
-                              HorizontalAlignment="Stretch"
-                              Grid.Row="0"
-                              Grid.RowSpan="3">
-                            <ProgressRing Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                <Grid Visibility="{x:Bind IsLoading, Mode=OneWay, Converter={StaticResource TrueToVisible}}"
+                                      Background="{ThemeResource SystemControlBackgroundAltMediumHighBrush}"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalAlignment="Stretch"
+                                      Grid.Row="0"
+                                      Grid.RowSpan="3">
+                                    <ProgressRing Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
                                           Width="25"
                                           Height="25"
                                           IsActive="{x:Bind IsLoading, Mode=OneWay}"/>
-                        </Grid>
-                    </Grid>
-                </DataTemplate>
-            </controls:AdaptiveGridView.ItemTemplate>
-        </controls:AdaptiveGridView>
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </controls:AdaptiveGridView.ItemTemplate>
+                </controls:AdaptiveGridView>
+            </PivotItem>
+            <PivotItem x:Uid="Favorites/Posts">
+                <ListView ItemsSource="{x:Bind ViewModel.Posts}"
+                          SelectionMode="None"
+                          Padding="0 10 0 0"
+                          x:Name="Posts">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="viewModels:PostViewModel">
+                            <Border BorderThickness="0 0 0 1.5"
+                                    BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                                    Padding="0 10">
+                                <ContentPresenter micro:View.Model="{x:Bind}"/>
+                                <interactivity:Interaction.Behaviors>
+                                    <behaviors:ContextMenuBehavior ShowAtCoordinates="True">
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem x:Uid="Post/Unfavorite"
+                                                            micro:Message.Attach="Unfavorite($dataContext)"
+                                                            micro:Action.TargetWithoutContext="{Binding ElementName=Posts, Path=DataContext}"/>
+                                        </MenuFlyout>
+                                    </behaviors:ContextMenuBehavior>
+                                </interactivity:Interaction.Behaviors>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <ListViewItemPresenter SelectionCheckMarkVisualEnabled="False"/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </PivotItem>
+        </Pivot>
+        
     </Grid>
 </Page>

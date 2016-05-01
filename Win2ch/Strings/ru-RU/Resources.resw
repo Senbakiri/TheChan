@@ -165,8 +165,14 @@
   <data name="Favorites.NewPosts.Text" xml:space="preserve">
     <value>НОВЫХ ПОСТОВ:</value>
   </data>
+  <data name="Favorites.Posts.Header" xml:space="preserve">
+    <value>посты</value>
+  </data>
   <data name="Favorites.Refresh.Content" xml:space="preserve">
     <value>Обновить</value>
+  </data>
+  <data name="Favorites.Threads.Header" xml:space="preserve">
+    <value>треды</value>
   </data>
   <data name="Home.BoardsLoaded" xml:space="preserve">
     <value>Доски успешно загружены!</value>
@@ -195,11 +201,17 @@
   <data name="Home.Settings.Label" xml:space="preserve">
     <value>Настройки</value>
   </data>
+  <data name="Post.Favorite.Text" xml:space="preserve">
+    <value>Добавить в избранное</value>
+  </data>
   <data name="Post.Replies.Text" xml:space="preserve">
     <value>Ответы:</value>
   </data>
   <data name="Post.RepliesCount.Text" xml:space="preserve">
     <value>ОТВЕТОВ</value>
+  </data>
+  <data name="Post.Unfavorite.Text" xml:space="preserve">
+    <value>Удалить из избранного</value>
   </data>
   <data name="Posting.Detach.Content" xml:space="preserve">
     <value>Открепить</value>

@@ -27,12 +27,14 @@ namespace Win2ch.ViewModels {
                                IShell shell,
                                IAttachmentViewer attachmentViewer,
                                FavoriteThreadsService favoriteThreadsService,
-                               RecentThreadsService recentThreadsService) {
+                               RecentThreadsService recentThreadsService,
+                               FavoritePostsService favoritePostsService) {
             Board = board;
             Shell = shell;
             AttachmentViewer = attachmentViewer;
             FavoriteThreadsService = favoriteThreadsService;
             RecentThreadsService = recentThreadsService;
+            FavoritePostsService = favoritePostsService;
             Posts = new ObservableCollection<PostViewModel>();
             PostInfo = new PostInfo();
         }
@@ -42,6 +44,7 @@ namespace Win2ch.ViewModels {
         private IAttachmentViewer AttachmentViewer { get; }
         private FavoriteThreadsService FavoriteThreadsService { get; }
         private RecentThreadsService RecentThreadsService { get; }
+        private FavoritePostsService FavoritePostsService { get; }
         private ICanScrollToItem<PostViewModel> PostScroll { get; set; } 
         private IReplyDisplay ReplyDisplay { get; set; }
         private ThreadLink Link { get; set; }
@@ -227,6 +230,7 @@ namespace Win2ch.ViewModels {
                 IsTextSelectionEnabled = true,
                 ShowReplies = true,
                 ShowPostPosition = true,
+                IsInFavorites = FavoritePostsService.Items.Contains(post)
             };
 
             SetupEventsForPost(postViewModel);
@@ -367,6 +371,17 @@ namespace Win2ch.ViewModels {
                 Shell.LoadingInfo.Error(e.Message);
             }
             IsLoading = false;
+        }
+
+        public async void Favorite(PostViewModel postVm) {
+            bool isPostInFavorites = FavoritePostsService.Items.Contains(postVm.Post);
+            if (isPostInFavorites)
+                FavoritePostsService.Items.Remove(postVm.Post);
+            else
+                FavoritePostsService.Items.Add(postVm.Post);
+
+            postVm.IsInFavorites = !isPostInFavorites;
+            await FavoritePostsService.Save();
         }
     }
 }

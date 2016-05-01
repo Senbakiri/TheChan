@@ -11,7 +11,6 @@ using Win2ch.Services.Storage;
 
 namespace Win2ch.ViewModels {
     public abstract class ThreadsRepositoryViewModelBase : PropertyChangedBase {
-        private bool isLoading;
 
         protected ThreadsRepositoryViewModelBase(IThreadsRepositoryService repositoryService, IBoard board, IShell shell) {
             RepositoryService = repositoryService;
@@ -23,14 +22,14 @@ namespace Win2ch.ViewModels {
         private IBoard Board { get; }
         private IShell Shell { get; }
         private IThreadsRepositoryService RepositoryService { get; }
-
+        private bool IsLoading { get; set; }
         public ObservableCollection<ThreadInfoViewModel> Threads { get; }
 
-        public async void Load() {
-            if (this.isLoading)
+        public virtual async void Load() {
+            if (IsLoading)
                 return;
 
-            this.isLoading = true;
+            IsLoading = true;
             Threads.Clear();
             Threads.AddRange(RepositoryService.Items.Select(t => new ThreadInfoViewModel(t)));
             foreach (ThreadInfoViewModel thread in Threads) {
@@ -38,20 +37,20 @@ namespace Win2ch.ViewModels {
             }
 
             await RepositoryService.Save();
-            this.isLoading = false;
+            IsLoading = false;
         }
 
         public async void RefreshAll() {
-            if (this.isLoading)
+            if (IsLoading)
                 return;
 
-            this.isLoading = true;
+            IsLoading = true;
             foreach (ThreadInfoViewModel thread in Threads) {
                 await UpdateThread(thread);
             }
 
             await RepositoryService.Save();
-            this.isLoading = false;
+            IsLoading = false;
         }
 
         private async Task UpdateThread(ThreadInfoViewModel threadInfo) {

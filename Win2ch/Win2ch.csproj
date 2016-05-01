@@ -115,6 +115,7 @@
     <Compile Include="Controls\SwipeableSplitView.cs" />
     <Compile Include="Converters\CaseConverter.cs" />
     <Compile Include="Converters\InverseBoolConverter.cs" />
+    <Compile Include="Converters\IsInFavoritesToStringConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Common\Core\ActivationWithParameterEventArgs.cs" />
     <Compile Include="Common\Extensions.cs" />

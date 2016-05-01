@@ -40,5 +40,25 @@ namespace Core.Models {
         public bool IsSticky { get; }
         public IList<Attachment> Attachments { get; }
         public DateTime Date { get; }
+
+        protected bool Equals(Post other) {
+            return Number == other.Number && ParentNumber == other.ParentNumber;
+        }
+
+        public override bool Equals(object obj) {
+            if (ReferenceEquals(null, obj))
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
+            if (obj.GetType() != GetType())
+                return false;
+            return Equals((Post) obj);
+        }
+
+        public override int GetHashCode() {
+            unchecked {
+                return (Number.GetHashCode()*397) ^ ParentNumber.GetHashCode();
+            }
+        }
     }
 }
