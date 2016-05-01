@@ -444,6 +444,7 @@
                                 ItemRightBackground="Orange"
                                 ItemLeftBehavior="Collapse"
                                 ItemRightBehavior="Collapse"
+                                ItemSwipe="Posts_OnItemSwipe"
                                 SelectionMode="None"
                                 Margin="0 -1.5 0 0"
                                 x:Name="Posts"
@@ -507,6 +508,15 @@
                                                      Opacity="0.2"/>
                                 </behaviors:HighlightBehavior.Background>
                             </behaviors:HighlightBehavior>
+                            <behaviors:ContextMenuBehavior ShowAtCoordinates="True"
+                                                           IsEnabled="{Binding ElementName=This, Path=IsMouseConnected}">
+                                <MenuFlyout>
+                                    <MenuFlyoutItem x:Name="ReplyFlyoutItem"
+                                                    Text="[Reply]"
+                                                    x:Uid="Thread/Reply"
+                                                    Click="ReplyFlyoutItem_OnClick"/>
+                                </MenuFlyout>
+                            </behaviors:ContextMenuBehavior>
                         </interactivity:Interaction.Behaviors>
                     </Border>
                 </DataTemplate>
@@ -543,7 +553,8 @@
                      AcceptsReturn="True"
                      x:Uid="Thread/FastReply"
                      MaxHeight="300"
-                     Text="{x:Bind ViewModel.PostText, Mode=TwoWay}"/>
+                     Text="{x:Bind ViewModel.PostText, Mode=TwoWay}"
+                     x:Name="FastReplyTextBox"/>
         </Grid>
         <CommandBar VerticalAlignment="Bottom"
                     CommandBarOverflowPresenterStyle="{StaticResource OverflowPresenterStyle}"

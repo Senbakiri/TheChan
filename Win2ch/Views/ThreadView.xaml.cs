@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Media;
 using Caliburn.Micro;
 using Win2ch.ViewModels;
 using Windows.System;
+using Universal.UI.Xaml.Controls;
 using Win2ch.Common.UI;
 
 namespace Win2ch.Views {
@@ -20,8 +21,9 @@ namespace Win2ch.Views {
         private double prevOffset;
         private PostViewModel lastReply, replyUnderMouse;
         private Dictionary<PostViewModel, int> ReplyLevel { get; } = new Dictionary<PostViewModel, int>();
-        private readonly bool isMouseConnected = new MouseCapabilities().MousePresent > 0;
+        public bool IsMouseConnected { get; } = new MouseCapabilities().MousePresent > 0;
         private readonly DispatcherTimer closeRepliesTimer = new DispatcherTimer();
+        private long lastRepliedPostNum;
 
         public ThreadView() {
             InitializeComponent();
@@ -210,7 +212,7 @@ namespace Win2ch.Views {
         }
 
         private void StartTimer() {
-            if (this.isMouseConnected)
+            if (this.IsMouseConnected)
                 this.closeRepliesTimer.Start();
         }
 
@@ -226,6 +228,43 @@ namespace Win2ch.Views {
                     Down();
                     break;
             }
+        }
+
+        private void Posts_OnItemSwipe(object sender, ItemSwipeEventArgs e) {
+            var postVm = e.SwipedItem as PostViewModel;
+            if (postVm == null)
+                return;
+
+            if (e.Direction == SwipeListDirection.Left) {
+                Reply(postVm.Post.Number, postVm.SelectedText);
+            }
+        }
+
+        private void Reply(long number, string selectedText) {
+            string textToAdd;
+            TextBox textBox = this.FastReplyTextBox;
+
+            var correctText = textBox.Text.Replace("\r\n", "\n");
+            var selStart = textBox.SelectionStart;
+
+            if (selectedText.Length > 0) {
+                var pre = selStart > 0 && correctText[selStart - 1] != '\n' ? "\n" : "";
+                textToAdd = this.lastRepliedPostNum == number && correctText.Contains(this.lastRepliedPostNum.ToString())
+                    ? $"{pre}\n> {selectedText}\n"
+                    : $"{pre}>>{number}\n> {selectedText}\n";
+            } else {
+                textToAdd = $">>{number}\n";
+            }
+
+            int selectionIndex = textBox.SelectionStart;
+            textBox.Text = correctText.Insert(selectionIndex, textToAdd);
+            textBox.SelectionStart = selectionIndex + textToAdd.Length;
+            this.lastRepliedPostNum = number;
+        }
+
+        private void ReplyFlyoutItem_OnClick(object sender, RoutedEventArgs e) {
+            var postVm = (PostViewModel) ((FrameworkElement) sender).DataContext;
+            Reply(postVm.Post.Number, postVm.SelectedText);
         }
     }
 }

@@ -94,6 +94,8 @@ namespace Win2ch.ViewModels {
             }
         }
 
+        public string SelectedText { get; set; } = string.Empty;
+
         public event EventHandler RepliesDisplayingRequested;
         public event EventHandler<PostDisplayingRequestedEventArgs> PostDisplayingRequested;
         public event EventHandler<ReplyDisplayingEventArgs> ReplyDisplayingRequested;

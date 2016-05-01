@@ -38,6 +38,9 @@ namespace Makaba.Operations {
             AddString("op_mark", PostInfo.IsOp ? "1" : "0");
             AddString("comment", PostInfo.Text);
 
+            if (PostInfo.Files == null)
+                return;
+
             var imageIndex = 0;
             foreach (IRandomAccessStreamReference file in PostInfo.Files) {
                 await AddFile(file, $"image{imageIndex}", $"attachedImage{imageIndex}");

@@ -82,7 +82,8 @@
         <TextBlock TextWrapping="Wrap"
                    MaxWidth="960"
                    HorizontalAlignment="Left"
-                   IsTextSelectionEnabled="{x:Bind ViewModel.IsTextSelectionEnabled}">
+                   IsTextSelectionEnabled="{x:Bind ViewModel.IsTextSelectionEnabled}"
+                   SelectionChanged="TextBlock_OnSelectionChanged">
             <interactivity:Interaction.Behaviors>
                 <behaviors:HtmlBehavior Html="{x:Bind ViewModel.Post.Text}"
                                         SpoilerForeground="{ThemeResource SpoilerForegroundBrush}"

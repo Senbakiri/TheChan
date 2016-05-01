@@ -8,7 +8,7 @@ namespace Core.Common {
         public string Name { get; set; }
         public string Subject { get; set; }
         public bool IsOp { get; set; }
-        public List<IRandomAccessStreamReference> Files { get; set; }
+        public List<IRandomAccessStreamReference> Files { get; set; } = new List<IRandomAccessStreamReference>();
 
         public PostInfo Clone() => new PostInfo {
             Text = Text,

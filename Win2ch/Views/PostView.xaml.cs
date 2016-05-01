@@ -42,6 +42,11 @@ namespace Win2ch.Views {
             ViewModel.RequestReplyDisplaying(new ReplyDisplayingEventArgs(ViewModel, post, e, (FrameworkElement) sender));
             e.Handled = true;
         }
+
+        private void TextBlock_OnSelectionChanged(object sender, RoutedEventArgs e) {
+            var block = (TextBlock) sender;
+            ViewModel.SelectedText = block.SelectedText ?? string.Empty;
+        }
     }
 
     public class ReplyDisplayingEventArgs {
