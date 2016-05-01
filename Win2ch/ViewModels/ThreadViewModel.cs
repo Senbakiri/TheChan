@@ -342,6 +342,7 @@ namespace Win2ch.ViewModels {
         public void ShowExtendedPostingPopup() {
             var viewModel = new ExtendedPostingViewModel(Shell, Board, PostInfo, Link);
             viewModel.PostInfoChanged += ExtendedPostingViewModelOnPostInfoChanged;
+            viewModel.PostSent += (s, e) => RefreshThread();
             Shell.ShowPopup(viewModel);
         }
 
@@ -352,13 +353,13 @@ namespace Win2ch.ViewModels {
 
         public async void SendPost() {
             IsLoading = true;
-            Shell.LoadingInfo.InProgress("[Posting]");
+            Shell.LoadingInfo.InProgress(GetLocalizationStringForView("Posting", "SendingPost"));
             PostInfo postInfo = PostInfo.Clone();
             try {
                 PostingResult result = await Board.PostAsync(postInfo, Link.BoardId, Link.ThreadNumber);
                 if (!result.IsSuccessful)
                     throw new Exception(result.Error);
-                Shell.LoadingInfo.Success("[Posted]");
+                Shell.LoadingInfo.Success(GetLocalizationStringForView("Posting", "PostSent"));
                 PostInfo.Clear();
                 RefreshThread();
             }

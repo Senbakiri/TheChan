@@ -3,6 +3,7 @@ using Caliburn.Micro;
 using Core.Common;
 using Core.Common.Links;
 using Core.Models;
+using Win2ch.Common.Core;
 using Win2ch.Common.UI;
 using Win2ch.Extensions;
 
@@ -42,6 +43,7 @@ namespace Win2ch.ViewModels {
         private string BoardId { get; }
         private long Parent { get; }
         public event EventHandler<PostInfoChangedEventArgs> PostInfoChanged;
+        public event EventHandler PostSent;
 
         public bool IsWorking {
             get { return this.isWorking; }
@@ -182,20 +184,23 @@ namespace Win2ch.ViewModels {
 
         public async void Send() {
             IsWorking = true;
-            Shell.LoadingInfo.InProgress("[Posting]");
+            Shell.LoadingInfo.InProgress(Tab.GetLocalizationStringForView("Posting", "SendingPost"));
             PostInfo postInfo = PostInfo.Clone();
             try {
                 PostingResult result = await Board.PostAsync(postInfo, BoardId, Parent);
                 if (!result.IsSuccessful)
-                    throw new Exception(result.Error);
-                Shell.LoadingInfo.Success("[Posted]");
+                    throw new Exception(result.Error);  
+                Shell.LoadingInfo.Success(Tab.GetLocalizationStringForView("Posting", "PostSent"));
+                PostSent?.Invoke(this, new EventArgs());
                 PostInfo.Clear();
+                NotifyOfPostInfoChange();
+                IsWorking = false;
                 Close();
             } catch (Exception e) {
                 Shell.LoadingInfo.Error(e.Message);
+                IsWorking = false;
             }
 
-            IsWorking = false;
         }
 
         public void Close() {

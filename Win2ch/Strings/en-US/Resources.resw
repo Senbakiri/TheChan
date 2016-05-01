@@ -201,6 +201,12 @@
   <data name="Post.RepliesCount.Text" xml:space="preserve">
     <value>REPLIES</value>
   </data>
+  <data name="Posting.PostSent" xml:space="preserve">
+    <value>Post has been successfully sent</value>
+  </data>
+  <data name="Posting.SendingPost" xml:space="preserve">
+    <value>Sending post...</value>
+  </data>
   <data name="Posts.GoToPost.Content" xml:space="preserve">
     <value>GO TO THE POST</value>
   </data>
