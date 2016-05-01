@@ -15,7 +15,7 @@
             <converters:CaseConverter x:Key="ToUpper" Casing="UpperCase"/>
             <converters:InverseBoolConverter x:Key="Inverse"/>
             <x:Double x:Key="TabHeightAndWidth">40</x:Double>
-            
+
             <Style x:Key="CloseButtonStyle" TargetType="Button">
                 <Setter Property="Padding" Value="0"/>
                 <Setter Property="Template">
@@ -42,18 +42,21 @@
                                 <Border x:Name="Border"
                                     Background="{TemplateBinding Background}">
                                     <ContentPresenter Content="{TemplateBinding Content}"
-                                                  x:Name="Content"
-                                                  VerticalAlignment="Stretch"
-                                                  HorizontalAlignment="Stretch"
-                                                  HorizontalContentAlignment="Center"
-                                                  VerticalContentAlignment="Center"/>
+                                                      x:Name="Content"
+                                                      VerticalAlignment="Stretch"
+                                                      HorizontalAlignment="Stretch"
+                                                      HorizontalContentAlignment="Center"
+                                                      VerticalContentAlignment="Center"
+                                                      Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
                                 </Border>
                             </Grid>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
+
             
+
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Dark">
                     <Color x:Key="PageBackgroundColor">Black</Color>

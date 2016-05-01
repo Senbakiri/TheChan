@@ -166,7 +166,7 @@
                     <Button Style="{StaticResource CloseButtonStyle}"
                             Width="50"
                             Height="50"
-                            VerticalAlignment="Top"
+                            VerticalAlignment="Center"
                             HorizontalAlignment="Right"
                             Click="{x:Bind ViewModel.RequestClosing}"
                             Visibility="{x:Bind ShowCloseButton, Converter={StaticResource TrueToVisible}}"

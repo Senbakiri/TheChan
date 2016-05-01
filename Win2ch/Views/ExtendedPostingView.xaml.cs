@@ -22,7 +22,7 @@ namespace Win2ch.Views {
             }
         }
 
-        private void Underlay_OnTapped(object sender, TappedRoutedEventArgs e) {
+        private void Close() {
             Shell.HidePopup();
         }
     }

@@ -346,7 +346,7 @@ namespace Win2ch.ViewModels {
         }
 
         private void ExtendedPostingViewModelOnPostInfoChanged(object sender, PostInfoChangedEventArgs e) {
-            PostInfo pi = e.PostInfo;
+            PostInfo pi = PostInfo; // we could also use e.PostInfo, but it is the same thing because of passing it by reference
             PostText = pi.Text;
         }
     }

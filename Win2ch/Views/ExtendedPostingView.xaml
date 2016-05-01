@@ -6,11 +6,36 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:micro="using:Caliburn.Micro"
     Loaded="ExtendedPostingView_OnLoaded">
 
-    <Grid >
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TextBox.BorderThickness" Value="0 2"/>
+                        <Setter Target="TextBox.Margin" Value="0"/>
+                        <Setter Target="FormattingButtons.Margin" Value="0"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TextBox.BorderThickness" Value="2"/>
+                        <Setter Target="TextBox.Margin" Value="10 0"/>
+                        <Setter Target="FormattingButtons.Margin" Value="10 0"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Rectangle Fill="#80000000"
-                   Tapped="Underlay_OnTapped"/>
+                   Tapped="{x:Bind Close}"/>
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
               VerticalAlignment="Stretch"
               HorizontalAlignment="Stretch"
@@ -21,10 +46,28 @@
                 <RowDefinition/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
-                       Text="[PostCreation]"
-                       x:Uid="ExtendedPosting/Title"
-                       Padding="10"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                           Text="[PostCreation]"
+                           x:Uid="ExtendedPosting/Title"
+                           Padding="10 0"
+                           VerticalAlignment="Center"/>
+                <Button Style="{StaticResource CloseButtonStyle}"
+                        Grid.Column="1"
+                        Width="48"
+                        Height="48"
+                        Background="Transparent"
+                        Click="{x:Bind Close}">
+                    <TextBlock FontFamily="Segoe MDL2 Assets"
+                               Text="&#xE711;"
+                               TextAlignment="Center"
+                               FontSize="16"/>
+                </Button>
+            </Grid>
             <ListView Grid.Row="1">
                 <ListView.Header>
                     <StackPanel>
@@ -32,7 +75,61 @@
                                  MinHeight="100"
                                  BorderThickness="0 2"
                                  TextWrapping="Wrap"
-                                 Text="{x:Bind ViewModel.PostText, Mode=TwoWay}"/>
+                                 Text="{Binding PostText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 SelectionStart="{Binding SelectionStart, Mode=TwoWay}"
+                                 SelectionLength="{Binding SelectionLength, Mode=TwoWay}"
+                                 x:Name="TextBox"
+                                 FontSize="18"/>
+                        <StackPanel Orientation="Horizontal"
+                                    x:Name="FormattingButtons">
+                            <StackPanel.Resources>
+                                <Style TargetType="Button">
+                                    <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                    <Setter Property="Height" Value="42"/>
+                                    <Setter Property="Width" Value="42"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="IsTabStop" Value="False"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <Button micro:Message.Attach="Tag('b')">
+                                <SymbolIcon Symbol="Bold"/>
+                            </Button>
+                            <Button micro:Message.Attach="Tag('i')">
+                                <SymbolIcon Symbol="Italic"/>
+                            </Button>
+                            <Button micro:Message.Attach="Tag('u')">
+                                <SymbolIcon Symbol="Underline"/>
+                            </Button>
+                            <Button micro:Message.Attach="Tag('s')">
+                                <Grid>
+                                    <SymbolIcon Symbol="Remove"/>
+                                    <TextBlock TextAlignment="Center"
+                                               Text="S"/>
+                                </Grid>
+                            </Button>
+                            <Button micro:Message.Attach="Tag('spoiler')">
+                                <Grid Background="{ThemeResource SystemControlBackgroundBaseLowBrush}">
+                                    <TextBlock Text="SP"
+                                               Margin="3 0"/>
+                                </Grid>
+                            </Button>
+                            <Button VerticalContentAlignment="Bottom"
+                                     micro:Message.Attach="Tag('sub')">
+                                <TextBlock FontSize="10"
+                                           Text="SUB"
+                                           FontWeight="SemiBold"/>
+                            </Button>
+                            <Button VerticalContentAlignment="Top"
+                                     micro:Message.Attach="Tag('sup')">
+                                <TextBlock FontSize="10"
+                                           Text="SUP"
+                                           FontWeight="SemiBold"/>
+                            </Button>
+                            <Button micro:Message.Attach="Insert('> ')">
+                                <TextBlock Text=">"
+                                           FontWeight="SemiBold"/>
+                            </Button>
+                        </StackPanel>
                         <StackPanel Padding="10">
                             <TextBlock Text="[Additional]"
                                        x:Uid="ExtendedPosting/Additional"
@@ -52,30 +149,35 @@
                                          x:Uid="ExtendedPosting/Name"
                                          Grid.Column="0"
                                          Grid.Row="0"
-                                         Margin="0 5"/>
+                                         Margin="0 5"
+                                         Text="{x:Bind ViewModel.Name, Mode=TwoWay}"/>
                                 <CheckBox Grid.Column="1"
                                           Grid.Row="0"
                                           VerticalAlignment="Bottom"
                                           Margin="10 5"
                                           Content="[IsOp]"
-                                          x:Uid="ExtendedPosting/IsOp"/>
+                                          x:Uid="ExtendedPosting/IsOp"
+                                          IsChecked="{x:Bind ViewModel.IsOp, Mode=TwoWay}"/>
                                 <TextBox Header="[EMail]"
                                          x:Uid="ExtendedPosting/EMail"
                                          Grid.Column="0"
                                          Grid.Row="1"
-                                         Margin="0 5"/>
+                                         Margin="0 5"
+                                         Text="{Binding EMail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 <CheckBox Grid.Column="1"
                                           Grid.Row="1"
                                           VerticalAlignment="Bottom"
                                           Margin="10 5"
                                           Content="[IsSage]"
-                                          x:Uid="ExtendedPosting/IsSage"/>
+                                          x:Uid="ExtendedPosting/IsSage"
+                                          IsChecked="{x:Bind ViewModel.IsSage, Mode=TwoWay}"/>
                                 <TextBox Header="[Subject]"
                                          x:Uid="ExtendedPosting/Subject"
                                          Grid.Column="0"
                                          Grid.Row="2"
                                          Grid.ColumnSpan="2"
-                                         Margin="0 5"/>
+                                         Margin="0 5"
+                                         Text="{x:Bind ViewModel.Subject, Mode=TwoWay}"/>
                             </Grid>
                             <TextBlock Style="{ThemeResource TitleTextBlockStyle}"
                                        Text="[Attachments]"
@@ -95,6 +197,13 @@
                     </Button>
                 </ListView.Footer>
             </ListView>
+            <AppBarButton Grid.Row="2"
+                          HorizontalAlignment="Stretch"
+                          Height="48"
+                          Width="Auto"
+                          Background="Transparent"
+                          Icon="Send">
+            </AppBarButton>
         </Grid>
     </Grid>
 </Page>
