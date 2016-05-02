@@ -278,7 +278,8 @@ namespace Win2ch.ViewModels {
 
         private void PostsViewModelOnNavigateToPost(object sender, NavigateToPostEventArgs e) {
             Shell.HidePopup();
-            if (e.Link.BoardId != Link.BoardId || e.Link.ThreadNumber != Link.ThreadNumber) {
+            if ((e.Link.BoardId != Link.BoardId) ||
+                (e.Link.ThreadNumber != Link.ThreadNumber && e.Link.PostNumber != Link.ThreadNumber)) {
                 Shell.Navigate<ThreadViewModel>(
                     ThreadNavigation
                         .NavigateToThread(e.Link.BoardId, e.Link.ThreadNumber)
