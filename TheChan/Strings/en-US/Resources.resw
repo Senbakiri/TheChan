@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Board.Error" xml:space="preserve">
+    <value>Unable to load the board</value>
+  </data>
+  <data name="Board.Favorite.FalseText" xml:space="preserve">
+    <value>Favorite</value>
+  </data>
+  <data name="Board.Favorite.TrueText" xml:space="preserve">
+    <value>Unfavorite</value>
+  </data>
+  <data name="Board.Loading" xml:space="preserve">
+    <value>Loading the board...</value>
+  </data>
+  <data name="Board.Refresh.Label" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Board.SkippedPosts.Text" xml:space="preserve">
+    <value>Skipped posts</value>
+  </data>
+  <data name="Board.SkippedPostsWithFiles.Text" xml:space="preserve">
+    <value>With files</value>
+  </data>
+  <data name="Board.Success" xml:space="preserve">
+    <value>The board loaded successfully</value>
+  </data>
+  <data name="Cloudflare.Name" xml:space="preserve">
+    <value>CloudFlare</value>
+  </data>
+  <data name="ExtendedPosting.Add.Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="ExtendedPosting.Additional.Text" xml:space="preserve">
+    <value>Additional</value>
+  </data>
+  <data name="ExtendedPosting.Attachments.Text" xml:space="preserve">
+    <value>Attachments</value>
+  </data>
+  <data name="ExtendedPosting.EMail.Header" xml:space="preserve">
+    <value>E-Mail</value>
+  </data>
+  <data name="ExtendedPosting.IsOp.Content" xml:space="preserve">
+    <value>OP</value>
+  </data>
+  <data name="ExtendedPosting.IsSage.Content" xml:space="preserve">
+    <value>Sage</value>
+  </data>
+  <data name="ExtendedPosting.Name.Header" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="ExtendedPosting.Subject.Header" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="ExtendedPosting.Title.Text" xml:space="preserve">
+    <value>Create a post</value>
+  </data>
+  <data name="Favorites.NewPosts.Text" xml:space="preserve">
+    <value>NEW POSTS:</value>
+  </data>
+  <data name="Favorites.Posts.Header" xml:space="preserve">
+    <value>posts</value>
+  </data>
+  <data name="Favorites.Refresh.Content" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Favorites.Threads.Header" xml:space="preserve">
+    <value>threads</value>
+  </data>
+  <data name="Home.BoardsLoaded" xml:space="preserve">
+    <value>The boards loaded successfully!</value>
+  </data>
+  <data name="Home.BoardsNotLoaded" xml:space="preserve">
+    <value>Unable to load the boards</value>
+  </data>
+  <data name="Home.FastNavigation.PlaceholderText" xml:space="preserve">
+    <value>Fast navigation</value>
+  </data>
+  <data name="Home.FavoriteBoards" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="Home.Favorites.Label" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="Home.Home.Label" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Home.Name" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Home.ReceivingBoards" xml:space="preserve">
+    <value>Loading the boards...</value>
+  </data>
+  <data name="Home.RecentThreads.Label" xml:space="preserve">
+    <value>Recent Threads</value>
+  </data>
+  <data name="Home.Settings.Label" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Post.Favorite.Text" xml:space="preserve">
+    <value>Favorite</value>
+  </data>
+  <data name="Post.Replies.Text" xml:space="preserve">
+    <value>Replies:</value>
+  </data>
+  <data name="Post.RepliesCount.Text" xml:space="preserve">
+    <value>REPLIES</value>
+  </data>
+  <data name="Post.Unfavorite.Text" xml:space="preserve">
+    <value>Unfavorite</value>
+  </data>
+  <data name="Posting.Detach.Content" xml:space="preserve">
+    <value>Detach</value>
+  </data>
+  <data name="Posting.PostSent" xml:space="preserve">
+    <value>Post has been successfully sent</value>
+  </data>
+  <data name="Posting.SendingPost" xml:space="preserve">
+    <value>Sending post...</value>
+  </data>
+  <data name="Posting.Untitled" xml:space="preserve">
+    <value>Untitled</value>
+  </data>
+  <data name="Posts.GoToPost.Content" xml:space="preserve">
+    <value>GO TO THE POST</value>
+  </data>
+  <data name="Posts.GoToThread.Content" xml:space="preserve">
+    <value>GO TO THE THREAD</value>
+  </data>
+  <data name="Settings.About.Text" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Settings.Cloudflare.Content" xml:space="preserve">
+    <value>CloudFlare</value>
+  </data>
+  <data name="Settings.FontScale.Header" xml:space="preserve">
+    <value>Font scale</value>
+  </data>
+  <data name="Settings.Interface.Text" xml:space="preserve">
+    <value>Interface</value>
+  </data>
+  <data name="Settings.Language.Header" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Settings.Other.Text" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="Settings.RestartNeeded.Text" xml:space="preserve">
+    <value>Changes will be applied after restart</value>
+  </data>
+  <data name="Shell.ThreadsWithNewPosts" xml:space="preserve">
+    <value>Threads with new posts</value>
+  </data>
+  <data name="Shell.TryAgain.Content" xml:space="preserve">
+    <value>Try again</value>
+  </data>
+  <data name="Shell.UpdatingThread" xml:space="preserve">
+    <value>Updating thread</value>
+  </data>
+  <data name="Thread.CopyLink.Label" xml:space="preserve">
+    <value>Copy a link</value>
+  </data>
+  <data name="Thread.Down.Label" xml:space="preserve">
+    <value>Down</value>
+  </data>
+  <data name="Thread.FastReply.PlaceholderText" xml:space="preserve">
+    <value>Fast reply</value>
+  </data>
+  <data name="Thread.Favorite.FalseText" xml:space="preserve">
+    <value>Favorite</value>
+  </data>
+  <data name="Thread.Favorite.TrueText" xml:space="preserve">
+    <value>Unfavorite</value>
+  </data>
+  <data name="Thread.Loaded" xml:space="preserve">
+    <value>The thread loaded successfully</value>
+  </data>
+  <data name="Thread.Loading" xml:space="preserve">
+    <value>Loading the thread...</value>
+  </data>
+  <data name="Thread.NotLoaded" xml:space="preserve">
+    <value>Unable to load the thread</value>
+  </data>
+  <data name="Thread.NotRefreshed" xml:space="preserve">
+    <value>Unable to refresh the thread</value>
+  </data>
+  <data name="Thread.Refresh.Label" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Thread.Refreshed.NewPosts" xml:space="preserve">
+    <value>The thread refreshed successfully. New posts</value>
+  </data>
+  <data name="Thread.Refreshed.NoNewPosts" xml:space="preserve">
+    <value>The thread refreshed successfully. No new posts</value>
+  </data>
+  <data name="Thread.Refreshing" xml:space="preserve">
+    <value>Refreshing the thread...</value>
+  </data>
+  <data name="Thread.Reply.Text" xml:space="preserve">
+    <value>Reply</value>
+  </data>
+  <data name="Thread.Up.Label" xml:space="preserve">
+    <value>Up</value>
+  </data>
+</root>

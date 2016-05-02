@@ -1,4 +1,4 @@
 # Win2ch
-Браузер для 2ch.hk для всех устройств на Windows 10
+[![Build status](https://ci.appveyor.com/api/projects/status/a050x64jibd7fo65/branch/new?svg=true)](https://ci.appveyor.com/project/mrnovvad/win2ch/branch/new)
 
-**Последняя версия:** 0.7 Beta
+A client for 2ch.hk
