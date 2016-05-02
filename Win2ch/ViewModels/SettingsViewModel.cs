@@ -8,23 +8,27 @@ using Windows.UI.Xaml;
 using Caliburn.Micro;
 using Win2ch.Common;
 using Win2ch.Common.UI;
+using Win2ch.Services.Settings;
 
 namespace Win2ch.ViewModels {
     public class SettingsViewModel : PropertyChangedBase {
         private int currentLanguageIndex;
         private bool hasLanguageChanged;
 
-        public SettingsViewModel(IShell shell) {
+        public SettingsViewModel(IShell shell, ISettingsService settingsService) {
             Shell = shell;
+            SettingsService = settingsService;
             AvailableLanguages = new ObservableCollection<CultureInfo>(
                 ApplicationLanguages.Languages.Select(l => new CultureInfo(l)));
             CurrentLanguage = CultureInfo.CurrentUICulture;
             this.currentLanguageIndex = AvailableLanguages.IndexOf(CurrentLanguage);
             Application.Current.Suspending += ApplyLanguage;
+            FontScale = SettingsService.FontScale;
         }
 
 
         private IShell Shell { get; }
+        private ISettingsService SettingsService { get; }
         private CultureInfo CurrentLanguage { get; set; }
         public ObservableCollection<CultureInfo> AvailableLanguages { get; }
 
@@ -51,6 +55,15 @@ namespace Win2ch.ViewModels {
                     return;
                 this.hasLanguageChanged = value;
                 NotifyOfPropertyChange();
+            }
+        }
+
+        public double FontScale {
+            get { return SettingsService.FontScale; }
+            set {
+                if (value.Equals(SettingsService.FontScale))
+                    return;
+                SettingsService.FontScale = value;
             }
         }
 

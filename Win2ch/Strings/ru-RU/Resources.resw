@@ -249,6 +249,9 @@
   <data name="Settings.Cloudflare.Content" xml:space="preserve">
     <value>Авторизация CloudFlare</value>
   </data>
+  <data name="Settings.FontScale.Header" xml:space="preserve">
+    <value>Размер шрифта</value>
+  </data>
   <data name="Settings.Interface.Text" xml:space="preserve">
     <value>Интерфейс</value>
   </data>

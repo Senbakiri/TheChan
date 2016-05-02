@@ -9,6 +9,7 @@ using Core.Common;
 using Win2ch.Behaviors;
 using Win2ch.Common;
 using Win2ch.Common.UI;
+using Win2ch.Services.Settings;
 using Win2ch.ViewModels;
 
 namespace Win2ch.Views {
@@ -16,20 +17,21 @@ namespace Win2ch.Views {
 
         private static readonly MouseCapabilities MouseCapabilities = new MouseCapabilities();
 
-        public PostView(IShell shell, IBoard board) {
+        public PostView(IShell shell, IBoard board, ISettingsService settingsService) {
             Shell = shell;
             Board = board;
+            SettingsService = settingsService;
             InitializeComponent();
             DataContextChanged += (s, e) => ViewModel = DataContext as PostViewModel;
             ShowRepliesAsRibbon = MouseCapabilities.MousePresent == 0;
+            PostFontSize = 16 * SettingsService.FontScale;
         }
 
+        private double PostFontSize { get; }
+        private ISettingsService SettingsService { get; }
         public PostViewModel ViewModel { get; private set; }
-
         public bool ShowRepliesAsRibbon { get; }
-
         public IShell Shell { get; }
-
         public IBoard Board { get; }
 
         private void HtmlBehaviorOnPostClick(object sender, PostClickEventArgs e) {

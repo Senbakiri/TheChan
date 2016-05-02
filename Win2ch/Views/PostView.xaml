@@ -83,7 +83,8 @@
                    MaxWidth="960"
                    HorizontalAlignment="Left"
                    IsTextSelectionEnabled="{x:Bind ViewModel.IsTextSelectionEnabled}"
-                   SelectionChanged="TextBlock_OnSelectionChanged">
+                   SelectionChanged="TextBlock_OnSelectionChanged"
+                   FontSize="{x:Bind PostFontSize}">
             <interactivity:Interaction.Behaviors>
                 <behaviors:HtmlBehavior Html="{x:Bind ViewModel.Post.Text}"
                                         SpoilerForeground="{ThemeResource SpoilerForegroundBrush}"

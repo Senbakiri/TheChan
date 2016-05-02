@@ -12,6 +12,7 @@ using Win2ch.ViewModels;
 using Makaba;
 using Template10.Services.SerializationService;
 using Win2ch.Common.UI;
+using Win2ch.Services.Settings;
 using Win2ch.Services.Storage;
 using Win2ch.Services.Toast;
 
@@ -39,6 +40,7 @@ namespace Win2ch
             k.Bind<IAttachmentViewer>().To<AttachmentViewer>();
             k.Bind<ISerializationService>().ToConstant(SerializationService.Json);
             k.Bind<IStorageService>().To<SerializationStorageService>();
+            k.Bind<ISettingsService>().To<SettingsService>().InSingletonScope();
 
             k.Bind<FavoriteThreadsService>().ToSelf().InSingletonScope();
             k.Bind<RecentThreadsService>().ToSelf().InSingletonScope();
