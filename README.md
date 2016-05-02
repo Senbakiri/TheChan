@@ -1,4 +1,4 @@
-# Win2ch
-[![Build status](https://ci.appveyor.com/api/projects/status/a050x64jibd7fo65?svg=true)](https://ci.appveyor.com/project/mrnovvad/win2ch)
+# TheChan
+[![Build status](https://ci.appveyor.com/api/projects/status/asj7sdpnw2cwald6?svg=true)](https://ci.appveyor.com/project/acedened/thechan)
 
-A client for 2ch.hk
+A browser for imageboards.
