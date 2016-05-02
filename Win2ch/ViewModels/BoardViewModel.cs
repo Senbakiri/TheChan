@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Caliburn.Micro;
@@ -9,16 +11,23 @@ using Win2ch.Common;
 using Core.Models;
 using Win2ch.Common.Core;
 using Win2ch.Common.UI;
+using Win2ch.Extensions;
+using Win2ch.Services.Storage;
 
 namespace Win2ch.ViewModels {
     public class BoardViewModel : Tab {
         private BoardPage currentPage;
         private int currentPageNumber = -1;
+        private bool isInFavorites;
 
-        public BoardViewModel(IShell shell, IBoard board, IAttachmentViewer attachmentViewer) {
+        public BoardViewModel(IShell shell,
+                              IBoard board,
+                              IAttachmentViewer attachmentViewer,
+                              FavoriteBoardsService favoriteBoardsService) {
             Shell = shell;
             Board = board;
             AttachmentViewer = attachmentViewer;
+            FavoriteBoardsService = favoriteBoardsService;
             Threads = new ObservableCollection<BoardThreadViewModel>();
             Pages = new BindableCollection<int>();
         }
@@ -26,6 +35,7 @@ namespace Win2ch.ViewModels {
         private IShell Shell { get; }
         private IBoard Board { get; }
         private IAttachmentViewer AttachmentViewer { get; }
+        private FavoriteBoardsService FavoriteBoardsService { get; }
         private BoardLink Link { get; set; }
         public ObservableCollection<BoardThreadViewModel> Threads { get; }
         public BindableCollection<int> Pages { get; } 
@@ -52,6 +62,16 @@ namespace Win2ch.ViewModels {
             }
         }
 
+        public bool IsInFavorites {
+            get { return this.isInFavorites; }
+            private set {
+                if (value == this.isInFavorites)
+                    return;
+                this.isInFavorites = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         private async void ChangePage() {
             try {
                 await Load(CurrentPageNumber);
@@ -65,13 +85,15 @@ namespace Win2ch.ViewModels {
         protected override async void OnActivate(object parameter = null) {
             string id;
             var boardInfo = parameter as BriefBoardInfo;
-            if (!string.IsNullOrWhiteSpace(boardInfo?.Id))
+            if (!string.IsNullOrWhiteSpace(boardInfo?.Id)) {
                 id = boardInfo.Id;
-            else if (parameter is string)
+            } else if (parameter is string) {
                 id = (string) parameter;
-            else
+            } else {
                 return;
+            }
 
+            IsInFavorites = FavoriteBoardsService.Items.Any(b => b.Id.EqualsNc(id));
             DisplayName = boardInfo?.Name ?? $"/{id}/";
             Link = new BoardLink(id);
 
@@ -97,6 +119,13 @@ namespace Win2ch.ViewModels {
             DisplayName = CurrentPage.BoardName;
             FillThreads();
             Shell.LoadingInfo.Success(GetLocalizationString("Success"));
+            IsLoading = false;
+        }
+
+        public new async void Refresh() {
+            if (IsLoading)
+                return;
+            await Load(CurrentPageNumber);
         }
 
         private void FillThreads() {
@@ -112,6 +141,26 @@ namespace Win2ch.ViewModels {
                 ThreadNavigation.NavigateToThread(CurrentPage.BoardId,
                                                   boardThread.ThreadInfo.Number);
             Shell.Navigate<ThreadViewModel>(navigation);
+        }
+
+        public async void Favorite() {
+            if (CurrentPage == null)
+                return;
+            
+            var favItem = FavoriteBoardsService.Items.FirstOrDefault(b => b.Id.EqualsNc(CurrentPage.BoardId));
+            if (favItem != null) {
+                FavoriteBoardsService.Items.Remove(favItem);
+            } else {
+                FavoriteBoardsService.Items.Add(new BriefBoardInfo(
+                    0, "", false, false,
+                    false, false, false,
+                    new List<Icon>(),
+                    CurrentPage.BoardId,
+                    CurrentPage.BoardName));
+            }
+
+            IsInFavorites = favItem == null;
+            await FavoriteBoardsService.Save();
         }
     }
 }

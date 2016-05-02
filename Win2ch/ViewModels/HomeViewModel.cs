@@ -13,19 +13,22 @@ using Win2ch.Common;
 using Win2ch.Common.Core;
 using Win2ch.Common.UI;
 using Win2ch.Extensions;
+using Win2ch.Services.Storage;
 
 namespace Win2ch.ViewModels {
     internal sealed class HomeViewModel : Tab {
-        public HomeViewModel(IShell shell, IBoard board) {
+        public HomeViewModel(IShell shell, IBoard board, FavoriteBoardsService favoriteBoardsService) {
             IsCloseable = false;
             DisplayName = GetLocalizationString("Name");
             Shell = shell;
             Board = board;
+            FavoriteBoardsService = favoriteBoardsService;
             Categories = new BindableCollection<BoardsCategory>();
         }
 
         private IShell Shell { get; }
         private IBoard Board { get; }
+        private FavoriteBoardsService FavoriteBoardsService { get; }
         public ObservableCollection<BoardsCategory> Categories { get; }
         
         protected override async void OnActivate(object parameter = null) {
@@ -41,8 +44,9 @@ namespace Win2ch.ViewModels {
             LoadingInfo loadingInfo = Shell.LoadingInfo;
             try {
                 loadingInfo.InProgress(GetLocalizationString("ReceivingBoards"));
-                IList<BoardsCategory> categories = await Board.LoadBoardsAsync();
                 Categories.Clear();
+                Categories.Add(new BoardsCategory(GetLocalizationString("FavoriteBoards"), FavoriteBoardsService.Items.ToList()));
+                IList<BoardsCategory> categories = await Board.LoadBoardsAsync();
                 Categories.AddRange(categories);
                 loadingInfo.Success(GetLocalizationString("BoardsLoaded"));
             } catch (Exception) {

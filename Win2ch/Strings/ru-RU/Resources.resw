@@ -120,8 +120,17 @@
   <data name="Board.Error" xml:space="preserve">
     <value>Не удалось загрузить доску</value>
   </data>
+  <data name="Board.Favorite.FalseText" xml:space="preserve">
+    <value>В избранное</value>
+  </data>
+  <data name="Board.Favorite.TrueText" xml:space="preserve">
+    <value>Удалить из избранного</value>
+  </data>
   <data name="Board.Loading" xml:space="preserve">
     <value>Загрузка доски...</value>
+  </data>
+  <data name="Board.Refresh.Label" xml:space="preserve">
+    <value>Обновить</value>
   </data>
   <data name="Board.SkippedPosts.Text" xml:space="preserve">
     <value>Пропущено постов</value>
@@ -182,6 +191,9 @@
   </data>
   <data name="Home.FastNavigation.PlaceholderText" xml:space="preserve">
     <value>Быстрый переход</value>
+  </data>
+  <data name="Home.FavoriteBoards" xml:space="preserve">
+    <value>Избранные</value>
   </data>
   <data name="Home.Favorites.Label" xml:space="preserve">
     <value>Избранное</value>

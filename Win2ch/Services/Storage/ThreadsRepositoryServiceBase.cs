@@ -9,7 +9,7 @@ namespace Win2ch.Services.Storage {
     public abstract class ThreadsRepositoryServiceBase : ItemsRepositoryServiceBase<ThreadInfo>, IThreadsRepositoryService {
 
 
-        protected ThreadsRepositoryServiceBase(IStorageService<ICollection<ThreadInfo>> storageService,
+        protected ThreadsRepositoryServiceBase(IStorageService storageService,
                                                StorageFolder baseFolder,
                                                string fileName)
             : base(storageService, baseFolder, fileName) { }

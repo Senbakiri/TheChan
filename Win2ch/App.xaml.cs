@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
+using Windows.UI.Notifications;
 using Caliburn.Micro;
 using Core.Common;
 using Core.Models;
@@ -25,7 +26,10 @@ namespace Win2ch
             InitializeComponent();
         }
 
-        protected override async void Configure() {
+        protected override void Configure() {
+        }
+
+        private  async Task LoadServices() {
             this.kernel = new StandardKernel(new MakabaModule());
             IKernel k = this.kernel;
             k.Bind<IShell>().To<ShellViewModel>().InSingletonScope();
@@ -34,20 +38,22 @@ namespace Win2ch
             k.Bind<IToastService>().To<ToastService>().InSingletonScope();
             k.Bind<IAttachmentViewer>().To<AttachmentViewer>();
             k.Bind<ISerializationService>().ToConstant(SerializationService.Json);
-            k.Bind<IStorageService<ICollection<ThreadInfo>>>().To<SerializationStorageService<ICollection<ThreadInfo>>>();
-            k.Bind<IStorageService<ICollection<Post>>>().To<SerializationStorageService<ICollection<Post>>>();
+            k.Bind<IStorageService>().To<SerializationStorageService>();
 
             k.Bind<FavoriteThreadsService>().ToSelf().InSingletonScope();
             k.Bind<RecentThreadsService>().ToSelf().InSingletonScope();
             k.Bind<FavoritePostsService>().ToSelf().InSingletonScope();
+            k.Bind<FavoriteBoardsService>().ToSelf().InSingletonScope();
 
             await k.Get<FavoriteThreadsService>().Load();
             await k.Get<RecentThreadsService>().Load();
             await k.Get<FavoritePostsService>().Load();
+            await k.Get<FavoriteBoardsService>().Load();
         }
-        
 
-        protected override void OnLaunched(LaunchActivatedEventArgs args) {
+
+        protected override async void OnLaunched(LaunchActivatedEventArgs args) {
+            await LoadServices();
             DisplayRootViewFor<IShell>();
         }
 
