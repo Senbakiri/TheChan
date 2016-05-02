@@ -358,7 +358,7 @@
     <Language Code="zu-za" InMinimumRequirementSet="true" />
   </SupportedLocales>
   <ProductReservedInfo>
-    <MainPackageIdentityName>1900ACEDENEDSoftware.Win2ch</MainPackageIdentityName>
+    <MainPackageIdentityName>1900ACEDENEDSoftware.TheChan</MainPackageIdentityName>
     <ReservedNames>
       <ReservedName>Win2ch</ReservedName>
       <ReservedName>Win2ch Beta</ReservedName>

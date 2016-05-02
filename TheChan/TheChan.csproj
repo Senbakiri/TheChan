@@ -16,7 +16,7 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>Win2ch_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>TheChan_StoreKey.pfx</PackageCertificateKeyFile>
     <PackageCertificateThumbprint>4FB2CCBAB5E9135CCBA8584EDB56A069F31A6977</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -202,8 +202,8 @@
     </AppxManifest>
     <PRIResource Include="Strings\en-US\Resources.resw" />
     <PRIResource Include="Strings\ru-RU\Resources.resw" />
-    <None Include="Win2ch_StoreKey.pfx" />
-    <None Include="Win2ch_TemporaryKey.pfx" />
+    <None Include="TheChan_StoreKey.pfx" />
+    <None Include="TheChan_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Package.StoreAssociation.xml" />
