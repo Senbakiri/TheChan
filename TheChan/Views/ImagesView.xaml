@@ -1,0 +1,184 @@
+﻿<Page
+    x:Class="TheChan.Views.ImagesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Core.Models"
+    xmlns:ffImageLoading="using:FFImageLoading"
+    mc:Ignorable="d"
+    SizeChanged="OnSizeChanged"
+    KeyUp="ImagesView_OnKeyUp"
+    Tapped="ImagesView_OnTapped">
+
+    <Page.Resources>
+        <SolidColorBrush x:Key="InfoPanelBackgroundBrush" Color="{ThemeResource SystemAltMediumHighColor}"/>
+    </Page.Resources>
+    
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualStateGroup.States>
+                    <VisualState x:Name="Visible">
+                        <VisualState.Storyboard>
+                            <Storyboard>
+                                <DoubleAnimation To="0"
+                                                 Duration="0:0:0.5"
+                                                 Storyboard.TargetName="TranslateTransform"
+                                                 Storyboard.TargetProperty="Y">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CircleEase EasingMode="EaseInOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </VisualState.Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Hidden">
+                        <VisualState.Storyboard>
+                            <Storyboard>
+                                <DoubleAnimation To="-75"
+                                                 Duration="0:0:0.5"
+                                                 Storyboard.TargetName="TranslateTransform"
+                                                 Storyboard.TargetProperty="Y">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CircleEase EasingMode="EaseInOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </VisualState.Storyboard>
+                    </VisualState>
+                </VisualStateGroup.States>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+              x:Name="Underlay"/>
+        <FlipView ItemsSource="{x:Bind ViewModel.Attachments}"
+                  SelectedIndex="{x:Bind ViewModel.CurrentAttachmentIndex, Mode=TwoWay}"
+                  Background="Transparent"
+                  x:Name="FlipView"
+                  SelectionChanged="FlipView_OnSelectionChanged">
+            <FlipView.ItemTemplate>
+                <DataTemplate x:DataType="models:Attachment">
+                    <Grid>
+                        <ScrollViewer ZoomMode="Enabled"
+                                      VerticalScrollMode="Enabled"
+                                      HorizontalScrollBarVisibility="Auto"
+                                      VerticalScrollBarVisibility="Auto"
+                                      ViewChanged="ScrollViewer_OnViewChanged">
+                            <ffImageLoading:FFImage Source="{x:Bind Uri.AbsoluteUri}"
+                                                    x:Name="Image"
+                                                    Stretch="Uniform"
+                                                    ManipulationMode="System, TranslateY, TranslateInertia"
+                                                    ManipulationDelta="Image_OnManipulationDelta"
+                                                    ManipulationCompleted="Image_OnManipulationCompleted"
+                                                    Error="Image_OnError"/>
+                        </ScrollViewer>
+                    </Grid>
+                </DataTemplate>
+            </FlipView.ItemTemplate>
+        </FlipView>
+
+        <Grid VerticalAlignment="Top"
+              HorizontalAlignment="Stretch"
+              Height="75"
+              Padding="10 0"
+              Background="{ThemeResource InfoPanelBackgroundBrush}">
+            <Grid.RenderTransform>
+                <TranslateTransform x:Name="TranslateTransform"/>
+            </Grid.RenderTransform>
+
+            <Grid.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Grid x:Name="Root">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup>
+                                            <VisualState x:Name="Normal">
+                                                <VisualState.Storyboard>
+                                                    <Storyboard>
+                                                        <PointerUpThemeAnimation Storyboard.TargetName="Root" />
+                                                    </Storyboard>
+                                                </VisualState.Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="PointerOver">
+                                                <VisualState.Setters>
+                                                    <Setter Target="Root.Background" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                                    <Setter Target="Content.Foreground" Value="{ThemeResource SystemControlBackgroundAltHighBrush}"/>
+                                                </VisualState.Setters>
+                                                <VisualState.Storyboard>
+                                                    <Storyboard>
+                                                        <PointerUpThemeAnimation Storyboard.TargetName="Root" />
+                                                    </Storyboard>
+                                                </VisualState.Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Pressed">
+                                                <VisualState.Setters>
+                                                    <Setter Target="Root.Background" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}"/>
+                                                    <Setter Target="Content.Foreground" Value="{ThemeResource SystemControlBackgroundAltHighBrush}"/>
+                                                </VisualState.Setters>
+                                                <VisualState.Storyboard>
+                                                    <Storyboard>
+                                                        <PointerDownThemeAnimation Storyboard.TargetName="Root" />
+                                                    </Storyboard>
+                                                </VisualState.Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <ContentPresenter x:Name="Content"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Grid.Resources>
+            <Grid VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="{x:Bind ViewModel.CurrentAttachment.Name, Mode=OneWay}"
+                               Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 5 0 0">
+                        <TextBlock>
+                            <Run Text="{x:Bind ViewModel.CurrentAttachment.Width, Mode=OneWay}"/>x<Run Text="{x:Bind ViewModel.CurrentAttachment.Height, Mode=OneWay}"/>
+                        </TextBlock>
+                        <TextBlock Margin="10 0 0 0">
+                            <Run Text="{x:Bind ViewModel.CurrentAttachment.Size, Mode=OneWay}"/>
+                            <Run Text="KB"/>
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Grid.Column="1">
+                    <Button Margin="10 0"
+                            VerticalAlignment="Center"
+                            Height="50"
+                            Width="50"
+                            Click="OpenInBrowser_OnClick">
+                        <SymbolIcon Symbol="Globe"/>
+                    </Button>
+
+                    <Button Style="{StaticResource CloseButtonStyle}"
+                            Width="50"
+                            Height="50"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right"
+                            Click="{x:Bind ViewModel.RequestClosing}"
+                            Visibility="{x:Bind ShowCloseButton, Converter={StaticResource TrueToVisible}}"
+                            Background="Transparent">
+                        <TextBlock FontFamily="Segoe MDL2 Assets"
+                                   Text="&#xE711;"
+                                   TextAlignment="Center"
+                                   FontSize="16"/>
+                    </Button>
+                </StackPanel>
+                
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Page>

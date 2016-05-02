@@ -1,0 +1,106 @@
+﻿<UserControl
+    x:Class="TheChan.Views.PostsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:micro="using:Caliburn.Micro"
+    xmlns:viewModels="using:TheChan.ViewModels"
+    mc:Ignorable="d">
+
+    <Grid Background="#80000000">
+        <Grid VerticalAlignment="Stretch"
+              HorizontalAlignment="Stretch"
+              Tapped="Underlay_OnTapped"
+              Background="Transparent"/>
+        <ListView ItemsSource="{x:Bind ViewModel.Posts}"
+                  VerticalAlignment="Center"
+                  Padding="5"
+                  x:Name="List">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="viewModels:PostViewModel">
+                    <Border Padding="10"
+                            Margin="0 2"
+                            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                            ManipulationMode="TranslateX, System"
+                            x:Name="Post"
+                            MaxWidth="960"
+                            ManipulationDelta="Post_OnManipulationDelta"
+                            ManipulationCompleted="Post_OnManipulationCompleted">
+                        <ContentControl micro:View.Model="{x:Bind}"
+                                        HorizontalContentAlignment="Stretch"
+                                        HorizontalAlignment="Stretch"/>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Footer>
+                <Grid Margin="0 4"
+                      MaxWidth="960">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="GoToPostButton"
+                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                        HorizontalAlignment="Stretch"
+                        FontWeight="SemiBold"
+                        Padding="0 10"
+                        Margin="0 0 2 0"
+                        Visibility="{x:Bind ViewModel.CanGoToPost, Mode=OneWay, Converter={StaticResource TrueToVisible}}"
+                        Click="{x:Bind ViewModel.GoToPost}"
+                        x:Uid="Posts/GoToPost">
+                    </Button>
+                    <Button x:Name="GoToThreadButton"
+                        Grid.Column="1"
+                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                        HorizontalAlignment="Stretch"
+                        FontWeight="SemiBold"
+                        Padding="0 10"
+                        Margin="2 0 0 0"
+                        Visibility="{x:Bind ViewModel.CanGoToThread, Mode=OneWay, Converter={StaticResource TrueToVisible}}"
+                        Click="{x:Bind ViewModel.GoToThread}"
+                        x:Uid="Posts/GoToThread"/>
+                </Grid>
+            </ListView.Footer>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <ListViewItemPresenter SelectionCheckMarkVisualEnabled="False"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+
+        <Button Style="{StaticResource CloseButtonStyle}"
+                Width="50"
+                Height="50"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Right"
+                Click="{x:Bind ViewModel.CloseDown}"
+                Visibility="{x:Bind ShowCloseButton, Converter={StaticResource TrueToVisible}}"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                               Text="&#xE711;"
+                                               TextAlignment="Center"
+                                               FontSize="16"/>
+        </Button>
+        
+        <ContentControl x:Name="PopupContent"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch">
+            <ContentControl.ContentTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition/>
+                </TransitionCollection>
+            </ContentControl.ContentTransitions>
+        </ContentControl>
+    </Grid>
+</UserControl>
