@@ -409,18 +409,7 @@
                                 SelectionMode="None"
                                 Margin="0 -1.5 0 0"
                                 x:Name="Posts"
-                                ShowsScrollingPlaceholders="True"
-                                VirtualizingStackPanel.VirtualizationMode="Recycling">
-            <controls:SwipeListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel Orientation="Vertical"
-                                            VirtualizationMode="Recycling">
-                        <VirtualizingStackPanel.ChildrenTransitions>
-                            <TransitionCollection/>
-                        </VirtualizingStackPanel.ChildrenTransitions>
-                    </VirtualizingStackPanel>    
-                </ItemsPanelTemplate>
-            </controls:SwipeListView.ItemsPanel>
+                                ShowsScrollingPlaceholders="False">
             <controls:SwipeListView.ItemLeftContentTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal"

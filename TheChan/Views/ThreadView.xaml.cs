@@ -16,7 +16,7 @@ using Universal.UI.Xaml.Controls;
 namespace TheChan.Views {
     public sealed partial class ThreadView : ICanScrollToItem<PostViewModel>, IReplyDisplay {
         private ScrollViewer postsScrollViewer;
-        private VirtualizingStackPanel stackPanel;
+        private ItemsStackPanel stackPanel;
         private bool dontMarkAsRead = true;
         private double prevOffset;
         private PostViewModel lastReply, replyUnderMouse;
@@ -35,25 +35,29 @@ namespace TheChan.Views {
         public ThreadViewModel ViewModel { get; private set; }
 
         public void Up() {
-            PostViewModel firstPost = ViewModel?.Posts.FirstOrDefault();
-            if (firstPost != null)
-                this.Posts.ScrollIntoView(firstPost, ScrollIntoViewAlignment.Leading);
+            var firstPost = ViewModel?.Posts?.FirstOrDefault();
+            if (firstPost == null)
+                return;
+
+            this.stackPanel.UpdateLayout();
+            this.Posts.ScrollIntoView(firstPost, ScrollIntoViewAlignment.Leading);
         }
 
         public void Down() {
-            PostViewModel lastPost = ViewModel?.Posts.LastOrDefault();
+            var lastPost = ViewModel?.Posts?.LastOrDefault();
             if (lastPost == null)
                 return;
 
             if (ViewModel.HighlightingStart != 0 && ViewModel.IsHighlighting)
                 this.dontMarkAsRead = true;
+            this.stackPanel.UpdateLayout();
             this.Posts.ScrollIntoView(lastPost, ScrollIntoViewAlignment.Leading);
         }
 
         private void ThreadView_OnLoaded(object sender, RoutedEventArgs e) {
             this.postsScrollViewer = GetScrollViewer(this.Posts);
             this.postsScrollViewer.ViewChanged += PostsScrollViewerOnViewChanged;
-            this.stackPanel = this.Posts.ItemsPanelRoot as VirtualizingStackPanel;
+            this.stackPanel = this.Posts.ItemsPanelRoot as ItemsStackPanel;
         }
 
         private void PostsScrollViewerOnViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
@@ -67,8 +71,8 @@ namespace TheChan.Views {
                     ViewModel.HighlightingStart = ViewModel.Posts.Count + 1;
                 if (delta > 0 && delta <= 2)
                     this.dontMarkAsRead = false;
-            } else if (!this.dontMarkAsRead || delta > 0) {
-                int index = (int)this.stackPanel.VerticalOffset + 1;
+            } else if (!this.dontMarkAsRead || delta > 10) {
+                int index = this.stackPanel.LastVisibleIndex + 1;
                 if (index > ViewModel.HighlightingStart)
                     ViewModel.HighlightingStart = index;
                 this.dontMarkAsRead = false;
