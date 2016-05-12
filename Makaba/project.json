@@ -1,7 +1,7 @@
 ﻿{
   "dependencies": {
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
     "HtmlAgilityPack": "1.4.9",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
     "Portable.Ninject": "3.3.1"
   },
   "frameworks": {
