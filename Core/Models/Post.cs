@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Windows.Data.Html;
 
 namespace Core.Models {
     public class Post {
@@ -15,7 +16,7 @@ namespace Core.Models {
             Number = number;
             ParentNumber = parentNumber;
             Subject = subject;
-            Name = name;
+            Name = HtmlUtilities.ConvertToText(name);
             Trip = trip;
             Email = email;
             Text = text;
