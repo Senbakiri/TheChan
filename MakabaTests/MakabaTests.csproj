@@ -127,11 +127,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{63c4de70-8c04-4341-8b90-cfdd580755e6}</Project>
+      <Project>{569cdd35-bd96-4405-a4a3-3d3d61d16d06}</Project>
       <Name>Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Makaba\Makaba.csproj">
-      <Project>{040550A7-82D3-4985-A7C9-F39E6DA17A21}</Project>
+      <Project>{0b889041-115c-491a-9cbe-e3f9928d0770}</Project>
       <Name>Makaba</Name>
     </ProjectReference>
   </ItemGroup>

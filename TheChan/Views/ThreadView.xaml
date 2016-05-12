@@ -383,45 +383,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style TargetType="CommandBarOverflowPresenter" x:Name="OverflowPresenterStyle">
-            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"/>
-            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}"/>
-            <Setter Property="MaxWidth" Value="{ThemeResource CommandBarOverflowMaxWidth}"/>
-            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto"/>
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="CommandBarOverflowPresenter">
-                        <Grid x:Name="LayoutRoot" Padding="{TemplateBinding Padding}" BorderThickness="0">
-                            <Grid.Background>
-                                <SolidColorBrush Color="{ThemeResource SystemAltHighColor}" Opacity="0.6"/>
-                            </Grid.Background>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="DisplayModeStates">
-                                    <VisualState x:Name="DisplayModeDefault"/>
-                                    <VisualState x:Name="FullWidthOpenDown">
-                                        <VisualState.Setters>
-                                            <Setter Target="LayoutRoot.BorderThickness" Value="0,0,0,1"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="FullWidthOpenUp">
-                                        <VisualState.Setters>
-                                            <Setter Target="LayoutRoot.BorderThickness" Value="0,1,0,0"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <ScrollViewer AutomationProperties.AccessibilityView="Raw" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                                <ItemsPresenter x:Name="ItemsPresenter" Margin="0,7,0,7"/>
-                            </ScrollViewer>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
         <Style x:Key="PostPopupStyle" TargetType="views:PostView">
             <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
@@ -557,13 +518,14 @@
                      AcceptsReturn="True"
                      x:Uid="Thread/FastReply"
                      MaxHeight="300"
+                     TextWrapping="Wrap"
                      Text="{x:Bind ViewModel.PostText, Mode=TwoWay}"
-                     x:Name="FastReplyTextBox"/>
+                     x:Name="FastReplyTextBox"
+                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
         </Grid>
         <CommandBar VerticalAlignment="Bottom"
-                    CommandBarOverflowPresenterStyle="{StaticResource OverflowPresenterStyle}"
-                    Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
-                    Grid.Row="2">
+                    Grid.Row="2"
+                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <AppBarButton micro:Message.Attach="Favorite()">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:BooleanBasedIconSelectorBehavior Value="{x:Bind ViewModel.IsInFavorites, Mode=OneWay}"

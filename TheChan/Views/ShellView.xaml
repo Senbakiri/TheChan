@@ -11,7 +11,8 @@
     xmlns:viewModels="using:TheChan.ViewModels"
     xmlns:core1="using:TheChan.Common.Core"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance viewModels:ShellViewModel}">
+    d:DataContext="{d:DesignInstance viewModels:ShellViewModel}"
+    x:Name="This">
 
     <Page.Resources>
         <Style TargetType="ListViewItem"
@@ -207,7 +208,7 @@
                     </ListView.ItemsPanel>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="core1:Tab">
-                            <Grid Height="{StaticResource TabHeightAndWidth}">
+                            <Grid Height="{StaticResource TabHeight}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition Width="Auto"/>
@@ -236,8 +237,8 @@
                                 <Button Grid.Column="3"
                                         Style="{StaticResource CloseButtonStyle}"
                                         micro:Message.Attach="CloseTab($dataContext)"
-                                        Width="{StaticResource TabHeightAndWidth}"
-                                        Height="{StaticResource TabHeightAndWidth}"
+                                        Width="{StaticResource TabHeight}"
+                                        Height="{StaticResource TabHeight}"
                                         Visibility="{x:Bind IsCloseable, Converter={StaticResource TrueToVisible}, Mode=OneWay}"
                                         Background="Transparent">
                                     <TextBlock FontFamily="Segoe MDL2 Assets"

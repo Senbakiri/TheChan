@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:globalization="using:System.Globalization"
     xmlns:viewModels="using:TheChan.ViewModels"
+    xmlns:settings="using:TheChan.Services.Settings"
     mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModels:SettingsViewModel }">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -14,11 +15,22 @@
                        Text="[Interface]"
                        x:Uid="Settings/Interface"
                        Margin="0 10"/>
+            <ComboBox ItemsSource="{x:Bind ViewModel.AvailableThemes}"
+                      SelectedIndex="{x:Bind ViewModel.CurrentThemeIndex, Mode=TwoWay}"
+                      Header="[Theme]"
+                      x:Uid="Settings/Theme"
+                      Margin="0 10">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="settings:Theme">
+                        <TextBlock Text="{Binding Converter={StaticResource EnumToString}, Mode=OneTime}"></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <ComboBox ItemsSource="{x:Bind ViewModel.AvailableLanguages}"
                       SelectedIndex="{x:Bind ViewModel.CurrentLanguageIndex, Mode=TwoWay}"
                       Header="[Language]"
                       x:Uid="Settings/Language"
-                      Margin="0 5">
+                      Margin="0 10">
                 <ComboBox.ItemTemplate>
                     <DataTemplate x:DataType="globalization:CultureInfo">
                         <TextBlock Text="{x:Bind DisplayName}"/>
@@ -28,6 +40,9 @@
             <TextBlock x:Uid="Settings/RestartNeeded"
                        Visibility="{x:Bind ViewModel.HasLanguageChanged, Mode=OneWay, Converter={StaticResource TrueToVisible}}"
                        Margin="0 5"
+                       Text="[RestartNeeded]"
+                       Foreground="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                       FontSize="13"
                        TextWrapping="Wrap"/>
 
             <Slider StepFrequency="0.1"
@@ -40,13 +55,14 @@
                     x:Uid="Settings/FontScale"
                     Value="{x:Bind ViewModel.FontScale, Mode=TwoWay}"
                     VerticalAlignment="Center"
-                    Margin="0 5"/>
+                    Margin="0 10"/>
                 <TextBlock Style="{StaticResource TitleTextBlockStyle}"
                        x:Uid="Settings/Other"
                        Text="[Other]"
                        Margin="0 10"/>
             <Button x:Uid="Settings/Cloudflare"
-                        Click="{x:Bind ViewModel.RunCloudflareAuthorization}"/>
+                    Click="{x:Bind ViewModel.RunCloudflareAuthorization}"
+                    Margin="0 10"/>
             <TextBlock Style="{StaticResource TitleTextBlockStyle}"
                        x:Uid="Settings/About"
                        Text="[About]"

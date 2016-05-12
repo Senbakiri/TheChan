@@ -1,4 +1,5 @@
-﻿using TheChan.Common.Core;
+﻿using Windows.UI.Xaml;
+using TheChan.Common.Core;
 
 namespace TheChan.Common.UI {
     public interface IShell {

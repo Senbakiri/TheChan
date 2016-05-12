@@ -114,6 +114,7 @@
     <Compile Include="Controls\AdaptiveGridView.cs" />
     <Compile Include="Controls\SwipeableSplitView.cs" />
     <Compile Include="Converters\CaseConverter.cs" />
+    <Compile Include="Converters\EnumToStringConverter.cs" />
     <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Converters\IsInFavoritesToStringConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Settings\ISettingsService.cs" />
     <Compile Include="Services\Settings\SettingsService.cs" />
+    <Compile Include="Services\Settings\Theme.cs" />
     <Compile Include="Services\Storage\FavoriteBoardsService.cs" />
     <Compile Include="Services\Storage\FavoritePostsService.cs" />
     <Compile Include="Services\Storage\FavoriteThreadsService.cs" />
@@ -315,11 +317,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{63c4de70-8c04-4341-8b90-cfdd580755e6}</Project>
+      <Project>{569cdd35-bd96-4405-a4a3-3d3d61d16d06}</Project>
       <Name>Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Makaba\Makaba.csproj">
-      <Project>{040550a7-82d3-4985-a7c9-f39e6da17a21}</Project>
+      <Project>{0b889041-115c-491a-9cbe-e3f9928d0770}</Project>
       <Name>Makaba</Name>
     </ProjectReference>
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using Windows.ApplicationModel;
@@ -12,6 +13,7 @@ namespace TheChan.ViewModels {
     public class SettingsViewModel : PropertyChangedBase {
         private int currentLanguageIndex;
         private bool hasLanguageChanged;
+        private int currentThemeIndex;
 
         public SettingsViewModel(IShell shell, ISettingsService settingsService) {
             Shell = shell;
@@ -21,7 +23,11 @@ namespace TheChan.ViewModels {
             CurrentLanguage = CultureInfo.CurrentUICulture;
             this.currentLanguageIndex = AvailableLanguages.IndexOf(CurrentLanguage);
             Application.Current.Suspending += ApplyLanguage;
+
             FontScale = SettingsService.FontScale;
+
+            AvailableThemes = new ObservableCollection<Theme>(Enum.GetValues(typeof(Theme)).OfType<Theme>());
+            CurrentThemeIndex = AvailableThemes.IndexOf(SettingsService.CurrentTheme);
         }
 
 
@@ -29,6 +35,7 @@ namespace TheChan.ViewModels {
         private ISettingsService SettingsService { get; }
         private CultureInfo CurrentLanguage { get; set; }
         public ObservableCollection<CultureInfo> AvailableLanguages { get; }
+        public ObservableCollection<Theme> AvailableThemes { get; } 
 
         public int CurrentLanguageIndex {
             get { return this.currentLanguageIndex; }
@@ -41,6 +48,20 @@ namespace TheChan.ViewModels {
                     HasLanguageChanged = true;
                     CurrentLanguage = AvailableLanguages[value];
                 }
+
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public int CurrentThemeIndex {
+            get { return this.currentThemeIndex; }
+            set {
+                if (value == this.currentThemeIndex)
+                    return;
+                this.currentThemeIndex = value;
+
+                if (value != -1)
+                    SettingsService.CurrentTheme = AvailableThemes[value];
 
                 NotifyOfPropertyChange();
             }

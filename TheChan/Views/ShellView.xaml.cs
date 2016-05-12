@@ -16,7 +16,11 @@ namespace TheChan.Views {
             if (DeviceUtils.GetDeviceFamily() == DeviceFamily.Mobile) {
                 ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
             }
+
+            Current = this;
         }
+
+        public static ShellView Current { get; private set; }
 
         private void OnDataContextChanged(FrameworkElement s, DataContextChangedEventArgs e) {
             if (ViewModel != null)

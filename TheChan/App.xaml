@@ -14,7 +14,8 @@
             <converters:CaseConverter x:Key="ToUpper" Casing="UpperCase"/>
             <converters:InverseBoolConverter x:Key="Inverse"/>
             <converters:IsInFavoritesToStringConverter x:Key="IsInFavoritesToStringConverter"/>
-            <x:Double x:Key="TabHeightAndWidth">40</x:Double>
+            <converters:EnumToStringConverter x:Key="EnumToString"/>
+            <x:Double x:Key="TabHeight">40</x:Double>
 
             <Style x:Key="CloseButtonStyle" TargetType="Button">
                 <Setter Property="Padding" Value="0"/>
@@ -59,23 +60,23 @@
 
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Dark">
-                    <Color x:Key="PageBackgroundColor">Black</Color>
+                    <Color x:Key="PageBackgroundColor">#111</Color>
                     <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource PageBackgroundColor}"/>
                     <Color x:Key="GrayForegroundColor">#D1D1D1</Color>
                     <SolidColorBrush x:Key="GrayForegroundBrush" Color="{ThemeResource GrayForegroundColor}"/>
                     <SolidColorBrush x:Key="SpoilerForegroundBrush" Color="#40FFFFFF"/>
                     <SolidColorBrush x:Key="ReplyForegroundBrush">#57c209</SolidColorBrush>
-                    <SolidColorBrush x:Key="BoardThreadBackgroundBrush" Color="#101010"/>
+                    <SolidColorBrush x:Key="BoardThreadBackgroundBrush" Color="#222"/>
                 </ResourceDictionary>
 
                 <ResourceDictionary x:Key="Light">
-                    <Color x:Key="PageBackgroundColor">White</Color>
+                    <Color x:Key="PageBackgroundColor">#FAFAFA</Color>
                     <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource PageBackgroundColor}"/>
                     <Color x:Key="GrayForegroundColor">#404040</Color>
                     <SolidColorBrush x:Key="GrayForegroundBrush" Color="{ThemeResource GrayForegroundColor}"/>
                     <SolidColorBrush x:Key="SpoilerForegroundBrush" Color="#40000000"/>
                     <SolidColorBrush x:Key="ReplyForegroundBrush">#48a207</SolidColorBrush>
-                    <SolidColorBrush x:Key="BoardThreadBackgroundBrush" Color="#FAFAFA"/>
+                    <SolidColorBrush x:Key="BoardThreadBackgroundBrush" Color="#F3F3F3"/>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>

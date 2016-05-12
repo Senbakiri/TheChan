@@ -264,6 +264,9 @@
   <data name="Settings.RestartNeeded.Text" xml:space="preserve">
     <value>Changes will be applied after restart</value>
   </data>
+  <data name="Settings.Theme.Header" xml:space="preserve">
+    <value>Theme</value>
+  </data>
   <data name="Shell.ThreadsWithNewPosts" xml:space="preserve">
     <value>Threads with new posts</value>
   </data>
@@ -272,6 +275,15 @@
   </data>
   <data name="Shell.UpdatingThread" xml:space="preserve">
     <value>Updating thread</value>
+  </data>
+  <data name="Theme.Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Theme.Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="Theme.System" xml:space="preserve">
+    <value>System</value>
   </data>
   <data name="Thread.CopyLink.Label" xml:space="preserve">
     <value>Copy a link</value>

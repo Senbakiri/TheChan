@@ -19,6 +19,7 @@
                         <Setter Target="RelativePanel.MaxWidth" Value="100"/>
                         <Setter Target="LabelText.TextAlignment" Value="Center"/>
                         <Setter Target="LabelText.TextWrapping" Value="WrapWholeWords"/>
+                        <Setter Target="LabelText.Margin" Value="2 5"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Wide">
@@ -47,8 +48,7 @@
                       FontSize="16" />
             <TextBlock x:Name="LabelText"
                        Text="{x:Bind Label, Mode=OneWay}"
-                       Style="{StaticResource CaptionTextBlockStyle}"
-                       Margin="2,4,2,4"/>
+                       Style="{StaticResource CaptionTextBlockStyle}"/>
         </RelativePanel>
     </Grid>
 </UserControl>

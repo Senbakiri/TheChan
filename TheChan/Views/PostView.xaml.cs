@@ -20,7 +20,7 @@ namespace TheChan.Views {
             InitializeComponent();
             DataContextChanged += (s, e) => ViewModel = DataContext as PostViewModel;
             ShowRepliesAsRibbon = MouseCapabilities.MousePresent == 0;
-            PostFontSize = 16 * SettingsService.FontScale;
+            PostFontSize = 15 * SettingsService.FontScale;
         }
 
         private double PostFontSize { get; }

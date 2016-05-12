@@ -264,6 +264,9 @@
   <data name="Settings.RestartNeeded.Text" xml:space="preserve">
     <value>Изменения вступят в силу после перезапуска приложения</value>
   </data>
+  <data name="Settings.Theme.Header" xml:space="preserve">
+    <value>Тема</value>
+  </data>
   <data name="Shell.ThreadsWithNewPosts" xml:space="preserve">
     <value>Тредов с новыми постами</value>
   </data>
@@ -272,6 +275,15 @@
   </data>
   <data name="Shell.UpdatingThread" xml:space="preserve">
     <value>Обновление треда</value>
+  </data>
+  <data name="Theme.Dark" xml:space="preserve">
+    <value>Темная</value>
+  </data>
+  <data name="Theme.Light" xml:space="preserve">
+    <value>Светлая</value>
+  </data>
+  <data name="Theme.System" xml:space="preserve">
+    <value>Системная</value>
   </data>
   <data name="Thread.CopyLink.Label" xml:space="preserve">
     <value>Скопировать ссылку</value>

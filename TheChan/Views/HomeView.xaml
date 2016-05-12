@@ -14,7 +14,7 @@
                               x:Name="CategoriesCvs"
                               IsSourceGrouped="True"
                               ItemsPath="Boards"/>
-        <Style x:Key="CenteredTextBlockStyle" TargetType="TextBox">
+        <Style x:Key="CenteredTextBoxStyle" TargetType="TextBox">
             <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}"/>
             <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}"/>
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
@@ -163,7 +163,8 @@
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
             <Setter Property="Padding" Value="{ThemeResource PivotHeaderItemMargin}" />
             <Setter Property="Height" Value="Auto" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="MinHeight" Value="{StaticResource TabHeight}"/>
+            <Setter Property="VerticalContentAlignment" Value="Bottom" />
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="Template">
                 <Setter.Value>
@@ -292,7 +293,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style TargetType="Pivot">
+        <Style TargetType="Pivot" x:Name="HomePivotStyle">
             <Setter Property="Margin" Value="0" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="Background" Value="Transparent" />
@@ -615,7 +616,8 @@
     </Page.Resources>
 
     <Pivot x:Name="Pivot"
-           SelectionChanged="Pivot_OnSelectionChanged">
+           SelectionChanged="Pivot_OnSelectionChanged"
+           Style="{StaticResource HomePivotStyle}">
         <PivotItem Margin="0">
             <PivotItem.Header>
                 <controls:TabHeader Glyph="&#xE80F;"
@@ -626,14 +628,14 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBox Height="{ThemeResource TabHeightAndWidth}"
+                <TextBox Height="{ThemeResource TabHeight}"
                          IsSpellCheckEnabled="False"
                          IsTextPredictionEnabled="False"
                          x:Uid="Home/FastNavigation"
                          BorderThickness="0"
                          VerticalContentAlignment="Center"
                          Padding="12 0"
-                         Style="{StaticResource CenteredTextBlockStyle}"
+                         Style="{StaticResource CenteredTextBoxStyle}"
                          TextChanged="FastNavigationTextBox_OnTextChanged"
                          x:Name="FastNavigation"
                          KeyUp="FastNavigationTextBox_OnKeyUp"/>
@@ -683,7 +685,8 @@
                         <DataTemplate x:DataType="models:BriefBoardInfo">
                             <StackPanel>
                                 <TextBlock Text="{x:Bind Id}"
-                        			Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                        			Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                           FontWeight="SemiBold"/>
                                 <TextBlock Text="{x:Bind Name}"/>
                             </StackPanel>
                         </DataTemplate>

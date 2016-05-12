@@ -212,7 +212,7 @@ namespace TheChan.Views {
         }
 
         private void StartTimer() {
-            if (this.IsMouseConnected)
+            if (IsMouseConnected)
                 this.closeRepliesTimer.Start();
         }
 
@@ -235,8 +235,13 @@ namespace TheChan.Views {
             if (postVm == null)
                 return;
 
-            if (e.Direction == SwipeListDirection.Left) {
-                Reply(postVm.Post.Number, postVm.SelectedText);
+            switch (e.Direction) {
+                case SwipeListDirection.Left:
+                    Reply(postVm.Post.Number, postVm.SelectedText);
+                    break;
+                case SwipeListDirection.Right:
+                    ViewModel.Favorite(postVm);
+                    break;
             }
         }
 
@@ -244,15 +249,18 @@ namespace TheChan.Views {
             string textToAdd;
             TextBox textBox = this.FastReplyTextBox;
 
-            var correctText = textBox.Text.Replace("\r\n", "\n");
-            var selStart = textBox.SelectionStart;
+            string correctText = textBox.Text.Replace("\r\n", "\n");
+            int selStart = textBox.SelectionStart;
+            
+            if (selectedText.Length > 0) { // if user have selected a text, we need to paste it in the reply
+                // if there is any text before the selection and it isn't a line break, add a line break
+                string pre = selStart > 0 && correctText[selStart - 1] != '\n' ? "\n" : "";
 
-            if (selectedText.Length > 0) {
-                var pre = selStart > 0 && correctText[selStart - 1] != '\n' ? "\n" : "";
+                // if user have previously replied to the same post, don't paste the number again
                 textToAdd = this.lastRepliedPostNum == number && correctText.Contains(this.lastRepliedPostNum.ToString())
                     ? $"{pre}\n> {selectedText}\n"
                     : $"{pre}>>{number}\n> {selectedText}\n";
-            } else {
+            } else { // otherwise just paste the number
                 textToAdd = $">>{number}\n";
             }
 

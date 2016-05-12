@@ -9,26 +9,20 @@ using Ninject;
 using Template10.Services.SerializationService;
 using TheChan.Common;
 using TheChan.Common.UI;
+using TheChan.Extensions;
 using TheChan.Services.Settings;
 using TheChan.Services.Storage;
 using TheChan.Services.Toast;
 using TheChan.ViewModels;
 
-namespace TheChan
-{
+namespace TheChan {
     sealed partial class App {
 
         private IKernel kernel;
 
-        public App()
-        {
+        public App() {
             InitializeComponent();
-        }
 
-        protected override void Configure() {
-        }
-
-        private  async Task LoadServices() {
             this.kernel = new StandardKernel(new MakabaModule());
             IKernel k = this.kernel;
             k.Bind<IShell>().To<ShellViewModel>().InSingletonScope();
@@ -45,6 +39,14 @@ namespace TheChan
             k.Bind<FavoritePostsService>().ToSelf().InSingletonScope();
             k.Bind<FavoriteBoardsService>().ToSelf().InSingletonScope();
 
+
+            var service = this.kernel.Get<ISettingsService>();
+            if (service.CurrentTheme != Theme.System)
+                RequestedTheme = service.CurrentTheme.ToApplicationTheme();
+        }
+
+        private  async Task LoadServices() {
+            IKernel k = this.kernel;
             await k.Get<FavoriteThreadsService>().Load();
             await k.Get<RecentThreadsService>().Load();
             await k.Get<FavoritePostsService>().Load();
@@ -56,7 +58,7 @@ namespace TheChan
             await LoadServices();
             DisplayRootViewFor<IShell>();
         }
-
+        
         protected override object GetInstance(Type service, string key) {
             return this.kernel.Get(service);
         }

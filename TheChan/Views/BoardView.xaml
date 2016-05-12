@@ -399,8 +399,9 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <CommandBar Grid.Row="2"
-                    Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
+        <CommandBar
+            Grid.Row="2"
+            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <AppBarButton Click="{x:Bind ViewModel.Favorite}">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:BooleanBasedIconSelectorBehavior Value="{x:Bind ViewModel.IsInFavorites, Mode=OneWay}"

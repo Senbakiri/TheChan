@@ -143,6 +143,11 @@
                                        Style="{StaticResource TitleTextBlockStyle}"
                                        Margin="0 5"/>
                             <Grid>
+                                <Grid.Resources>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="BorderThickness" Value="1.5"/>
+                                    </Style>
+                                </Grid.Resources>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition Width="Auto"/>
@@ -214,7 +219,7 @@
                     </DataTemplate>
                 </GridView.ItemTemplate>
                 <GridView.Footer>
-                    <Button Margin="10"
+                    <Button Margin="0 10"
                             Click="{x:Bind ViewModel.PickAndAttach}"
                             IsEnabled="{x:Bind ViewModel.CanAttach, Mode=OneWay}">
                         <StackPanel Orientation="Horizontal">
