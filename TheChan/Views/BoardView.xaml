@@ -23,8 +23,7 @@
                   micro:Message.Attach="[Event ItemClick] = [Action NavigateToThread($eventArgs)]">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <VirtualizingStackPanel Orientation="Vertical"
-                                            VirtualizationMode="Recycling"/>
+                    <ItemsStackPanel Orientation="Vertical"/>
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
             <ListView.Header>
