@@ -16,7 +16,7 @@ namespace Core.Models {
             Number = number;
             ParentNumber = parentNumber;
             Subject = subject;
-            Name = HtmlUtilities.ConvertToText(name);
+            Name = Utils.Html.RemoveHtml(name).Replace("&nbsp;"," ");
             Trip = trip;
             Email = email;
             Text = text;
